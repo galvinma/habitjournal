@@ -24,29 +24,35 @@ const styles = theme => ({
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
+  timedisplay: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    fontSize: '4em',
+  },
 });
 
 
 class Timer extends React.Component {
+  constructor(props){
+  super(props);
+   this.state = {
+    seconds: '00',
+    minutes: '25',
+    }
+  }
   render() {
     return (
       <div>
         <div className={this.props.classes.layout}>
           <Paper className={this.props.classes.paper}>
-            <p>this will be the timer</p>
-            <Button
-              type="submit"
-              variant="raised"
-              color="primary"
-              className={this.props.classes.submit}
-            >Start</Button>
-            <Button
-              type="submit"
-              variant="raised"
-              color="primary"
-              className={this.props.classes.submit}
-            >Pause</Button>
-
+            <h1 className={this.props.classes.timedisplay}>
+              {this.state.minutes}:{this.state.seconds}
+            </h1>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+              <Button type="submit" variant="raised" color="primary">Start</Button>
+              <Button type="submit" variant="raised" color="primary">Pause</Button>
+            </div>
           </Paper>
         </div>
       </div>
