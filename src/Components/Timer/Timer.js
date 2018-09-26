@@ -39,8 +39,65 @@ class Timer extends React.Component {
    this.state = {
     seconds: '00',
     minutes: '25',
+    timeLeft: '1500',
     }
+    this.beginCountDown = this.beginCountDown.bind(this)
+    this.resetCountDown = this.countDown.bind(this)
+    this.countDown = this.countDown.bind(this)
+
   }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  beginCountDown() {
+    // start timer
+    this.timer = setInterval(this.countDown, 1000);
+  }
+
+  resetCountDown() {
+    clearInterval(this.timer);
+  }
+
+  countDown() {
+    var min = Math.floor(this.state.timeLeft / 60);
+    var sec = this.state.timeLeft - (min * 60);
+
+    this.setState({
+      minutes: min,
+      seconds: sec,
+    })
+
+    if (sec < 10) {
+      this.setState({
+        seconds: '0' + sec
+      })
+    }
+
+    if (min < 10) {
+      this.setState({
+        minutes: '0' + min
+       })
+    }
+
+    if (sec <= 0 && min <= 0)
+    {
+      this.playAudio();
+      clearInterval(this.timer);
+    }
+
+    // decrement
+    this.setState({
+      timeLeft: this.state.timeLeft-1
+    })
+
+  }
+
+  playAudio() {
+    console.log("Playing audio")
+  }
+
   render() {
     return (
       <div>
@@ -50,8 +107,10 @@ class Timer extends React.Component {
               {this.state.minutes}:{this.state.seconds}
             </h1>
             <div style={{display: 'flex', flexDirection: 'row'}}>
-              <Button type="submit" variant="raised" color="primary">Start</Button>
+              <Button type="submit" variant="raised" color="primary" onClick={this.beginCountDown}>Start</Button>
               <Button type="submit" variant="raised" color="primary">Pause</Button>
+              <Button type="submit" variant="raised" color="primary"
+              onClick={this.resetCountDown}>Reset</Button>
             </div>
           </Paper>
         </div>
