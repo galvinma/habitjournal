@@ -56,6 +56,11 @@ const _Calendar = () => (
 
 
 class App extends Component {
+  componentDidMount()
+  {
+    document.body.classList.add("custom_background");
+  }
+
   render() {
     return (
       <div>
