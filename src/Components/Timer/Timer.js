@@ -5,6 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
+// Audio
+import Metronome from '../.././Audio/metronome.wav'
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -42,9 +45,10 @@ class Timer extends React.Component {
     timeLeft: '1500',
     }
     this.beginCountDown = this.beginCountDown.bind(this)
-    this.resetCountDown = this.countDown.bind(this)
+    this.resetCountDown = this.resetCountDown.bind(this)
+    this.pauseCountDown = this.pauseCountDown.bind(this)
     this.countDown = this.countDown.bind(this)
-
+    this.metronome = new Audio(Metronome);
   }
 
   componentWillUnmount() {
@@ -58,9 +62,23 @@ class Timer extends React.Component {
 
   resetCountDown() {
     clearInterval(this.timer);
+    this.setState({
+      seconds: '00',
+      minutes: '25',
+      timeLeft: '1500',
+    })
+  }
+
+  pauseCountDown() {
+    clearInterval(this.timer);
   }
 
   countDown() {
+    // decrement
+    this.setState({
+      timeLeft: this.state.timeLeft-1
+    })
+
     var min = Math.floor(this.state.timeLeft / 60);
     var sec = this.state.timeLeft - (min * 60);
 
@@ -86,16 +104,11 @@ class Timer extends React.Component {
       this.playAudio();
       clearInterval(this.timer);
     }
-
-    // decrement
-    this.setState({
-      timeLeft: this.state.timeLeft-1
-    })
-
   }
 
   playAudio() {
     console.log("Playing audio")
+    this.metronome.play();
   }
 
   render() {
@@ -108,7 +121,7 @@ class Timer extends React.Component {
             </h1>
             <div style={{display: 'flex', flexDirection: 'row'}}>
               <Button type="submit" variant="raised" color="primary" onClick={this.beginCountDown}>Start</Button>
-              <Button type="submit" variant="raised" color="primary">Pause</Button>
+              <Button type="submit" variant="raised" color="primary" onClick={this.pauseCountDown}>Pause</Button>
               <Button type="submit" variant="raised" color="primary"
               onClick={this.resetCountDown}>Reset</Button>
             </div>
