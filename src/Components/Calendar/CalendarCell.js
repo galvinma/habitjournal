@@ -1,15 +1,14 @@
 import React from 'react'
 import moment from 'moment'
 
-class CalendarHeader extends React.Component {
+class CalendarCell extends React.Component {
   constructor(props)
   {
     super(props);
     this.state = {
-      getMonth: moment().format(),
+
     };
   }
-
 
   render() {
     return(
@@ -21,4 +20,4 @@ class CalendarHeader extends React.Component {
 }
 
 
-export default CalendarHeader;
+export default CalendarCell;

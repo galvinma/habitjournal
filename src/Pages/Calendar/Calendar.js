@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import CalendarHeader from '../.././Components/Calendar/CalendarHeader.js'
-import CalendarCell from '../.././Components/Calendar/CalendarCell.js'
+import CalendarBody from '../.././Components/Calendar/CalendarBody.js'
 
 const styles = theme => ({
   paper: {
@@ -25,7 +25,9 @@ class Calendar extends React.Component {
   {
     super(props);
     this.state = {
-      getMonth: moment().format(),
+      selectedDate: moment().format(),
+      getMonth: moment().format('MMMM YYYY'),
+      daysInMonth: moment().daysInMonth(),
     };
   }
 
@@ -35,8 +37,12 @@ class Calendar extends React.Component {
       <div>
         <InternalNavBar />
         <Paper className={this.props.classes.paper}>
-          <CalendarHeader />
-        </Paper>  
+          <CalendarHeader
+              getMonth={this.state.getMonth}
+              />
+          <CalendarBody
+              daysInMonth={this.state.daysInMonth}/>
+        </Paper>
       </div>
     );
   }
