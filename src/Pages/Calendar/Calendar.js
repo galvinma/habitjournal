@@ -11,8 +11,8 @@ import CalendarBody from '../.././Components/Calendar/CalendarBody.js'
 
 const styles = theme => ({
   paper: {
-    leftMargin: '15vw',
-    rightMargin: '15vw',
+    marginLeft: '15vw',
+    marginRight: '15vw',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -26,12 +26,15 @@ class Calendar extends React.Component {
   {
     super(props);
     this.state = {
-      today: moment().calendar(),
       selectedDate: moment().format(),
       selectedMonth: moment().month(),
       getMonth: moment().format('MMMM YYYY'),
       daysInMonth: moment().daysInMonth(),
     };
+  }
+
+  componentWillMount() {
+    console.log((this.state.selectedMonth))
   }
 
 

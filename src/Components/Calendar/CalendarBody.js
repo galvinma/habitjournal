@@ -3,9 +3,6 @@ import moment from 'moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-// Components
-import CalendarCell from './CalendarCell'
-
 const styles = theme => ({
   calendar_cell: {
     display: 'inline-block',
