@@ -15,6 +15,9 @@ const styles = theme => ({
     display: 'inline-block',
     verticalAlign: 'middle',
   },
+  calendar_title_containter: {
+    marginBottom: '2vh',
+  },
 });
 
 class CalendarHeader extends React.Component {
@@ -23,15 +26,18 @@ class CalendarHeader extends React.Component {
     super(props);
     this.state = {
 
+
     };
   }
 
   render() {
     return(
       <div>
-        <Icon className={this.props.classes.calendar_navs} path={mdiChevronLeft} size={1.5} />
-        <div className={this.props.classes.calendar_title}>{this.props.getMonth}</div>
-        <Icon className={this.props.classes.calendar_navs} path={mdiChevronRight} size={1.5} />
+        <div className={this.props.classes.calendar_title_containter}>
+          <Icon className={this.props.classes.calendar_navs} path={mdiChevronLeft} size={1.5} onClick={(e) => this.props.prevMonthHandler()}/>
+          <div className={this.props.classes.calendar_title}>{this.props.displayMonthYear} </div>
+          <Icon className={this.props.classes.calendar_navs} path={mdiChevronRight} size={1.5} onClick={(e) => this.props.nextMonthHandler()}/>
+        </div>
       </div>
     );
   }

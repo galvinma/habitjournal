@@ -26,17 +26,32 @@ class Calendar extends React.Component {
   {
     super(props);
     this.state = {
-      selectedDate: moment().format(),
       selectedMonth: moment().month(),
-      getMonth: moment().format('MMMM YYYY'),
+      firstDayOfMonthDate: moment().startOf('month').format('YYYY-MM-DD'),
+      displayMonthYear: moment().format('MMMM YYYY'),
       daysInMonth: moment().daysInMonth(),
     };
+    this.prevMonthHandler = this.prevMonthHandler.bind(this)
+    this.nextMonthHandler = this.nextMonthHandler.bind(this)
   }
 
-  componentWillMount() {
-    console.log((this.state.selectedMonth))
+  prevMonthHandler() {
+    this.setState({
+      selectedMonth: this.state.selectedMonth - 1,
+      firstDayOfMonthDate: moment(this.state.firstDayOfMonthDate).subtract(1, 'months').format('YYYY-MM-DD'),
+      displayMonthYear: moment(this.state.firstDayOfMonthDate).subtract(1, 'months').format('MMMM YYYY'),
+      daysInMonth: moment(this.state.firstDayOfMonthDate).subtract(1, 'months').daysInMonth(),
+    })
   }
 
+  nextMonthHandler() {
+    this.setState({
+      selectedMonth: this.state.selectedMonth + 1,
+      firstDayOfMonthDate: moment(this.state.firstDayOfMonthDate).add(1, 'months').format('YYYY-MM-DD'),
+      displayMonthYear: moment(this.state.firstDayOfMonthDate).add(1, 'months').format('MMMM YYYY'),
+      daysInMonth: moment(this.state.firstDayOfMonthDate).add(1, 'months').daysInMonth(),
+    })
+  }
 
   render() {
     return(
@@ -44,11 +59,14 @@ class Calendar extends React.Component {
         <InternalNavBar />
         <Paper className={this.props.classes.paper}>
           <CalendarHeader
-              getMonth={this.state.getMonth}
+              prevMonthHandler = {this.prevMonthHandler}
+              nextMonthHandler = {this.nextMonthHandler}
+              displayMonthYear={this.state.displayMonthYear}
               />
           <CalendarBody
               daysInMonth={this.state.daysInMonth}
-              selectedMonth={this.state.selectedMonth}/>
+              selectedMonth={this.state.selectedMonth}
+              firstDayOfMonthDate={this.state.firstDayOfMonthDate}/>
         </Paper>
       </div>
     );
