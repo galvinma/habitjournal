@@ -1,19 +1,17 @@
 var express = require('express');
 var cors = require('cors')
 var bodyParser = require('body-parser');
-
-var app = express();
-app.use(cors());
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
 var Users = require('./model/users');
 
-var mongoDB = 'mongodb://127.0.0.1/database';
-mongoose.connect(mongoDB);
+var app = express();
+app.use(cors());
+cors({credentials: true, origin: true})
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+mongoose.connect('mongodb://127.0.0.1/database');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -32,25 +30,32 @@ router.route('/signup')
     .post(function(req, res) {
         var signup_user = new Users();
         signup_user.id = new ObjectId();
-        signup_user.firstname = req.body.firstname;
-        signup_user.lastname = req.body.lastname;
-        signup_user.email = req.body.email;
-        signup_user.password = req.body.password;
+        signup_user.firstname = req.body.params.firstname;
+        signup_user.lastname = req.body.params.lastname;
+        signup_user.email = req.body.params.email;
+        signup_user.password = req.body.params.password;
 
         signup_user.save(function(err) {
             if (err)
-                res.send(err);
-
-            console.log("User signup success!");
+            {
+              console.log(err)
+            }
+            else{
+              console.log("User signup success!");
+            }
         });
-
-        // const User = mongoose.model('Users');
-        // User.find({}, (err, users) => {
-        //   if (err) return next(err);
-        //   console.log(users);
-        // });
-
     });
+
+router.get('/who', function(req, res) {
+  // get all the users
+  Users.find({}, function(err, Users) {
+  if (err) throw err;
+
+  // object of all the users
+  console.log(Users);
+  });
+});
+
 
 app.use('/api', router);
 

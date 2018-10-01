@@ -92,10 +92,10 @@ class SignUpPrompt extends React.Component {
                  color="primary"
                  className={this.props.classes.submit}
                  onClick={() => sendSignUpCredentials(
-                   this.state.email,
-                   this.state.username,
                    this.state.firstname,
                    this.state.lastname,
+                   this.state.email,
+                   this.state.password,
                  )}
                >
                  Sign Up
