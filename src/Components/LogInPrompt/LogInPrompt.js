@@ -10,6 +10,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 
+// functions
+import { sendLogInCredentials } from '../.././Utils/login'
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -32,6 +35,23 @@ const styles = theme => ({
 });
 
 class LoginPrompt extends React.Component {
+  constructor(props) {
+  super(props);
+
+  this.state = {
+    email: "",
+    password: "",
+  };
+
+  this.handleChange = this.handleChange.bind(this);
+
+}
+
+  handleChange(event) {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  };
   render() {
     return (
       <div>
@@ -39,11 +59,11 @@ class LoginPrompt extends React.Component {
           <Paper className={this.props.classes.paper}>
             <Typography variant="headline">Log in</Typography>
              <form className={this.props.classes.form}>
-               <FormControl margin="normal" required fullWidth>
+               <FormControl margin="normal" required fullWidth value={this.state.email} onChange={this.handleChange}>
                  <InputLabel htmlFor="email">Email Address</InputLabel>
                  <Input id="email" name="email" autoComplete="email" autoFocus />
                </FormControl>
-               <FormControl margin="normal" required fullWidth>
+               <FormControl margin="normal" required fullWidth value={this.state.password} onChange={this.handleChange}>
                  <InputLabel htmlFor="password">Password</InputLabel>
                  <Input
                    name="password"
@@ -60,7 +80,11 @@ class LoginPrompt extends React.Component {
                  variant="raised"
                  color="primary"
                  className={this.props.classes.submit}
-               >
+                 onClick={() => sendLogInCredentials(
+                   this.state.email,
+                   this.state.password,
+                 )}
+                 >
                  Log in
                </Button>
             </form>

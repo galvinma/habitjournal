@@ -1,5 +1,6 @@
 var express = require('express');
 var cors = require('cors')
+var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
@@ -43,6 +44,37 @@ router.route('/signup')
             else{
               console.log("User signup success!");
             }
+        });
+    });
+
+router.route('/login')
+    .post(function(req, res) {
+        console.log("login post...")
+        var e = req.body.params.email;
+        var p = req.body.params.password;
+
+        Users.findOne({ email: e }).lean().exec(function(err, docs) {
+          if (err)
+          {
+            console.log(err)
+          }
+          else
+          {
+            console.log("got creds...");
+            console.log("entered password: "+p)
+            console.log("salt: "+docs.password)
+            bcrypt.compare(p, docs.password, function(err, res) {
+              if (err)
+              {
+                console.log(err)
+              }
+              else
+              {
+                console.log(res)
+              }
+            });
+
+          }
         });
     });
 
