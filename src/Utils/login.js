@@ -7,10 +7,11 @@ export function sendLogInCredentials(email, password) {
       password: password,
     }
   })
-  .then(function (response) {
-    console.log(response);
+  .then((response) => {
+    console.log(response.data)
+    return response.data
   })
-  .catch(function (error) {
+  .catch((error)=>{
     console.log(error);
   });
 }

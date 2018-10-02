@@ -12,7 +12,7 @@ cors({credentials: true, origin: true})
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://127.0.0.1/database');
+mongoose.connect('mongodb://127.0.0.1/database', { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -22,12 +22,7 @@ router.use(function(req, res, next) {
     next();
 });
 
-router.get('/', function(req, res) {
-    console.log("got to index")
-});
-
-
-router.route('/signup')
+app.route('/signup')
     .post(function(req, res) {
         var signup_user = new Users();
         signup_user.id = new ObjectId();
@@ -47,49 +42,27 @@ router.route('/signup')
         });
     });
 
-router.route('/login')
+app.route('/api/login')
     .post(function(req, res) {
-        console.log("login post...")
-        var e = req.body.params.email;
-        var p = req.body.params.password;
-
-        Users.findOne({ email: e }).lean().exec(function(err, docs) {
+        Users.findOne({ email: req.body.params.email }).lean().exec(function(err, docs) {
           if (err)
           {
             console.log(err)
           }
           else
           {
-            console.log("got creds...");
-            console.log("entered password: "+p)
-            console.log("salt: "+docs.password)
-            bcrypt.compare(p, docs.password, function(err, res) {
+            bcrypt.compare(req.body.params.password, docs.password, function(err, response) {
               if (err)
               {
                 console.log(err)
               }
               else
               {
-                console.log(res)
+                res.send(response);
               }
             });
-
           }
         });
     });
-
-router.get('/who', function(req, res) {
-  // get all the users
-  Users.find({}, function(err, Users) {
-  if (err) throw err;
-
-  // object of all the users
-  console.log(Users);
-  });
-});
-
-
-app.use('/api', router);
-
 
 app.listen(5002);

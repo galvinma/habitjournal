@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import axios from 'axios';
+import { NavLink, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -41,6 +42,7 @@ class LoginPrompt extends React.Component {
   this.state = {
     email: "",
     password: "",
+    allowInternal: false,
   };
 
   this.handleChange = this.handleChange.bind(this);
@@ -52,7 +54,31 @@ class LoginPrompt extends React.Component {
       [event.target.id]: event.target.value
     });
   };
+
+  loginUser() {
+    axios.post('http://127.0.0.1:5002/api/login', {
+      params: {
+        email: this.state.email,
+        password: this.state.password,
+      }
+    })
+    .then((response) => {
+      if (response.data === true)
+      {
+        this.setState({
+          allowInternal: true,
+        })
+      }
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+
   render() {
+    if (this.state.allowInternal === true) {
+      return <Redirect to='/timer' />
+    }
     return (
       <div>
         <div className={this.props.classes.layout}>
@@ -73,17 +99,11 @@ class LoginPrompt extends React.Component {
                  />
                </FormControl>
                <Button
-                 type="submit"
-                 componentClass={NavLink}
-                 href="/#/timer"
                  fullWidth
                  variant="raised"
                  color="primary"
                  className={this.props.classes.submit}
-                 onClick={() => sendLogInCredentials(
-                   this.state.email,
-                   this.state.password,
-                 )}
+                 onClick={() => this.loginUser()}
                  >
                  Log in
                </Button>

@@ -84,9 +84,7 @@ class SignUpPrompt extends React.Component {
                  />
                </FormControl>
                <Button
-                 type="submit"
                  componentClass={NavLink}
-                 href="/#/timer"
                  fullWidth
                  variant="raised"
                  color="primary"
