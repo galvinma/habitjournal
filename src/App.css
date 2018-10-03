@@ -26,8 +26,3 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
-.custom_background
-{
-    background-color: rgb(250,250,250) !important;
-}

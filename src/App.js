@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 // Typography
 import 'typeface-roboto'
@@ -12,8 +15,8 @@ import Calendar from './Pages/Calendar/Calendar'
 import CountdownTimer from './Pages/CountdownTimer/CountdownTimer'
 import Journal from './Pages/Journal/Journal'
 
-// Components
-// import NavBar from './Components/NavBar/NavBar'
+// Images and Animations
+import Lighthouse from './Images/lighthouse.svg'
 
 // css
 import './App.css';
@@ -55,24 +58,41 @@ const _Calendar = () => (
 )
 
 
+const styles = theme => ({
+  lighthouse: {
+    backgroundImage: `url(${Lighthouse})`,
+    backgroundSize: 'cover',
+    backgroundAttachment: 'fixed',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'left bottom',
+    position: 'fixed',
+    height: '100%',
+    width: '100%',
+  },
+
+});
+
 class App extends Component {
-  componentDidMount()
-  {
-    document.body.classList.add("custom_background");
-  }
 
   render() {
     return (
       <div>
+        <Paper className={this.props.classes.lighthouse}>
+
         <Route path="/" exact component={_Landing}/>
         <Route path="/login" exact component={_LogIn}/>
         <Route path="/signup" exact component={_SignUp}/>
         <Route path="/timer" component={_CountdownTimer} />
         <Route path="/journal" component={_Journal}/>
         <Route path="/calendar" component={_Calendar}/>
+        </Paper>
       </div>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
