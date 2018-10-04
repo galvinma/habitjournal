@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
-// Typography
-import 'typeface-roboto'
-
 // Pages
 import Landing from './Pages/Landing/Landing'
 import SignUp from './Pages/SignUp/SignUp'
@@ -16,7 +13,7 @@ import CountdownTimer from './Pages/CountdownTimer/CountdownTimer'
 import Journal from './Pages/Journal/Journal'
 
 // Images and Animations
-import Lighthouse from './Images/lighthouse.svg'
+import Lighthouse from './Images/Artboard.svg'
 
 // css
 import './App.css';

@@ -11,9 +11,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 
-// functions
-import { sendLogInCredentials } from '../.././Utils/login'
-
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -63,8 +60,11 @@ class LoginPrompt extends React.Component {
       }
     })
     .then((response) => {
-      if (response.data === true)
+      if (response.data.allow === true)
       {
+        var token = response.data.token
+        sessionStorage.setItem('jwt', token);
+
         this.setState({
           allowInternal: true,
         })

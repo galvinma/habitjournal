@@ -10,13 +10,17 @@ import Button from '@material-ui/core/Button';
 const styles = {
   navbarContainer: {
     flexGrow: 1,
+    border: 'none',
+  },
+  navbar: {
+    backgroundColor: 'transparent',
+    background: 'transparent',
+    borderColor: 'transparent',
+    border: 'none',
+    boxShadow: 'none',
   },
   grow: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
   },
 };
 
@@ -24,7 +28,7 @@ class LandingNavBar extends React.Component {
   render() {
     return (
       <div className={this.props.classes.navbarContainer}>
-        <AppBar position="static">
+        <AppBar className={this.props.classes.navbar} position="static">
           <Toolbar>
             <Typography variant="title" color="inherit" className={this.props.classes.grow}>
               <Button color="inherit" componentClass={NavLink} href="/#">
