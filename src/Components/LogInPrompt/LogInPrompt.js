@@ -77,7 +77,6 @@ class LoginPrompt extends React.Component {
         store.dispatch(getCurrentUser({
           user: response.data.user,
         }))
-
       }
     })
     .catch((error)=>{

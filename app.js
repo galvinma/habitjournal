@@ -25,8 +25,9 @@ router.use(function(req, res, next) {
     next();
 });
 
-app.route('/signup')
-    .post(function(req, res) {
+app.route('/api/signup')
+    .post(function(req, res, next) {
+        console.log("in signup")
         var signup_user = new Users();
         signup_user.id = new ObjectId();
         signup_user.firstname = req.body.params.firstname;
@@ -41,18 +42,20 @@ app.route('/signup')
             }
             else
             {
+              console.log("creating token")
               // create token
               var token = generateJWT.generateJWT(signup_user)
               res.json({
-                 user: signup_user.id,
-                 token: token,
+                allow: true,
+                user: signup_user.id,
+                token: token,
               });
             }
         });
     });
 
 app.route('/api/login')
-    .post(function(req, res) {
+    .post(function(req, res, next) {
         Users.findOne({ email: req.body.params.email }).lean().exec(function(err, docs) {
           if (err)
           {

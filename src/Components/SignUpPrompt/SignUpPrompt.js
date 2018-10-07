@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,13 @@ import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+
+
+// redux
+import store from '../.././Store/store'
+import { connect } from "react-redux";
+import {getAuthStatus, getCurrentUser} from '../.././Actions/actions'
+
 
 const styles = theme => ({
   layout: {
@@ -62,9 +69,20 @@ class SignUpPrompt extends React.Component {
       }
     })
     .then((response) => {
-      if (response.data === true)
+      if (response.data.allow === true)
       {
+        console.log(response.data.allow)
+        var token = response.data.token
+        var user = response.data.user
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('user', user);
 
+        store.dispatch(getAuthStatus({
+          auth_status: true,
+        }))
+        store.dispatch(getCurrentUser({
+          user: response.data.user,
+        }))
       }
     })
     .catch((error)=>{
@@ -73,6 +91,9 @@ class SignUpPrompt extends React.Component {
   }
 
   render() {
+    if (store.getState().auth_status.auth_status === true) {
+      return <Redirect to='/timer' />
+    }
     return (
       <div>
         <div className={this.props.classes.layout}>
@@ -106,12 +127,7 @@ class SignUpPrompt extends React.Component {
                  variant="raised"
                  color="primary"
                  className={this.props.classes.submit}
-                 onClick={() => this.signUpUser(
-                   this.state.firstname,
-                   this.state.lastname,
-                   this.state.email,
-                   this.state.password,
-                 )}
+                 onClick={() => this.signUpUser()}
                >
                  Sign Up
                </Button>
@@ -127,4 +143,11 @@ SignUpPrompt.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignUpPrompt);
+const mapStateToProps = state => {
+  return {
+    auth_status: state.auth_status,
+    current_user: state.current_user
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(SignUpPrompt));
