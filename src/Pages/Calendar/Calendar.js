@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom';
 import moment from 'moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -8,6 +9,14 @@ import Paper from '@material-ui/core/Paper';
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import CalendarHeader from '../.././Components/Calendar/CalendarHeader.js'
 import CalendarBody from '../.././Components/Calendar/CalendarBody.js'
+
+// functions
+import { checkAuth } from '../.././Utils/checkauth'
+
+// redux
+import store from '../.././Store/store'
+import { connect } from "react-redux";
+
 
 const styles = theme => ({
   paper: {
@@ -25,6 +34,9 @@ class Calendar extends React.Component {
   constructor(props)
   {
     super(props);
+
+    checkAuth()
+
     this.state = {
       selectedMonth: moment().month(),
       firstDayOfMonthDate: moment().startOf('month').format('YYYY-MM-DD'),
@@ -54,6 +66,9 @@ class Calendar extends React.Component {
   }
 
   render() {
+    if (store.getState().auth_status.auth_status === false) {
+      return <Redirect to='/' />
+    }  
     return(
       <div>
         <InternalNavBar />
@@ -77,4 +92,11 @@ Calendar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Calendar);
+const mapStateToProps = state => {
+  return {
+    auth_status: state.auth_status,
+    current_user: state.current_user
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Calendar));

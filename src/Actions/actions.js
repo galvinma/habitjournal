@@ -1,4 +1,9 @@
-export const getLeft = left => ({
-  type: "GET_LEFT",
-  left
+export const getCurrentUser = current_user => ({
+  type: "CURRENT_USER",
+  current_user
+});
+
+export const getAuthStatus = auth_status => ({
+  type: "AUTHENTICATED",
+  auth_status
 });

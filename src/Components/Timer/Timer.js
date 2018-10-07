@@ -38,7 +38,8 @@ const styles = theme => ({
 class Timer extends React.Component {
   constructor(props){
   super(props);
-   this.state = {
+
+  this.state = {
     seconds: '00',
     minutes: '25',
     timeLeft: '1500',
@@ -106,7 +107,6 @@ class Timer extends React.Component {
   }
 
   playAudio() {
-    console.log("Playing audio")
     this.metronome.play();
   }
 
@@ -135,4 +135,4 @@ Timer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Timer);
+export default (withStyles(styles)(Timer));

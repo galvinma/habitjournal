@@ -11,6 +11,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 
+// redux
+import store from '../.././Store/store'
+import { connect } from "react-redux";
+import {getAuthStatus, getCurrentUser} from '../.././Actions/actions'
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -39,7 +44,6 @@ class LoginPrompt extends React.Component {
   this.state = {
     email: "",
     password: "",
-    allowInternal: false,
   };
 
   this.handleChange = this.handleChange.bind(this);
@@ -63,11 +67,17 @@ class LoginPrompt extends React.Component {
       if (response.data.allow === true)
       {
         var token = response.data.token
-        sessionStorage.setItem('jwt', token);
+        var user = response.data.user
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('user', user);
 
-        this.setState({
-          allowInternal: true,
-        })
+        store.dispatch(getAuthStatus({
+          auth_status: true,
+        }))
+        store.dispatch(getCurrentUser({
+          user: response.data.user,
+        }))
+
       }
     })
     .catch((error)=>{
@@ -76,7 +86,7 @@ class LoginPrompt extends React.Component {
   }
 
   render() {
-    if (this.state.allowInternal === true) {
+    if (store.getState().auth_status.auth_status === true) {
       return <Redirect to='/timer' />
     }
     return (
@@ -119,4 +129,11 @@ LoginPrompt.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginPrompt);
+const mapStateToProps = state => {
+  return {
+    auth_status: state.auth_status,
+    current_user: state.current_user
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(LoginPrompt));

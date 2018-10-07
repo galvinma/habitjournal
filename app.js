@@ -85,36 +85,32 @@ app.route('/api/login')
     });
 
 app.route('/api/checktoken')
-    .get(function(req, res, next) {
-      var token = req.body.params.token // check this for syntax
+    .post(function(req, res, next) {
+      var token = req.body.params.token
+      var user = req.body.params.user
 
-      if (!token)
-      {
-        return res.status(401).json({
-          message: 'Missing token...'
-        })
-      }
-
-      jwt.verify(token, process.env.JWT_SECRET, function(err, user) {
+      Users.findOne({ id: user }).lean().exec(function(err, docs) {
         if (err)
         {
-          throw err;
+          throw err
         }
-        else
-        {
-          Users.findOne({ email: req.body.params.email }).lean().exec(function(err, docs) {
-            if (err)
-            {
-              throw err
-            }
 
-            res.json({
-               user: docs.id,
-               token: token,
-            });
-          })
+        var test_user = new Users();
+        test_user.id = docs.id
+        test_user.email = docs.email;
+
+        var testtoken = generateJWT.generateJWT(test_user)
+
+        if (testtoken === token)
+        {
+          res.json({
+              allow: true,
+              user: user,
+              token: token,
+          });
         }
+
       })
-    });
+  });
 
 app.listen(5002);

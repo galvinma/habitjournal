@@ -1,27 +1,37 @@
 //actions
-import {  GET_LEFT,
+import {  CURRENT_USER,
+          AUTHENTICATED,
         }
 from "../Constants/action-types";
 
 
 const initialState = {
-  left: {left:1},
+  current_user: {current_user: null},
+  auth_status: {auth_status: false},
 };
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
-
-    case GET_LEFT:
-      return getLeft(state, action.left)
+    case CURRENT_USER:
+      return getCurrentUser(state, action.current_user)
+    case AUTHENTICATED:
+      return getAuthStatus(state, action.auth_status)
     default:
       return state;
   }
 };
 
-function getLeft(state, left) {
+function getCurrentUser(state, current_user) {
   return {
     ...state,
-    left: left
+    current_user: current_user
+  }
+}
+
+function getAuthStatus(state, auth_status) {
+  return {
+    ...state,
+    auth_status: auth_status
   }
 }
 
