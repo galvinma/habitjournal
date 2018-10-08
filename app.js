@@ -4,7 +4,10 @@ var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
+
+// mongodb
 var Users = require('./model/users');
+var Events = require('./model/users');
 
 // functions
 var generateJWT = require('./jwt');
@@ -115,5 +118,22 @@ app.route('/api/checktoken')
 
       })
   });
+
+
+app.route('/api/events')
+    .post(function(req, res, next) {
+      var new_event = new Events();
+      new_event.event_id = req.body.params.event_id;
+      new_event.title = req.body.params.title
+      new_event.description = req.body.params.description
+      new_event.date = req.body.params.date
+      new_event.start_time = req.body.params.start_time
+      new_event.end_time = req.body.params.end_time
+
+
+
+  });
+
+
 
 app.listen(5002);
