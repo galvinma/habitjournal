@@ -5,7 +5,7 @@ const SALT_WORK_FACTOR = 10;
 const ObjectId = Schema.ObjectId;
 
 // imports
-var Events = require('./model/events');
+var Events = require('./events');
 
 var Users = new Schema({
     id: {type: ObjectId, required: true},

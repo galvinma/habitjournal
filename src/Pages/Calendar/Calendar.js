@@ -17,7 +17,6 @@ import { checkAuth } from '../.././Utils/checkauth'
 import store from '../.././Store/store'
 import { connect } from "react-redux";
 
-
 const styles = theme => ({
   paper: {
     marginLeft: '15vw',
@@ -68,7 +67,7 @@ class Calendar extends React.Component {
   render() {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
-    }  
+    }
     return(
       <div>
         <InternalNavBar />
