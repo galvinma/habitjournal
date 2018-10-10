@@ -22,9 +22,12 @@ const styles = theme => ({
     marginRight: '15vw',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
     padding: '20px',
   },
+  bulletlist: {
+
+  }
 });
 
 class Journal extends React.Component {
@@ -43,7 +46,7 @@ class Journal extends React.Component {
       <div>
         <InternalNavBar />
         <Paper className={this.props.classes.paper}>
-          <BulletList />
+          <BulletList className={this.props.classes.bulletlist}/>
         </Paper>
       </div>
     );

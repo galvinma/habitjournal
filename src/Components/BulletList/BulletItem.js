@@ -22,14 +22,9 @@ import TextField from '@material-ui/core/TextField';
 // triangle = Appt
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-  },
   formControl: {
     margin: theme.spacing.unit,
-    flexDirection: 'row',
+    minWidth: 120,
   },
 });
 
@@ -62,28 +57,31 @@ class BulletList extends React.Component {
 
   render() {
     return(
-      <div className={this.props.classes.root}>
+      <div>
         <FormControl className={this.props.classes.formControl}>
-          <InputLabel htmlFor="age-simple"></InputLabel>
+          <InputLabel>
+            <Icon path={this.state.selected} size={1} />
+          </InputLabel>
           <Select
-            value={this.state.selected}
             onChange={this.handleChange}
-            disableUnderline={true}
+            disableUnderline={true} 
           >
             <MenuItem value={mdiSquareOutline}>
               <Icon path={mdiSquareOutline} size={1} />
+              <p>Task</p>
             </MenuItem>
             <MenuItem value={mdiCircleOutline}>
               <Icon path={mdiCircleOutline} size={1} />
+              <p>Event</p>
             </MenuItem>
             <MenuItem value={mdiTriangleOutline}>
               <Icon path={mdiTriangleOutline} size={1} />
+              <p>Appointment</p>
             </MenuItem>
           </Select>
         </FormControl>
         <TextField
           margin="normal"
-          style={{width: '50vw'}}
         />
       </div>
     );
