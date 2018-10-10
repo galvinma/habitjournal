@@ -1,9 +1,13 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom';
 import lifecycle from 'react-pure-lifecycle';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
+import BulletList from '../.././Components/BulletList/BulletList'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -12,6 +16,16 @@ import { checkAuth } from '../.././Utils/checkauth'
 import store from '../.././Store/store'
 import { connect } from "react-redux";
 
+const styles = theme => ({
+  paper: {
+    marginLeft: '15vw',
+    marginRight: '15vw',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+  },
+});
 
 class Journal extends React.Component {
   constructor(props){
@@ -28,11 +42,17 @@ class Journal extends React.Component {
     return (
       <div>
         <InternalNavBar />
-        <p>This will be the journal page</p>
+        <Paper className={this.props.classes.paper}>
+          <BulletList />
+        </Paper>
       </div>
     );
   }
 }
+
+Journal.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => {
   return {
@@ -41,4 +61,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Journal);
+export default connect(mapStateToProps)(withStyles(styles)(Journal));
