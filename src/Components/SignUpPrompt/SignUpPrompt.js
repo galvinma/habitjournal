@@ -92,7 +92,7 @@ class SignUpPrompt extends React.Component {
 
   render() {
     if (store.getState().auth_status.auth_status === true) {
-      return <Redirect to='/timer' />
+      return <Redirect to='/journal' />
     }
     return (
       <div>

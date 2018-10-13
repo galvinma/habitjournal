@@ -13,6 +13,7 @@ const styles = {
     border: 'none',
   },
   navbar: {
+    color: 'black',
     backgroundColor: 'transparent',
     background: 'transparent',
     borderColor: 'transparent',
