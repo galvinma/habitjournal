@@ -45,9 +45,7 @@ class Journal extends React.Component {
     return (
       <div>
         <InternalNavBar />
-        <Paper className={this.props.classes.paper}>
           <BulletList className={this.props.classes.bulletlist}/>
-        </Paper>
       </div>
     );
   }

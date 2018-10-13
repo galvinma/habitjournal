@@ -15,81 +15,58 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 
 // circle = Event
 // square = Task
-// triangle = Appt
+// triangle = Habit
 
 const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    flexDirection: 'row',
   },
 });
 
-class BulletList extends React.Component {
-  constructor(props)
+class BulletItem extends React.Component {
+
+  createList(i)
   {
-    super(props);
-    this.state = {
-      data: [],
-      selected: mdiSquareOutline,
-    };
-  }
+    return (
 
-  handleChange = event => {
-    this.setState({
-      selected: event.target.value });
-  };
-
-  addBullet(val)
-  {
-    const bullet = {
-      description: val
-    }
-
-    this.state.data.push(bullet)
-    this.setState({
-      data: this.state.data
-    })
+      <ListItem>
+          <ListItemIcon>
+            <Icon path={i.selected} size={1} />
+          </ListItemIcon>
+          <ListItemText primary={i.description} />
+        </ListItem>
+    )
   }
 
   render() {
+    var bullets = this.props.bullets.map(this.createList)
+
     return(
-      <div>
-        <FormControl className={this.props.classes.formControl}>
-          <InputLabel>
-            <Icon path={this.state.selected} size={1} />
-          </InputLabel>
-          <Select
-            onChange={this.handleChange}
-            disableUnderline={true} 
-          >
-            <MenuItem value={mdiSquareOutline}>
-              <Icon path={mdiSquareOutline} size={1} />
-              <p>Task</p>
-            </MenuItem>
-            <MenuItem value={mdiCircleOutline}>
-              <Icon path={mdiCircleOutline} size={1} />
-              <p>Event</p>
-            </MenuItem>
-            <MenuItem value={mdiTriangleOutline}>
-              <Icon path={mdiTriangleOutline} size={1} />
-              <p>Appointment</p>
-            </MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          margin="normal"
-        />
+      <div className={this.props.classes.root}>
+        <List>
+          {bullets}
+        </List>
       </div>
     );
   }
 }
 
-BulletList.propTypes = {
+BulletItem.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BulletList);
+export default withStyles(styles)(BulletItem);

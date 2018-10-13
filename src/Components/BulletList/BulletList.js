@@ -16,16 +16,19 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
+// Components
+import BulletSelector from './BulletSelector'
+import BulletItem from './BulletItem'
 
-// circle = Event
 // square = Task
-// triangle = Appt
+// circle = Event
+// triangle = Habit
 
 const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -37,10 +40,12 @@ class BulletList extends React.Component {
   constructor(props)
   {
     super(props);
+
     this.state = {
-      data: [],
-      selected: mdiSquareOutline,
+      bullets: [],
     };
+
+    this.addBullet = this.addBullet.bind(this)
   }
 
   handleChange = event => {
@@ -48,43 +53,24 @@ class BulletList extends React.Component {
       selected: event.target.value });
   };
 
-  addBullet(val)
+  addBullet(selected, description)
   {
     const bullet = {
-      description: val
+      description: description,
+      selected: selected,
     }
 
-    this.state.data.push(bullet)
     this.setState({
-      data: this.state.data
+      bullets: this.state.bullets.concat(bullet)
     })
+
   }
 
   render() {
     return(
       <div className={this.props.classes.root}>
-        <FormControl className={this.props.classes.formControl}>
-          <InputLabel htmlFor="age-simple"></InputLabel>
-          <Select
-            value={this.state.selected}
-            onChange={this.handleChange}
-            disableUnderline={true}
-          >
-            <MenuItem value={mdiSquareOutline}>
-              <Icon path={mdiSquareOutline} size={1} />
-            </MenuItem>
-            <MenuItem value={mdiCircleOutline}>
-              <Icon path={mdiCircleOutline} size={1} />
-            </MenuItem>
-            <MenuItem value={mdiTriangleOutline}>
-              <Icon path={mdiTriangleOutline} size={1} />
-            </MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          margin="normal"
-          style={{width: '50vw'}}
-        />
+        <BulletSelector add={this.addBullet}/>
+        <BulletItem bullets={this.state.bullets}/>
       </div>
     );
   }
