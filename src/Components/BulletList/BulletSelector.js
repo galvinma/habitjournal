@@ -18,6 +18,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
+
 // mdiCircle = Event
 // mdiSquareOutline = Task
 // mdiTriangle = Habit
@@ -42,70 +43,15 @@ class BulletSelector extends React.Component {
   constructor(props)
   {
     super(props);
-    this.state = {
-      description: '',
-      type: 'task',
-      selected: 'mdiSquareOutline',
-    };
-
-    this.addBullet = this.addBullet.bind(this)
   }
-
-  addBullet() {
-    axios.post('http://127.0.0.1:5002/api/save_bullet', {
-      params: {
-        user: sessionStorage.getItem('user'),
-        type: this.state.type,
-        description: this.state.description,
-      }
-    })
-    .then((response) => {
-      console.log("added bullet")
-    })
-    .catch((error)=>{
-      console.log(error);
-    });
-  }
-
-  selectorChange = event => {
-    this.setState({
-      selected: event.target.value }
-    );
-
-    // mdiCircleOutline = Event
-    // mdiSquareOutline = Task
-    // mdiTriangleOutline = Habit
-    if (event.target.value === 'mdiCircleOutline')
-    {
-      this.setState({
-        type: 'event' });
-    }
-    if (event.target.value === 'mdiSquareOutline')
-    {
-      this.setState({
-        type: 'task' });
-    }
-
-    if (event.target.value === 'mdiTriangleOutline')
-    {
-      this.setState({
-        type: 'habit' });
-    }
-
-  };
-
-  descriptionChange = event => {
-    this.setState({
-      description: event.target.value });
-  };
 
   render() {
     return(
       <div className={this.props.classes.root}>
         <FormControl className={this.props.classes.formControl}>
           <Select
-            value={this.state.selected}
-            onChange={this.selectorChange}
+            value={this.props.selected}
+            onChange={(e) => this.props.selectorChange(e)}
             disableUnderline={true}
           >
             <MenuItem value="mdiSquareOutline">
@@ -122,11 +68,11 @@ class BulletSelector extends React.Component {
         <TextField
           margin="normal"
           style={{width: '50vw'}}
-          value={this.state.description}
-          onChange={this.descriptionChange}
+          value={this.props.description}
+          onChange={(e) => this.props.descriptionChange(e)}
         />
         <Icon className={this.props.classes.add_event} path={mdiPlus} size={1}
-        onClick={() => this.addBullet()} />
+        onClick={() => this.props.addBullet()} />
       </div>
     );
   }

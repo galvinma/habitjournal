@@ -144,8 +144,13 @@ app.route('/api/return_bullets')
         new_bullet.save(function(err) {
             if (err)
             {
-              console.log(err)
+              throw err
             }
+
+            res.json({
+              success: true,
+            });
+
         });
       })
 

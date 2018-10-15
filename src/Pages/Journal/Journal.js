@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import BulletList from '../.././Components/BulletList/BulletList'
+import BulletSelector from '../.././Components/BulletList/BulletSelector'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -31,10 +32,39 @@ const styles = theme => ({
 class Journal extends React.Component {
   constructor(props){
   super(props);
+  this.state = {
+    bullets: [],
+    description: '',
+    type: 'task',
+    selected: 'mdiSquareOutline',
+  };
 
   checkAuth()
   this.getBullets()
+  this.addBullet = this.addBullet.bind(this)
+  this.selectorChange = this.selectorChange.bind(this)
+  this.descriptionChange = this.descriptionChange.bind(this)
+  this.addBullet = this.addBullet.bind(this)
 
+  }
+
+  addBullet() {
+    axios.post('http://127.0.0.1:5002/api/save_bullet', {
+      params: {
+        user: sessionStorage.getItem('user'),
+        type: this.state.type,
+        description: this.state.description,
+      }
+    })
+    .then((response) => {
+      console.log(response)
+
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+
+    this.getBullets()
   }
 
   getBullets() {
@@ -44,15 +74,53 @@ class Journal extends React.Component {
       }
     })
     .then((response) => {
-      console.log("got bullets")
-      console.log(response.data.bullets,)
+      var res = response.data.bullets
+      var new_bullets = []
+      res.forEach(bullet => {
+          new_bullets.push(bullet)
+      })
+      this.setState({
+        bullets: new_bullets
+      })
+
     })
     .catch((error)=>{
       console.log(error);
     });
   }
 
+  selectorChange(event) {
 
+    this.setState({
+      selected: event.target.value }
+    );
+
+    // mdiCircleOutline = Event
+    // mdiSquareOutline = Task
+    // mdiTriangleOutline = Habit
+    if (event.target.value === 'mdiCircleOutline')
+    {
+      this.setState({
+        type: 'event' });
+    }
+    if (event.target.value === 'mdiSquareOutline')
+    {
+      this.setState({
+        type: 'task' });
+    }
+
+    if (event.target.value === 'mdiTriangleOutline')
+    {
+      this.setState({
+        type: 'habit' });
+    }
+
+  };
+
+  descriptionChange(event) {
+    this.setState({
+      description: event.target.value });
+  };
 
   render() {
     if (store.getState().auth_status.auth_status === false) {
@@ -61,7 +129,13 @@ class Journal extends React.Component {
     return (
       <div>
         <InternalNavBar />
-          <BulletList className={this.props.classes.bulletlist}/>
+          <BulletSelector
+            selectorChange = {this.selectorChange}
+            descriptionChange = {this.descriptionChange}
+            addBullet = {this.addBullet}
+            selected={this.state.selected}
+            description={this.state.description} />
+          <BulletList bullets={this.state.bullets} className={this.props.classes.bulletlist}/>
       </div>
     );
   }
