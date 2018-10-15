@@ -7,7 +7,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 // mongodb
 var Users = require('./model/users');
-var Events = require('./model/events');
+var Bullets = require('./model/bullets');
 
 // functions
 var generateJWT = require('./jwt');
@@ -118,45 +118,35 @@ app.route('/api/checktoken')
       })
   });
 
-app.route('/api/return_events')
+app.route('/api/return_bullets')
     .post(function(req, res, next) {
+      Bullets.find({ user_id: req.body.params.user }).lean().exec(function(err, bullets) {
+        if (err)
+        {
+          throw err
+        }
+        res.json({
+          bullets: bullets,
+        });
 
+    })
   });
 
-  app.route('/api/save_event')
+  app.route('/api/save_bullet')
       .post(function(req, res, next) {
-        var user = req.body.params.user
+        var new_bullet = new Bullets();
+        new_bullet.bullet_id = new ObjectId();
+        new_bullet.user_id = req.body.params.user
+        new_bullet.date = "DATE"
+        new_bullet.type = req.body.params.type
+        new_bullet.description = req.body.params.description
 
-        Users.findOne({ id: user }).lean().exec(function(err, user) {
-          if (err)
-          {
-            throw err
-          }
-
-          user.save(function(err) {
+        new_bullet.save(function(err) {
             if (err)
             {
               console.log(err)
             }
-            else
-            {
-              var new_event = new Events();
-              new_event.event_id = new ObjectId();
-              new_event.title = req.body.params.title
-              new_event.description = req.body.params.description
-              new_event.date = req.body.params.date
-              new_event.start_time = req.body.params.start_time
-              new_event.end_time = req.body.params.end_time
-
-              new_event.save(function(err) {
-                  if (err)
-                  {
-                    console.log(err)
-                  }
-              });
-            }
-        })
-    })
-});
+        });
+      })
 
 app.listen(5002);

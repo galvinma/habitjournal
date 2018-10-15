@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import lifecycle from 'react-pure-lifecycle';
 import PropTypes from 'prop-types';
@@ -25,9 +26,6 @@ const styles = theme => ({
     alignItems: 'left',
     padding: '20px',
   },
-  bulletlist: {
-
-  }
 });
 
 class Journal extends React.Component {
@@ -35,8 +33,26 @@ class Journal extends React.Component {
   super(props);
 
   checkAuth()
+  this.getBullets()
 
   }
+
+  getBullets() {
+    axios.post('http://127.0.0.1:5002/api/return_bullets', {
+      params: {
+        user: sessionStorage.getItem('user'),
+      }
+    })
+    .then((response) => {
+      console.log("got bullets")
+      console.log(response.data.bullets,)
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+
+
 
   render() {
     if (store.getState().auth_status.auth_status === false) {

@@ -4,16 +4,12 @@ const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
 const ObjectId = Schema.ObjectId;
 
-// imports
-var Events = require('./events');
-
 var Users = new Schema({
     id: {type: ObjectId, required: true},
     firstname: {type: String, required: true},
     lastname: {type: String, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
-    events: [{ type: Schema.Types.ObjectId, ref: 'Events' }]
 });
 
 Users.pre('save', function(next) {
