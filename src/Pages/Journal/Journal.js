@@ -45,11 +45,11 @@ class Journal extends React.Component {
   this.addBullet = this.addBullet.bind(this)
   this.selectorChange = this.selectorChange.bind(this)
   this.descriptionChange = this.descriptionChange.bind(this)
-  this.addBullet = this.addBullet.bind(this)
-
+  this.removeBullet = this.removeBullet.bind(this)
   }
 
-  addBullet() {
+  addBullet()
+  {
     axios.post('http://127.0.0.1:5002/api/save_bullet', {
       params: {
         user: sessionStorage.getItem('user'),
@@ -68,7 +68,8 @@ class Journal extends React.Component {
     this.getBullets()
   }
 
-  getBullets() {
+  getBullets()
+  {
     axios.post('http://127.0.0.1:5002/api/return_bullets', {
       params: {
         user: sessionStorage.getItem('user'),
@@ -99,7 +100,8 @@ class Journal extends React.Component {
     });
   }
 
-  selectorChange(event) {
+  selectorChange(event)
+  {
 
     this.setState({
       selected: event.target.value }
@@ -127,10 +129,29 @@ class Journal extends React.Component {
 
   };
 
-  descriptionChange(event) {
+  descriptionChange(event)
+  {
     this.setState({
       description: event.target.value });
   };
+
+  removeBullet(id)
+  {
+    axios.post('http://127.0.0.1:5002/api/remove_bullet', {
+      params: {
+        bullet_id: id
+      }
+    })
+    .then((response) => {
+      console.log(response)
+
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+
+    this.getBullets()
+  }
 
   render() {
     if (store.getState().auth_status.auth_status === false) {
@@ -147,7 +168,10 @@ class Journal extends React.Component {
             description={this.state.description}
             type={this.state.type}
             bullets={this.state.bullets} />
-          <BulletList bullets={this.state.bullets} className={this.props.classes.bulletlist}/>
+          <BulletList
+            bullets={this.state.bullets}
+            removeBullet={this.removeBullet}
+            className={this.props.classes.bulletlist} />
       </div>
     );
   }

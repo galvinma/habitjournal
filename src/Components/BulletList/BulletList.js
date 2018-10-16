@@ -8,7 +8,8 @@ import {  mdiSquare,
           mdiCircle,
           mdiCircleOutline,
           mdiTriangle,
-          mdiTriangleOutline
+          mdiTriangleOutline,
+          mdiClose,
         } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
@@ -77,11 +78,17 @@ class BulletItem extends React.Component {
    {
      var p = this.convertType(i.type)
      return (
-       <ListItem>
+       <ListItem id={i.bullet_id}>
            <ListItemIcon>
              <Icon path={p} size={1} />
            </ListItemIcon>
            <ListItemText primary={i.description} />
+           <ListItemIcon>
+             <Icon
+              path={mdiClose}
+              size={1}
+              onClick={(e) => this.props.removeBullet(i.bullet_id)} />
+           </ListItemIcon>
          </ListItem>
    )
   }

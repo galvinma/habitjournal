@@ -154,4 +154,19 @@ app.route('/api/return_bullets')
         });
       })
 
+      app.route('/api/remove_bullet')
+          .post(function(req, res, next) {
+            Bullets.deleteOne({ bullet_id: req.body.params.bullet_id }).lean().exec(function(err, bullets) {
+              if (err)
+              {
+                throw err
+              }
+
+              res.json({
+                success: true,
+              });
+
+            });
+          })
+
 app.listen(5002);
