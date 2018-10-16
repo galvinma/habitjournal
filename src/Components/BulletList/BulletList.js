@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios';
+import moment from 'moment'
 import PropTypes from 'prop-types';
 import Icon from '@mdi/react'
 import {  mdiSquare,
@@ -26,7 +27,11 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    flexDirection: 'row',
+    flexDirection: 'column',
+  },
+  list_container: {
+    marginTop: '10px',
+    marginBottom: '10px',
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -37,6 +42,12 @@ const styles = theme => ({
 class BulletItem extends React.Component {
   constructor(props){
   super(props);
+  this.state = {
+    bullets: this.props.bullets,
+    description: this.props.description,
+    type: this.props.type,
+    selected: this.props.selected,
+  };
 
   this.convertType = this.convertType.bind(this);
   this.createList = this.createList.bind(this);
@@ -63,29 +74,32 @@ class BulletItem extends React.Component {
   }
 
   createList(i)
-  {
-    var p = this.convertType(i.type)
-    return (
-      <ListItem>
-          <ListItemIcon>
-            <Icon path={p} size={1} />
-          </ListItemIcon>
-          <ListItemText primary={i.description} />
-        </ListItem>
-    )
+   {
+     var p = this.convertType(i.type)
+     return (
+       <ListItem>
+           <ListItemIcon>
+             <Icon path={p} size={1} />
+           </ListItemIcon>
+           <ListItemText primary={i.description} />
+         </ListItem>
+   )
   }
 
   render() {
-    var bullets = this.props.bullets.map(this.createList)
-
     return(
       <div className={this.props.classes.root}>
-        <List>
-          {bullets}
-        </List>
+        {
+           Object.keys(this.props.bullets).map((key, index) => (
+                <div className={this.props.classes.list_container}>
+                    {key}
+                    {this.props.bullets[key].map(this.createList)}
+                </div>
+              ))
+        }
       </div>
-    );
-  }
+    )}
+
 }
 
 BulletItem.propTypes = {

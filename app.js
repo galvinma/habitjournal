@@ -1,4 +1,5 @@
 var express = require('express');
+var moment = require('moment');
 var cors = require('cors')
 var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
@@ -30,7 +31,6 @@ router.use(function(req, res, next) {
 
 app.route('/api/signup')
     .post(function(req, res, next) {
-        console.log("in signup")
         var signup_user = new Users();
         signup_user.id = new ObjectId();
         signup_user.firstname = req.body.params.firstname;
@@ -120,7 +120,7 @@ app.route('/api/checktoken')
 
 app.route('/api/return_bullets')
     .post(function(req, res, next) {
-      Bullets.find({ user_id: req.body.params.user }).lean().exec(function(err, bullets) {
+      Bullets.find({ user_id: req.body.params.user }).sort({date: -1}).lean().exec(function(err, bullets) {
         if (err)
         {
           throw err
@@ -137,7 +137,7 @@ app.route('/api/return_bullets')
         var new_bullet = new Bullets();
         new_bullet.bullet_id = new ObjectId();
         new_bullet.user_id = req.body.params.user
-        new_bullet.date = "DATE"
+        new_bullet.date = moment().unix();
         new_bullet.type = req.body.params.type
         new_bullet.description = req.body.params.description
 

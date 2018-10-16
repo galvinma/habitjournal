@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios';
+import moment from 'moment'
 import { Redirect } from 'react-router-dom';
 import lifecycle from 'react-pure-lifecycle';
 import PropTypes from 'prop-types';
@@ -33,7 +34,7 @@ class Journal extends React.Component {
   constructor(props){
   super(props);
   this.state = {
-    bullets: [],
+    bullets: {}, // date --> bullet list
     description: '',
     type: 'task',
     selected: 'mdiSquareOutline',
@@ -75,9 +76,18 @@ class Journal extends React.Component {
     })
     .then((response) => {
       var res = response.data.bullets
-      var new_bullets = []
+      var new_bullets = {}
       res.forEach(bullet => {
-          new_bullets.push(bullet)
+          let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
+
+          if (!(new_bullets[timestamp]))
+          {
+            new_bullets[timestamp] = [bullet]
+          }
+          else
+          {
+            new_bullets[timestamp].push(bullet)
+          }
       })
       this.setState({
         bullets: new_bullets
@@ -134,7 +144,9 @@ class Journal extends React.Component {
             descriptionChange = {this.descriptionChange}
             addBullet = {this.addBullet}
             selected={this.state.selected}
-            description={this.state.description} />
+            description={this.state.description}
+            type={this.state.type}
+            bullets={this.state.bullets} />
           <BulletList bullets={this.state.bullets} className={this.props.classes.bulletlist}/>
       </div>
     );
