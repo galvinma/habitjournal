@@ -22,6 +22,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
 
 
 const styles = theme => ({
@@ -60,27 +61,47 @@ class BulletItem extends React.Component {
     // mdiCircleOutline = Event
     // mdiSquareOutline = Task
     // mdiTriangleOutline = Habit
-    if (i === 'event')
+    if (i.type === 'event' && i.status === "0")
     {
       return mdiCircleOutline
     }
-    if (i === 'task')
+
+    if (i.type === 'event' && i.status === "1")
+    {
+      return mdiCircle
+    }
+
+    if (i.type === 'task' && i.status === "0")
     {
       return mdiSquareOutline
     }
-    if (i === 'habit')
+
+    if (i.type === 'task' && i.status === "1")
+    {
+      return mdiSquare
+    }
+
+    if (i.type === 'habit'&& i.status === "0")
     {
       return mdiTriangleOutline
     }
+
+    if (i.type === 'habit'&& i.status === "1")
+    {
+      return mdiTriangle
+    }
+
   }
 
   createList(i)
    {
-     var p = this.convertType(i.type)
+     var p = this.convertType(i)
      return (
        <ListItem id={i.bullet_id}>
            <ListItemIcon>
-             <Icon path={p} size={1} />
+              <Button onClick={(e) => this.props.toggleIcon(i.bullet_id, i.type, i.status)}>
+                <Icon path={p} size={1} />
+              </Button>
            </ListItemIcon>
            <ListItemText primary={i.description} />
            <ListItemIcon>

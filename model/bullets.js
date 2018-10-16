@@ -8,6 +8,7 @@ var Bullets = new Schema({
     date: {type: String, required: true},
     type: {type: String, required: true},
     description: {type: String, required: true},
+    status: {type: String, required: true},
 });
 
 module.exports = mongoose.model('Bullets', Bullets);

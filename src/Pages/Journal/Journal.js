@@ -6,6 +6,14 @@ import lifecycle from 'react-pure-lifecycle';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import {  mdiSquare,
+          mdiSquareOutline,
+          mdiCircle,
+          mdiCircleOutline,
+          mdiTriangle,
+          mdiTriangleOutline,
+          mdiClose,
+        } from '@mdi/js'
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -46,6 +54,8 @@ class Journal extends React.Component {
   this.selectorChange = this.selectorChange.bind(this)
   this.descriptionChange = this.descriptionChange.bind(this)
   this.removeBullet = this.removeBullet.bind(this)
+  this.toggleIcon = this.toggleIcon.bind(this);
+
   }
 
   addBullet()
@@ -153,6 +163,29 @@ class Journal extends React.Component {
     this.getBullets()
   }
 
+  toggleIcon(id, type, status)
+  {
+
+    axios.post('http://127.0.0.1:5002/api/update_bullet_status', {
+      params: {
+        bullet_id: id,
+        type: type,
+        status: status,
+      }
+    })
+    .then((response) => {
+      console.log(response)
+
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+
+    this.getBullets()
+
+
+  }
+
   render() {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
@@ -171,6 +204,7 @@ class Journal extends React.Component {
           <BulletList
             bullets={this.state.bullets}
             removeBullet={this.removeBullet}
+            toggleIcon={this.toggleIcon}
             className={this.props.classes.bulletlist} />
       </div>
     );

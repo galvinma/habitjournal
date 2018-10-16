@@ -140,6 +140,7 @@ app.route('/api/return_bullets')
         new_bullet.date = moment().unix();
         new_bullet.type = req.body.params.type
         new_bullet.description = req.body.params.description
+        new_bullet.status = "0"
 
         new_bullet.save(function(err) {
             if (err)
@@ -168,5 +169,31 @@ app.route('/api/return_bullets')
 
             });
           })
+
+        app.route('/api/update_bullet_status')
+            .post(function(req, res, next) {
+
+              var new_status = null
+              if (req.body.params.status === "0")
+              {
+                new_status = "1"
+              }
+              else
+              {
+                new_status = "0"
+              }
+
+              Bullets.update({ bullet_id: req.body.params.bullet_id },{status: new_status}).lean().exec(function(err, docs) {
+                if (err)
+                {
+                  throw err
+                }
+                res.json({
+                  success: true,
+                });
+
+
+              });
+            })
 
 app.listen(5002);
