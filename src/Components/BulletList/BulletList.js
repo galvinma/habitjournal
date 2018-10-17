@@ -97,13 +97,20 @@ class BulletItem extends React.Component {
    {
      var p = this.convertType(i)
      return (
-       <ListItem id={i.bullet_id}>
+       <ListItem>
            <ListItemIcon>
               <Button onClick={(e) => this.props.toggleIcon(i.bullet_id, i.type, i.status)}>
                 <Icon path={p} size={1} />
               </Button>
            </ListItemIcon>
-           <ListItemText primary={i.description} />
+
+           <TextField
+              id={i.bullet_id}
+              margin="normal"
+              style={{width: '50vw'}}
+              defaultValue={i.description}
+              onChange={(e) => this.props.updateBulletDescription(i.bullet_id)}
+           />
            <ListItemIcon>
              <Icon
               path={mdiClose}
@@ -117,6 +124,7 @@ class BulletItem extends React.Component {
   render() {
     return(
       <div className={this.props.classes.root}>
+        <List>
         {
            Object.keys(this.props.bullets).map((key, index) => (
                 <div className={this.props.classes.list_container}>
@@ -125,6 +133,7 @@ class BulletItem extends React.Component {
                 </div>
               ))
         }
+        </List>
       </div>
     )}
 

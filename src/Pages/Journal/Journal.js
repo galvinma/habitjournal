@@ -28,7 +28,7 @@ import store from '../.././Store/store'
 import { connect } from "react-redux";
 
 const styles = theme => ({
-  paper: {
+  bullet_container: {
     marginLeft: '15vw',
     marginRight: '15vw',
     display: 'flex',
@@ -50,12 +50,13 @@ class Journal extends React.Component {
 
   checkAuth()
   this.getBullets()
+
   this.addBullet = this.addBullet.bind(this)
   this.selectorChange = this.selectorChange.bind(this)
   this.descriptionChange = this.descriptionChange.bind(this)
   this.removeBullet = this.removeBullet.bind(this)
-  this.toggleIcon = this.toggleIcon.bind(this);
-
+  this.toggleIcon = this.toggleIcon.bind(this)
+  this.updateBulletDescription = this.updateBulletDescription.bind(this)
   }
 
   addBullet()
@@ -182,8 +183,28 @@ class Journal extends React.Component {
     });
 
     this.getBullets()
+  }
 
+  updateBulletDescription(bullet_id)
+  {
+    var val = document.getElementById(bullet_id).value;
+    console.log(bullet_id)
+    console.log(val)
+    axios.post('http://127.0.0.1:5002/api/update_bullet_description', {
+      params: {
+        bullet_id: bullet_id,
+        description: val,
+      }
+    })
+    .then((response) => {
+      console.log(response)
 
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+
+    this.getBullets()
   }
 
   render() {
@@ -193,19 +214,22 @@ class Journal extends React.Component {
     return (
       <div>
         <InternalNavBar />
-          <BulletSelector
-            selectorChange = {this.selectorChange}
-            descriptionChange = {this.descriptionChange}
-            addBullet = {this.addBullet}
-            selected={this.state.selected}
-            description={this.state.description}
-            type={this.state.type}
-            bullets={this.state.bullets} />
-          <BulletList
-            bullets={this.state.bullets}
-            removeBullet={this.removeBullet}
-            toggleIcon={this.toggleIcon}
-            className={this.props.classes.bulletlist} />
+          <div className={this.props.classes.bullet_container}>
+            <BulletSelector
+              selectorChange = {this.selectorChange}
+              descriptionChange = {this.descriptionChange}
+              addBullet = {this.addBullet}
+              selected={this.state.selected}
+              description={this.state.description}
+              type={this.state.type}
+              bullets={this.state.bullets} />
+            <BulletList
+              bullets={this.state.bullets}
+              removeBullet={this.removeBullet}
+              toggleIcon={this.toggleIcon}
+              updateBulletDescription={this.updateBulletDescription}
+              className={this.props.classes.bulletlist} />
+            </div>
       </div>
     );
   }

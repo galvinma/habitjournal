@@ -196,4 +196,18 @@ app.route('/api/return_bullets')
               });
             })
 
+            app.route('/api/update_bullet_description')
+                .post(function(req, res, next) {
+
+                  Bullets.update({ bullet_id: req.body.params.bullet_id },{description: req.body.params.description}).lean().exec(function(err, docs) {
+                    if (err)
+                    {
+                      throw err
+                    }
+                    res.json({
+                      success: true,
+                    });
+                  });
+                })
+
 app.listen(5002);
