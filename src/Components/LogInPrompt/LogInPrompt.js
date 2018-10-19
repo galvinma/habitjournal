@@ -47,6 +47,7 @@ class LoginPrompt extends React.Component {
   };
 
   this.handleChange = this.handleChange.bind(this);
+  this.checkLogin = this.checkLogin.bind(this);
 
 }
 
@@ -84,6 +85,14 @@ class LoginPrompt extends React.Component {
     });
   }
 
+  checkLogin(event)
+  {
+    if (event.keyCode === 13) {
+        console.log("logging in")
+        this.loginUser()
+    }
+  }
+
   render() {
     if (store.getState().auth_status.auth_status === true) {
       return <Redirect to='/journal' />
@@ -94,7 +103,13 @@ class LoginPrompt extends React.Component {
           <Paper className={this.props.classes.paper}>
             <Typography variant="headline">Log in</Typography>
              <form className={this.props.classes.form}>
-               <FormControl margin="normal" required fullWidth value={this.state.email} onChange={this.handleChange}>
+               <FormControl
+                    margin="normal"
+                    required fullWidth
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    // onKeyDown={(e) => this.checkLogin(e)}
+                    >
                  <InputLabel htmlFor="email">Email Address</InputLabel>
                  <Input id="email" name="email" autoComplete="email" autoFocus />
                </FormControl>
@@ -105,6 +120,7 @@ class LoginPrompt extends React.Component {
                    type="password"
                    id="password"
                    autoComplete="current-password"
+                   onKeyDown={(e) => this.checkLogin(e)}
                  />
                </FormControl>
                <Button

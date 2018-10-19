@@ -57,6 +57,7 @@ class Journal extends React.Component {
   this.removeBullet = this.removeBullet.bind(this)
   this.toggleIcon = this.toggleIcon.bind(this)
   this.updateBulletDescription = this.updateBulletDescription.bind(this)
+  this.checkSubmit = this.checkSubmit.bind(this)
   }
 
   addBullet()
@@ -69,7 +70,9 @@ class Journal extends React.Component {
       }
     })
     .then((response) => {
-      console.log(response)
+      this.setState({
+        description: ""
+      });
 
     })
     .catch((error)=>{
@@ -140,10 +143,18 @@ class Journal extends React.Component {
 
   };
 
+  checkSubmit(event)
+  {
+    if (event.keyCode === 13) {
+        this.addBullet()
+    }
+  }
+
   descriptionChange(event)
   {
     this.setState({
-      description: event.target.value });
+      description: event.target.value
+    });
   };
 
   removeBullet(id)
@@ -216,6 +227,7 @@ class Journal extends React.Component {
         <InternalNavBar />
           <div className={this.props.classes.bullet_container}>
             <BulletSelector
+              checkSubmit = {this.checkSubmit}
               selectorChange = {this.selectorChange}
               descriptionChange = {this.descriptionChange}
               addBullet = {this.addBullet}

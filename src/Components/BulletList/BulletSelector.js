@@ -70,9 +70,7 @@ class BulletSelector extends React.Component {
           style={{width: '50vw'}}
           value={this.props.description}
           onChange={(e) => this.props.descriptionChange(e)}
-        />
-        <Icon className={this.props.classes.add_event} path={mdiPlus} size={1}
-        onClick={() => this.props.addBullet()} />
+          onKeyDown={(e) => this.props.checkSubmit(e)} />
       </div>
     );
   }

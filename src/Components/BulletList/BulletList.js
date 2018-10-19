@@ -39,6 +39,11 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     flexDirection: 'row',
   },
+  bulletRow: {
+    paddingTop: '0px',
+    paddingBottom: '0px',
+    fontFamily: 'Inconsolata, monospace',
+  },
 });
 
 class BulletItem extends React.Component {
@@ -97,10 +102,10 @@ class BulletItem extends React.Component {
    {
      var p = this.convertType(i)
      return (
-       <ListItem>
+       <ListItem className={this.props.classes.bulletRow}>
            <ListItemIcon>
               <Button onClick={(e) => this.props.toggleIcon(i.bullet_id, i.type, i.status)}>
-                <Icon path={p} size={1} />
+                <Icon path={p} size={0.75} />
               </Button>
            </ListItemIcon>
 
@@ -114,7 +119,7 @@ class BulletItem extends React.Component {
            <ListItemIcon>
              <Icon
               path={mdiClose}
-              size={1}
+              size={0.75}
               onClick={(e) => this.props.removeBullet(i.bullet_id)} />
            </ListItemIcon>
          </ListItem>
