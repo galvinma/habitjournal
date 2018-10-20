@@ -24,6 +24,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 
+import './BulletList.css'
 
 const styles = theme => ({
   root: {
@@ -103,6 +104,7 @@ class BulletItem extends React.Component {
      var p = this.convertType(i)
      return (
        <ListItem className={this.props.classes.bulletRow}>
+        <div className="bullet-item">
            <ListItemIcon>
               <Button onClick={(e) => this.props.toggleIcon(i.bullet_id, i.type, i.status)}>
                 <Icon path={p} size={0.75} />
@@ -118,10 +120,12 @@ class BulletItem extends React.Component {
            />
            <ListItemIcon>
              <Icon
+              className="bullet-delete"
               path={mdiClose}
               size={0.75}
               onClick={(e) => this.props.removeBullet(i.bullet_id)} />
            </ListItemIcon>
+           </div>
          </ListItem>
    )
   }

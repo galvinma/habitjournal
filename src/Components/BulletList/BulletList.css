@@ -1,0 +1,6 @@
+.bullet-delete  {
+  opacity: 0;
+}
+.bullet-item:hover .bullet-delete {
+  opacity: 1;
+}
