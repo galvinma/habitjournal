@@ -39,7 +39,7 @@ const styles = theme => ({
   },
 });
 
-class BulletSelector extends React.Component {
+class Key extends React.Component {
   constructor(props)
   {
     super(props);
@@ -68,8 +68,8 @@ class BulletSelector extends React.Component {
   }
 }
 
-BulletSelector.propTypes = {
+Key.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BulletSelector);
+export default withStyles(styles)(Key);

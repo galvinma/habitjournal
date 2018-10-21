@@ -47,7 +47,7 @@ const styles = theme => ({
   },
 });
 
-class BulletItem extends React.Component {
+class BulletList extends React.Component {
   constructor(props){
   super(props);
   this.state = {
@@ -148,8 +148,8 @@ class BulletItem extends React.Component {
 
 }
 
-BulletItem.propTypes = {
+BulletList.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BulletItem);
+export default withStyles(styles)(BulletList);

@@ -19,6 +19,7 @@ import {  mdiSquare,
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import BulletList from '../.././Components/BulletList/BulletList'
 import BulletSelector from '../.././Components/BulletList/BulletSelector'
+import BulletNavigator from '../.././Components/BulletList/BulletNavigator'
 import Key from '../.././Components/BulletList/Key'
 
 // functions
@@ -31,12 +32,20 @@ import { connect } from "react-redux";
 const styles = theme => ({
   bullet_container: {
     marginLeft: '15vw',
-    marginRight: '15vw',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
     padding: '20px',
   },
+  month_container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'left',
+  },
+  journal_container: {
+    display: 'flex',
+    flexDirection: 'row',
+  }
 });
 
 class Journal extends React.Component {
@@ -47,6 +56,8 @@ class Journal extends React.Component {
     description: '',
     type: 'task',
     selected: 'mdiSquareOutline',
+    selectedMonth: moment().format('MMMM, YYYY'), // initializes to current month
+    navigatorMonths: []
   };
 
   checkAuth()
@@ -59,6 +70,7 @@ class Journal extends React.Component {
   this.toggleIcon = this.toggleIcon.bind(this)
   this.updateBulletDescription = this.updateBulletDescription.bind(this)
   this.checkSubmit = this.checkSubmit.bind(this)
+  this.changeSelectedMonth = this.changeSelectedMonth.bind(this)
   }
 
   addBullet()
@@ -93,20 +105,34 @@ class Journal extends React.Component {
     .then((response) => {
       var res = response.data.bullets
       var new_bullets = {}
+      var new_months = []
       res.forEach(bullet => {
           let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
+          let navMonth = moment.unix(bullet.date).format('MMMM, YYYY')
 
-          if (!(new_bullets[timestamp]))
+          // create a list of all bullets for the given month
+          if (navMonth === this.state.selectedMonth)
           {
-            new_bullets[timestamp] = [bullet]
+            if (!(new_bullets[timestamp]))
+            {
+              new_bullets[timestamp] = [bullet]
+            }
+            else
+            {
+              new_bullets[timestamp].push(bullet)
+            }
           }
-          else
+
+          // create a list of all available months
+          if (new_months.indexOf(navMonth) === -1)
           {
-            new_bullets[timestamp].push(bullet)
+            new_months.push(navMonth)
           }
+
       })
       this.setState({
-        bullets: new_bullets
+        bullets: new_bullets,
+        navigatorMonths: new_months,
       })
 
     })
@@ -200,8 +226,6 @@ class Journal extends React.Component {
   updateBulletDescription(bullet_id)
   {
     var val = document.getElementById(bullet_id).value;
-    console.log(bullet_id)
-    console.log(val)
     axios.post('http://127.0.0.1:5002/api/update_bullet_description', {
       params: {
         bullet_id: bullet_id,
@@ -219,6 +243,15 @@ class Journal extends React.Component {
     this.getBullets()
   }
 
+  changeSelectedMonth(date)
+  {
+    this.setState({
+      selectedMonth: date,
+    })
+
+    this.getBullets()
+  }
+
   render() {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
@@ -226,24 +259,31 @@ class Journal extends React.Component {
     return (
       <div>
         <InternalNavBar />
-          <div className={this.props.classes.bullet_container}>
-            <Key />
-            <BulletSelector
-              checkSubmit = {this.checkSubmit}
-              selectorChange = {this.selectorChange}
-              descriptionChange = {this.descriptionChange}
-              addBullet = {this.addBullet}
-              selected={this.state.selected}
-              description={this.state.description}
-              type={this.state.type}
-              bullets={this.state.bullets} />
-            <BulletList
-              bullets={this.state.bullets}
-              removeBullet={this.removeBullet}
-              toggleIcon={this.toggleIcon}
-              updateBulletDescription={this.updateBulletDescription}
-              className={this.props.classes.bulletlist} />
-            </div>
+          <div className={this.props.classes.journal_container}>
+            <div className={this.props.classes.bullet_container}>
+              <Key />
+              <BulletSelector
+                checkSubmit = {this.checkSubmit}
+                selectorChange = {this.selectorChange}
+                descriptionChange = {this.descriptionChange}
+                addBullet = {this.addBullet}
+                selected={this.state.selected}
+                description={this.state.description}
+                type={this.state.type}
+                bullets={this.state.bullets} />
+              <BulletList
+                bullets={this.state.bullets}
+                removeBullet={this.removeBullet}
+                toggleIcon={this.toggleIcon}
+                updateBulletDescription={this.updateBulletDescription}
+                className={this.props.classes.bulletlist} />
+          </div>
+          <div className={this.props.classes.month_container}>
+            <BulletNavigator
+              navigatorMonths={this.state.navigatorMonths}
+              changeSelectedMonth={this.changeSelectedMonth}/>
+          </div>
+        </div>
       </div>
     );
   }
