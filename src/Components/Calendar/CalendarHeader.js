@@ -59,7 +59,6 @@ class CalendarHeader extends React.Component {
           <Icon className={this.props.classes.calendar_navs} path={mdiChevronRight} size={1.5} onClick={(e) => this.props.nextMonthHandler()}/>
           <Icon className={this.props.classes.add_event} path={mdiPlus} size={1.25} onClick={this.createEvent} />
         </div>
-        <CalendarEvent modalOpen={this.state.modalOpen}/>
       </div>
     );
   }

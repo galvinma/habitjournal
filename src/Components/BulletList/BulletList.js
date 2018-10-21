@@ -104,7 +104,7 @@ class BulletList extends React.Component {
    {
      var p = this.convertType(i)
      return (
-       <ListItem key={i} className={this.props.classes.bulletRow}>
+       <ListItem key={i.bullet_id} className={this.props.classes.bulletRow}>
         <div className="bullet-item">
            <ListItemIcon>
               <Button onClick={(e) => this.props.toggleIcon(i.bullet_id, i.type, i.status)}>
@@ -134,19 +134,18 @@ class BulletList extends React.Component {
   render() {
     return(
       <div className={this.props.classes.root}>
-        <List>
         {
-           Object.keys(this.props.bullets).map((key, index) => (
-                <div key={key+index} className={this.props.classes.list_container}>
-                    {key}
-                    {this.props.bullets[key].map(this.createList)}
-                </div>
-              ))
+         Object.keys(this.props.bullets).map((k, index) => (
+            <List key={index}>
+              <div className={this.props.classes.list_container}>
+                  {k}
+                  {this.props.bullets[k].map(this.createList)}
+              </div>
+            </List>
+            ))
         }
-        </List>
       </div>
     )}
-
 }
 
 BulletList.propTypes = {
