@@ -155,59 +155,59 @@ app.route('/api/return_bullets')
         });
       })
 
-      app.route('/api/remove_bullet')
-          .post(function(req, res, next) {
-            Bullets.deleteOne({ bullet_id: req.body.params.bullet_id }).lean().exec(function(err, bullets) {
-              if (err)
-              {
-                throw err
-              }
+    app.route('/api/remove_bullet')
+        .post(function(req, res, next) {
+          Bullets.deleteOne({ bullet_id: req.body.params.bullet_id }).lean().exec(function(err, bullets) {
+            if (err)
+            {
+              throw err
+            }
 
-              res.json({
-                success: true,
-              });
-
+            res.json({
+              success: true,
             });
-          })
 
-        app.route('/api/update_bullet_status')
-            .post(function(req, res, next) {
+          });
+        })
 
-              var new_status = null
-              if (req.body.params.status === "0")
-              {
-                new_status = "1"
-              }
-              else
-              {
-                new_status = "0"
-              }
+  app.route('/api/update_bullet_status')
+      .post(function(req, res, next) {
 
-              Bullets.update({ bullet_id: req.body.params.bullet_id },{status: new_status}).lean().exec(function(err, docs) {
-                if (err)
-                {
-                  throw err
-                }
-                res.json({
-                  success: true,
-                });
+        var new_status = null
+        if (req.body.params.status === "0")
+        {
+          new_status = "1"
+        }
+        else
+        {
+          new_status = "0"
+        }
+
+        Bullets.update({ bullet_id: req.body.params.bullet_id },{status: new_status}).lean().exec(function(err, docs) {
+          if (err)
+          {
+            throw err
+          }
+          res.json({
+            success: true,
+          });
 
 
-              });
-            })
+        });
+      })
 
-            app.route('/api/update_bullet_description')
-                .post(function(req, res, next) {
+    app.route('/api/update_bullet_description')
+        .post(function(req, res, next) {
 
-                  Bullets.update({ bullet_id: req.body.params.bullet_id },{description: req.body.params.description}).lean().exec(function(err, docs) {
-                    if (err)
-                    {
-                      throw err
-                    }
-                    res.json({
-                      success: true,
-                    });
-                  });
-                })
+          Bullets.update({ bullet_id: req.body.params.bullet_id },{description: req.body.params.description}).lean().exec(function(err, docs) {
+            if (err)
+            {
+              throw err
+            }
+            res.json({
+              success: true,
+            });
+          });
+        })
 
 app.listen(5002);

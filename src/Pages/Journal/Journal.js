@@ -19,6 +19,7 @@ import {  mdiSquare,
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import BulletList from '../.././Components/BulletList/BulletList'
 import BulletSelector from '../.././Components/BulletList/BulletSelector'
+import Key from '../.././Components/BulletList/Key'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -226,6 +227,7 @@ class Journal extends React.Component {
       <div>
         <InternalNavBar />
           <div className={this.props.classes.bullet_container}>
+            <Key />
             <BulletSelector
               checkSubmit = {this.checkSubmit}
               selectorChange = {this.selectorChange}

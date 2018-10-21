@@ -28,6 +28,17 @@ const styles = {
   grow: {
     flexGrow: 1,
   },
+  spread:
+  {
+    display: 'flex',
+    justifyContent: "space-between",
+  },
+  center_items:
+  {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+  }
 };
 
 class InternalNavBar extends React.Component {
@@ -48,12 +59,13 @@ class InternalNavBar extends React.Component {
     return (
       <div className={this.props.classes.navbarContainer}>
         <AppBar className={this.props.classes.navbar} position="static">
-          <Toolbar>
-            <Typography variant="title" color="inherit" className={this.props.classes.grow}>
-              <Button color="inherit" componentClass={NavLink} href="/#/">
-                Website Title
-              </Button>
-            </Typography>
+          <Toolbar className={this.props.classes.spread}>
+            <Button color="inherit" componentClass={NavLink} href="/#/">Website Title</Button>
+            <div className={this.props.classes.center_items}>
+              <Button color="inherit" componentClass={NavLink} href="/#/journal">journal</Button>
+              <div>/</div>
+              <Button color="inherit" componentClass={NavLink} href="/#/calendar">calendar</Button>
+            </div>
             <Button color="inherit" componentClass={NavLink} href="/" onClick={() => this.logoutUser()}>LOG OUT</Button>
           </Toolbar>
         </AppBar>
