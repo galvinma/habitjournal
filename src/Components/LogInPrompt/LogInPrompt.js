@@ -125,8 +125,6 @@ class LoginPrompt extends React.Component {
                </FormControl>
                <Button
                  fullWidth
-                 variant="raised"
-                 color="primary"
                  className={this.props.classes.submit}
                  onClick={() => this.loginUser()}
                  >

@@ -186,6 +186,7 @@ class Journal extends React.Component {
 
   removeBullet(id)
   {
+    console.log(id)
     axios.post('http://127.0.0.1:5002/api/remove_bullet', {
       params: {
         bullet_id: id
@@ -193,13 +194,14 @@ class Journal extends React.Component {
     })
     .then((response) => {
       console.log(response)
+      console.log("got here")
+      this.getBullets()
 
     })
     .catch((error)=>{
       console.log(error);
     });
 
-    this.getBullets()
   }
 
   toggleIcon(id, type, status)
