@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios';
+import moment from 'moment'
 import PropTypes from 'prop-types';
 import Icon from '@mdi/react'
 import {  mdiSquare,
@@ -26,6 +27,10 @@ import TextField from '@material-ui/core/TextField';
 const styles = theme => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
+  },
+  selector: {
+    display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
@@ -48,29 +53,31 @@ class BulletSelector extends React.Component {
   render() {
     return(
       <div className={this.props.classes.root}>
-        <FormControl className={this.props.classes.formControl}>
-          <Select
-            value={this.props.selected}
-            onChange={(e) => this.props.selectorChange(e)}
-            disableUnderline={true}
-          >
-            <MenuItem value="mdiSquareOutline">
-              <Icon path={mdiSquareOutline} size={1} />
-            </MenuItem>
-            <MenuItem value="mdiCircleOutline">
-              <Icon path={mdiCircleOutline} size={1} />
-            </MenuItem>
-            <MenuItem value="mdiTriangleOutline">
-              <Icon path={mdiTriangleOutline} size={1} />
-            </MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          margin="normal"
-          style={{width: '50vw'}}
-          value={this.props.description}
-          onChange={(e) => this.props.descriptionChange(e)}
-          onKeyDown={(e) => this.props.checkSubmit(e)} />
+        <div className={this.props.classes.selector}>
+          <FormControl className={this.props.classes.formControl}>
+            <Select
+              value={this.props.selected}
+              onChange={(e) => this.props.selectorChange(e)}
+              disableUnderline={true}
+            >
+              <MenuItem value="mdiSquareOutline">
+                <Icon path={mdiSquareOutline} size={1} />
+              </MenuItem>
+              <MenuItem value="mdiCircleOutline">
+                <Icon path={mdiCircleOutline} size={1} />
+              </MenuItem>
+              <MenuItem value="mdiTriangleOutline">
+                <Icon path={mdiTriangleOutline} size={1} />
+              </MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            margin="normal"
+            style={{width: '50vw'}}
+            value={this.props.description}
+            onChange={(e) => this.props.descriptionChange(e)}
+            onKeyDown={(e) => this.props.checkSubmit(e)} />
+        </div>
       </div>
     );
   }

@@ -57,7 +57,8 @@ class Journal extends React.Component {
     type: 'task',
     selected: 'mdiSquareOutline',
     selectedMonth: moment().format('MMMM, YYYY'), // initializes to current month
-    navigatorMonths: []
+    selectdDate: moment().format('dddd, MMMM Do, YYYY'), // initializes to current day, verbose
+    navigatorMonths: [],
   };
 
   checkAuth()
@@ -272,7 +273,9 @@ class Journal extends React.Component {
                 selected={this.state.selected}
                 description={this.state.description}
                 type={this.state.type}
-                bullets={this.state.bullets} />
+                bullets={this.state.bullets}
+                selectedMonth={this.state.selectedMonth}
+                selectdDate={this.state.selectdDate} />
               <BulletList
                 bullets={this.state.bullets}
                 removeBullet={this.removeBullet}
