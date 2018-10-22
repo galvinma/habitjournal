@@ -19,7 +19,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
-
+import './BulletSelector.css'
 // mdiCircle = Event
 // mdiSquareOutline = Task
 // mdiTriangle = Habit
@@ -53,6 +53,13 @@ class BulletSelector extends React.Component {
   render() {
     return(
       <div className={this.props.classes.root}>
+        <form noValidate>
+          <TextField
+            id="date"
+            type="date"
+            defaultValue={this.props.selectedDate}
+          />
+        </form>
         <div className={this.props.classes.selector}>
           <FormControl className={this.props.classes.formControl}>
             <Select

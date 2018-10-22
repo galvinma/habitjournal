@@ -31,7 +31,6 @@ import { connect } from "react-redux";
 
 const styles = theme => ({
   bullet_container: {
-    marginLeft: '15vw',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
@@ -263,8 +262,8 @@ class Journal extends React.Component {
       <div>
         <InternalNavBar />
           <div className={this.props.classes.journal_container}>
+            <Key />
             <div className={this.props.classes.bullet_container}>
-              <Key />
               <BulletSelector
                 checkSubmit = {this.checkSubmit}
                 selectorChange = {this.selectorChange}

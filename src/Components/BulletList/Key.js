@@ -27,10 +27,9 @@ const styles = theme => ({
   key_container: {
     display: 'flex',
     flexWrap: 'wrap',
-    flexDirection: 'row',
-    marginLeft: '15vw',
-    marginRight: '15vw',
-    justifyContent: "space-between",
+    flexDirection: 'column',
+    minWidth: '15vw',
+    marginLeft: '5vw',
   },
   icon_container: {
     display: 'flex',
@@ -53,15 +52,15 @@ class Key extends React.Component {
       <div className={this.props.classes.key_container}>
         <div className={this.props.classes.icon_container}>
           <Icon path={mdiSquareOutline} size={0.75} />
-          <div>  task</div>
+          <p>task</p>
         </div>
         <div className={this.props.classes.icon_container}>
           <Icon path={mdiCircleOutline} size={0.75} />
-          <div>  event</div>
+          <p>event</p>
         </div>
         <div className={this.props.classes.icon_container}>
           <Icon path={mdiTriangleOutline} size={0.75} />
-          <div>  habit</div>
+          <p>habit</p>
         </div>
       </div>
     );
