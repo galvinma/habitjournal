@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 var Bullets = new Schema({
     bullet_id: {type: ObjectId, required: true},
     user_id: {type: ObjectId, required: true},
-    date: {type: String, required: true},
+    date: {type: Number, required: true},
     type: {type: String, required: true},
     description: {type: String, required: true},
     status: {type: String, required: true},
