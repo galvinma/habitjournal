@@ -57,7 +57,8 @@ class BulletSelector extends React.Component {
           <TextField
             id="date"
             type="date"
-            
+            defaultValue={moment.unix(this.props.selectedDate).format('YYYY-MM-DD')}
+            // moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
             onChange={(e) => this.props.dateChange(e)}
           />
         </form>

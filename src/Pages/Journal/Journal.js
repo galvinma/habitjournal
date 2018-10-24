@@ -56,10 +56,11 @@ class Journal extends React.Component {
     type: 'task',
     selected: 'mdiSquareOutline',
     selectedMonth: moment().format('MMMM, YYYY'), // initializes to current month
-    selectedDate: moment(new Date(), "YYYY/M/D").unix(), // moment(new Date()).format('YYYY/MM/DD')
+    selectedDate: moment().unix(), // moment(new Date()).format('YYYY/MM/DD')
     navigatorMonths: [],
   };
 
+// 2018-10-17
   checkAuth()
   this.getBullets()
 
