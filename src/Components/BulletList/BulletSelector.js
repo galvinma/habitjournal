@@ -57,7 +57,8 @@ class BulletSelector extends React.Component {
           <TextField
             id="date"
             type="date"
-            defaultValue={this.props.selectedDate}
+            
+            onChange={(e) => this.props.dateChange(e)}
           />
         </form>
         <div className={this.props.classes.selector}>

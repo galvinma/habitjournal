@@ -35,6 +35,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    fontSize: '10',
   },
 });
 

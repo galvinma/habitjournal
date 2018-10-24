@@ -132,43 +132,43 @@ app.route('/api/return_bullets')
     })
   });
 
-  app.route('/api/save_bullet')
+app.route('/api/save_bullet')
+    .post(function(req, res, next) {
+      var new_bullet = new Bullets();
+      new_bullet.bullet_id = new ObjectId();
+      new_bullet.user_id = req.body.params.user
+      new_bullet.date = req.body.params.date
+      new_bullet.type = req.body.params.type
+      new_bullet.description = req.body.params.description
+      new_bullet.status = "0"
+
+      new_bullet.save(function(err) {
+          if (err)
+          {
+            throw err
+          }
+
+          res.json({
+            success: true,
+          });
+
+      });
+    })
+
+  app.route('/api/remove_bullet')
       .post(function(req, res, next) {
-        var new_bullet = new Bullets();
-        new_bullet.bullet_id = new ObjectId();
-        new_bullet.user_id = req.body.params.user
-        new_bullet.date = moment().unix();
-        new_bullet.type = req.body.params.type
-        new_bullet.description = req.body.params.description
-        new_bullet.status = "0"
+        Bullets.deleteOne({ bullet_id: req.body.params.bullet_id }).lean().exec(function(err, bullets) {
+          if (err)
+          {
+            throw err
+          }
 
-        new_bullet.save(function(err) {
-            if (err)
-            {
-              throw err
-            }
-
-            res.json({
-              success: true,
-            });
+          res.json({
+            success: true,
+          });
 
         });
       })
-
-    app.route('/api/remove_bullet')
-        .post(function(req, res, next) {
-          Bullets.deleteOne({ bullet_id: req.body.params.bullet_id }).lean().exec(function(err, bullets) {
-            if (err)
-            {
-              throw err
-            }
-
-            res.json({
-              success: true,
-            });
-
-          });
-        })
 
   app.route('/api/update_bullet_status')
       .post(function(req, res, next) {
@@ -196,18 +196,18 @@ app.route('/api/return_bullets')
         });
       })
 
-    app.route('/api/update_bullet_description')
-        .post(function(req, res, next) {
+  app.route('/api/update_bullet_description')
+      .post(function(req, res, next) {
 
-          Bullets.update({ bullet_id: req.body.params.bullet_id },{description: req.body.params.description}).lean().exec(function(err, docs) {
-            if (err)
-            {
-              throw err
-            }
-            res.json({
-              success: true,
-            });
+        Bullets.update({ bullet_id: req.body.params.bullet_id },{description: req.body.params.description}).lean().exec(function(err, docs) {
+          if (err)
+          {
+            throw err
+          }
+          res.json({
+            success: true,
           });
-        })
+        });
+      })
 
 app.listen(5002);

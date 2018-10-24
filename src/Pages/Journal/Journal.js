@@ -56,7 +56,7 @@ class Journal extends React.Component {
     type: 'task',
     selected: 'mdiSquareOutline',
     selectedMonth: moment().format('MMMM, YYYY'), // initializes to current month
-    selectdDate: moment().format('dddd, MMMM Do, YYYY'), // initializes to current day, verbose
+    selectedDate: moment(new Date(), "YYYY/M/D").unix(), // moment(new Date()).format('YYYY/MM/DD')
     navigatorMonths: [],
   };
 
@@ -71,6 +71,7 @@ class Journal extends React.Component {
   this.updateBulletDescription = this.updateBulletDescription.bind(this)
   this.checkSubmit = this.checkSubmit.bind(this)
   this.changeSelectedMonth = this.changeSelectedMonth.bind(this)
+  this.dateChange = this.dateChange.bind(this)
   }
 
   addBullet()
@@ -80,6 +81,7 @@ class Journal extends React.Component {
         user: sessionStorage.getItem('user'),
         type: this.state.type,
         description: this.state.description,
+        date: this.state.selectedDate // moment().unix();
       }
     })
     .then((response) => {
@@ -186,7 +188,6 @@ class Journal extends React.Component {
 
   removeBullet(id)
   {
-    console.log(id)
     axios.post('http://127.0.0.1:5002/api/remove_bullet', {
       params: {
         bullet_id: id
@@ -194,7 +195,6 @@ class Journal extends React.Component {
     })
     .then((response) => {
       console.log(response)
-      console.log("got here")
       this.getBullets()
 
     })
@@ -254,6 +254,13 @@ class Journal extends React.Component {
     this.getBullets()
   }
 
+  dateChange(event)
+  {
+    this.setState({
+      selectedDate: moment(event.target.value, "YYYY/M/D").unix()
+    });
+  }
+
   render() {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
@@ -269,12 +276,13 @@ class Journal extends React.Component {
                 selectorChange = {this.selectorChange}
                 descriptionChange = {this.descriptionChange}
                 addBullet = {this.addBullet}
+                dateChange = {this.dateChange}
                 selected={this.state.selected}
                 description={this.state.description}
                 type={this.state.type}
                 bullets={this.state.bullets}
                 selectedMonth={this.state.selectedMonth}
-                selectdDate={this.state.selectdDate} />
+                selectedDate={this.state.selectedDate} />
               <BulletList
                 bullets={this.state.bullets}
                 removeBullet={this.removeBullet}

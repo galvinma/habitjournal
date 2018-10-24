@@ -37,17 +37,7 @@ class CalendarHeader extends React.Component {
   {
     super(props);
     this.state = {
-      modalOpen: false,
     };
-    this.createEvent = this.createEvent.bind(this)
-    this.closeModal = this.closeModal.bind(this)
-  }
-
-  createEvent() {
-    this.setState({ modalOpen: true });
-  }
-  closeModal() {
-    this.setState({ modalOpen: false });
   }
 
   render() {
@@ -57,7 +47,6 @@ class CalendarHeader extends React.Component {
           <Icon className={this.props.classes.calendar_navs} path={mdiChevronLeft} size={1.5} onClick={(e) => this.props.prevMonthHandler()}/>
           <div className={this.props.classes.calendar_title}>{this.props.displayMonthYear} </div>
           <Icon className={this.props.classes.calendar_navs} path={mdiChevronRight} size={1.5} onClick={(e) => this.props.nextMonthHandler()}/>
-          <Icon className={this.props.classes.add_event} path={mdiPlus} size={1.25} onClick={this.createEvent} />
         </div>
       </div>
     );
