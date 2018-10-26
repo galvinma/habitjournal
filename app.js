@@ -1,5 +1,6 @@
 var express = require('express');
 var moment = require('moment');
+var jwt = require('jsonwebtoken');
 var cors = require('cors')
 var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
@@ -94,19 +95,14 @@ app.route('/api/checktoken')
       var token = req.body.params.token
       var user = req.body.params.user
 
-      Users.findOne({ id: user }).lean().exec(function(err, docs) {
+      jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
         if (err)
         {
-          throw err
+          return res.json({
+            allow: false
+          })
         }
-
-        var test_user = new Users();
-        test_user.id = docs.id
-        test_user.email = docs.email;
-
-        var testtoken = generateJWT.generateJWT(test_user)
-
-        if (testtoken === token)
+        else
         {
           res.json({
               allow: true,
@@ -114,9 +110,8 @@ app.route('/api/checktoken')
               token: token,
           });
         }
-
       })
-  });
+    })
 
 app.route('/api/return_bullets')
     .post(function(req, res, next) {
