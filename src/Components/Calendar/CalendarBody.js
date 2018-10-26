@@ -1,6 +1,4 @@
 import React from 'react'
-import axios from 'axios';
-import moment from 'moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -15,14 +13,6 @@ const styles = theme => ({
 });
 
 class CalendarBody extends React.Component {
-  constructor(props)
-  {
-    super(props);
-    this.state = {
-
-    };
-  }
-
   componentDidMount()
   {
     this.props.getCalendarBullets()

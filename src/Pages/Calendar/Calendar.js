@@ -4,7 +4,6 @@ import axios from 'axios';
 import moment from 'moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -152,7 +151,6 @@ class Calendar extends React.Component {
     var row = [];
     var count = 1;
     var daysInMonth = this.state.daysInMonth;
-    var selectedMonth = this.state.selectedMonth;
     while (offset_count <= row_offset) {
       row.push(
         <div key={this.state.selectedMonth+"offset"+offset_count} className={this.props.classes.calendar_cell}>
@@ -181,7 +179,6 @@ class Calendar extends React.Component {
     var count = 1;
 
     while (count <= this.state.daysInMonth) {
-      var date = String(moment().date(count).format('D'));
       var date_to_compare = String(moment().month(this.state.selectedMonth).date(count).format(`dddd, MMMM Do, YYYY`));
       var node = document.getElementById(date_to_compare)
       node.innerHTML = ""

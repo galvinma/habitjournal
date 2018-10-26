@@ -1,15 +1,5 @@
 import React from 'react'
-import axios from 'axios';
 import PropTypes from 'prop-types';
-import Icon from '@mdi/react'
-import {  mdiSquare,
-          mdiSquareOutline,
-          mdiCircle,
-          mdiCircleOutline,
-          mdiTriangle,
-          mdiTriangleOutline,
-          mdiPlus,
-        } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

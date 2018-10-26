@@ -1,7 +1,6 @@
-
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { NavLink, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -88,7 +87,6 @@ class LoginPrompt extends React.Component {
   checkLogin(event)
   {
     if (event.keyCode === 13) {
-        console.log("logging in")
         this.loginUser()
     }
   }

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 // redux
 import store from '../.././Store/store'
@@ -60,13 +58,13 @@ class InternalNavBar extends React.Component {
       <div className={this.props.classes.navbarContainer}>
         <AppBar className={this.props.classes.navbar} position="static">
           <Toolbar className={this.props.classes.spread}>
-            <Button color="inherit" componentClass={NavLink} href="/#/">Website Title</Button>
+            <NavLink to="/">Website Title</NavLink>
             <div className={this.props.classes.center_items}>
-              <Button color="inherit" componentClass={NavLink} href="/#/journal">journal</Button>
+              <NavLink to="/journal">journal</NavLink>
               <div>/</div>
-              <Button color="inherit" componentClass={NavLink} href="/#/calendar">calendar</Button>
+              <NavLink to="/calendar">calendar</NavLink>
             </div>
-            <Button color="inherit" componentClass={NavLink} href="/" onClick={() => this.logoutUser()}>LOG OUT</Button>
+            <NavLink to="/" onClick={() => this.logoutUser()}>LOG OUT</NavLink>
           </Toolbar>
         </AppBar>
       </div>

@@ -2,18 +2,8 @@ import React from 'react'
 import axios from 'axios';
 import moment from 'moment'
 import { Redirect } from 'react-router-dom';
-import lifecycle from 'react-pure-lifecycle';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import {  mdiSquare,
-          mdiSquareOutline,
-          mdiCircle,
-          mdiCircleOutline,
-          mdiTriangle,
-          mdiTriangleOutline,
-          mdiClose,
-        } from '@mdi/js'
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'

@@ -1,12 +1,8 @@
 import React from 'react'
-import moment from 'moment'
 import Icon from '@mdi/react'
-import { mdiChevronLeft, mdiChevronRight, mdiPlus } from '@mdi/js'
+import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
-// Components
-import CalendarEvent from '.././Modal/CalendarEvent'
 
 const styles = theme => ({
   calendar_title_containter: {

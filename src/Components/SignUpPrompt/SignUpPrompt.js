@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { NavLink, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -122,7 +122,6 @@ class SignUpPrompt extends React.Component {
                  />
                </FormControl>
                <Button
-                 componentClass={NavLink}
                  fullWidth
                  variant="raised"
                  color="primary"

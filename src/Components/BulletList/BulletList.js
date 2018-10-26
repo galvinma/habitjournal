@@ -1,6 +1,4 @@
 import React from 'react'
-import axios from 'axios';
-import moment from 'moment'
 import PropTypes from 'prop-types';
 import Icon from '@mdi/react'
 import {  mdiSquare,
@@ -12,16 +10,11 @@ import {  mdiSquare,
           mdiClose,
         } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
+
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 
 import './BulletList.css'
