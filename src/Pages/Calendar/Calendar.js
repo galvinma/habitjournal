@@ -68,9 +68,13 @@ class Calendar extends React.Component {
     this.nextMonthHandler = this.nextMonthHandler.bind(this)
     this.updateCalendarBody = this.updateCalendarBody.bind(this)
     this.updateCalendarHeader = this.updateCalendarHeader.bind(this)
+    this.removeOldBullets = this.removeOldBullets.bind(this)
   }
 
   prevMonthHandler() {
+
+    this.removeOldBullets()
+
     this.setState({
       selectedMonth: this.state.selectedMonth - 1,
       firstDayOfMonthDate: moment(this.state.firstDayOfMonthDate).subtract(1, 'months').format('YYYY-MM-DD'),
@@ -83,6 +87,10 @@ class Calendar extends React.Component {
   }
 
   nextMonthHandler() {
+
+    this.removeOldBullets()
+
+
     this.setState({
       selectedMonth: this.state.selectedMonth + 1,
       firstDayOfMonthDate: moment(this.state.firstDayOfMonthDate).add(1, 'months').format('YYYY-MM-DD'),
@@ -139,7 +147,6 @@ class Calendar extends React.Component {
 
   updateCalendarBody()
   {
-    console.log(this.state.selectedMonth)
     var row_offset = moment(this.state.firstDayOfMonthDate).day();
     var offset_count = 1;
     var row = [];
@@ -167,6 +174,19 @@ class Calendar extends React.Component {
     }
 
     return row
+  }
+
+  removeOldBullets()
+  {
+    var count = 1;
+
+    while (count <= this.state.daysInMonth) {
+      var date = String(moment().date(count).format('D'));
+      var date_to_compare = String(moment().month(this.state.selectedMonth).date(count).format(`dddd, MMMM Do, YYYY`));
+      var node = document.getElementById(date_to_compare)
+      node.innerHTML = ""
+      count++
+    }
   }
 
 

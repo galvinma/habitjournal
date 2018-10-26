@@ -34,7 +34,7 @@ class CalendarBody extends React.Component {
     return(
       <div>
         <div className={this.props.classes.calendar_row_container}>{col_headers}</div>
-        <div className={this.props.classes.calendar_row_container}>{row}</div>
+        <div id="calendar_content" className={this.props.classes.calendar_row_container}>{row}</div>
       </div>
     );
   }
