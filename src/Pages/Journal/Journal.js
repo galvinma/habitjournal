@@ -60,7 +60,6 @@ class Journal extends React.Component {
     navigatorMonths: [],
   };
 
-// 2018-10-17
   checkAuth()
   this.getBullets()
 
@@ -112,10 +111,6 @@ class Journal extends React.Component {
       res.forEach(bullet => {
           let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
           let navMonth = moment.unix(bullet.date).format('MMMM, YYYY')
-          console.log(bullet.date)
-          console.log(timestamp)
-          console.log(navMonth)
-          console.log(" ")
 
           // create a list of all bullets for the given month
           if (navMonth === this.state.selectedMonth)
@@ -137,6 +132,7 @@ class Journal extends React.Component {
           }
 
       })
+
       this.setState({
         bullets: new_bullets,
         navigatorMonths: new_months,
