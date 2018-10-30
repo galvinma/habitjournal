@@ -11,7 +11,7 @@ export function checkAuth() {
   })
   .then(function (response) {
     store.dispatch(getAuthStatus({
-      auth_status: true,
+      auth_status: response.data.allow,
     }))
     store.dispatch(getCurrentUser({
       user: response.data.user,

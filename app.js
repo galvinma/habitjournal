@@ -7,12 +7,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
 
-// mongodb
-var Users = require('./model/users');
-var Bullets = require('./model/bullets');
-
-// functions
-var generateJWT = require('./jwt');
 
 var app = express();
 app.use(cors());
@@ -24,185 +18,18 @@ mongoose.connect('mongodb://127.0.0.1/database', { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-var router = express.Router();
+// routes
+var signup = require('./routes/signup');
+var login = require('./routes/login');
+var checktoken = require('./routes/checktoken');
+var bullets = require('./routes/bullets')
 
-router.use(function(req, res, next) {
-    next();
-});
-
-app.route('/api/signup')
-    .post(function(req, res, next) {
-        var signup_user = new Users();
-        signup_user.id = new ObjectId();
-        signup_user.firstname = req.body.params.firstname;
-        signup_user.lastname = req.body.params.lastname;
-        signup_user.email = req.body.params.email;
-        signup_user.password = req.body.params.password;
-
-        signup_user.save(function(err) {
-            if (err)
-            {
-              console.log(err)
-            }
-            else
-            {
-              // create token
-              var token = generateJWT.generateJWT(signup_user)
-              res.json({
-                allow: true,
-                user: signup_user.id,
-                token: token,
-              });
-            }
-        });
-    });
-
-app.route('/api/login')
-    .post(function(req, res, next) {
-        Users.findOne({ email: req.body.params.email }).lean().exec(function(err, docs) {
-          if (err)
-          {
-            console.log(err)
-          }
-          else
-          {
-            bcrypt.compare(req.body.params.password, docs.password, function(err, response) {
-              if (err)
-              {
-                console.log(err)
-              }
-              else
-              {
-                // create token
-                var login_user = new Users();
-                login_user.id = docs.id
-                login_user.email = docs.email;
-
-                var token = generateJWT.generateJWT(login_user)
-                res.json({
-                    allow: response,
-                    user: login_user.id,
-                    token: token,
-                });
-              }
-            });
-          }
-        });
-    });
-
-app.route('/api/checktoken')
-    .post(function(req, res, next) {
-      var token = req.body.params.token
-      var user = req.body.params.user
-
-      jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
-        if (err)
-        {
-          return res.json({
-            allow: false
-          })
-        }
-        else
-        {
-          res.json({
-              allow: true,
-              user: user,
-              token: token,
-          });
-        }
-      })
-    })
-
-app.route('/api/return_bullets')
-    .post(function(req, res, next) {
-      Bullets.find({ user_id: req.body.params.user }).sort({date: -1}).lean().exec(function(err, bullets) {
-        if (err)
-        {
-          throw err
-        }
-        res.json({
-          bullets: bullets,
-        });
-
-    })
-  });
-
-app.route('/api/save_bullet')
-    .post(function(req, res, next) {
-      var new_bullet = new Bullets();
-      new_bullet.bullet_id = new ObjectId();
-      new_bullet.user_id = req.body.params.user
-      new_bullet.date = req.body.params.date
-      new_bullet.type = req.body.params.type
-      new_bullet.description = req.body.params.description
-      new_bullet.status = "0"
-
-      new_bullet.save(function(err) {
-          if (err)
-          {
-            throw err
-          }
-
-          res.json({
-            success: true,
-          });
-
-      });
-    })
-
-  app.route('/api/remove_bullet')
-      .post(function(req, res, next) {
-        Bullets.deleteOne({ bullet_id: req.body.params.bullet_id }).lean().exec(function(err, bullets) {
-          if (err)
-          {
-            throw err
-          }
-
-          res.json({
-            success: true,
-          });
-
-        });
-      })
-
-  app.route('/api/update_bullet_status')
-      .post(function(req, res, next) {
-
-        var new_status = null
-        if (req.body.params.status === "0")
-        {
-          new_status = "1"
-        }
-        else
-        {
-          new_status = "0"
-        }
-
-        Bullets.update({ bullet_id: req.body.params.bullet_id },{status: new_status}).lean().exec(function(err, docs) {
-          if (err)
-          {
-            throw err
-          }
-          res.json({
-            success: true,
-          });
-
-
-        });
-      })
-
-  app.route('/api/update_bullet_description')
-      .post(function(req, res, next) {
-
-        Bullets.update({ bullet_id: req.body.params.bullet_id },{description: req.body.params.description}).lean().exec(function(err, docs) {
-          if (err)
-          {
-            throw err
-          }
-          res.json({
-            success: true,
-          });
-        });
-      })
+//
+app.use('/api', signup);
+app.use('/api', login);
+app.use('/api', checktoken);
+app.use('/api', bullets)
 
 app.listen(5002);
+
+module.exports = app;

@@ -71,7 +71,6 @@ class SignUpPrompt extends React.Component {
     .then((response) => {
       if (response.data.allow === true)
       {
-        console.log(response.data.allow)
         var token = response.data.token
         var user = response.data.user
         sessionStorage.setItem('token', token);
