@@ -8,6 +8,7 @@ import Landing from './Pages/Landing/Landing'
 import SignUp from './Pages/SignUp/SignUp'
 import LogIn from './Pages/LogIn/LogIn'
 import Journal from './Pages/Journal/Journal'
+import Habits from './Pages/Habits/Habits'
 import Calendar from './Pages/Calendar/Calendar'
 
 // css
@@ -43,6 +44,11 @@ const _Calendar = () => (
   </div>
 )
 
+const _Habits = () => (
+  <div>
+    <Habits />
+  </div>
+)
 
 const styles = theme => ({
 
@@ -57,6 +63,7 @@ class App extends Component {
           <Route path="/login" exact component={_LogIn}/>
           <Route path="/signup" exact component={_SignUp}/>
           <Route path="/journal" component={_Journal}/>
+          <Route path="/habits" component={_Habits}/>          
           <Route path="/calendar" component={_Calendar}/>
 
       </div>

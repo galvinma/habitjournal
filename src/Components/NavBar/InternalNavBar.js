@@ -62,6 +62,8 @@ class InternalNavBar extends React.Component {
             <div className={this.props.classes.center_items}>
               <NavLink to="/journal">journal</NavLink>
               <div>/</div>
+              <NavLink to="/habits">habits</NavLink>
+              <div>/</div>
               <NavLink to="/calendar">calendar</NavLink>
             </div>
             <NavLink to="/" onClick={() => this.logoutUser()}>LOG OUT</NavLink>
