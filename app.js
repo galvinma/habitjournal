@@ -23,12 +23,14 @@ var signup = require('./routes/signup');
 var login = require('./routes/login');
 var checktoken = require('./routes/checktoken');
 var bullets = require('./routes/bullets')
+var habits = require('./routes/habits')
 
 //
 app.use('/api', signup);
 app.use('/api', login);
 app.use('/api', checktoken);
 app.use('/api', bullets)
+app.use('/api', habits)
 
 app.listen(5002);
 
