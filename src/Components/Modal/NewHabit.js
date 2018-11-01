@@ -41,7 +41,7 @@ class NewHabit extends React.Component {
             <TextField
               autoFocus
               margin="dense"
-              id="name"
+              id="newhabit"
               label="Habit Name"
               fullWidth
             />
@@ -50,8 +50,8 @@ class NewHabit extends React.Component {
             <Button onClick={this.props.handleModalClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.props.handleModalClose} color="primary">
-              Subscribe
+            <Button onClick={this.props.createHabit} color="primary">
+              Create
             </Button>
           </DialogActions>
         </Dialog>

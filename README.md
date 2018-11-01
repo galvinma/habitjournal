@@ -1,1 +1,1 @@
-# Habit Journal
+# Daisy Journal
