@@ -30,5 +30,26 @@ router.route('/return_habits')
   })
 });
 
+router.route('/create_habit')
+.post(function(req, res, next) {
+  var new_habit = new Habits();
+  new_habit.habit_id = new ObjectId();
+  new_habit.user_id = req.body.params.user
+  new_habit.name = req.body.params.name
+  new_habit.status = "0"
+
+  new_habit.save(function(err) {
+      if (err)
+      {
+        throw err
+      }
+
+      res.json({
+        success: true,
+      });
+
+  });
+});
+
 
 module.exports = router;

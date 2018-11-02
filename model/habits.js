@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 var Habits = new Schema({
     habit_id: {type: ObjectId, required: true},
     user_id: {type: ObjectId, required: true},
-    date: {type: Number, required: true},
+    name: {type: String, required: true},
     status: {type: String, required: true},
 });
 

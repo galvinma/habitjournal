@@ -44,6 +44,7 @@ class NewHabit extends React.Component {
               id="newhabit"
               label="Habit Name"
               fullWidth
+              onChange={this.props.modalValue}
             />
           </DialogContent>
           <DialogActions>

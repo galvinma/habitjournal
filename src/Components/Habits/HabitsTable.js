@@ -48,19 +48,16 @@ class HabitsTable extends React.Component {
         >Create Habit</Button>
         <Table>
           <TableHead>
-            <TableRow key={'tableheader'}>
-              {header.map(item => {
+            <TableRow>
+              {header.map((item, index) => {
                 return (
-                    <TableCell key={item}>
+                    <TableCell key={"header"+index}>
                       {item}
                     </TableCell>
                 )
               })}
             </TableRow>
           </TableHead>
-          <TableBody>
-
-          </TableBody>
         </Table>
       </div>
     )

@@ -48,8 +48,16 @@ class Habits extends React.Component {
     this.createHabit = this.createHabit.bind(this)
     this.handleModalOpen = this.handleModalOpen.bind(this)
     this.handleModalClose = this.handleModalClose.bind(this)
+    this.modalValue = this.modalValue.bind(this)
+
+    this.getHabits()
   }
 
+   modalValue = (event) => {
+     this.setState({
+       modalValue: event.target.value
+     });
+   }
 
   handleModalOpen()
   {
@@ -74,6 +82,7 @@ class Habits extends React.Component {
     })
     .then((response) => {
       var res = response.data.habits
+      console.log(res)
       res.forEach(bullet => {
         let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
 
@@ -94,11 +103,19 @@ class Habits extends React.Component {
     axios.post('http://127.0.0.1:5002/api/create_habit', {
       params: {
         user: sessionStorage.getItem('user'),
+        name: this.state.modalValue
       }
     })
     .then((response) => {
-
-
+      if (response.data.success === true)
+      {
+        this.handleModalClose()
+        this.getHabits()
+      }
+      else
+      {
+        console.log("err")
+      }
     })
   }
 
@@ -113,7 +130,9 @@ class Habits extends React.Component {
         <InternalNavBar />
         <NewHabit
             modalState={this.state.modalState}
-            handleModalClose={this.handleModalClose} />
+            handleModalClose={this.handleModalClose}
+            createHabit={this.createHabit}
+            modalValue={this.modalValue} />
         <HabitsTable
             firstDayOfWeekDate={this.state.firstDayOfWeekDate}
             getHabits={this.getHabits}
