@@ -25,11 +25,13 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'left',
     padding: '20px',
+    overflowY: 'scroll',
   },
   month_container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
+    height: '90vh'
   },
   journal_container: {
     display: 'flex',
@@ -158,7 +160,13 @@ class Journal extends React.Component {
     if (event.target.value === 'mdiTriangleOutline')
     {
       this.setState({
-        type: 'habit' });
+        type: 'appointment' });
+    }
+
+    if (event.target.value === 'mdiMinus')
+    {
+      this.setState({
+        type: 'note' });
     }
 
   };

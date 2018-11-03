@@ -50,8 +50,10 @@ class Habits extends React.Component {
     this.handleModalOpen = this.handleModalOpen.bind(this)
     this.handleModalClose = this.handleModalClose.bind(this)
     this.modalValue = this.modalValue.bind(this)
+    this.toggleIcon = this.toggleIcon.bind(this)
 
     this.getHabits()
+    this.getHabitEntries()
   }
 
    modalValue = (event) => {
@@ -74,6 +76,11 @@ class Habits extends React.Component {
     });
   }
 
+  getHabitEntries()
+  {
+
+  }
+
   getHabits()
   {
     axios.post('http://127.0.0.1:5002/api/return_habit_names', {
@@ -91,9 +98,7 @@ class Habits extends React.Component {
       this.setState({
         habits: habs
       })
-
     })
-
   }
 
   createHabit()
@@ -117,6 +122,25 @@ class Habits extends React.Component {
     })
   }
 
+  toggleIcon(id, date, status)
+  {
+    axios.post('http://127.0.0.1:5002/api/log_habit', {
+      params: {
+        habit_entry_id: id,
+        date: date,
+        status: status,
+      }
+    })
+    .then((response) => {
+      console.log(response)
+
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+
+    this.getHabitEntries()
+  }
 
 
   render() {
@@ -135,7 +159,8 @@ class Habits extends React.Component {
             habits={this.state.habits}
             firstDayOfWeekDate={this.state.firstDayOfWeekDate}
             getHabits={this.getHabits}
-            handleModalOpen={this.handleModalOpen} />
+            handleModalOpen={this.handleModalOpen}
+            toggleIcon={this.toggleIcon} />
       </div>
     );
   }

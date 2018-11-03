@@ -8,6 +8,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import Icon from '@mdi/react'
+import { mdiCheck, mdiClose } from '@mdi/js'
 
 import NewHabit from '../.././Components/Modal/NewHabit'
 
@@ -67,15 +69,13 @@ class HabitsTable extends React.Component {
                   <TableCell component="th" scope="row">
                     {row}
                   </TableCell>
-
                   {dates.map((date, index) => {
                     return (
                         <TableCell id={date+row} key={row+index}>
-                          <div>X</div>
+                          <Icon path={mdiClose} size={0.75} onClick={(e) => this.props.toggleIcon()}/>
                         </TableCell>
                     )
                   })}
-
                 </TableRow>
               );
             })}

@@ -7,6 +7,7 @@ import {  mdiSquare,
           mdiCircleOutline,
           mdiTriangle,
           mdiTriangleOutline,
+          mdiMinus,
           mdiClose,
         } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
@@ -89,6 +90,11 @@ class BulletList extends React.Component {
     if (i.type === 'habit'&& i.status === "1")
     {
       return mdiTriangle
+    }
+
+    if (i.type === 'note')
+    {
+      return mdiMinus
     }
 
   }

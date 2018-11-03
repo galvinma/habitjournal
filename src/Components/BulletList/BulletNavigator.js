@@ -15,6 +15,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minWidth: '15vw',
+    height: '90vh'
   },
 });
 

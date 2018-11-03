@@ -4,6 +4,7 @@ import Icon from '@mdi/react'
 import {  mdiSquareOutline,
           mdiCircleOutline,
           mdiTriangleOutline,
+          mdiMinus
         } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
 
@@ -14,6 +15,8 @@ const styles = theme => ({
     flexDirection: 'column',
     minWidth: '15vw',
     marginLeft: '5vw',
+    alignItems: 'center',
+    height: '90vh'
   },
   icon_container: {
     display: 'flex',
@@ -29,15 +32,19 @@ class Key extends React.Component {
       <div className={this.props.classes.key_container}>
         <div className={this.props.classes.icon_container}>
           <Icon path={mdiSquareOutline} size={0.75} />
-          <p>task</p>
+          <p>Task</p>
         </div>
         <div className={this.props.classes.icon_container}>
           <Icon path={mdiCircleOutline} size={0.75} />
-          <p>event</p>
+          <p>Event</p>
         </div>
         <div className={this.props.classes.icon_container}>
           <Icon path={mdiTriangleOutline} size={0.75} />
-          <p>habit</p>
+          <p>Appointment</p>
+        </div>
+        <div className={this.props.classes.icon_container}>
+          <Icon path={mdiMinus} size={0.75} />
+          <p>Note</p>
         </div>
       </div>
     );

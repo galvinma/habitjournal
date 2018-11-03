@@ -5,6 +5,7 @@ import Icon from '@mdi/react'
 import {  mdiSquareOutline,
           mdiCircleOutline,
           mdiTriangleOutline,
+          mdiMinus,
         } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
@@ -13,9 +14,6 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
 import './BulletSelector.css'
-// mdiCircle = Event
-// mdiSquareOutline = Task
-// mdiTriangle = Habit
 
 const styles = theme => ({
   root: {
@@ -65,6 +63,9 @@ class BulletSelector extends React.Component {
               </MenuItem>
               <MenuItem value="mdiTriangleOutline">
                 <Icon path={mdiTriangleOutline} size={1} />
+              </MenuItem>
+              <MenuItem value="mdiMinus">
+                <Icon path={mdiMinus} size={1} />
               </MenuItem>
             </Select>
           </FormControl>
