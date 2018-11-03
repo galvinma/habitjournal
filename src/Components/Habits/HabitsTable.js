@@ -28,10 +28,11 @@ class HabitsTable extends React.Component {
   }
 
   render() {
-
     const header = [];
+    const dates = [];
     var count = 0;
     while (count < 7) {
+      dates.push(String(moment(this.props.firstDayOfWeekDate).add(count,'day').format('dddd, MMMM Do, YYYY')))
       header.push(
         <div key={this.props.firstDayOfWeekDate+count}>
           <p>{String(moment(this.props.firstDayOfWeekDate).add(count,'day').format('dddd, MMMM Do, YYYY'))}</p>
@@ -49,6 +50,7 @@ class HabitsTable extends React.Component {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell key={"spacing"}></TableCell>
               {header.map((item, index) => {
                 return (
                     <TableCell key={"header"+index}>
@@ -58,6 +60,26 @@ class HabitsTable extends React.Component {
               })}
             </TableRow>
           </TableHead>
+          <TableBody>
+            {this.props.habits.map(row => {
+              return (
+                <TableRow key={row}>
+                  <TableCell component="th" scope="row">
+                    {row}
+                  </TableCell>
+
+                  {dates.map((date, index) => {
+                    return (
+                        <TableCell id={date+row} key={row+index}>
+                          <div>X</div>
+                        </TableCell>
+                    )
+                  })}
+
+                </TableRow>
+              );
+            })}
+          </TableBody>
         </Table>
       </div>
     )

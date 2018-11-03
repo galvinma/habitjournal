@@ -40,6 +40,7 @@ class Habits extends React.Component {
     this.state = {
       firstDayOfWeekDate: moment().startOf('week').format('YYYY-MM-DD'),
       modalState: false,
+      habits: []
     };
 
     checkAuth()
@@ -75,27 +76,24 @@ class Habits extends React.Component {
 
   getHabits()
   {
-    axios.post('http://127.0.0.1:5002/api/return_habits', {
+    axios.post('http://127.0.0.1:5002/api/return_habit_names', {
       params: {
         user: sessionStorage.getItem('user'),
       }
     })
     .then((response) => {
       var res = response.data.habits
-      console.log(res)
-      res.forEach(bullet => {
-        let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
-
-        // if (document.getElementById(String(timestamp)))
-        // {
-        //   let temp = document.getElementById(timestamp)
-        //   let node = document.createElement("LI");
-        //   let textnode = document.createTextNode(bullet.description)
-        //   node.appendChild(textnode)
-        //   temp.appendChild(node);
-        // }
+      var habs = []
+      res.forEach(habit => {
+        habs.push(habit.name)
       })
+
+      this.setState({
+        habits: habs
+      })
+
     })
+
   }
 
   createHabit()
@@ -134,6 +132,7 @@ class Habits extends React.Component {
             createHabit={this.createHabit}
             modalValue={this.modalValue} />
         <HabitsTable
+            habits={this.state.habits}
             firstDayOfWeekDate={this.state.firstDayOfWeekDate}
             getHabits={this.getHabits}
             handleModalOpen={this.handleModalOpen} />
