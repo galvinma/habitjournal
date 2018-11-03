@@ -26,6 +26,7 @@ const styles = theme => ({
 class HabitsTable extends React.Component {
   constructor(props){
     super(props);
+
   }
 
   componentDidMount()
@@ -87,7 +88,6 @@ class HabitsTable extends React.Component {
                           <Icon
                             path={mdiClose}
                             size={0.75}
-                            value={date}
                             id={row.habit_id+"_"+dates_shortstamp[index]}
                             onClick={(e) => this.props.toggleIcon(row.habit_id+"_"+dates_shortstamp[index])}/>
                         </TableCell>

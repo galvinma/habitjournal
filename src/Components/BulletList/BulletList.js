@@ -59,9 +59,6 @@ class BulletList extends React.Component {
 
   convertType(i)
   {
-    // mdiCircleOutline = Event
-    // mdiSquareOutline = Task
-    // mdiTriangleOutline = Habit
     if (i.type === 'event' && i.status === "0")
     {
       return mdiCircleOutline

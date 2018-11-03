@@ -4,7 +4,7 @@ import axios from 'axios';
 import moment from 'moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
+import { mdiCheck, mdiClose } from '@mdi/js'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
@@ -95,6 +95,25 @@ class Habits extends React.Component {
 
       this.setState({
         habit_entries: new_entries,
+      })
+
+      new_entries.forEach(entry =>
+      {
+        var id = entry.habit_id+"_"+moment.unix(entry.date).format('YYYY-MM-DD')
+        console.log(document.getElementById(id))
+        // if (document.getElementById(id))
+        // {
+        //   if (entry.state === "0")
+        //   {
+        //     var svg = document.getElementById(id)
+        //     svg.setAttribute('d', {mdiClose})
+        //   }
+        //   else
+        //   {
+        //     var svg = document.getElementById(id)
+        //     svg.setAttribute('d', {mdiCheck})
+        //   }
+        // }
       })
 
     })
