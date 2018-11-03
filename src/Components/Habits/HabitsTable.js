@@ -24,17 +24,29 @@ const styles = theme => ({
 });
 
 class HabitsTable extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
   componentDidMount()
   {
-    this.props.getHabits()
+
+    console.log(this.props.habit_entries)
+    this.props.habit_entries.forEach(entry =>
+    {
+      var id = entry.habit_id+"_"+moment.unix(entry.date).format('YYYY-MM-DD')
+      console.log(id)
+    })
   }
 
   render() {
     const header = [];
     const dates = [];
+    const dates_shortstamp = []
     var count = 0;
     while (count < 7) {
       dates.push(String(moment(this.props.firstDayOfWeekDate).add(count,'day').format('dddd, MMMM Do, YYYY')))
+      dates_shortstamp.push(String(moment(this.props.firstDayOfWeekDate).add(count,'day').format('YYYY-MM-DD')))
       header.push(
         <div key={this.props.firstDayOfWeekDate+count}>
           <p>{String(moment(this.props.firstDayOfWeekDate).add(count,'day').format('dddd, MMMM Do, YYYY'))}</p>
@@ -65,14 +77,19 @@ class HabitsTable extends React.Component {
           <TableBody>
             {this.props.habits.map(row => {
               return (
-                <TableRow key={row}>
+                <TableRow key={row.name} id={row.habit_id}>
                   <TableCell component="th" scope="row">
-                    {row}
+                    {row.name}
                   </TableCell>
                   {dates.map((date, index) => {
                     return (
-                        <TableCell id={date+row} key={row+index}>
-                          <Icon path={mdiClose} size={0.75} onClick={(e) => this.props.toggleIcon()}/>
+                        <TableCell key={row+index}>
+                          <Icon
+                            path={mdiClose}
+                            size={0.75}
+                            value={date}
+                            id={row.habit_id+"_"+dates_shortstamp[index]}
+                            onClick={(e) => this.props.toggleIcon(row.habit_id+"_"+dates_shortstamp[index])}/>
                         </TableCell>
                     )
                   })}

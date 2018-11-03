@@ -40,7 +40,8 @@ class Habits extends React.Component {
     this.state = {
       firstDayOfWeekDate: moment().startOf('week').format('YYYY-MM-DD'),
       modalState: false,
-      habits: []
+      habits: [],
+      habit_entries: [],
     };
 
     checkAuth()
@@ -51,6 +52,7 @@ class Habits extends React.Component {
     this.handleModalClose = this.handleModalClose.bind(this)
     this.modalValue = this.modalValue.bind(this)
     this.toggleIcon = this.toggleIcon.bind(this)
+    this.getHabitEntries = this.getHabitEntries.bind(this)
 
     this.getHabits()
     this.getHabitEntries()
@@ -79,6 +81,26 @@ class Habits extends React.Component {
   getHabitEntries()
   {
 
+    axios.post('http://127.0.0.1:5002/api/return_habit_entries', {
+      params: {
+        user: sessionStorage.getItem('user'),
+      }
+    })
+    .then((response) => {
+      var res = response.data.habit_entries
+      var new_entries = []
+      res.forEach(entry => {
+        new_entries.push(entry)
+      })
+
+      this.setState({
+        habit_entries: new_entries,
+      })
+
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
   }
 
   getHabits()
@@ -92,7 +114,7 @@ class Habits extends React.Component {
       var res = response.data.habits
       var habs = []
       res.forEach(habit => {
-        habs.push(habit.name)
+        habs.push(habit)
       })
 
       this.setState({
@@ -122,13 +144,18 @@ class Habits extends React.Component {
     })
   }
 
-  toggleIcon(id, date, status)
+  toggleIcon(id)
   {
+    // parse id and name
+    // row.habit_id+"__"+dates_shortstamp[index]
+    var s = id.split("_")
+    var habit_id = s[0]
+    var date = moment(s[1], "YYYY/MM/DD").unix()
     axios.post('http://127.0.0.1:5002/api/log_habit', {
       params: {
-        habit_entry_id: id,
+        user: sessionStorage.getItem('user'),
+        habit_id: habit_id,
         date: date,
-        status: status,
       }
     })
     .then((response) => {
@@ -157,8 +184,10 @@ class Habits extends React.Component {
             modalValue={this.modalValue} />
         <HabitsTable
             habits={this.state.habits}
+            habit_entries={this.state.habit_entries}
             firstDayOfWeekDate={this.state.firstDayOfWeekDate}
             getHabits={this.getHabits}
+            getHabitEntries={this.getHabitEntries}
             handleModalOpen={this.handleModalOpen}
             toggleIcon={this.toggleIcon} />
       </div>

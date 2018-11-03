@@ -25,7 +25,6 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'left',
     padding: '20px',
-    overflowY: 'scroll',
   },
   month_container: {
     display: 'flex',
