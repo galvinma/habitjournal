@@ -56,6 +56,7 @@ router.route('/log_habit')
 
     if (habits.length > 0) // habit exists, toggle bool
     {
+      console.log(habits[0].status)
       if (habits[0].status === "0")
       {
         new_status = "1"

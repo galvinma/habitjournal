@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Icon from '@mdi/react'
 import { mdiCheck, mdiClose } from '@mdi/js'
 // redux
 import store from '../.././Store/store'
@@ -56,6 +57,7 @@ class Habits extends React.Component {
 
     this.getHabits()
     this.getHabitEntries()
+
   }
 
    modalValue = (event) => {
@@ -100,20 +102,15 @@ class Habits extends React.Component {
       new_entries.forEach(entry =>
       {
         var id = entry.habit_id+"_"+moment.unix(entry.date).format('YYYY-MM-DD')
-        console.log(document.getElementById(id))
-        // if (document.getElementById(id))
-        // {
-        //   if (entry.state === "0")
-        //   {
-        //     var svg = document.getElementById(id)
-        //     svg.setAttribute('d', {mdiClose})
-        //   }
-        //   else
-        //   {
-        //     var svg = document.getElementById(id)
-        //     svg.setAttribute('d', {mdiCheck})
-        //   }
-        // }
+        if (document.getElementById(id))
+        {
+          if (entry.status === "1")
+          {
+            var cell = document.getElementById("cell"+id)
+            var svg = cell.firstChild
+            svg.firstChild.setAttribute("d",mdiCheck)
+          }
+        }
       })
 
     })
@@ -179,13 +176,11 @@ class Habits extends React.Component {
     })
     .then((response) => {
       console.log(response)
-
+      this.getHabitEntries()
     })
     .catch((error)=>{
       console.log(error);
     });
-
-    this.getHabitEntries()
   }
 
 
@@ -193,6 +188,8 @@ class Habits extends React.Component {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
     }
+
+
     return(
       <div>
         <InternalNavBar />

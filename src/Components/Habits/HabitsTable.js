@@ -84,12 +84,14 @@ class HabitsTable extends React.Component {
                   </TableCell>
                   {dates.map((date, index) => {
                     return (
-                        <TableCell key={row+index}>
+                        <TableCell
+                            id={"cell"+row.habit_id+"_"+dates_shortstamp[index]}
+                            key={row+index}
+                            onClick={(e) => this.props.toggleIcon(row.habit_id+"_"+dates_shortstamp[index])} >
                           <Icon
                             path={mdiClose}
                             size={0.75}
-                            id={row.habit_id+"_"+dates_shortstamp[index]}
-                            onClick={(e) => this.props.toggleIcon(row.habit_id+"_"+dates_shortstamp[index])}/>
+                            id={row.habit_id+"_"+dates_shortstamp[index]} />
                         </TableCell>
                     )
                   })}
