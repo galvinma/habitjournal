@@ -29,17 +29,6 @@ class HabitsTable extends React.Component {
 
   }
 
-  componentDidMount()
-  {
-
-    console.log(this.props.habit_entries)
-    this.props.habit_entries.forEach(entry =>
-    {
-      var id = entry.habit_id+"_"+moment.unix(entry.date).format('YYYY-MM-DD')
-      console.log(id)
-    })
-  }
-
   render() {
     const header = [];
     const dates = [];

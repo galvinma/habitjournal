@@ -56,7 +56,6 @@ router.route('/log_habit')
 
     if (habits.length > 0) // habit exists, toggle bool
     {
-      console.log(habits[0].status)
       if (habits[0].status === "0")
       {
         new_status = "1"
@@ -78,22 +77,30 @@ router.route('/log_habit')
     }
     else // create habit entry
     {
-      var new_habit_entry= new habitEntries();
-      new_habit_entry.habit_entry_id = new ObjectId();
-      new_habit_entry.user_id = req.body.params.user
-      new_habit_entry.date = req.body.params.date
-      new_habit_entry.habit_id = req.body.params.habit_id
-      new_habit_entry.status = "0"
+      // get name
+      Habits.find({ user_id: req.body.params.user,  habit_id: req.body.params.habit_id}).lean().exec(function(err, name) {
+        if (err)
+        {
+          throw err
+        }
+        var new_habit_entry= new habitEntries();
+        new_habit_entry.habit_entry_id = new ObjectId();
+        new_habit_entry.user_id = req.body.params.user
+        new_habit_entry.date = req.body.params.date
+        new_habit_entry.habit_id = req.body.params.habit_id
+        new_habit_entry.name = name[0].name
+        new_habit_entry.status = "1"
 
-      new_habit_entry.save(function(err) {
-          if (err)
-          {
-            throw err
-          }
-          res.json({
-            success: true,
-          });
-      });
+        new_habit_entry.save(function(err) {
+            if (err)
+            {
+              throw err
+            }
+            res.json({
+              success: true,
+            });
+        });
+      })
     }
   })
 })

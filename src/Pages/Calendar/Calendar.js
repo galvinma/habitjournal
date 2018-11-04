@@ -68,6 +68,9 @@ class Calendar extends React.Component {
     this.updateCalendarBody = this.updateCalendarBody.bind(this)
     this.updateCalendarHeader = this.updateCalendarHeader.bind(this)
     this.removeOldBullets = this.removeOldBullets.bind(this)
+
+    this.getCalendarBullets()
+    this.getCalendarHabits()
   }
 
   prevMonthHandler() {
@@ -83,6 +86,7 @@ class Calendar extends React.Component {
 
     this.updateCalendarBody()
     this.getCalendarBullets()
+    this.getCalendarHabits()
   }
 
   nextMonthHandler() {
@@ -99,33 +103,7 @@ class Calendar extends React.Component {
 
     this.updateCalendarBody()
     this.getCalendarBullets()
-  }
-
-  getCalendarBullets()
-  {
-    axios.post('http://127.0.0.1:5002/api/return_bullets', {
-      params: {
-        user: sessionStorage.getItem('user'),
-      }
-    })
-    .then((response) => {
-      var res = response.data.bullets
-      res.forEach(bullet => {
-          if (bullet.type === 'habit' && bullet.status === '1')
-          {
-            let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
-
-            if (document.getElementById(String(timestamp)))
-            {
-              let temp = document.getElementById(timestamp)
-              let node = document.createElement("LI");
-              let textnode = document.createTextNode(bullet.description)
-              node.appendChild(textnode)
-              temp.appendChild(node);
-            }
-          }
-      })
-    })
+    this.getCalendarHabits()
   }
 
   updateCalendarHeader()
@@ -172,6 +150,59 @@ class Calendar extends React.Component {
     }
 
     return row
+  }
+
+  getCalendarBullets()
+  {
+    axios.post('http://127.0.0.1:5002/api/return_bullets', {
+      params: {
+        user: sessionStorage.getItem('user'),
+      }
+    })
+    .then((response) => {
+      var res = response.data.bullets
+      res.forEach(bullet => {
+          if (bullet.type === 'event' || bullet.type === 'appointment')
+          {
+            let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
+
+            if (document.getElementById(String(timestamp)))
+            {
+              let temp = document.getElementById(timestamp)
+              let node = document.createElement("LI");
+              let textnode = document.createTextNode(bullet.description)
+              node.appendChild(textnode)
+              temp.appendChild(node);
+            }
+          }
+      })
+    })
+  }
+
+  getCalendarHabits()
+  {
+    axios.post('http://127.0.0.1:5002/api/return_habit_entries', {
+      params: {
+        user: sessionStorage.getItem('user'),
+      }
+    })
+    .then((response) => {
+      var res = response.data.habit_entries
+      res.forEach(entry => {
+          if (entry.status === '1')
+          {
+            let timestamp = moment.unix(entry.date).format('dddd, MMMM Do, YYYY')
+            if (document.getElementById(String(timestamp)))
+            {
+              let temp = document.getElementById(timestamp)
+              let node = document.createElement("LI");
+              let textnode = document.createTextNode(entry.name)
+              node.appendChild(textnode)
+              temp.appendChild(node);
+            }
+          }
+        })
+      })
   }
 
   removeOldBullets()

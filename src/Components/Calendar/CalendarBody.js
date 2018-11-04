@@ -13,11 +13,6 @@ const styles = theme => ({
 });
 
 class CalendarBody extends React.Component {
-  componentDidMount()
-  {
-    this.props.getCalendarBullets()
-  }
-
   render() {
     const col_headers = this.props.updateCalendarHeader()
     const row = this.props.updateCalendarBody()

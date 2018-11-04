@@ -111,6 +111,15 @@ class Habits extends React.Component {
             svg.firstChild.setAttribute("d",mdiCheck)
           }
         }
+        if (document.getElementById(id))
+        {
+          if (entry.status === "0")
+          {
+            var cell = document.getElementById("cell"+id)
+            var svg = cell.firstChild
+            svg.firstChild.setAttribute("d",mdiClose)
+          }
+        }
       })
 
     })
@@ -175,7 +184,6 @@ class Habits extends React.Component {
       }
     })
     .then((response) => {
-      console.log(response)
       this.getHabitEntries()
     })
     .catch((error)=>{
