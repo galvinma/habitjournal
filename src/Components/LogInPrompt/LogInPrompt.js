@@ -99,20 +99,19 @@ class LoginPrompt extends React.Component {
       <div>
         <div className={this.props.classes.layout}>
           <Paper className={this.props.classes.paper}>
-            <Typography variant="headline">Log in</Typography>
+            <Typography variant="headline">Sign In</Typography>
              <form className={this.props.classes.form}>
                <FormControl
                     margin="normal"
                     required fullWidth
                     value={this.state.email}
                     onChange={this.handleChange}
-                    // onKeyDown={(e) => this.checkLogin(e)}
-                    >
-                 <InputLabel htmlFor="email">Email Address</InputLabel>
+                    onKeyDown={(e) => this.checkLogin(e)}>
+                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="email">Email Address</InputLabel>
                  <Input id="email" name="email" autoComplete="email" autoFocus />
                </FormControl>
                <FormControl margin="normal" required fullWidth value={this.state.password} onChange={this.handleChange}>
-                 <InputLabel htmlFor="password">Password</InputLabel>
+                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="password">Password</InputLabel>
                  <Input
                    name="password"
                    type="password"
@@ -124,9 +123,7 @@ class LoginPrompt extends React.Component {
                <Button
                  fullWidth
                  className={this.props.classes.submit}
-                 onClick={() => this.loginUser()}
-                 >
-                 Log in
+                 onClick={() => this.loginUser()} >Sign In
                </Button>
             </form>
           </Paper>

@@ -8,20 +8,24 @@ import store from './Store/store'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
-  a: {
-    fontFamily: [
-      'Nunito',
-      'Nunito Sans',
-      'Montserrat',
-    ].join(','),
-  },
-
   typography: {
     fontFamily: [
       'Nunito',
       'Nunito Sans',
       'Montserrat',
     ].join(','),
+  },
+  overrides:{
+    MuiInput: {
+      underline: {
+        '&:after': {
+          borderBottom: '#FFFFFF',
+          }
+      },
+    },
+    MuiInputLabel: {
+      color: 'black',
+    },
   },
 });
 

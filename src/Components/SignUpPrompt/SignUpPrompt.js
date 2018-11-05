@@ -89,6 +89,13 @@ class SignUpPrompt extends React.Component {
     });
   }
 
+  checkJoin(event)
+  {
+    if (event.keyCode === 13) {
+        this.signUpUser()
+    }
+  }
+
   render() {
     if (store.getState().auth_status.auth_status === true) {
       return <Redirect to='/journal' />
@@ -97,22 +104,22 @@ class SignUpPrompt extends React.Component {
       <div>
         <div className={this.props.classes.layout}>
           <Paper className={this.props.classes.paper}>
-            <Typography variant="headline">Sign up</Typography>
+            <Typography variant="headline">Join</Typography>
              <form className={this.props.classes.form}>
-               <FormControl margin="normal" required fullWidth value={this.state.firstname} onChange={this.handleChange}>
-                 <InputLabel htmlFor="firstname">First Name</InputLabel>
+               <FormControl margin="normal" required fullWidth value={this.state.firstname} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
+                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}}  htmlFor="firstname">First Name</InputLabel>
                  <Input id="firstname" name="firstname" autoComplete="firstname" autoFocus />
                </FormControl>
-               <FormControl margin="normal" required fullWidth value={this.state.lastname} onChange={this.handleChange}>
-                 <InputLabel htmlFor="lastname">Last Name</InputLabel>
+               <FormControl margin="normal" required fullWidth value={this.state.lastname} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
+                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="lastname">Last Name</InputLabel>
                  <Input id="lastname" name="lastname" autoComplete="lastname" />
                </FormControl>
-               <FormControl margin="normal" required fullWidth value={this.state.email}  onChange={this.handleChange}>
-                 <InputLabel htmlFor="email">Email Address</InputLabel>
+               <FormControl margin="normal" required fullWidth value={this.state.email}  onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
+                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="email">Email Address</InputLabel>
                  <Input id="email" name="email" autoComplete="email" />
                </FormControl>
-               <FormControl margin="normal" required fullWidth value={this.state.password} onChange={this.handleChange}>
-                 <InputLabel htmlFor="password">Password</InputLabel>
+               <FormControl margin="normal" required fullWidth value={this.state.password} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
+                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="password">Password</InputLabel>
                  <Input
                    name="password"
                    type="password"
@@ -122,12 +129,8 @@ class SignUpPrompt extends React.Component {
                </FormControl>
                <Button
                  fullWidth
-                 variant="raised"
-                 color="primary"
                  className={this.props.classes.submit}
-                 onClick={() => this.signUpUser()}
-               >
-                 Sign Up
+                 onClick={() => this.signUpUser()}>Get Started
                </Button>
             </form>
           </Paper>
