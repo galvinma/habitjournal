@@ -46,7 +46,7 @@ const styles = theme => ({
     outline: 'none',
   },
   text_input: {
-    width: '45vw',
+    width: '30vw',
     border:'none',
     outline: 'none',
     borderBottom: '1px solid black',

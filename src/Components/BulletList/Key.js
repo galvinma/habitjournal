@@ -28,9 +28,20 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     top: '100px',
+
+    [theme.breakpoints.down(768)]: {
+      position: 'relative',
+      top: 'auto',
+      flexWrap: 'wrap',
+    },
   },
   nav_list: {
     paddingTop: '0px',
+
+    [theme.breakpoints.down(768)]: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
   },
 });
 

@@ -19,7 +19,7 @@ const styles = {
     border: 'none',
     position: 'fixed',
     top: '0px',
-    height: '75px',
+    height: '40px',
     zIndex: '1000',
   },
   navbar: {
@@ -28,7 +28,7 @@ const styles = {
     borderColor: 'transparent',
     border: 'none',
     boxShadow: 'none',
-    height: '75px',
+    height: '40px',
     width: '100%',
     position: 'fixed',
     top: '0px',

@@ -18,7 +18,15 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minWidth: '15vw',
-    height: '90vh'
+    height: '90vh',
+
+    [theme.breakpoints.down(768)]: {
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'relative',
+      top: 'auto',
+      height: 'auto',
+    },
   },
   nav_list: {
     paddingTop: '0px',

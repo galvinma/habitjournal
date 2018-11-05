@@ -23,26 +23,43 @@ const styles = theme => ({
   journal_container: {
     display: 'flex',
     flexDirection: 'row',
+    marginTop: '25px', // aligns with frozen left and right panel
+    minWidth: '100vw',
     [theme.breakpoints.down(768)]: {
       flexDirection: 'column',
+      marginTop: '5px', // aligns with frozen left and right panel
     },
-    marginTop: '25px', // aligns with frozen left and right panel
-    minWidth: '100vw'
   },
   bullet_container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
     marginTop: '75px',
-    maxWidth: '60vw'
+    maxWidth: '60vw',
+
+    [theme.breakpoints.down(768)]: {
+      marginTop: '50px', // 40 for navbar, 10 for spacing
+      minWidth: '90vw',
+      paddingLeft: '20px',
+      paddingRight: '20px',
+    },
   },
   month_container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
     height: '90vh',
+    marginLeft: 'auto',
     minWidth: '20vw',
     maxWidth: '20vw',
+
+    [theme.breakpoints.down(768)]: {
+      minWidth: '90vw',
+      order: '50',
+      paddingLeft: '20px',
+      paddingRight: '20px',
+      height: 'auto',
+    },
   },
   key_container: {
     display: 'flex',
@@ -51,6 +68,15 @@ const styles = theme => ({
     height: '90vh',
     minWidth: '20vw',
     maxWidth: '20vw',
+
+    [theme.breakpoints.down(768)]: {
+      height: '120px',
+      minWidth: '90vw',
+      marginTop: 'auto',
+      order: '100',
+      height: 'auto',
+      flexWrap: 'wrap',
+    },
   },
 });
 
