@@ -39,15 +39,6 @@ class BulletSelector extends React.Component {
   render() {
     return(
       <div className={this.props.classes.root}>
-        <form noValidate>
-          <TextField
-            id="date"
-            type="date"
-            defaultValue={moment.unix(this.props.selectedDate).format('YYYY-MM-DD')}
-            // moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
-            onChange={(e) => this.props.dateChange(e)}
-          />
-        </form>
         <div className={this.props.classes.selector}>
           <FormControl className={this.props.classes.formControl}>
             <Select
@@ -69,9 +60,19 @@ class BulletSelector extends React.Component {
               </MenuItem>
             </Select>
           </FormControl>
+
+          <form noValidate>
+            <TextField
+              id="date"
+              type="date"
+              defaultValue={moment.unix(this.props.selectedDate).format('YYYY-MM-DD')}
+              onChange={(e) => this.props.dateChange(e)}
+            />
+          </form>
+
           <TextField
             margin="normal"
-            style={{width: '50vw'}}
+            style={{width: '30vw'}}
             value={this.props.description}
             onChange={(e) => this.props.descriptionChange(e)}
             onKeyDown={(e) => this.props.checkSubmit(e)} />

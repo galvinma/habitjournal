@@ -24,7 +24,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    padding: '20px',
+    marginTop: '75px',
   },
   month_container: {
     display: 'flex',
@@ -35,7 +35,15 @@ const styles = theme => ({
   journal_container: {
     display: 'flex',
     flexDirection: 'row',
-  }
+    marginTop: '25px', // aligns with frozen left and right panel
+  },
+  key_container: {
+    display: 'flex',
+    flexDirection: 'column',
+    minWidth: '15vw',
+    marginLeft: '20px',
+    height: '90vh',
+  },
 });
 
 class Journal extends React.Component {
@@ -267,7 +275,9 @@ class Journal extends React.Component {
       <div>
         <InternalNavBar />
           <div className={this.props.classes.journal_container}>
-            <Key />
+            <div className={this.props.classes.key_container}>
+              <Key />
+            </div>
             <div className={this.props.classes.bullet_container}>
               <BulletSelector
                 checkSubmit = {this.checkSubmit}

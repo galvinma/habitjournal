@@ -24,7 +24,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '20px',
+    marginTop: '75px',
   },
   calendar_cell: {
     display: 'flex',

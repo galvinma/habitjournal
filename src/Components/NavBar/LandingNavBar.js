@@ -22,6 +22,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    marginBottom: '10px',
   },
   link: {
     margin: '10px',

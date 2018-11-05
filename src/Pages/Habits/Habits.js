@@ -29,7 +29,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '20px',
+    marginTop: '75px',
   },
 });
 
@@ -201,19 +201,21 @@ class Habits extends React.Component {
     return(
       <div>
         <InternalNavBar />
-        <NewHabit
-            modalState={this.state.modalState}
-            handleModalClose={this.handleModalClose}
-            createHabit={this.createHabit}
-            modalValue={this.modalValue} />
-        <HabitsTable
-            habits={this.state.habits}
-            habit_entries={this.state.habit_entries}
-            firstDayOfWeekDate={this.state.firstDayOfWeekDate}
-            getHabits={this.getHabits}
-            getHabitEntries={this.getHabitEntries}
-            handleModalOpen={this.handleModalOpen}
-            toggleIcon={this.toggleIcon} />
+        <div className={this.props.classes.root}>
+          <NewHabit
+              modalState={this.state.modalState}
+              handleModalClose={this.handleModalClose}
+              createHabit={this.createHabit}
+              modalValue={this.modalValue} />
+          <HabitsTable
+              habits={this.state.habits}
+              habit_entries={this.state.habit_entries}
+              firstDayOfWeekDate={this.state.firstDayOfWeekDate}
+              getHabits={this.getHabits}
+              getHabitEntries={this.getHabitEntries}
+              handleModalOpen={this.handleModalOpen}
+              toggleIcon={this.toggleIcon} />
+          </div>
       </div>
     );
   }

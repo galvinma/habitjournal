@@ -12,10 +12,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
   root: {
+    position: 'fixed',
+    top: '100px',
     display: 'flex',
     flexDirection: 'column',
     minWidth: '15vw',
     height: '90vh'
+  },
+  nav_list: {
+    paddingTop: '0px',
   },
 });
 
@@ -42,7 +47,7 @@ class BulletNavigator extends React.Component {
   render() {
     return(
       <div className={this.props.classes.root}>
-        <List>
+        <List className={this.props.classes.nav_list}>
             {this.props.navigatorMonths.map(this.createList)}
         </List>
       </div>
