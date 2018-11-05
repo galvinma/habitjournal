@@ -12,6 +12,9 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Typography from '@material-ui/core/Typography';
 
 import './BulletSelector.css'
 
@@ -24,14 +27,41 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flexEnd',
   },
-  formControl: {
-    margin: theme.spacing.unit,
-    flexDirection: 'row',
+  formStyle: {
+    display: 'flex',
+    alignItems: 'center',
   },
-  add_event: {
-    display: 'inline-block',
-    verticalAlign: 'middle',
+  dateStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+  },
+  dateInput: {
+    borderBottom: 'none',
+    border:'none',
+    outline: 'none',
+  },
+  text_input: {
+    width: '45vw',
+    border:'none',
+    outline: 'none',
+    borderBottom: '1px solid black',
+    verticalAlign: 'bottom',
+  },
+  typo_style: {
+    display: 'flex',
+  },
+  nav_list: {
+    paddingTop: '0px',
+    paddingBottom: '0px',
+  },
+  list_item: {
+    paddingTop: '6px',
+    paddingBottom: '6px',
   },
 });
 
@@ -39,44 +69,57 @@ class BulletSelector extends React.Component {
   render() {
     return(
       <div className={this.props.classes.root}>
-        <div className={this.props.classes.selector}>
-          <FormControl className={this.props.classes.formControl}>
-            <Select
-              value={this.props.selected}
-              onChange={(e) => this.props.selectorChange(e)}
-              disableUnderline={true}
-            >
-              <MenuItem value="mdiSquareOutline">
-                <Icon path={mdiSquareOutline} size={1} />
-              </MenuItem>
-              <MenuItem value="mdiCircleOutline">
-                <Icon path={mdiCircleOutline} size={1} />
-              </MenuItem>
-              <MenuItem value="mdiTriangleOutline">
-                <Icon path={mdiTriangleOutline} size={1} />
-              </MenuItem>
-              <MenuItem value="mdiMinus">
-                <Icon path={mdiMinus} size={1} />
-              </MenuItem>
-            </Select>
-          </FormControl>
+        <List className={this.props.classes.nav_list}>
+          <ListItem className={this.props.classes.list_item}>
+            <div className={this.props.classes.selector}>
+              <FormControl>
+                <Select
+                  value={this.props.selected}
+                  onChange={(e) => this.props.selectorChange(e)}
+                  disableUnderline={true}
+                >
+                  <MenuItem value="mdiSquareOutline">
+                    <Icon path={mdiSquareOutline} size={0.75} />
+                  </MenuItem>
+                  <MenuItem value="mdiCircleOutline">
+                    <Icon path={mdiCircleOutline} size={1} />
+                  </MenuItem>
+                  <MenuItem value="mdiTriangleOutline">
+                    <Icon path={mdiTriangleOutline} size={1} />
+                  </MenuItem>
+                  <MenuItem value="mdiMinus">
+                    <Icon path={mdiMinus} size={1} />
+                  </MenuItem>
+                </Select>
+              </FormControl>
 
-          <form noValidate>
-            <TextField
-              id="date"
-              type="date"
-              defaultValue={moment.unix(this.props.selectedDate).format('YYYY-MM-DD')}
-              onChange={(e) => this.props.dateChange(e)}
-            />
-          </form>
+              <form className={this.props.classes.dateStyle}>
+                <Typography component="body1" variant="body1">
+                  <input
+                    className={this.props.classes.dateInput}
+                    id="date"
+                    type="date"
+                    InputProps={{
+                     disableUnderline: true,
+                    }}
+                    defaultValue={moment.unix(this.props.selectedDate).format('YYYY-MM-DD')}
+                    onChange={(e) => this.props.dateChange(e)}
+                  />
+                </Typography>
+              </form>
 
-          <TextField
-            margin="normal"
-            style={{width: '30vw'}}
-            value={this.props.description}
-            onChange={(e) => this.props.descriptionChange(e)}
-            onKeyDown={(e) => this.props.checkSubmit(e)} />
-        </div>
+              <form className={this.props.classes.formStyle}>
+                <Typography component="body1" variant="body1">
+                   <input
+                   className={this.props.classes.text_input}
+                   defaultValue={this.props.description}
+                   onChange={(e) => this.props.descriptionChange(e)}
+                   onKeyDown={(e) => this.props.checkSubmit(e)} />
+                </Typography>
+              </form>
+            </div>
+          </ListItem>
+        </List>
       </div>
     );
   }

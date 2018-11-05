@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 
 
 // mdiCircle = Event
@@ -36,9 +37,10 @@ class BulletNavigator extends React.Component {
   {
     return (
     <ListItem key={i}>
-      <ListItemText
-        onClick={(e) => this.props.changeSelectedMonth(i)} >
-        {i}
+      <ListItemText onClick={(e) => this.props.changeSelectedMonth(i)}>
+        <Typography component="body1" variant="body1">
+          {i}
+        </Typography>
       </ListItemText>
     </ListItem>
   )

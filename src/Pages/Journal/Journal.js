@@ -20,29 +20,37 @@ import store from '../.././Store/store'
 import { connect } from "react-redux";
 
 const styles = theme => ({
+  journal_container: {
+    display: 'flex',
+    flexDirection: 'row',
+    [theme.breakpoints.down(768)]: {
+      flexDirection: 'column',
+    },
+    marginTop: '25px', // aligns with frozen left and right panel
+    minWidth: '100vw'
+  },
   bullet_container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
     marginTop: '75px',
+    maxWidth: '60vw'
   },
   month_container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '90vh'
-  },
-  journal_container: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginTop: '25px', // aligns with frozen left and right panel
+    height: '90vh',
+    minWidth: '20vw',
+    maxWidth: '20vw',
   },
   key_container: {
     display: 'flex',
     flexDirection: 'column',
-    minWidth: '15vw',
     marginLeft: '20px',
     height: '90vh',
+    minWidth: '20vw',
+    maxWidth: '20vw',
   },
 });
 
@@ -231,9 +239,9 @@ class Journal extends React.Component {
     this.getBullets()
   }
 
-  updateBulletDescription(bullet_id)
+  updateBulletDescription(bullet_id, val)
   {
-    var val = document.getElementById(bullet_id).value;
+    // var val = document.getElementById(bullet_id).value;
     axios.post('http://127.0.0.1:5002/api/update_bullet_description', {
       params: {
         bullet_id: bullet_id,

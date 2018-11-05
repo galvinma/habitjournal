@@ -11,7 +11,7 @@ import {  mdiSquare,
           mdiClose,
         } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
-
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -27,8 +27,8 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   list_container: {
-    marginTop: '10px',
-    marginBottom: '10px',
+    marginTop: '3px',
+    marginBottom: '8px',
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -37,6 +37,19 @@ const styles = theme => ({
   bulletRow: {
     paddingTop: '0px',
     paddingBottom: '0px',
+  },
+  bulletItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  text_input: {
+    maxWidth: '55vw',
+    border:'none',
+    outline: 'none',
+  },
+  date_title: {
+    paddingBottom: '5px',
   },
 });
 
@@ -49,6 +62,7 @@ class BulletList extends React.Component {
     type: this.props.type,
     selected: this.props.selected,
     count: 0,
+    edit_value: '',
   };
 
   this.convertType = this.convertType.bind(this);
@@ -101,28 +115,37 @@ class BulletList extends React.Component {
      return (
        <ListItem key={i.bullet_id} className={this.props.classes.bulletRow}>
         <div className="bullet-item">
-           <ListItemIcon>
-              <Button onClick={(e) => this.props.toggleIcon(i.bullet_id, i.type, i.status)}>
-                <Icon path={p} size={0.75} />
-              </Button>
-           </ListItemIcon>
+          <div className={this.props.classes.bulletItem}>
+             <ListItemIcon>
+                <Button onClick={(e) => this.props.toggleIcon(i.bullet_id, i.type, i.status)}>
+                  <Icon path={p} size={0.75} />
+                </Button>
+             </ListItemIcon>
 
-           <TextField
-              id={i.bullet_id}
-              margin="normal"
-              style={{width: '50vw'}}
-              defaultValue={i.description}
-              onChange={(e) => this.props.updateBulletDescription(i.bullet_id)}
-           />
-           <ListItemIcon>
-             <Icon
-              className="bullet-delete"
-              path={mdiClose}
-              size={0.75}
-              onClick={(e) => this.props.removeBullet(i.bullet_id)} />
-           </ListItemIcon>
+             <form>
+               <Typography component="body1" variant="body1">
+                  <input
+                  onChange={(e) => {
+                    this.props.updateBulletDescription(i.bullet_id, e.target.value)}
+                  }
+                  className={this.props.classes.text_input}
+                  type="text"
+                  id={i.bullet_id}
+                  defaultValue={i.description} />
+               </Typography>
+             </form>
+
+             <ListItemIcon>
+               <Icon
+                className="bullet-delete"
+                path={mdiClose}
+                size={0.75}
+                onClick={(e) => this.props.removeBullet(i.bullet_id)} />
+             </ListItemIcon>
+
            </div>
-         </ListItem>
+         </div>
+       </ListItem>
    )
   }
 
@@ -133,7 +156,9 @@ class BulletList extends React.Component {
          Object.keys(this.props.bullets).map((k, index) => (
             <List key={index}>
               <div className={this.props.classes.list_container}>
-                  {k}
+                  <Typography component="body1" variant="body1" className={this.props.classes.date_title}>
+                    {k}
+                  </Typography>
                   {this.props.bullets[k].map(this.createList)}
               </div>
             </List>
