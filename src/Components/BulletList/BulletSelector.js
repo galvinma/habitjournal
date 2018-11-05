@@ -62,6 +62,7 @@ const styles = theme => ({
   list_item: {
     paddingTop: '6px',
     paddingBottom: '6px',
+    paddingLeft: '0px',
   },
 });
 

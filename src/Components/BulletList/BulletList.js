@@ -45,6 +45,7 @@ const styles = theme => ({
   },
   text_input: {
     maxWidth: '55vw',
+    minWidth: '40vw',
     border:'none',
     outline: 'none',
   },

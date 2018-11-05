@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -11,6 +11,7 @@ import Journal from './Pages/Journal/Journal'
 import Habits from './Pages/Habits/Habits'
 import Calendar from './Pages/Calendar/Calendar'
 import About from './Pages/About/About'
+import NotFound from './Pages/NotFound/NotFound'
 
 // css
 import './App.css';
@@ -57,6 +58,13 @@ const _About = () => (
   </div>
 )
 
+const _NotFound = () => (
+  <div>
+    <NotFound />
+  </div>
+)
+
+
 const styles = theme => ({
 
 });
@@ -66,14 +74,16 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Switch>
           <Route path="/" exact component={_Landing}/>
           <Route path="/login" exact component={_LogIn}/>
           <Route path="/signup" exact component={_SignUp}/>
-          <Route path="/journal" component={_Journal}/>
-          <Route path="/habits" component={_Habits}/>
-          <Route path="/calendar" component={_Calendar}/>
-          <Route path="/about" component={_About}/>
-
+          <Route path="/journal" exact component={_Journal}/>
+          <Route path="/habits" exact component={_Habits}/>
+          <Route path="/calendar" exact component={_Calendar}/>
+          <Route path="/about" exact component={_About}/>
+          <Route component={_NotFound}/>
+        </Switch>
       </div>
     );
   }

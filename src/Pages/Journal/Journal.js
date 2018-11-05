@@ -75,7 +75,6 @@ const styles = theme => ({
       marginTop: 'auto',
       order: '100',
       height: 'auto',
-      flexWrap: 'wrap',
     },
   },
 });
