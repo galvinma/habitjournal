@@ -10,6 +10,7 @@ import LogIn from './Pages/LogIn/LogIn'
 import Journal from './Pages/Journal/Journal'
 import Habits from './Pages/Habits/Habits'
 import Calendar from './Pages/Calendar/Calendar'
+import About from './Pages/About/About'
 
 // css
 import './App.css';
@@ -50,6 +51,12 @@ const _Habits = () => (
   </div>
 )
 
+const _About = () => (
+  <div>
+    <About />
+  </div>
+)
+
 const styles = theme => ({
 
 });
@@ -63,8 +70,9 @@ class App extends Component {
           <Route path="/login" exact component={_LogIn}/>
           <Route path="/signup" exact component={_SignUp}/>
           <Route path="/journal" component={_Journal}/>
-          <Route path="/habits" component={_Habits}/>          
+          <Route path="/habits" component={_Habits}/>
           <Route path="/calendar" component={_Calendar}/>
+          <Route path="/about" component={_About}/>
 
       </div>
     );

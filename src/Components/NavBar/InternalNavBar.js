@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Icon from '@mdi/react'
+import { mdiLogout } from '@mdi/js'
 
 // redux
 import store from '../.././Store/store'
@@ -23,20 +26,27 @@ const styles = {
     border: 'none',
     boxShadow: 'none',
   },
-  grow: {
-    flexGrow: 1,
-  },
-  spread:
-  {
+  toolbar: {
     display: 'flex',
-    justifyContent: "space-between",
-  },
-  center_items:
-  {
-    display: 'flex',
-    alignItems: 'center',
     flexDirection: 'row',
-  }
+    justifyContent: 'flex-end',
+    marginTop: '10px',
+    marginBottom: '10px',
+  },
+  link: {
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    textDecoration: 'none',
+  },
+  logo: {
+    marginRight: 'auto',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    textDecoration: 'none',
+  },
+  logout: {
+    verticalAlign: 'middle',
+  },
 };
 
 class InternalNavBar extends React.Component {
@@ -57,16 +67,25 @@ class InternalNavBar extends React.Component {
     return (
       <div className={this.props.classes.navbarContainer}>
         <AppBar className={this.props.classes.navbar} position="static">
-          <Toolbar className={this.props.classes.spread}>
-            <NavLink to="/">Website Title</NavLink>
-            <div className={this.props.classes.center_items}>
-              <NavLink to="/journal">journal</NavLink>
-              <div>/</div>
-              <NavLink to="/habits">habits</NavLink>
-              <div>/</div>
-              <NavLink to="/calendar">calendar</NavLink>
-            </div>
-            <NavLink to="/" onClick={() => this.logoutUser()}>LOG OUT</NavLink>
+          <Toolbar className={this.props.classes.toolbar}>
+            <NavLink to="/" className={this.props.classes.logo}>
+              <Typography component="body1" variant="body1">Logo</Typography>
+            </NavLink>
+            <NavLink to="/journal" className={this.props.classes.link}>
+              <Typography component="body1" variant="body1">Journal</Typography>
+            </NavLink>
+            <NavLink to="/habits" className={this.props.classes.link}>
+              <Typography component="body1" variant="body1">Habits</Typography>
+            </NavLink>
+            <NavLink to="/calendar" className={this.props.classes.link}>
+              <Typography component="body1" variant="body1">Calendar</Typography>
+            </NavLink>
+            <NavLink to="/about" className={this.props.classes.link}>
+              <Typography component="body1" variant="body1">About</Typography>
+            </NavLink>
+            <NavLink to="/" className={this.props.classes.link} onClick={() => this.logoutUser()}>
+              <Icon className={this.props.classes.logout} path={mdiLogout} size={0.75} />
+            </NavLink>
           </Toolbar>
         </AppBar>
       </div>

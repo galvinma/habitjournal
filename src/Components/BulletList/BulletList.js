@@ -37,7 +37,6 @@ const styles = theme => ({
   bulletRow: {
     paddingTop: '0px',
     paddingBottom: '0px',
-    fontFamily: 'Inconsolata, monospace',
   },
 });
 

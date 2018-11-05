@@ -8,13 +8,21 @@ import store from './Store/store'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
-  // typography: {
-  //   // Use the system font instead of the default Roboto font.
-  //   fontFamily: [
-  //     'Inconsolata, monospace',
-  //   ].join(','),
-  //   fontSize: '10',
-  // },
+  a: {
+    fontFamily: [
+      'Nunito',
+      'Nunito Sans',
+      'Montserrat',
+    ].join(','),
+  },
+
+  typography: {
+    fontFamily: [
+      'Nunito',
+      'Nunito Sans',
+      'Montserrat',
+    ].join(','),
+  },
 });
 
 ReactDOM.render(

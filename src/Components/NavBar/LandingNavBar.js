@@ -12,15 +12,20 @@ const styles = {
     border: 'none',
   },
   navbar: {
-    color: 'black',
     backgroundColor: 'transparent',
     background: 'transparent',
     borderColor: 'transparent',
     border: 'none',
     boxShadow: 'none',
   },
-  grow: {
-    flexGrow: 1,
+  toolbar: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  link: {
+    margin: '10px',
+    textDecoration: 'none',
   },
 };
 
@@ -29,14 +34,13 @@ class LandingNavBar extends React.Component {
     return (
       <div className={this.props.classes.navbarContainer}>
         <AppBar className={this.props.classes.navbar} position="static">
-          <Toolbar>
-            <Typography variant="title" color="inherit" className={this.props.classes.grow}>
-              <NavLink to="/">
-                Website Title
-              </NavLink>
-            </Typography>
-            <NavLink to="/login">Login</NavLink>
-            <NavLink to="/signup">Sign Up</NavLink>
+          <Toolbar className={this.props.classes.toolbar}>
+            <NavLink to="/login" className={this.props.classes.link}>
+              <Typography component="body1" variant="body1">Sign In</Typography>
+            </NavLink>
+            <NavLink to="/signup" className={this.props.classes.link}>
+              <Typography component="body1" variant="body1">Join</Typography>
+            </NavLink>
           </Toolbar>
         </AppBar>
       </div>
