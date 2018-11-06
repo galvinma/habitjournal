@@ -83,13 +83,13 @@ class BulletSelector extends React.Component {
                     <Icon path={mdiSquareOutline} size={0.75} />
                   </MenuItem>
                   <MenuItem value="mdiCircleOutline">
-                    <Icon path={mdiCircleOutline} size={1} />
+                    <Icon path={mdiCircleOutline} size={0.75} />
                   </MenuItem>
                   <MenuItem value="mdiTriangleOutline">
-                    <Icon path={mdiTriangleOutline} size={1} />
+                    <Icon path={mdiTriangleOutline} size={0.75} />
                   </MenuItem>
                   <MenuItem value="mdiMinus">
-                    <Icon path={mdiMinus} size={1} />
+                    <Icon path={mdiMinus} size={0.75} />
                   </MenuItem>
                 </Select>
               </FormControl>

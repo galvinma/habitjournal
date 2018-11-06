@@ -24,12 +24,19 @@ const methods = {
 
 const styles = theme => ({
   root: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: '75px',
+    minWidth: '80vw',
+    maxWidth: '100vw',
+    marginLeft: '50px',
+    marginRight: '50px',
+
+    [theme.breakpoints.down(768)]: {
+      marginLeft: '15px',
+      marginRight: '15px',
+    },
   },
 });
 
@@ -171,8 +178,6 @@ class Habits extends React.Component {
 
   toggleIcon(id)
   {
-    // parse id and name
-    // row.habit_id+"__"+dates_shortstamp[index]
     var s = id.split("_")
     var habit_id = s[0]
     var date = moment(s[1], "YYYY/MM/DD").unix()

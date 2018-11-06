@@ -58,19 +58,19 @@ class Key extends React.Component {
                 </div>
               </ListItemText>
             </ListItem>
+            <ListItem >
+              <ListItemText>
+                <div className={this.props.classes.icon_container}>
+                  <Icon className={this.props.classes.icon} path={mdiCircleOutline} size={0.75} />
+                  <Typography component="body1" variant="body1">Event</Typography>
+                </div>
+              </ListItemText>
+            </ListItem>            
             <ListItem>
               <ListItemText>
                 <div className={this.props.classes.icon_container}>
                   <Icon className={this.props.classes.icon} path={mdiTriangleOutline} size={0.75} />
                   <Typography component="body1" variant="body1">Appointment</Typography>
-                </div>
-              </ListItemText>
-            </ListItem>
-            <ListItem >
-              <ListItemText>
-                <div className={this.props.classes.icon_container}>
-                  <Icon className={this.props.classes.icon} path={mdiSquareOutline} size={0.75} />
-                  <Typography component="body1" variant="body1">Task</Typography>
                 </div>
               </ListItemText>
             </ListItem>

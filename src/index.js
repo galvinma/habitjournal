@@ -26,6 +26,13 @@ const theme = createMuiTheme({
     MuiInputLabel: {
       color: 'black',
     },
+    MuiTableCell: {
+      root: {
+        "&:last-child": {
+          paddingRight: '0',
+        }
+      }
+    },
   },
 });
 
