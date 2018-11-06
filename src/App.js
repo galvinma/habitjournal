@@ -11,6 +11,7 @@ import Journal from './Pages/Journal/Journal'
 import Habits from './Pages/Habits/Habits'
 import Calendar from './Pages/Calendar/Calendar'
 import About from './Pages/About/About'
+import Reset from './Pages/Reset/Reset'
 import NotFound from './Pages/NotFound/NotFound'
 
 // css
@@ -64,6 +65,12 @@ const _NotFound = () => (
   </div>
 )
 
+const _Reset = () => (
+  <div>
+    <Reset />
+  </div>
+)
+
 
 const styles = theme => ({
 
@@ -78,6 +85,7 @@ class App extends Component {
           <Route path="/" exact component={_Landing}/>
           <Route path="/signin" exact component={_LogIn}/>
           <Route path="/join" exact component={_SignUp}/>
+          <Route path="/reset" exact component={_Reset}/>          
           <Route path="/journal" exact component={_Journal}/>
           <Route path="/habits" exact component={_Habits}/>
           <Route path="/calendar" exact component={_Calendar}/>

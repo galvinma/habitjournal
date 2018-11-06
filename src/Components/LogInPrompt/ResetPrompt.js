@@ -39,9 +39,6 @@ const styles = theme => ({
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
-  helper: {
-    color: '#E53935',
-  }
 });
 
 class LoginPrompt extends React.Component {
@@ -50,15 +47,12 @@ class LoginPrompt extends React.Component {
 
   this.state = {
     email: "",
-    password: "",
     email_validation_text: "",
-    password_validation_text: "",
-    reset: false
+    helper_color: "#E53935",
   };
 
   this.handleChange = this.handleChange.bind(this);
-  this.checkLogin = this.checkLogin.bind(this);
-  this.resetRedirect = this.resetRedirect.bind(this);
+
 }
 
   handleChange(event) {
@@ -67,22 +61,15 @@ class LoginPrompt extends React.Component {
     });
   };
 
-  loginUser() {
+  resetPass() {
     // reset validators
     this.setState({
       email_validation_text: "",
-      password_validation_text: "",
     })
 
     if (this.state.email === "")
     {
       this.setState({ email_validation_text: "Enter a valid email address"})
-      return
-    }
-
-    if (this.state.password === "")
-    {
-      this.setState({ password_validation_text: "Enter a valid password"})
       return
     }
 
@@ -92,91 +79,55 @@ class LoginPrompt extends React.Component {
       return
     }
 
-    axios.post('http://127.0.0.1:5002/api/login', {
+    axios.post('http://127.0.0.1:5002/api/reset', {
       params: {
         email: this.state.email,
-        password: this.state.password,
       }
     })
     .then((response) => {
-      if (response.data.allow === true)
+      if (response.data.success === true)
       {
-        var token = response.data.token
-        var user = response.data.user
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('user', user);
-
-        store.dispatch(getAuthStatus({
-          auth_status: true,
-        }))
-        store.dispatch(getCurrentUser({
-          user: response.data.user,
-        }))
+        this.setState({
+          email_validation_text: "Please check your email",
+          helper_color: '#43A047'
+        })
       }
       else
       {
-        this.setState({ password_validation_text: "Incorrect email or password"})
+        this.setState({ email_validation_text: "Unable to reset password"})
       }
     })
-    .catch((error)=>{
-      console.log(error);
-    });
   }
 
-  checkLogin(event)
+  checkReset(event)
   {
     if (event.keyCode === 13) {
-        this.loginUser()
+        this.resetPass()
     }
-  }
-
-  resetRedirect() {
-    this.setState({
-      reset: true
-    })
   }
 
   render() {
-    if (store.getState().auth_status.auth_status === true) {
-      return <Redirect to='/journal' />
-    }
-    if (this.state.reset === true) {
-      return <Redirect to='/reset' />
-    }
-
     return (
       <div>
         <div className={this.props.classes.layout}>
           <Paper className={this.props.classes.paper}>
-            <Typography variant="headline">Sign In</Typography>
+            <Typography variant="headline">Reset Password</Typography>
              <form className={this.props.classes.form}>
                <FormControl
                     margin="normal"
                     required fullWidth
                     value={this.state.email}
                     onChange={this.handleChange}
-                    onKeyDown={(e) => this.checkLogin(e)}
+                    onKeyDown={(e) => this.checkReset(e)}
                     >
                  <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="email">Email Address</InputLabel>
                  <Input id="email" name="email" autoComplete="email" autoFocus />
-                 <FormHelperText className={this.props.classes.helper}>{this.state.email_validation_text}</FormHelperText>
-               </FormControl>
-               <FormControl margin="normal" required fullWidth value={this.state.password} onChange={this.handleChange}>
-                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="password">Password</InputLabel>
-                 <Input
-                   name="password"
-                   type="password"
-                   id="password"
-                   autoComplete="current-password"
-                   onKeyDown={(e) => this.checkLogin(e)}
-                 />
-                 <FormHelperText className={this.props.classes.helper}>{this.state.password_validation_text}</FormHelperText>
-                 <FormHelperText onClick={this.resetRedirect}>forgot?</FormHelperText>
+                 <FormHelperText style={{color: this.state.helper_color}}>{this.state.email_validation_text}</FormHelperText>
                </FormControl>
                <Button
                  fullWidth
                  className={this.props.classes.submit}
-                 onClick={() => this.loginUser()} >Sign In
+                 onClick={() => this.resetPass()} >Reset Password
                </Button>
             </form>
           </Paper>

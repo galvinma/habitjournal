@@ -24,10 +24,12 @@ var login = require('./routes/login');
 var checktoken = require('./routes/checktoken');
 var bullets = require('./routes/bullets')
 var habits = require('./routes/habits')
+var reset = require('./routes/reset')
 
 //
 app.use('/api', signup);
 app.use('/api', login);
+app.use('/api', reset)
 app.use('/api', checktoken);
 app.use('/api', bullets)
 app.use('/api', habits)

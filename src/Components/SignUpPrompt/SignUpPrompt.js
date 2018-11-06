@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 
 // redux
@@ -16,6 +17,8 @@ import store from '../.././Store/store'
 import { connect } from "react-redux";
 import {getAuthStatus, getCurrentUser} from '../.././Actions/actions'
 
+// email val
+var validator = require("email-validator");
 
 const styles = theme => ({
   layout: {
@@ -36,6 +39,9 @@ const styles = theme => ({
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
+  helper: {
+    color: '#E53935',
+  }
 });
 
 class SignUpPrompt extends React.Component {
@@ -60,12 +66,45 @@ class SignUpPrompt extends React.Component {
   };
 
   signUpUser() {
+
+    this.setState({
+      firstname_validation_text: "",
+      lastname_validation_text: "",
+      email_validation_text: "",
+      password_validation_text: "",
+    })
+
+    if (this.state.email === "" ||
+        this.state.password === "" ||
+        this.state.firstname === "" ||
+        this.state.lastname === "")
+    {
+      this.setState({ password_validation_text: "Missing required field(s)"})
+      return
+    }
+
+    if (validator.validate(this.state.email) === false)
+    {
+      this.setState({ email_validation_text: "Invalid email address"})
+      return
+    }
+
+    if (this.state.password.length < 8)
+    {
+      this.setState({ password_validation_text: "Password must be at least 8 characters"})
+      return
+    }
+
     axios.post('http://127.0.0.1:5002/api/signup', {
       params: {
         email: this.state.email,
         password: this.state.password,
         firstname: this.state.firstname,
         lastname: this.state.lastname,
+        email_validation_text: "",
+        password_validation_text: "",
+        firstname_validation_text: "",
+        lastname_validation_text: "",
       }
     })
     .then((response) => {
@@ -83,10 +122,11 @@ class SignUpPrompt extends React.Component {
           user: response.data.user,
         }))
       }
+      else
+      {
+        this.setState({ password_validation_text: "Unable to register user"})
+      }
     })
-    .catch((error)=>{
-      console.log(error);
-    });
   }
 
   checkJoin(event)
@@ -109,14 +149,17 @@ class SignUpPrompt extends React.Component {
                <FormControl margin="normal" required fullWidth value={this.state.firstname} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
                  <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}}  htmlFor="firstname">First Name</InputLabel>
                  <Input id="firstname" name="firstname" autoComplete="firstname" autoFocus />
+                 <FormHelperText className={this.props.classes.helper}>{this.state.firstname_validation_text}</FormHelperText>
                </FormControl>
                <FormControl margin="normal" required fullWidth value={this.state.lastname} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
                  <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="lastname">Last Name</InputLabel>
                  <Input id="lastname" name="lastname" autoComplete="lastname" />
+                 <FormHelperText className={this.props.classes.helper}>{this.state.lastname_validation_text}</FormHelperText>
                </FormControl>
                <FormControl margin="normal" required fullWidth value={this.state.email}  onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
                  <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="email">Email Address</InputLabel>
                  <Input id="email" name="email" autoComplete="email" />
+                 <FormHelperText className={this.props.classes.helper}>{this.state.email_validation_text}</FormHelperText>
                </FormControl>
                <FormControl margin="normal" required fullWidth value={this.state.password} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
                  <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="password">Password</InputLabel>
@@ -126,6 +169,7 @@ class SignUpPrompt extends React.Component {
                    id="password"
                    autoComplete="current-password"
                  />
+                 <FormHelperText className={this.props.classes.helper}>{this.state.password_validation_text}</FormHelperText>
                </FormControl>
                <Button
                  fullWidth
