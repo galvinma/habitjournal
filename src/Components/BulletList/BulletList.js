@@ -18,6 +18,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Button from '@material-ui/core/Button';
 
+// functions
+import { toggleIcon } from '../.././Utils/toggleicon'
+
 import './BulletList.css'
 
 const styles = theme => ({
@@ -59,7 +62,7 @@ class BulletList extends React.Component {
   super(props);
   this.state = {
     bullets: this.props.bullets,
-    description: this.props.description,
+    title: this.props.title,
     type: this.props.type,
     selected: this.props.selected,
     count: 0,
@@ -114,22 +117,25 @@ class BulletList extends React.Component {
    {
      var p = this.convertType(i)
      return (
-       <ListItem key={i.bullet_id} className={this.props.classes.bulletRow}>
+       <ListItem key={i.entry_id} className={this.props.classes.bulletRow}>
         <div className="bullet-item">
           <div className={this.props.classes.bulletItem}>
              <ListItemIcon>
-                <Button onClick={(e) => this.props.toggleIcon(i.bullet_id, i.type, i.status)}>
+                <Button onClick={(e) => {
+                  toggleIcon(i.entry_id, i.type, i.status)
+                  this.props.getBullets()
+                  }}>
                   <Icon path={p} size={0.75} />
                 </Button>
              </ListItemIcon>
 
              <form>
                <Typography variant="body1">
-                  <input onChange={(e) => {this.props.updateBulletDescription(i.bullet_id, e.target.value)}}
+                  <input onChange={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
                   className={this.props.classes.text_input}
                   type="text"
-                  id={i.bullet_id}
-                  defaultValue={i.description} />
+                  id={i.entry_id}
+                  defaultValue={i.title} />
                </Typography>
              </form>
 
@@ -138,7 +144,7 @@ class BulletList extends React.Component {
                 className="bullet-delete"
                 path={mdiClose}
                 size={0.75}
-                onClick={(e) => this.props.removeBullet(i.bullet_id)} />
+                onClick={(e) => this.props.removeBullet(i.entry_id)} />
              </ListItemIcon>
 
            </div>

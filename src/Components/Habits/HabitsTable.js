@@ -162,10 +162,10 @@ class HabitsTable extends React.Component {
           <TableBody>
             {this.props.habits.map(row => {
               return (
-                <TableRow key={row.name} id={row.habit_id}>
+                <TableRow key={row.title} id={row.habit_id}>
                   <TableCell className={this.props.classes.cell_style} component="th" scope="row">
                     <Typography component="div" variant="body1" className={this.props.classes.habit_name}>
-                      {row.name}
+                      {row.title}
                     </Typography>
                   </TableCell>
                   {dates.map((date, index) => {

@@ -110,8 +110,8 @@ class BulletSelector extends React.Component {
                 <Typography variant="body1">
                    <input
                    className={this.props.classes.text_input}
-                   defaultValue={this.props.description}
-                   onChange={(e) => this.props.descriptionChange(e)}
+                   defaultValue={this.props.title}
+                   onChange={(e) => this.props.titleChange(e)}
                    onKeyDown={(e) => this.props.checkSubmit(e)} />
                 </Typography>
               </form>

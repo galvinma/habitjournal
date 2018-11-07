@@ -6,6 +6,7 @@ import {  mdiSquare,
           mdiTriangleOutline,
           mdiMinus,
           mdiClose,
+          mdiFlowerOutline,
         } from '@mdi/js'
 
 export function convertToIcon(i)
@@ -40,9 +41,14 @@ export function convertToIcon(i)
     return mdiTriangle
   }
 
-  if (i.type === 'habit')
+  if (i.type === 'note')
   {
     return mdiMinus
+  }
+
+  if (i.type === 'habit')
+  {
+    return mdiFlowerOutline
   }
 
   return null

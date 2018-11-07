@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
 var Users = require('.././model/users');
 var Habits = require('.././model/habits');
-var habitEntries = require('.././model/habitentries');
+var Entries = require('.././model/entries');
 
 
 var router = express.Router();
@@ -28,12 +28,12 @@ router.route('/return_habit_names')
   })
 });
 
-router.route('/create_habit')
+router.route('/save_habit')
 .post(function(req, res, next) {
   var new_habit = new Habits();
   new_habit.habit_id = new ObjectId();
   new_habit.user_id = req.body.params.user
-  new_habit.name = req.body.params.name
+  new_habit.title = req.body.params.title
   new_habit.save(function(err) {
       if (err)
       {
@@ -48,7 +48,7 @@ router.route('/create_habit')
 router.route('/log_habit')
 .post(function(req, res, next) {
   // check if habit exists
-  habitEntries.find({ user_id: req.body.params.user,  habit_id: req.body.params.habit_id, date: req.body.params.date}).lean().exec(function(err, habits) {
+  Entries.find({ user_id: req.body.params.user,  habit_id: req.body.params.habit_id, date: req.body.params.date}).lean().exec(function(err, habits) {
     if (err)
     {
       throw err
@@ -65,7 +65,7 @@ router.route('/log_habit')
         new_status = "0"
       }
 
-      habitEntries.update({ habit_entry_id: habits[0].habit_entry_id },{status: new_status}).lean().exec(function(err, docs) {
+      Entries.update({ entry_id: habits[0].entry_id },{status: new_status}).lean().exec(function(err, docs) {
         if (err)
         {
           throw err
@@ -77,21 +77,22 @@ router.route('/log_habit')
     }
     else // create habit entry
     {
-      // get name
-      Habits.find({ user_id: req.body.params.user,  habit_id: req.body.params.habit_id}).lean().exec(function(err, name) {
+      Habits.find({ user_id: req.body.params.user,  habit_id: req.body.params.habit_id}).lean().exec(function(err, title) {
         if (err)
         {
           throw err
         }
-        var new_habit_entry= new habitEntries();
-        new_habit_entry.habit_entry_id = new ObjectId();
-        new_habit_entry.user_id = req.body.params.user
-        new_habit_entry.date = req.body.params.date
-        new_habit_entry.habit_id = req.body.params.habit_id
-        new_habit_entry.name = name[0].name
-        new_habit_entry.status = "1"
+        var entry = new Entries();
+        entry.entry_id = new ObjectId();
+        entry.user_id = req.body.params.user
+        entry.habit_id = req.body.params.habit_id || null
+        entry.date = req.body.params.date
+        entry.type = req.body.params.type
+        entry.title = title[0].title
+        entry.description = title[0].description
+        entry.status = "1"
 
-        new_habit_entry.save(function(err) {
+        entry.save(function(err) {
             if (err)
             {
               throw err
@@ -104,23 +105,5 @@ router.route('/log_habit')
     }
   })
 })
-
-router.route('/return_habit_entries')
-  .post(function(req, res, next) {
-    if (req.body.params.user === 'null')
-    {
-      return
-    }
-    habitEntries.find({ user_id: req.body.params.user }).sort({date: -1}).lean().exec(function(err, habits) {
-      if (err)
-      {
-        throw err
-      }
-      res.json({
-        habit_entries: habits,
-      });
-  })
-});
-
 
 module.exports = router;

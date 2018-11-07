@@ -84,7 +84,7 @@ class Journal extends React.Component {
   super(props);
   this.state = {
     bullets: {}, // date --> bullet list
-    description: '',
+    title: '',
     type: 'task',
     selected: 'mdiSquareOutline',
     selectedMonth: moment().format('MMMM, YYYY'), // initializes to current month
@@ -97,28 +97,28 @@ class Journal extends React.Component {
 
   this.addBullet = this.addBullet.bind(this)
   this.selectorChange = this.selectorChange.bind(this)
-  this.descriptionChange = this.descriptionChange.bind(this)
+  this.titleChange = this.titleChange.bind(this)
   this.removeBullet = this.removeBullet.bind(this)
-  this.toggleIcon = this.toggleIcon.bind(this)
-  this.updateBulletDescription = this.updateBulletDescription.bind(this)
+  this.updateBulletTitle = this.updateBulletTitle.bind(this)
   this.checkSubmit = this.checkSubmit.bind(this)
   this.changeSelectedMonth = this.changeSelectedMonth.bind(this)
   this.dateChange = this.dateChange.bind(this)
+  this.getBullets = this.getBullets.bind(this)
   }
 
   addBullet()
   {
-    axios.post('http://127.0.0.1:5002/api/save_bullet', {
+    axios.post('http://127.0.0.1:5002/api/save_entry', {
       params: {
         user: sessionStorage.getItem('user'),
         type: this.state.type,
-        description: this.state.description,
-        date: this.state.selectedDate // moment().unix();
+        title: this.state.title,
+        date: this.state.selectedDate
       }
     })
     .then((response) => {
       this.setState({
-        description: ""
+        title: ""
       });
 
     })
@@ -131,38 +131,39 @@ class Journal extends React.Component {
 
   getBullets()
   {
-    axios.post('http://127.0.0.1:5002/api/return_bullets', {
+    axios.post('http://127.0.0.1:5002/api/return_entries', {
       params: {
         user: sessionStorage.getItem('user'),
       }
     })
     .then((response) => {
-      var res = response.data.bullets
+      var res = response.data.entries
       var new_bullets = {}
       var new_months = []
       res.forEach(bullet => {
-          let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
-          let navMonth = moment.unix(bullet.date).format('MMMM, YYYY')
-
-          // create a list of all bullets for the given month
-          if (navMonth === this.state.selectedMonth)
+          if (bullet.type !== "habit")
           {
-            if (!(new_bullets[timestamp]))
+            let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
+            let navMonth = moment.unix(bullet.date).format('MMMM, YYYY')
+
+            // create a list of all bullets for the given month
+            if (navMonth === this.state.selectedMonth)
             {
-              new_bullets[timestamp] = [bullet]
+              if (!(new_bullets[timestamp]))
+              {
+                new_bullets[timestamp] = [bullet]
+              }
+              else
+              {
+                new_bullets[timestamp].push(bullet)
+              }
             }
-            else
+            // create a list of all available months
+            if (new_months.indexOf(navMonth) === -1)
             {
-              new_bullets[timestamp].push(bullet)
+              new_months.push(navMonth)
             }
           }
-
-          // create a list of all available months
-          if (new_months.indexOf(navMonth) === -1)
-          {
-            new_months.push(navMonth)
-          }
-
       })
 
       this.setState({
@@ -183,9 +184,6 @@ class Journal extends React.Component {
       selected: event.target.value }
     );
 
-    // mdiCircleOutline = Event
-    // mdiSquareOutline = Task
-    // mdiTriangleOutline = Habit
     if (event.target.value === 'mdiCircleOutline')
     {
       this.setState({
@@ -218,18 +216,18 @@ class Journal extends React.Component {
     }
   }
 
-  descriptionChange(event)
+  titleChange(event)
   {
     this.setState({
-      description: event.target.value
+      title: event.target.value
     });
   };
 
   removeBullet(id)
   {
-    axios.post('http://127.0.0.1:5002/api/remove_bullet', {
+    axios.post('http://127.0.0.1:5002/api/remove_entry', {
       params: {
-        bullet_id: id
+        entry_id: id
       }
     })
     .then((response) => {
@@ -240,37 +238,15 @@ class Journal extends React.Component {
     .catch((error)=>{
       console.log(error);
     });
-
   }
 
-  toggleIcon(id, type, status)
+  updateBulletTitle(entry_id, val)
   {
-
-    axios.post('http://127.0.0.1:5002/api/update_bullet_status', {
+    // var val = document.getElementById(entry_id).value;
+    axios.post('http://127.0.0.1:5002/api/update_entry_title', {
       params: {
-        bullet_id: id,
-        type: type,
-        status: status,
-      }
-    })
-    .then((response) => {
-      console.log(response)
-
-    })
-    .catch((error)=>{
-      console.log(error);
-    });
-
-    this.getBullets()
-  }
-
-  updateBulletDescription(bullet_id, val)
-  {
-    // var val = document.getElementById(bullet_id).value;
-    axios.post('http://127.0.0.1:5002/api/update_bullet_description', {
-      params: {
-        bullet_id: bullet_id,
-        description: val,
+        entry_id: entry_id,
+        title: val,
       }
     })
     .then((response) => {
@@ -315,11 +291,11 @@ class Journal extends React.Component {
               <BulletSelector
                 checkSubmit = {this.checkSubmit}
                 selectorChange = {this.selectorChange}
-                descriptionChange = {this.descriptionChange}
+                titleChange = {this.titleChange}
                 addBullet = {this.addBullet}
                 dateChange = {this.dateChange}
                 selected={this.state.selected}
-                description={this.state.description}
+                title={this.state.title}
                 type={this.state.type}
                 bullets={this.state.bullets}
                 selectedMonth={this.state.selectedMonth}
@@ -328,7 +304,8 @@ class Journal extends React.Component {
                 bullets={this.state.bullets}
                 removeBullet={this.removeBullet}
                 toggleIcon={this.toggleIcon}
-                updateBulletDescription={this.updateBulletDescription}
+                getBullets={this.getBullets}
+                updateBulletTitle={this.updateBulletTitle}
                 className={this.props.classes.bulletlist} />
           </div>
           <div className={this.props.classes.month_container}>

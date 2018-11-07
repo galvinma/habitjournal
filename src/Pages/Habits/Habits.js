@@ -88,13 +88,13 @@ class Habits extends React.Component {
   getHabitEntries()
   {
 
-    axios.post('http://127.0.0.1:5002/api/return_habit_entries', {
+    axios.post('http://127.0.0.1:5002/api/return_entries', {
       params: {
         user: sessionStorage.getItem('user'),
       }
     })
     .then((response) => {
-      var res = response.data.habit_entries
+      var res = response.data.entries
       var new_entries = []
       res.forEach(entry => {
         new_entries.push(entry)
@@ -155,10 +155,10 @@ class Habits extends React.Component {
 
   createHabit()
   {
-    axios.post('http://127.0.0.1:5002/api/create_habit', {
+    axios.post('http://127.0.0.1:5002/api/save_habit', {
       params: {
         user: sessionStorage.getItem('user'),
-        name: this.state.modalValue
+        title: this.state.modalValue
       }
     })
     .then((response) => {
@@ -174,6 +174,23 @@ class Habits extends React.Component {
     })
   }
 
+  deleteHabit(id)
+  {
+    axios.post('http://127.0.0.1:5002/api/remove_entry', {
+      params: {
+        entry_id: id
+      }
+    })
+    .then((response) => {
+      console.log(response)
+      this.getBullets()
+
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+
   toggleIcon(id)
   {
     var s = id.split("_")
@@ -183,6 +200,7 @@ class Habits extends React.Component {
       params: {
         user: sessionStorage.getItem('user'),
         habit_id: habit_id,
+        type: 'habit',
         date: date,
       }
     })

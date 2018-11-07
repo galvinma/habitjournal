@@ -14,6 +14,7 @@ import {  mdiSquare,
           mdiTriangleOutline,
           mdiMinus,
           mdiClose,
+          mdiFlowerOutline,
         } from '@mdi/js'
 
 // Components
@@ -87,17 +88,15 @@ class Calendar extends React.Component {
     this.nextMonthHandler = this.nextMonthHandler.bind(this)
     this.updateCalendarBody = this.updateCalendarBody.bind(this)
     this.updateCalendarHeader = this.updateCalendarHeader.bind(this)
-    this.removeOldBullets = this.removeOldBullets.bind(this)
-    this.getCalendarHabits = this.getCalendarHabits.bind(this)
-    this.getCalendarBullets = this.getCalendarBullets.bind(this)
+    this.removeOldEntries = this.removeOldEntries.bind(this)
+    this.getCalendarEntries = this.getCalendarEntries.bind(this)
 
-    this.getCalendarBullets()
-    this.getCalendarHabits()
+    this.getCalendarEntries()
   }
 
   prevMonthHandler() {
 
-    this.removeOldBullets()
+    this.removeOldEntries()
 
     this.setState({
       selectedMonth: this.state.selectedMonth - 1,
@@ -107,13 +106,12 @@ class Calendar extends React.Component {
     })
 
     this.updateCalendarBody()
-    this.getCalendarBullets()
-    this.getCalendarHabits()
+    this.getCalendarEntries()
   }
 
   nextMonthHandler() {
 
-    this.removeOldBullets()
+    this.removeOldEntries()
 
     this.setState({
       selectedMonth: this.state.selectedMonth + 1,
@@ -123,8 +121,7 @@ class Calendar extends React.Component {
     })
 
     this.updateCalendarBody()
-    this.getCalendarBullets()
-    this.getCalendarHabits()
+    this.getCalendarEntries()
   }
 
   updateCalendarHeader()
@@ -185,88 +182,66 @@ class Calendar extends React.Component {
     return row
   }
 
-  getCalendarBullets()
+  getCalendarEntries()
   {
-    axios.post('http://127.0.0.1:5002/api/return_bullets', {
+    axios.post('http://127.0.0.1:5002/api/return_entries', {
       params: {
         user: sessionStorage.getItem('user'),
       }
     })
     .then((response) => {
-      var res = response.data.bullets
-      res.forEach(bullet => {
+      var res = response.data.entries
+      res.forEach(entry => {
 
-        let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
-        if (document.getElementById(String(timestamp)))
+        if (entry.type !== 'note')
         {
-          // Insert the SVG
-          let temp = document.getElementById(timestamp)
-          let node = document.createElement("div");
-          var type = convertToIcon(bullet)
-          var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-          svg.setAttribute('class', "calendar_icons")
-          svg.setAttributeNS(null, "viewBox", "0 0 24 24")
-          svg.setAttributeNS(null, "style", "width:1rem")
-          let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
-          newpath.setAttributeNS(null, "d", type);
 
-          svg.onclick = function() {
-              toggleIcon(bullet.bullet_id, bullet.type, bullet.status)
-              if (bullet.status === "0")
-              {
-                bullet.status = "1"
-                type = convertToIcon(bullet)
-                newpath.setAttributeNS(null, "d", type);
-              }
-              else
-              {
-                bullet.status = "0"
-                type = convertToIcon(bullet)
-                newpath.setAttributeNS(null, "d", type);
-              }
-          };
+                  let timestamp = moment.unix(entry.date).format('dddd, MMMM Do, YYYY')
+                  if (document.getElementById(String(timestamp)))
+                  {
+                    // Insert the SVG
+                    let temp = document.getElementById(timestamp)
+                    let node = document.createElement("div");
+                    var type = convertToIcon(entry)
+                    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                    svg.setAttribute('class', "calendar_icons")
+                    svg.setAttributeNS(null, "viewBox", "0 0 24 24")
+                    svg.setAttributeNS(null, "style", "width:1rem")
+                    let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
+                    newpath.setAttributeNS(null, "d", type);
 
-          svg.appendChild(newpath)
-          node.appendChild(svg)
+                    svg.onclick = function() {
+                        toggleIcon(entry.entry_id, entry.type, entry.status)
+                        if (entry.status === "0")
+                        {
+                          entry.status = "1"
+                          type = convertToIcon(entry)
+                          newpath.setAttributeNS(null, "d", type);
+                        }
+                        else
+                        {
+                          entry.status = "0"
+                          type = convertToIcon(entry)
+                          newpath.setAttributeNS(null, "d", type);
+                        }
+                    };
 
-          // Insert the bullet/habit text
-          let textnode = document.createTextNode(bullet.description)
-          node.appendChild(textnode)
+                    svg.appendChild(newpath)
+                    node.appendChild(svg)
 
-          temp.appendChild(node);
+                    // Insert the bullet/habit text
+                    let textnode = document.createTextNode(entry.title)
+                    node.appendChild(textnode)
+
+                    temp.appendChild(node);
+        }
 
         }
       })
     })
   }
 
-  getCalendarHabits()
-  {
-    axios.post('http://127.0.0.1:5002/api/return_habit_entries', {
-      params: {
-        user: sessionStorage.getItem('user'),
-      }
-    })
-    .then((response) => {
-      var res = response.data.habit_entries
-      res.forEach(entry => {
-          if (entry.status === '1')
-          {
-            let timestamp = moment.unix(entry.date).format('dddd, MMMM Do, YYYY')
-            if (document.getElementById(String(timestamp)))
-            {
-              let temp = document.getElementById(timestamp)
-              let node = document.createElement("div");
-              let textnode = document.createTextNode(entry.name)
-              node.appendChild(textnode)
-              temp.appendChild(node);
-            }
-          }
-        })
-      })
-  }
-
-  removeOldBullets()
+  removeOldEntries()
   {
     var count = 1;
 
@@ -277,7 +252,6 @@ class Calendar extends React.Component {
       count++
     }
   }
-
 
   render() {
     if (store.getState().auth_status.auth_status === false) {
@@ -296,7 +270,7 @@ class Calendar extends React.Component {
               daysInMonth={this.state.daysInMonth}
               selectedMonth={this.state.selectedMonth}
               firstDayOfMonthDate={this.state.firstDayOfMonthDate}
-              getCalendarBullets={this.getCalendarBullets}
+              getCalendarEntries={this.getCalendarEntries}
               updateCalendarHeader={this.updateCalendarHeader}
               updateCalendarBody={this.updateCalendarBody} />
         </div>

@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 var Habits = new Schema({
     habit_id: {type: ObjectId, required: true},
     user_id: {type: ObjectId, required: true},
-    name: {type: String, required: true},
+    title: {type: String, required: true},
 });
 
 module.exports = mongoose.model('Habits', Habits);
