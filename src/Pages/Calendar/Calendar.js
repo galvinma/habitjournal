@@ -24,6 +24,7 @@ import CalendarBody from '../.././Components/Calendar/CalendarBody.js'
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
 import { convertToIcon } from '../.././Utils/convertoicon'
+import { toggleIcon } from '../.././Utils/toggleicon'
 
 // redux
 import store from '../.././Store/store'
@@ -87,6 +88,8 @@ class Calendar extends React.Component {
     this.updateCalendarBody = this.updateCalendarBody.bind(this)
     this.updateCalendarHeader = this.updateCalendarHeader.bind(this)
     this.removeOldBullets = this.removeOldBullets.bind(this)
+    this.getCalendarHabits = this.getCalendarHabits.bind(this)
+    this.getCalendarBullets = this.getCalendarBullets.bind(this)
 
     this.getCalendarBullets()
     this.getCalendarHabits()
@@ -196,19 +199,37 @@ class Calendar extends React.Component {
         let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
         if (document.getElementById(String(timestamp)))
         {
+          // Insert the SVG
           let temp = document.getElementById(timestamp)
           let node = document.createElement("div");
           var type = convertToIcon(bullet)
-
           var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
           svg.setAttribute('class', "calendar_icons")
           svg.setAttributeNS(null, "viewBox", "0 0 24 24")
           svg.setAttributeNS(null, "style", "width:1rem")
           let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
           newpath.setAttributeNS(null, "d", type);
+
+          svg.onclick = function() {
+              toggleIcon(bullet.bullet_id, bullet.type, bullet.status)
+              if (bullet.status === "0")
+              {
+                bullet.status = "1"
+                type = convertToIcon(bullet)
+                newpath.setAttributeNS(null, "d", type);
+              }
+              else
+              {
+                bullet.status = "0"
+                type = convertToIcon(bullet)
+                newpath.setAttributeNS(null, "d", type);
+              }
+          };
+
           svg.appendChild(newpath)
           node.appendChild(svg)
 
+          // Insert the bullet/habit text
           let textnode = document.createTextNode(bullet.description)
           node.appendChild(textnode)
 
