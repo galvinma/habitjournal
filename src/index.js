@@ -24,7 +24,7 @@ const theme = createMuiTheme({
       },
     },
     MuiInputLabel: {
-      color: 'black',
+      color: '#212121',
     },
     MuiTableCell: {
       root: {

@@ -54,7 +54,7 @@ class Key extends React.Component {
               <ListItemText>
                 <div className={this.props.classes.icon_container}>
                   <Icon className={this.props.classes.icon} path={mdiSquareOutline} size={0.75} />
-                  <Typography component="body1" variant="body1">Task</Typography>
+                  <Typography variant="body1">Task</Typography>
                 </div>
               </ListItemText>
             </ListItem>
@@ -62,15 +62,15 @@ class Key extends React.Component {
               <ListItemText>
                 <div className={this.props.classes.icon_container}>
                   <Icon className={this.props.classes.icon} path={mdiCircleOutline} size={0.75} />
-                  <Typography component="body1" variant="body1">Event</Typography>
+                  <Typography variant="body1">Event</Typography>
                 </div>
               </ListItemText>
-            </ListItem>            
+            </ListItem>
             <ListItem>
               <ListItemText>
                 <div className={this.props.classes.icon_container}>
                   <Icon className={this.props.classes.icon} path={mdiTriangleOutline} size={0.75} />
-                  <Typography component="body1" variant="body1">Appointment</Typography>
+                  <Typography variant="body1">Appointment</Typography>
                 </div>
               </ListItemText>
             </ListItem>
@@ -78,7 +78,7 @@ class Key extends React.Component {
               <ListItemText>
                 <div className={this.props.classes.icon_container}>
                   <Icon className={this.props.classes.icon} path={mdiMinus} size={0.75} />
-                  <Typography component="body1" variant="body1">Note</Typography>
+                  <Typography variant="body1">Note</Typography>
                 </div>
               </ListItemText>
             </ListItem>

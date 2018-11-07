@@ -95,14 +95,11 @@ class BulletSelector extends React.Component {
               </FormControl>
 
               <form className={this.props.classes.dateStyle}>
-                <Typography component="body1" variant="body1">
+                <Typography variant="body1">
                   <input
                     className={this.props.classes.dateInput}
                     id="date"
                     type="date"
-                    InputProps={{
-                     disableUnderline: true,
-                    }}
                     defaultValue={moment.unix(this.props.selectedDate).format('YYYY-MM-DD')}
                     onChange={(e) => this.props.dateChange(e)}
                   />
@@ -110,7 +107,7 @@ class BulletSelector extends React.Component {
               </form>
 
               <form className={this.props.classes.formStyle}>
-                <Typography component="body1" variant="body1">
+                <Typography variant="body1">
                    <input
                    className={this.props.classes.text_input}
                    defaultValue={this.props.description}

@@ -93,12 +93,12 @@ class BulletList extends React.Component {
       return mdiSquare
     }
 
-    if (i.type === 'habit'&& i.status === "0")
+    if (i.type === 'appointment' && i.status === "0")
     {
       return mdiTriangleOutline
     }
 
-    if (i.type === 'habit'&& i.status === "1")
+    if (i.type === 'appointment' && i.status === "1")
     {
       return mdiTriangle
     }
@@ -124,11 +124,8 @@ class BulletList extends React.Component {
              </ListItemIcon>
 
              <form>
-               <Typography component="body1" variant="body1">
-                  <input
-                  onChange={(e) => {
-                    this.props.updateBulletDescription(i.bullet_id, e.target.value)}
-                  }
+               <Typography variant="body1">
+                  <input onChange={(e) => {this.props.updateBulletDescription(i.bullet_id, e.target.value)}}
                   className={this.props.classes.text_input}
                   type="text"
                   id={i.bullet_id}
@@ -157,7 +154,7 @@ class BulletList extends React.Component {
          Object.keys(this.props.bullets).map((k, index) => (
             <List key={index}>
               <div className={this.props.classes.list_container}>
-                  <Typography component="body1" variant="body1" className={this.props.classes.date_title}>
+                  <Typography variant="body1" className={this.props.classes.date_title}>
                     {k}
                   </Typography>
                   {this.props.bullets[k].map(this.createList)}

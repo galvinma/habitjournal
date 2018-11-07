@@ -37,10 +37,10 @@ class LandingNavBar extends React.Component {
         <AppBar className={this.props.classes.navbar} position="static">
           <Toolbar className={this.props.classes.toolbar}>
             <NavLink to="/signin" className={this.props.classes.link}>
-              <Typography component="body1" variant="body1">Sign In</Typography>
+              <Typography variant="body1">Sign In</Typography>
             </NavLink>
             <NavLink to="/join" className={this.props.classes.link}>
-              <Typography component="body1" variant="body1">Join</Typography>
+              <Typography variant="body1">Join</Typography>
             </NavLink>
           </Toolbar>
         </AppBar>

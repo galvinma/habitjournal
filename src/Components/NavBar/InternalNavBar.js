@@ -109,19 +109,19 @@ class InternalNavBar extends React.Component {
         <AppBar className={this.props.classes.navbar} position="static">
           <Toolbar className={this.props.classes.toolbar_open}>
             <NavLink to="/" className={this.props.classes.logo}>
-              <Typography component="body1" variant="body1">Logo</Typography>
+              <Typography variant="body1">Logo</Typography>
             </NavLink>
             <NavLink to="/journal" className={this.props.classes.link}>
-              <Typography component="body1" variant="body1">Journal</Typography>
+              <Typography variant="body1">Journal</Typography>
             </NavLink>
             <NavLink to="/habits" className={this.props.classes.link}>
-              <Typography component="body1" variant="body1">Habits</Typography>
+              <Typography variant="body1">Habits</Typography>
             </NavLink>
             <NavLink to="/calendar" className={this.props.classes.link}>
-              <Typography component="body1" variant="body1">Calendar</Typography>
+              <Typography variant="body1">Calendar</Typography>
             </NavLink>
             <NavLink to="/about" className={this.props.classes.link}>
-              <Typography component="body1" variant="body1">About</Typography>
+              <Typography variant="body1">About</Typography>
             </NavLink>
             <NavLink to="/" className={this.props.classes.link} onClick={() => this.logoutUser()}>
               <Icon className={this.props.classes.logout} path={mdiLogout} size={0.75} />
@@ -129,7 +129,7 @@ class InternalNavBar extends React.Component {
           </Toolbar>
           <Toolbar className={this.props.classes.toolbar_collapse}>
             <NavLink to="/" className={this.props.classes.logo}>
-              <Typography component="body1" variant="body1">Logo</Typography>
+              <Typography variant="body1">Logo</Typography>
             </NavLink>
             <Icon
             aria-owns={anchorEl ? 'simple-menu' : undefined}
@@ -143,27 +143,27 @@ class InternalNavBar extends React.Component {
               onClose={this.handleClose} >
               <MenuItem onClick={this.handleClose}>
                 <NavLink to="/journal" className={this.props.classes.link}>
-                  <Typography component="body1" variant="body1">Journal</Typography>
+                  <Typography variant="body1">Journal</Typography>
                 </NavLink>
               </MenuItem>
               <MenuItem onClick={this.handleClose}>
                 <NavLink to="/habits" className={this.props.classes.link}>
-                  <Typography component="body1" variant="body1">Habits</Typography>
+                  <Typography variant="body1">Habits</Typography>
                 </NavLink>
               </MenuItem>
               <MenuItem onClick={this.handleClose}>
                 <NavLink to="/calendar" className={this.props.classes.link}>
-                  <Typography component="body1" variant="body1">Calendar</Typography>
+                  <Typography variant="body1">Calendar</Typography>
                 </NavLink>
               </MenuItem>
               <MenuItem onClick={this.handleClose}>
                 <NavLink to="/about" className={this.props.classes.link}>
-                  <Typography component="body1" variant="body1">About</Typography>
+                  <Typography variant="body1">About</Typography>
                 </NavLink>
               </MenuItem>
               <MenuItem onClick={this.handleClose}>
                 <NavLink to="/" className={this.props.classes.link} onClick={() => this.logoutUser()}>
-                  <Typography component="body1" variant="body1">Sign Out</Typography>
+                  <Typography variant="body1">Sign Out</Typography>
                 </NavLink>
               </MenuItem>
             </Menu>

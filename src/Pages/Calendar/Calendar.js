@@ -4,6 +4,17 @@ import axios from 'axios';
 import moment from 'moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Icon from '@mdi/react'
+import {  mdiSquare,
+          mdiSquareOutline,
+          mdiCircle,
+          mdiCircleOutline,
+          mdiTriangle,
+          mdiTriangleOutline,
+          mdiMinus,
+          mdiClose,
+        } from '@mdi/js'
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -12,6 +23,7 @@ import CalendarBody from '../.././Components/Calendar/CalendarBody.js'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
+import { convertToIcon } from '../.././Utils/convertoicon'
 
 // redux
 import store from '../.././Store/store'
@@ -24,29 +36,33 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '75px',
+    marginTop: '70px',
   },
-  calendar_cell: {
+  typo_width: {
+    width: '12.8vw',
+  },
+  calendar_list: {
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'left',
-    width: '12.8vw',
-    maxWidth: '12.8vw',
     height: '12.5vh',
-    wordWrap: 'break-word',
+    overflow: 'hidden',
+    // overflowY: 'scroll',
+    textOverflow: 'ellipsis',
     listStyle: 'none',
     padding: '0',
     margin: '0',
   },
   calendar_header_names: {
-    display: 'inline-block',
     flexGrow: 1,
     textAlign: 'left',
     width: '12.8vw',
     maxWidth: '12.8vw',
     height: '5vh',
-  }
-
+  },
+  hidden: {
+    visibility: "hidden",
+  },
 });
 
 class Calendar extends React.Component {
@@ -93,7 +109,6 @@ class Calendar extends React.Component {
 
     this.removeOldBullets()
 
-
     this.setState({
       selectedMonth: this.state.selectedMonth + 1,
       firstDayOfMonthDate: moment(this.state.firstDayOfMonthDate).add(1, 'months').format('YYYY-MM-DD'),
@@ -114,7 +129,9 @@ class Calendar extends React.Component {
     while (day_name_count < 7) {
         col_headers.push(
           <div key={day_names[day_name_count]} className={this.props.classes.calendar_header_names}>
-            {day_names[day_name_count]}
+            <Typography variant="body1" className={this.props.classes.typo_width}>
+              {day_names[day_name_count]}
+            </Typography>
           </div>
         );
       day_name_count++
@@ -124,26 +141,36 @@ class Calendar extends React.Component {
 
   updateCalendarBody()
   {
+    var month = this.state.selectedMonth
+    var daysInMonth = this.state.daysInMonth;
     var row_offset = moment(this.state.firstDayOfMonthDate).day();
     var offset_count = 1;
     var row = [];
     var count = 1;
     var daysInMonth = this.state.daysInMonth;
     while (offset_count <= row_offset) {
+      var salt = Math.random()*1000
       row.push(
-        <div key={this.state.selectedMonth+"offset"+offset_count} className={this.props.classes.calendar_cell}>
+        <div key={count+month+daysInMonth+salt}>
+            <Typography component="div" variant="body1" className={this.props.classes.typo_width}>
+              <div className={this.props.classes.hidden}>{offset_count}</div>
+              <div className={this.props.classes.calendar_list}></div>
+          </Typography>
         </div>
       );
       offset_count++
     }
 
     while (count <= daysInMonth) {
+      var salt = Math.random()*1000
       var date = String(moment().date(count).format('D'));
       var date_to_compare = String(moment().month(this.state.selectedMonth).date(count).format(`dddd, MMMM Do, YYYY`));
       row.push(
-          <div key={"count"+date}>
-            <div>{date}</div>
-              <ul className={this.props.classes.calendar_cell} id={date_to_compare}></ul>
+          <div key={count+date+month+daysInMonth+salt}>
+              <Typography component="div" variant="body1" className={this.props.classes.typo_width}>
+                <div>{count}</div>
+                <div className={this.props.classes.calendar_list} id={date_to_compare}></div>
+            </Typography>
           </div>
       );
       count++
@@ -162,19 +189,20 @@ class Calendar extends React.Component {
     .then((response) => {
       var res = response.data.bullets
       res.forEach(bullet => {
-          if (bullet.type === 'event' || bullet.type === 'appointment')
-          {
-            let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
 
-            if (document.getElementById(String(timestamp)))
-            {
-              let temp = document.getElementById(timestamp)
-              let node = document.createElement("LI");
-              let textnode = document.createTextNode(bullet.description)
-              node.appendChild(textnode)
-              temp.appendChild(node);
-            }
-          }
+        let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
+        if (document.getElementById(String(timestamp)))
+        {
+          let temp = document.getElementById(timestamp)
+          let node = document.createElement("div");
+          let textnode = document.createTextNode(bullet.description)
+          node.appendChild(textnode)
+          temp.appendChild(node);
+
+          var svg = node.lastChild
+          svg.firstChild.setAttribute("d",mdiClose)
+
+        }
       })
     })
   }
@@ -195,7 +223,7 @@ class Calendar extends React.Component {
             if (document.getElementById(String(timestamp)))
             {
               let temp = document.getElementById(timestamp)
-              let node = document.createElement("LI");
+              let node = document.createElement("div");
               let textnode = document.createTextNode(entry.name)
               node.appendChild(textnode)
               temp.appendChild(node);

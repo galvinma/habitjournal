@@ -3,6 +3,8 @@ import Icon from '@mdi/react'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+
 
 const styles = theme => ({
   calendar_title_containter: {
@@ -13,7 +15,6 @@ const styles = theme => ({
     width: '70vw',
   },
   calendar_title: {
-    fontSize: '2em',
     display: 'inline-block',
     verticalAlign: 'middle',
   },
@@ -40,9 +41,13 @@ class CalendarHeader extends React.Component {
     return(
       <div>
         <div className={this.props.classes.calendar_title_containter}>
-          <Icon className={this.props.classes.calendar_navs} path={mdiChevronLeft} size={1.5} onClick={(e) => this.props.prevMonthHandler()}/>
-          <div className={this.props.classes.calendar_title}>{this.props.displayMonthYear} </div>
-          <Icon className={this.props.classes.calendar_navs} path={mdiChevronRight} size={1.5} onClick={(e) => this.props.nextMonthHandler()}/>
+          <Icon className={this.props.classes.calendar_navs} path={mdiChevronLeft} size={1.2} onClick={(e) => this.props.prevMonthHandler()}/>
+          <div className={this.props.classes.calendar_title}>
+            <Typography variant="headline" className={this.props.classes.date_title}>
+              {this.props.displayMonthYear}
+            </Typography>
+          </div>
+          <Icon className={this.props.classes.calendar_navs} path={mdiChevronRight} size={1.2} onClick={(e) => this.props.nextMonthHandler()}/>
         </div>
       </div>
     );

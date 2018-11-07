@@ -18,16 +18,14 @@ import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import HabitsTable from '../.././Components/Habits/HabitsTable.js'
 import NewHabit from '../.././Components/Modal/NewHabit'
 
-const methods = {
-
-};
+const methods = {};
 
 const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '75px',
+    marginTop: '70px',
     minWidth: '80vw',
     maxWidth: '100vw',
     marginLeft: '50px',
