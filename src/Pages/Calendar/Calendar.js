@@ -29,6 +29,9 @@ import { convertToIcon } from '../.././Utils/convertoicon'
 import store from '../.././Store/store'
 import { connect } from "react-redux";
 
+// CSS
+import './Calendar.css'
+
 const styles = theme => ({
   root: {
     marginLeft: 'auto',
@@ -195,12 +198,21 @@ class Calendar extends React.Component {
         {
           let temp = document.getElementById(timestamp)
           let node = document.createElement("div");
+          var type = convertToIcon(bullet)
+
+          var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          svg.setAttribute('class', "calendar_icons")
+          svg.setAttributeNS(null, "viewBox", "0 0 24 24")
+          svg.setAttributeNS(null, "style", "width:1rem")
+          let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
+          newpath.setAttributeNS(null, "d", type);
+          svg.appendChild(newpath)
+          node.appendChild(svg)
+
           let textnode = document.createTextNode(bullet.description)
           node.appendChild(textnode)
-          temp.appendChild(node);
 
-          var svg = node.lastChild
-          svg.firstChild.setAttribute("d",mdiClose)
+          temp.appendChild(node);
 
         }
       })

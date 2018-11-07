@@ -151,7 +151,7 @@ class HabitsTable extends React.Component {
               {header.map((item, index) => {
                 return (
                     <TableCell key={"header"+index} className={this.props.classes.header_style}>
-                      <Typography component="body1" variant="body1" className={this.props.classes.month_header}>
+                      <Typography component="div" variant="body1" className={this.props.classes.month_header}>
                         {item}
                       </Typography>
                     </TableCell>
@@ -164,7 +164,7 @@ class HabitsTable extends React.Component {
               return (
                 <TableRow key={row.name} id={row.habit_id}>
                   <TableCell className={this.props.classes.cell_style} component="th" scope="row">
-                    <Typography component="body1" variant="body1" className={this.props.classes.habit_name}>
+                    <Typography component="div" variant="body1" className={this.props.classes.habit_name}>
                       {row.name}
                     </Typography>
                   </TableCell>
