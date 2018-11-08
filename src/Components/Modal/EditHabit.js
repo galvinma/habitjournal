@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 });
 
-class NewHabit extends React.Component {
+class EditHabit extends React.Component {
   constructor(props)
   {
     super(props);
@@ -31,39 +31,38 @@ class NewHabit extends React.Component {
   render() {
     return(
       <div>
-        <Dialog open={this.props.newModalState} onClose={this.props.handleModalClose}>
-          <DialogTitle id="simple-dialog-title">New Habit</DialogTitle>
-
+        <Dialog open={this.props.editModalState} onClose={this.props.handleModalClose}>
+          <DialogTitle id="simple-dialog-title">Edit Habit</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please enter a name and description of your habit.
+              Habit text...
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
-              id="newhabit"
+              id="edithabit"
               label="Habit Name"
               fullWidth
-              onChange={this.props.newModalValue}
+              onChange={this.props.editModalValue}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.handleModalClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.props.createHabit} color="primary">
-              Create
+            <Button onClick={this.props.deleteHabit} color="primary">
+              Delete
             </Button>
           </DialogActions>
         </Dialog>
       </div>
-    );
+    )
   }
 }
 
 
-NewHabit.propTypes = {
+EditHabit.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NewHabit);
+export default withStyles(styles)(EditHabit);

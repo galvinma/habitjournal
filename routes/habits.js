@@ -45,6 +45,19 @@ router.route('/save_habit')
   });
 });
 
+router.route('/remove_habit')
+  .post(function(req, res, next) {
+    Habits.deleteOne({ habit_id: req.body.params.habit_id }).lean().exec(function(err, habit) {
+      if (err)
+      {
+        throw err
+      }
+      res.json({
+        success: true,
+      });
+    });
+  })
+
 router.route('/log_habit')
 .post(function(req, res, next) {
   // check if habit exists

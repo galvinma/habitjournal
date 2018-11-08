@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@mdi/react'
-import { mdiCheck, mdiClose, mdiPlus } from '@mdi/js'
+import { mdiCheck, mdiClose, mdiPlus, mdiDotsVertical} from '@mdi/js'
 
 import NewHabit from '../.././Components/Modal/NewHabit'
 
@@ -50,7 +50,21 @@ const styles = theme => ({
     [theme.breakpoints.down(500)]: {
       width: '20vw',
     },
+  },
+  edit_cell: {
+    width: '3vw',
+    textAlign: "left",
+    alignItems: 'flex-start',
+    paddingLeft: '0px',
+    paddingRight: '0px',
 
+    [theme.breakpoints.down(768)]: {
+      width: '6vw',
+    },
+
+    [theme.breakpoints.down(500)]: {
+      width: '9vw',
+    },
   },
   month_header: {
     width: '100%',
@@ -65,7 +79,7 @@ const styles = theme => ({
     overflow: 'hidden',
     textAlign: "left",
   },
-});
+})
 
 class HabitsTable extends React.Component {
   constructor(props){
@@ -145,8 +159,8 @@ class HabitsTable extends React.Component {
         <Table className={this.props.classes.table_styles}>
           <TableHead>
             <TableRow>
-              <TableCell key={"spacing"} className={this.props.classes.habit_cell}>
-                  <Icon className={this.props.classes.icon_style} path={mdiPlus} size={0.85} onClick={() => this.props.handleModalOpen()}/>
+              <TableCell className={this.props.classes.habit_cell}>
+                  <Icon className={this.props.classes.icon_style} path={mdiPlus} size={0.85} onClick={() => this.props.handleModalOpen("new")}/>
               </TableCell>
               {header.map((item, index) => {
                 return (
@@ -157,6 +171,8 @@ class HabitsTable extends React.Component {
                     </TableCell>
                 )
               })}
+              <TableCell key={"spacing"} className={this.props.classes.edit_cell}>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -183,6 +199,16 @@ class HabitsTable extends React.Component {
                         </TableCell>
                     )
                   })}
+                  <TableCell className={this.props.classes.cell_style} component="th" scope="row">
+                    <Typography component="div" variant="body1" className={this.props.classes.cell_style}>
+                    <Icon
+                      path={mdiDotsVertical}
+                      value={row.habit_id}
+                      size={0.75}
+                      className={this.props.classes.icon_style}
+                      onClick={() => this.props.handleModalOpen("edit", row.habit_id)} />
+                    </Typography>
+                  </TableCell>
                 </TableRow>
               );
             })}

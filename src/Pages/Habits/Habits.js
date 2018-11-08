@@ -17,6 +17,8 @@ import { checkAuth } from '../.././Utils/checkauth'
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import HabitsTable from '../.././Components/Habits/HabitsTable.js'
 import NewHabit from '../.././Components/Modal/NewHabit'
+import EditHabit from '../.././Components/Modal/EditHabit'
+
 
 const methods = {};
 
@@ -45,7 +47,11 @@ class Habits extends React.Component {
     super(props);
     this.state = {
       firstDayOfWeekDate: moment().startOf('week').format('YYYY-MM-DD'),
-      modalState: false,
+      edit_id: "",
+      newModalState: false,
+      editModalState: false,
+      editModalValue: "",
+      newModalValue: "",
       habits: [],
       habit_entries: [],
     };
@@ -54,9 +60,11 @@ class Habits extends React.Component {
 
     this.getHabits = this.getHabits.bind(this)
     this.createHabit = this.createHabit.bind(this)
+    this.deleteHabit = this.deleteHabit.bind(this)
     this.handleModalOpen = this.handleModalOpen.bind(this)
     this.handleModalClose = this.handleModalClose.bind(this)
-    this.modalValue = this.modalValue.bind(this)
+    this.editModalValue = this.editModalValue.bind(this)
+    this.newModalValue = this.newModalValue.bind(this)
     this.toggleIcon = this.toggleIcon.bind(this)
     this.getHabitEntries = this.getHabitEntries.bind(this)
 
@@ -65,23 +73,42 @@ class Habits extends React.Component {
 
   }
 
-   modalValue = (event) => {
+   editModalValue(event)
+   {
      this.setState({
-       modalValue: event.target.value
-     });
+       editModalValue: event.target.value
+     })
    }
 
-  handleModalOpen()
+   newModalValue(event)
+   {
+     this.setState({
+       newModalValue: event.target.value
+     })
+   }
+
+  handleModalOpen(modal, habit_id)
   {
-    this.setState({
-      modalState: true,
-    });
+    if (modal === 'new')
+    {
+      this.setState({
+        newModalState: true,
+      });
+    }
+    else if (modal === 'edit')
+    {
+      this.setState({
+        editModalState: true,
+        edit_id: habit_id
+      });
+    }
   }
 
   handleModalClose()
   {
     this.setState({
-      modalState: false,
+      newModalState: false,
+      editModalState: false,
     });
   }
 
@@ -158,7 +185,7 @@ class Habits extends React.Component {
     axios.post('http://127.0.0.1:5002/api/save_habit', {
       params: {
         user: sessionStorage.getItem('user'),
-        title: this.state.modalValue
+        title: this.state.newModalValue
       }
     })
     .then((response) => {
@@ -174,16 +201,16 @@ class Habits extends React.Component {
     })
   }
 
-  deleteHabit(id)
+  deleteHabit()
   {
-    axios.post('http://127.0.0.1:5002/api/remove_entry', {
+    axios.post('http://127.0.0.1:5002/api/remove_habit', {
       params: {
-        entry_id: id
+        habit_id: this.state.edit_id
       }
     })
     .then((response) => {
       console.log(response)
-      this.getBullets()
+      this.getHabits()
 
     })
     .catch((error)=>{
@@ -224,10 +251,15 @@ class Habits extends React.Component {
         <InternalNavBar />
         <div className={this.props.classes.root}>
           <NewHabit
-              modalState={this.state.modalState}
+              newModalState={this.state.newModalState}
               handleModalClose={this.handleModalClose}
               createHabit={this.createHabit}
-              modalValue={this.modalValue} />
+              newModalValue={this.newModalValue} />
+          <EditHabit
+              editModalState={this.state.editModalState}
+              handleModalClose={this.handleModalClose}
+              deleteHabit={this.deleteHabit}
+              editModalValue={this.editModalValue} />
           <HabitsTable
               habits={this.state.habits}
               habit_entries={this.state.habit_entries}
