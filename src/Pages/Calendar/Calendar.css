@@ -1,14 +1,44 @@
-.calendar_icons
-{
+.calendar_icons {
   vertical-align: sub;
+  padding-right: 2px;
 }
 
 .calendar_text
 {
   position: relative;
   clear: both;
-  min-height:1.5em;
+  min-height: 25%;
   overflow: hidden;
   word-wrap: none;
   white-space: nowrap;
+}
+
+
+@media only screen and (max-height: 768px) {
+.calendar_text
+  {
+    min-height: 25%;
+  }
+}
+
+
+@media only screen and (max-height: 600px) {
+.calendar_text
+  {
+    min-height: 33%;
+  }
+}
+
+@media only screen and (max-height: 450px) {
+.calendar_text
+  {
+    min-height: 50%;
+  }
+}
+
+@media only screen and (max-height: 300px) {
+.calendar_text
+  {
+    min-height: 100%;
+  }
 }

@@ -15,6 +15,7 @@ import {  mdiSquare,
           mdiMinus,
           mdiClose,
           mdiFlowerOutline,
+          mdiDotsHorizontal,
         } from '@mdi/js'
 
 // Components
@@ -61,6 +62,12 @@ const styles = theme => ({
     paddingRight: '2px',
     margin: '0',
   },
+  list_footer: {
+    position: 'relative',
+    height: '1.5em',
+    clear: 'both',
+    width: '100%',
+  },
   calendar_header_names: {
     flexGrow: 1,
     textAlign: 'left',
@@ -71,6 +78,7 @@ const styles = theme => ({
   hidden: {
     visibility: "hidden",
   },
+
 });
 
 class Calendar extends React.Component {
@@ -160,6 +168,7 @@ class Calendar extends React.Component {
               <Typography component="div" variant="body1" className={this.props.classes.typo_width}>
                 <div>{count}</div>
                 <div className={this.props.classes.calendar_list} id={date_to_compare}></div>
+                <div className={this.props.classes.list_footer} id={"footer"+date_to_compare}></div>
             </Typography>
           </div>
       );
@@ -188,50 +197,56 @@ class Calendar extends React.Component {
             // Insert the SVG
             var temp = document.getElementById(timestamp)
 
-            if (temp.childNodes.length < 2)
+
+            let node = document.createElement("div");
+            var type = convertToIcon(entry)
+            var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute('class', "calendar_icons")
+            svg.setAttributeNS(null, "viewBox", "0 0 24 24")
+            svg.setAttributeNS(null, "style", "width:1rem")
+            let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
+            newpath.setAttributeNS(null, "d", type);
+
+            svg.onclick = function() {
+                toggleIcon(entry.entry_id, entry.type, entry.status)
+                if (entry.status === "0")
+                {
+                  entry.status = "1"
+                  type = convertToIcon(entry)
+                  newpath.setAttributeNS(null, "d", type);
+                }
+                else
+                {
+                  entry.status = "0"
+                  type = convertToIcon(entry)
+                  newpath.setAttributeNS(null, "d", type);
+                }
+            };
+
+            svg.appendChild(newpath)
+            node.appendChild(svg)
+
+            // Insert the bullet/habit text
+            let textnode = document.createTextNode(entry.title)
+            node.appendChild(textnode)
+
+            node.className = "calendar_text"
+            temp.appendChild(node);
+
+            var footer = document.getElementById("footer"+String(timestamp))
+            if (footer.children.length === 0)
             {
-              let node = document.createElement("div");
-              var type = convertToIcon(entry)
-              var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-              svg.setAttribute('class', "calendar_icons")
-              svg.setAttributeNS(null, "viewBox", "0 0 24 24")
-              svg.setAttributeNS(null, "style", "width:1rem")
-              let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
-              newpath.setAttributeNS(null, "d", type);
+              var div = document.createElement("div");
+              var dots = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+              dots.setAttribute('class', "footer_icon")
+              dots.setAttributeNS(null, "viewBox", "0 0 24 24")
+              dots.setAttributeNS(null, "style", "width:1rem")
+              var np = document.createElementNS('http://www.w3.org/2000/svg',"path");
+              np.setAttributeNS(null, "d", mdiDotsHorizontal);
 
-              svg.onclick = function() {
-                  toggleIcon(entry.entry_id, entry.type, entry.status)
-                  if (entry.status === "0")
-                  {
-                    entry.status = "1"
-                    type = convertToIcon(entry)
-                    newpath.setAttributeNS(null, "d", type);
-                  }
-                  else
-                  {
-                    entry.status = "0"
-                    type = convertToIcon(entry)
-                    newpath.setAttributeNS(null, "d", type);
-                  }
-              };
-
-              svg.appendChild(newpath)
-              node.appendChild(svg)
-
-              // Insert the bullet/habit text
-              let textnode = document.createTextNode(entry.title)
-              node.appendChild(textnode)
-
-              node.className = "calendar_text"
-              temp.appendChild(node);
-            }
-            else if (temp.childNodes.length === 2)
-            {
-              // Insert the bullet/habit text
-              let node = document.createElement("div");
-              let textnode = document.createTextNode("More...")
-              node.appendChild(textnode)
-              temp.appendChild(node);
+              dots.appendChild(np)
+              div.appendChild(dots)
+              footer.appendChild(div);
             }
           }
         }
