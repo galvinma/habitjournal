@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -9,16 +10,23 @@ const styles = theme => ({
     alignItems: 'center',
     flexWrap: 'wrap',
   },
-
+  hidden: {
+    visibility: "hidden",
+  },
 });
 
 class CalendarBody extends React.Component {
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+    };
+  }
+
   render() {
-    const col_headers = this.props.updateCalendarHeader()
     const row = this.props.updateCalendarBody()
     return(
       <div>
-        <div className={this.props.classes.calendar_row_container}>{col_headers}</div>
         <div id="calendar_content" className={this.props.classes.calendar_row_container}>{row}</div>
       </div>
     );

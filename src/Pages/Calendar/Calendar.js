@@ -19,6 +19,7 @@ import {  mdiSquare,
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
+import Navs from '../.././Components/Calendar/Navs.js'
 import CalendarHeader from '../.././Components/Calendar/CalendarHeader.js'
 import CalendarBody from '../.././Components/Calendar/CalendarBody.js'
 
@@ -52,10 +53,12 @@ const styles = theme => ({
     textAlign: 'left',
     height: '12.5vh',
     overflow: 'hidden',
-    // overflowY: 'scroll',
     textOverflow: 'ellipsis',
     listStyle: 'none',
-    padding: '0',
+    paddingTop: '0px',
+    paddingBottom: '0px',
+    paddingLeft: '2px',
+    paddingRight: '2px',
     margin: '0',
   },
   calendar_header_names: {
@@ -84,13 +87,15 @@ class Calendar extends React.Component {
       displayMonthYear: moment().format('MMMM YYYY'),
       daysInMonth: moment().daysInMonth(),
     };
+
     this.prevMonthHandler = this.prevMonthHandler.bind(this)
     this.nextMonthHandler = this.nextMonthHandler.bind(this)
     this.updateCalendarBody = this.updateCalendarBody.bind(this)
-    this.updateCalendarHeader = this.updateCalendarHeader.bind(this)
     this.removeOldEntries = this.removeOldEntries.bind(this)
     this.getCalendarEntries = this.getCalendarEntries.bind(this)
+  }
 
+  componentDidMount() {
     this.getCalendarEntries()
   }
 
@@ -122,24 +127,6 @@ class Calendar extends React.Component {
 
     this.updateCalendarBody()
     this.getCalendarEntries()
-  }
-
-  updateCalendarHeader()
-  {
-    const day_names = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
-    const col_headers = []
-    var day_name_count = 0;
-    while (day_name_count < 7) {
-        col_headers.push(
-          <div key={day_names[day_name_count]} className={this.props.classes.calendar_header_names}>
-            <Typography variant="body1" className={this.props.classes.typo_width}>
-              {day_names[day_name_count]}
-            </Typography>
-          </div>
-        );
-      day_name_count++
-    }
-    return col_headers
   }
 
   updateCalendarBody()
@@ -195,47 +182,58 @@ class Calendar extends React.Component {
 
         if (entry.type !== 'note')
         {
+          let timestamp = moment.unix(entry.date).format('dddd, MMMM Do, YYYY')
+          if (document.getElementById(String(timestamp)))
+          {
+            // Insert the SVG
+            var temp = document.getElementById(timestamp)
 
-                  let timestamp = moment.unix(entry.date).format('dddd, MMMM Do, YYYY')
-                  if (document.getElementById(String(timestamp)))
+            if (temp.childNodes.length < 2)
+            {
+              let node = document.createElement("div");
+              var type = convertToIcon(entry)
+              var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+              svg.setAttribute('class', "calendar_icons")
+              svg.setAttributeNS(null, "viewBox", "0 0 24 24")
+              svg.setAttributeNS(null, "style", "width:1rem")
+              let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
+              newpath.setAttributeNS(null, "d", type);
+
+              svg.onclick = function() {
+                  toggleIcon(entry.entry_id, entry.type, entry.status)
+                  if (entry.status === "0")
                   {
-                    // Insert the SVG
-                    let temp = document.getElementById(timestamp)
-                    let node = document.createElement("div");
-                    var type = convertToIcon(entry)
-                    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                    svg.setAttribute('class', "calendar_icons")
-                    svg.setAttributeNS(null, "viewBox", "0 0 24 24")
-                    svg.setAttributeNS(null, "style", "width:1rem")
-                    let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
+                    entry.status = "1"
+                    type = convertToIcon(entry)
                     newpath.setAttributeNS(null, "d", type);
+                  }
+                  else
+                  {
+                    entry.status = "0"
+                    type = convertToIcon(entry)
+                    newpath.setAttributeNS(null, "d", type);
+                  }
+              };
 
-                    svg.onclick = function() {
-                        toggleIcon(entry.entry_id, entry.type, entry.status)
-                        if (entry.status === "0")
-                        {
-                          entry.status = "1"
-                          type = convertToIcon(entry)
-                          newpath.setAttributeNS(null, "d", type);
-                        }
-                        else
-                        {
-                          entry.status = "0"
-                          type = convertToIcon(entry)
-                          newpath.setAttributeNS(null, "d", type);
-                        }
-                    };
+              svg.appendChild(newpath)
+              node.appendChild(svg)
 
-                    svg.appendChild(newpath)
-                    node.appendChild(svg)
+              // Insert the bullet/habit text
+              let textnode = document.createTextNode(entry.title)
+              node.appendChild(textnode)
 
-                    // Insert the bullet/habit text
-                    let textnode = document.createTextNode(entry.title)
-                    node.appendChild(textnode)
-
-                    temp.appendChild(node);
-        }
-
+              node.className = "calendar_text"
+              temp.appendChild(node);
+            }
+            else if (temp.childNodes.length === 2)
+            {
+              // Insert the bullet/habit text
+              let node = document.createElement("div");
+              let textnode = document.createTextNode("More...")
+              node.appendChild(textnode)
+              temp.appendChild(node);
+            }
+          }
         }
       })
     })
@@ -257,15 +255,23 @@ class Calendar extends React.Component {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
     }
+
     return(
       <div>
         <InternalNavBar />
         <div className={this.props.classes.root}>
-          <CalendarHeader
+          <Navs
               prevMonthHandler = {this.prevMonthHandler}
               nextMonthHandler = {this.nextMonthHandler}
               displayMonthYear={this.state.displayMonthYear}
               />
+          <CalendarHeader
+              daysInMonth={this.state.daysInMonth}
+              selectedMonth={this.state.selectedMonth}
+              firstDayOfMonthDate={this.state.firstDayOfMonthDate}
+              getCalendarEntries={this.getCalendarEntries}
+              updateCalendarHeader={this.updateCalendarHeader}
+              updateCalendarBody={this.updateCalendarBody} />
           <CalendarBody
               daysInMonth={this.state.daysInMonth}
               selectedMonth={this.state.selectedMonth}

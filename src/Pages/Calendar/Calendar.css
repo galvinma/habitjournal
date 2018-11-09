@@ -1,4 +1,14 @@
 .calendar_icons
 {
-  vertical-align: middle;
+  vertical-align: sub;
+}
+
+.calendar_text
+{
+  position: relative;
+  clear: both;
+  min-height:1.5em;
+  overflow: hidden;
+  word-wrap: none;
+  white-space: nowrap;
 }
