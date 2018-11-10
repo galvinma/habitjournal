@@ -126,14 +126,15 @@ class Calendar extends React.Component {
     this.getCalendarEntries()
   }
 
-  handleModalOpen(id)
+  handleModalOpen(e)
   {
+    console.log(e.target)
     store.dispatch(getEntriesModalState({
       entries_modal_status: true
     }))
 
     store.dispatch(getEntriesModalID({
-      entries_modal_id: id
+      entries_modal_id: e.target.value
     }))
   }
 
@@ -209,7 +210,7 @@ class Calendar extends React.Component {
                   className={this.props.classes.list_footer}
                   id={"footer"+date_to_compare}
                   value={date_to_compare}
-                  onClick={(e) => this.handleModalOpen(date_to_compare)}></div>
+                  onClick={(e) => this.handleModalOpen(e)}></div>
             </Typography>
           </div>
       );
@@ -244,6 +245,7 @@ class Calendar extends React.Component {
             svg.setAttribute('class', "calendar_icons")
             svg.setAttributeNS(null, "viewBox", "0 0 24 24")
             svg.setAttributeNS(null, "style", "width:1rem")
+            svg.setAttributeNS(null, 'value', String(timestamp))            
             let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
             newpath.setAttributeNS(null, "d", type);
 

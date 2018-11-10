@@ -30,6 +30,17 @@ router.route('/return_entries')
 
 router.route('/save_entry')
   .post(function(req, res, next) {
+
+    if (req.body.params.title === null || req.body.params.title === "")
+    {
+      return
+    }
+
+    if (req.body.params.date === null || req.body.params.title === "")
+    {
+      return
+    }
+
     var entry = new Entries();
     entry.entry_id = new ObjectId();
     entry.user_id = req.body.params.user
@@ -66,7 +77,6 @@ router.route('/remove_entry')
 
 router.route('/update_entry_status')
   .post(function(req, res, next) {
-
     var new_status = null
     if (req.body.params.status === "0")
     {

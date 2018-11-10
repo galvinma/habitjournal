@@ -64,8 +64,8 @@ class CalendarEntries extends React.Component {
 
   createList(i)
   {
-    console.log(this.props.entries_modal_id.entries_modal_id)
-    console.log(moment.unix(i.date).format('dddd, MMMM Do, YYYY'))
+    // console.log(this.props.entries_modal_id.entries_modal_id)
+    // console.log(moment.unix(i.date).format('dddd, MMMM Do, YYYY'))
     if (moment.unix(i.date).format('dddd, MMMM Do, YYYY') === this.props.entries_modal_id.entries_modal_id)
     {
       return (

@@ -120,13 +120,13 @@ class Journal extends React.Component {
       this.setState({
         title: ""
       });
+      document.getElementById("bulletSelector").value = ""
 
+      this.getBullets()
     })
-    .catch((error)=>{
+    .catch((error) => {
       console.log(error);
     });
-
-    this.getBullets()
   }
 
   getBullets()

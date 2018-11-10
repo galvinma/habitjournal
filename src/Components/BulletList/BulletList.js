@@ -71,6 +71,7 @@ class BulletList extends React.Component {
 
   this.convertType = this.convertType.bind(this);
   this.createList = this.createList.bind(this);
+  this.toggleIcon = toggleIcon.bind(this);
 
   }
 
@@ -123,7 +124,8 @@ class BulletList extends React.Component {
              <ListItemIcon>
                 <Button onClick={(e) => {
                   toggleIcon(i.entry_id, i.type, i.status)
-                  this.props.getBullets()
+                  .then((response) => this.props.getBullets())
+                  .catch((error) => console.log(error))
                   }}>
                   <Icon path={p} size={0.75} />
                 </Button>
