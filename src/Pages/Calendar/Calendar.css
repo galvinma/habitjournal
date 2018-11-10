@@ -1,6 +1,7 @@
 .calendar_icons {
   vertical-align: sub;
   padding-right: 2px;
+  padding-left: 0px;
 }
 
 .calendar_text
@@ -13,6 +14,10 @@
   white-space: nowrap;
 }
 
+.footer_icon
+{
+  vertical-align: bottom;
+}
 
 @media only screen and (max-height: 768px) {
 .calendar_text
@@ -20,7 +25,6 @@
     min-height: 25%;
   }
 }
-
 
 @media only screen and (max-height: 600px) {
 .calendar_text

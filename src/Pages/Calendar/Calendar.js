@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@mdi/react'
+import MediaQuery from 'react-responsive';
 import {  mdiSquare,
           mdiSquareOutline,
           mdiCircle,
@@ -20,9 +21,10 @@ import {  mdiSquare,
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
-import Navs from '../.././Components/Calendar/Navs.js'
-import CalendarHeader from '../.././Components/Calendar/CalendarHeader.js'
-import CalendarBody from '../.././Components/Calendar/CalendarBody.js'
+import Navs from '../.././Components/Calendar/Navs'
+import CalendarHeader from '../.././Components/Calendar/CalendarHeader'
+import CalendarBody from '../.././Components/Calendar/CalendarBody'
+import CalendarEntries from '../.././Components/Modal/CalendarEntries'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -32,7 +34,7 @@ import { toggleIcon } from '../.././Utils/toggleicon'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
-
+import { getEntriesModalState, getEntriesModalID } from '../.././Actions/actions'
 // CSS
 import './Calendar.css'
 
@@ -58,8 +60,6 @@ const styles = theme => ({
     listStyle: 'none',
     paddingTop: '0px',
     paddingBottom: '0px',
-    paddingLeft: '2px',
-    paddingRight: '2px',
     margin: '0',
   },
   list_footer: {
@@ -67,6 +67,7 @@ const styles = theme => ({
     height: '1.5em',
     clear: 'both',
     width: '100%',
+    paddingBottom: '10px',
   },
   calendar_header_names: {
     flexGrow: 1,
@@ -94,6 +95,8 @@ class Calendar extends React.Component {
       firstDayOfMonthDate: moment().startOf('month').format('YYYY-MM-DD'),
       displayMonthYear: moment().format('MMMM YYYY'),
       daysInMonth: moment().daysInMonth(),
+      showEntriesModalState: false,
+      edit_id: "",
     };
 
     this.prevMonthHandler = this.prevMonthHandler.bind(this)
@@ -101,10 +104,44 @@ class Calendar extends React.Component {
     this.updateCalendarBody = this.updateCalendarBody.bind(this)
     this.removeOldEntries = this.removeOldEntries.bind(this)
     this.getCalendarEntries = this.getCalendarEntries.bind(this)
+    this.handleModalOpen = this.handleModalOpen.bind(this)
+    this.handleModalClose = this.handleModalClose.bind(this)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.selectedMonth !== this.state.selectedMonth ||
+        nextState.firstDayOfMonthDate !== this.state.firstDayOfMonthDate ||
+        nextState.displayMonthYear !== this.state.displayMonthYear ||
+        nextState.daysInMonth !== this.state.daysInMonth)
+    {
+      return true
+    }
+    else
+    {
+      return false
+    }
   }
 
   componentDidMount() {
     this.getCalendarEntries()
+  }
+
+  handleModalOpen(id)
+  {
+    store.dispatch(getEntriesModalState({
+      entries_modal_status: true
+    }))
+
+    store.dispatch(getEntriesModalID({
+      entries_modal_id: id
+    }))
+  }
+
+  handleModalClose()
+  {
+    store.dispatch(getEntriesModalState({
+      entries_modal_status: false
+    }))
   }
 
   prevMonthHandler() {
@@ -168,7 +205,11 @@ class Calendar extends React.Component {
               <Typography component="div" variant="body1" className={this.props.classes.typo_width}>
                 <div>{count}</div>
                 <div className={this.props.classes.calendar_list} id={date_to_compare}></div>
-                <div className={this.props.classes.list_footer} id={"footer"+date_to_compare}></div>
+                <div
+                  className={this.props.classes.list_footer}
+                  id={"footer"+date_to_compare}
+                  value={date_to_compare}
+                  onClick={(e) => this.handleModalOpen(date_to_compare)}></div>
             </Typography>
           </div>
       );
@@ -196,7 +237,6 @@ class Calendar extends React.Component {
           {
             // Insert the SVG
             var temp = document.getElementById(timestamp)
-
 
             let node = document.createElement("div");
             var type = convertToIcon(entry)
@@ -236,6 +276,7 @@ class Calendar extends React.Component {
             var footer = document.getElementById("footer"+String(timestamp))
             if (footer.children.length === 0)
             {
+
               var div = document.createElement("div");
               var dots = document.createElementNS("http://www.w3.org/2000/svg", "svg");
               dots.setAttribute('class', "footer_icon")
@@ -275,11 +316,14 @@ class Calendar extends React.Component {
       <div>
         <InternalNavBar />
         <div className={this.props.classes.root}>
+          <CalendarEntries
+              handleModalOpen={this.handleModalOpen}
+              handleModalClose={this.handleModalClose}
+              edit_id={this.state.edit_id} />
           <Navs
               prevMonthHandler = {this.prevMonthHandler}
               nextMonthHandler = {this.nextMonthHandler}
-              displayMonthYear={this.state.displayMonthYear}
-              />
+              displayMonthYear={this.state.displayMonthYear} />
           <CalendarHeader
               daysInMonth={this.state.daysInMonth}
               selectedMonth={this.state.selectedMonth}

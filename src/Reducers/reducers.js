@@ -1,13 +1,16 @@
 //actions
 import {  CURRENT_USER,
           AUTHENTICATED,
+          ENTRIES_MODAL_STATE,
+          ENTRIES_MODAL_ID,
         }
 from "../Constants/action-types";
-
 
 const initialState = {
   current_user: {current_user: null},
   auth_status: {auth_status: false},
+  entries_modal_status: {entries_modal_status: false},
+  entries_modal_id: {entries_modal_id: null}
 };
 
 function rootReducer(state = initialState, action) {
@@ -16,6 +19,10 @@ function rootReducer(state = initialState, action) {
       return getCurrentUser(state, action.current_user)
     case AUTHENTICATED:
       return getAuthStatus(state, action.auth_status)
+    case ENTRIES_MODAL_STATE:
+      return getEntriesModalState(state, action.entries_modal_status)
+    case ENTRIES_MODAL_ID:
+      return getEntriesModalID(state, action.entries_modal_id)
     default:
       return state;
   }
@@ -35,5 +42,18 @@ function getAuthStatus(state, auth_status) {
   }
 }
 
+function getEntriesModalState(state, entries_modal_status) {
+  return {
+    ...state,
+    entries_modal_status: entries_modal_status
+  }
+}
+
+function getEntriesModalID(state, entries_modal_id) {
+  return {
+    ...state,
+    entries_modal_id: entries_modal_id
+  }
+}
 
 export default rootReducer;

@@ -19,7 +19,6 @@ import {getAuthStatus, getCurrentUser} from '../.././Actions/actions'
 // email val
 var validator = require("email-validator");
 
-
 const styles = theme => ({
   layout: {
     width: 'auto',
