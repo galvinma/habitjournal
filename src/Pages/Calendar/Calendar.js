@@ -190,7 +190,7 @@ class Calendar extends React.Component {
       var date_to_compare = String(moment().month(this.state.selectedMonth).date(count).format(`dddd, MMMM Do, YYYY`));
       row.push(
           <div key={count+date+month+daysInMonth+salt}>
-              <Typography component="div" variant="body1" className={this.props.classes.typo_width}>
+              <Typography component="div" variant="body2" className={this.props.classes.typo_width}>
                 <div>{count}</div>
                 <div className={this.props.classes.calendar_list} id={date_to_compare}></div>
                 <div

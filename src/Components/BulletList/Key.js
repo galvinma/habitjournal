@@ -40,7 +40,7 @@ const styles = theme => ({
 
     [theme.breakpoints.down(768)]: {
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
     },
   },
 });

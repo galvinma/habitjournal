@@ -27,6 +27,12 @@ const styles = theme => ({
     verticalAlign: 'middle',
     marginLeft: 'auto',
   },
+  date_title: {
+    [theme.breakpoints.down(768)]: {
+      fontSize: '20px',
+      verticalAlign: 'middle',
+    },
+  }
 });
 
 class Navs extends React.Component {
