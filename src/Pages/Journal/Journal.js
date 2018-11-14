@@ -90,6 +90,7 @@ class Journal extends React.Component {
     selectedMonth: moment().format('MMMM, YYYY'), // initializes to current month
     selectedDate: moment().unix(), // moment(new Date()).format('YYYY/MM/DD')
     navigatorMonths: [],
+    checkedAllDay: true,
   };
 
   checkAuth()
@@ -104,7 +105,55 @@ class Journal extends React.Component {
   this.changeSelectedMonth = this.changeSelectedMonth.bind(this)
   this.dateChange = this.dateChange.bind(this)
   this.getBullets = this.getBullets.bind(this)
+  this.handleAllDay = this.handleAllDay.bind(this)
   }
+
+
+  changeSelectedMonth(date)
+  {
+    this.setState({
+      selectedMonth: date,
+    })
+
+    this.getBullets()
+  }
+
+  dateChange(event)
+  {
+    this.setState({
+      selectedDate: moment(event.target.value).unix()
+    });
+  }
+
+  timeChange(event)
+  {
+    this.setState({
+      selectedTime: moment(event.target.value).unix()
+    });
+  }
+
+
+  handleAllDay(event)
+  {
+    if (event.target.checked === true)
+    {
+       var l = document.getElementsByClassName("time_pick")
+       for (var i = 0; i < l.length; i++)
+       {
+        l[i].style.display = "none"
+       }
+    }
+    else
+    {
+      var l = document.getElementsByClassName("time_pick")
+      for (var i = 0; i < l.length; i++)
+      {
+       l[i].style.display = "inline-block"
+      }
+    }
+
+    this.setState({ checkedAllDay: event.target.checked });
+  };
 
   addBullet()
   {
@@ -260,22 +309,6 @@ class Journal extends React.Component {
     this.getBullets()
   }
 
-  changeSelectedMonth(date)
-  {
-    this.setState({
-      selectedMonth: date,
-    })
-
-    this.getBullets()
-  }
-
-  dateChange(event)
-  {
-    this.setState({
-      selectedDate: moment(event.target.value, "YYYY/M/D").unix()
-    });
-  }
-
   render() {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
@@ -289,17 +322,19 @@ class Journal extends React.Component {
             </div>
             <div className={this.props.classes.bullet_container}>
               <BulletSelector
-                checkSubmit = {this.checkSubmit}
-                selectorChange = {this.selectorChange}
-                titleChange = {this.titleChange}
-                addBullet = {this.addBullet}
-                dateChange = {this.dateChange}
+                checkSubmit={this.checkSubmit}
+                selectorChange={this.selectorChange}
+                titleChange={this.titleChange}
+                addBullet={this.addBullet}
+                dateChange={this.dateChange}
+                handleAllDay={this.handleAllDay}
                 selected={this.state.selected}
                 title={this.state.title}
                 type={this.state.type}
                 bullets={this.state.bullets}
                 selectedMonth={this.state.selectedMonth}
-                selectedDate={this.state.selectedDate} />
+                selectedDate={this.state.selectedDate}
+                checkedAllDay={this.state.checkedAllDay} />
               <BulletList
                 bullets={this.state.bullets}
                 removeBullet={this.removeBullet}
