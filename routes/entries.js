@@ -45,7 +45,10 @@ router.route('/save_entry')
     entry.entry_id = new ObjectId();
     entry.user_id = req.body.params.user
     entry.habit_id = req.body.params.habit_id || null
-    entry.date = req.body.params.date
+    entry.start_date = req.body.params.start_date
+    entry.end_date = req.body.params.end_date
+    entry.start_time = req.body.params.start_time
+    entry.end_time = req.body.params.end_time
     entry.type = req.body.params.type
     entry.title = req.body.params.title
     entry.description = req.body.params.description || ""

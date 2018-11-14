@@ -88,7 +88,10 @@ class Journal extends React.Component {
     type: 'task',
     selected: 'mdiSquareOutline',
     selectedMonth: moment().format('MMMM, YYYY'), // initializes to current month
-    selectedDate: moment().unix(), // moment(new Date()).format('YYYY/MM/DD')
+    startDate: moment().unix(),
+    endDate: moment().unix(),
+    startTime: moment().unix(),
+    endTime: moment().unix(),
     navigatorMonths: [],
     checkedAllDay: true,
   };
@@ -103,6 +106,7 @@ class Journal extends React.Component {
   this.updateBulletTitle = this.updateBulletTitle.bind(this)
   this.checkSubmit = this.checkSubmit.bind(this)
   this.changeSelectedMonth = this.changeSelectedMonth.bind(this)
+  this.timeChange = this.timeChange.bind(this)
   this.dateChange = this.dateChange.bind(this)
   this.getBullets = this.getBullets.bind(this)
   this.handleAllDay = this.handleAllDay.bind(this)
@@ -118,20 +122,38 @@ class Journal extends React.Component {
     this.getBullets()
   }
 
-  dateChange(event)
+  dateChange(event, state)
   {
-    this.setState({
-      selectedDate: moment(event.target.value).unix()
-    });
+    if (state === 'start')
+    {
+      this.setState({
+        startDate: moment(event).unix()
+      })
+    }
+    else if (state === 'end')
+    {
+      this.setState({
+        endDate: moment(event).unix()
+      })
+    }
   }
 
-  timeChange(event)
+  timeChange(event, state)
   {
-    this.setState({
-      selectedTime: moment(event.target.value).unix()
-    });
+    console.log(event)
+    if (state === 'start')
+    {
+      this.setState({
+        startTime: moment(event).unix()
+      })
+    }
+    else if (state === 'end')
+    {
+      this.setState({
+        endTime: moment(event).unix()
+      })
+    }
   }
-
 
   handleAllDay(event)
   {
@@ -162,7 +184,10 @@ class Journal extends React.Component {
         user: sessionStorage.getItem('user'),
         type: this.state.type,
         title: this.state.title,
-        date: this.state.selectedDate
+        start_date: this.state.startDate,
+        end_date: this.state.endDate,
+        start_time: this.state.startTime,
+        end_time: this.state.endTime,
       }
     })
     .then((response) => {
@@ -192,26 +217,38 @@ class Journal extends React.Component {
       res.forEach(bullet => {
           if (bullet.type !== "habit")
           {
-            let timestamp = moment.unix(bullet.date).format('dddd, MMMM Do, YYYY')
-            let navMonth = moment.unix(bullet.date).format('MMMM, YYYY')
+            // var start_date = moment.unix(bullet.start_date).format('dddd, MMMM Do, YYYY')
+            // var end_date = moment.unix(bullet.end_date).format('dddd, MMMM Do, YYYY')
+            var start_date = moment.unix(bullet.start_date)
+            var end_date = moment.unix(bullet.end_date)
+            console.log("end date is "+end_date)
 
-            // create a list of all bullets for the given month
-            if (navMonth === this.state.selectedMonth)
+            while (moment(start_date).isSameOrBefore(moment(end_date), 'days'))
             {
-              if (!(new_bullets[timestamp]))
+              console.log("in loop, start date is "+start_date)
+              let navMonth = moment(start_date).format('MMMM, YYYY')
+
+              if (navMonth === this.state.selectedMonth)
               {
-                new_bullets[timestamp] = [bullet]
+                if (!(new_bullets[moment(start_date).format('dddd, MMMM Do, YYYY')]))
+                {
+                  new_bullets[moment(start_date).format('dddd, MMMM Do, YYYY')] = [bullet]
+                }
+                else
+                {
+                  new_bullets[moment(start_date).format('dddd, MMMM Do, YYYY')].push(bullet)
+                }
               }
-              else
+              // create a list of all available months
+              if (new_months.indexOf(navMonth) === -1)
               {
-                new_bullets[timestamp].push(bullet)
+                new_months.push(navMonth)
               }
+
+              start_date = moment(start_date).add(1, 'days')
             }
-            // create a list of all available months
-            if (new_months.indexOf(navMonth) === -1)
-            {
-              new_months.push(navMonth)
-            }
+
+            console.log("out of loop, start date is "+start_date)
           }
       })
 
@@ -327,13 +364,17 @@ class Journal extends React.Component {
                 titleChange={this.titleChange}
                 addBullet={this.addBullet}
                 dateChange={this.dateChange}
+                timeChange={this.timeChange}
                 handleAllDay={this.handleAllDay}
                 selected={this.state.selected}
                 title={this.state.title}
                 type={this.state.type}
                 bullets={this.state.bullets}
                 selectedMonth={this.state.selectedMonth}
-                selectedDate={this.state.selectedDate}
+                startDate={this.state.startDate}
+                endDate={this.state.endDate}
+                startTime={this.state.startTime}
+                endTime={this.state.endTime}
                 checkedAllDay={this.state.checkedAllDay} />
               <BulletList
                 bullets={this.state.bullets}

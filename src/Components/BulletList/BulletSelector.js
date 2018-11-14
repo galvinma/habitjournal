@@ -143,8 +143,8 @@ class BulletSelector extends React.Component {
                     id="dateone"
                     type="date"
                     format="YYYY-MM-DD"
-                    value={moment.unix(this.props.selectedDate).format('YYYY-MM-DD')}
-                    onChange={(e) => this.props.dateChange(e)}/>
+                    value={moment.unix(this.props.startDate).format('YYYY-MM-DD')}
+                    onChange={(e) => this.props.dateChange(e, "start")}/>
               </MuiPickersUtilsProvider>
             </Typography>
             <Typography variant="body1">
@@ -154,7 +154,8 @@ class BulletSelector extends React.Component {
                     class="time_pick"
                     className={this.props.classes.timeInput}
                     style={{ width: '80px' }}
-                    onChange={(e) => this.props.timeChange(e)}/>
+                    value={moment.unix(this.props.startTime)}
+                    onChange={(e) => this.props.timeChange(e, "start")}/>
               </MuiPickersUtilsProvider>
             </Typography>
 
@@ -169,8 +170,8 @@ class BulletSelector extends React.Component {
                     id="datetwo"
                     type="date"
                     format="YYYY-MM-DD"
-                    value={moment.unix(this.props.selectedDate).format('YYYY-MM-DD')}
-                    onChange={(e) => this.props.dateChange(e)}/>
+                    value={moment.unix(this.props.endDate).format('YYYY-MM-DD')}
+                    onChange={(e) => this.props.dateChange(e, "end")}/>
               </MuiPickersUtilsProvider>
             </Typography>
             <Typography variant="body1">
@@ -180,7 +181,8 @@ class BulletSelector extends React.Component {
                     class="time_pick"
                     className={this.props.classes.timeInput}
                     style={{ width: '80px' }}
-                    onChange={(e) => this.props.timeChange(e)}/>
+                    value={moment.unix(this.props.endTime)}
+                    onChange={(e) => this.props.timeChange(e, "end")}/>
               </MuiPickersUtilsProvider>
             </Typography>
 
