@@ -14,6 +14,7 @@ import Key from '../.././Components/BulletList/Key'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
+import { sortBulletObject } from '../.././Utils/sortbullets'
 
 // redux
 import store from '../.././Store/store'
@@ -229,9 +230,6 @@ class Journal extends React.Component {
             var start_date = moment.unix(bullet.start_date)
             var end_date = moment.unix(bullet.end_date)
 
-            // console.log(moment.unix(bullet.start_date).unix())
-            // console.log(moment.unix(bullet.end_date).unix())
-
             while (moment(start_date).isSameOrBefore(moment(end_date), 'days'))
             {
               var temp = Object.assign([], bullet);
@@ -273,6 +271,8 @@ class Journal extends React.Component {
             }
           }
       })
+
+      new_bullets = sortBulletObject(new_bullets)
 
       this.setState({
         bullets: new_bullets,

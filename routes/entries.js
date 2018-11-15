@@ -16,7 +16,7 @@ router.route('/return_entries')
     {
       return
     }
-    Entries.find({ user_id: req.body.params.user }).sort({date: -1}).lean().exec(function(err, entries) {
+    Entries.find({ user_id: req.body.params.user }).sort({start_date: -1}).lean().exec(function(err, entries) {
       if (err)
       {
         throw err
