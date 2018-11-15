@@ -139,6 +139,11 @@ class BulletList extends React.Component {
      var start
      var end
 
+
+     console.log(moment.unix(i.start_time))
+      console.log(moment.unix(i.start_time).startOf('day').unix())
+      console.log(moment.unix(i.start_time).unix())
+
      if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix() &&
      moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
      {

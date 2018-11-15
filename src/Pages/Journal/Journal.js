@@ -184,10 +184,10 @@ class Journal extends React.Component {
 
   addBullet()
   {
-    console.log("startDate "+this.state.startDate)
-    console.log("endDate "+this.state.endDate)
-    console.log("startTime "+this.state.startTime)
-    console.log("endTime "+this.state.endTime)
+    // console.log("startDate "+this.state.startDate)
+    // console.log("endDate "+this.state.endDate)
+    // console.log("startTime "+this.state.startTime)
+    // console.log("endTime "+this.state.endTime)
 
     axios.post('http://127.0.0.1:5002/api/save_entry', {
       params: {
@@ -227,39 +227,44 @@ class Journal extends React.Component {
       res.forEach(bullet => {
           if (bullet.type !== "habit")
           {
+            var ref_date = moment.unix(bullet.start_date)
             var start_date = moment.unix(bullet.start_date)
             var end_date = moment.unix(bullet.end_date)
 
-            while (moment(start_date).isSameOrBefore(moment(end_date), 'days'))
+            while (moment(ref_date).isSameOrBefore(moment(end_date), 'days'))
             {
               var temp = Object.assign([], bullet);
-              var navMonth = moment(start_date).format('MMMM, YYYY')
+              var navMonth = moment(ref_date).format('MMMM, YYYY')
 
               if (navMonth === this.state.selectedMonth)
               {
-                if (!(new_bullets[moment(start_date).format('dddd, MMMM Do, YYYY')]))
+                if (!(new_bullets[moment(ref_date).format('dddd, MMMM Do, YYYY')]))
                 {
-                  new_bullets[moment(start_date).format('dddd, MMMM Do, YYYY')] = []
+                  new_bullets[moment(ref_date).format('dddd, MMMM Do, YYYY')] = []
                 }
 
-                if (moment(start_date).isSame(moment.unix(bullet.start_date), 'days'))
+
+                if (!(moment(start_date).isSame(moment(end_date), 'days')))
                 {
-                  temp.end_time = moment.unix(temp.start_date).endOf('day').unix()
+                  if (moment(ref_date).isSame(moment.unix(bullet.start_date), 'days'))
+                  {
+                    temp.end_time = moment.unix(temp.start_date).endOf('day').unix()
+                  }
+
+                  if (moment(ref_date).isSame(moment.unix(bullet.end_date), 'days'))
+                  {
+                    temp.start_time = moment.unix(temp.end_date).startOf('day').unix()
+                  }
+
+                  if ((moment(ref_date).isAfter(moment.unix(bullet.start_date))) &&
+                      (moment(ref_date).isBefore(moment.unix(bullet.end_date))))
+                  {
+                    temp.start_time = moment.unix(ref_date).startOf('day').unix()
+                    temp.end_time = moment.unix(ref_date).endOf('day').unix()
+                  }
                 }
 
-                if (moment(start_date).isSame(moment.unix(bullet.end_date), 'days'))
-                {
-                  temp.start_time = moment.unix(temp.end_date).startOf('day').unix()
-                }
-
-                if ((moment(start_date).isAfter(moment.unix(bullet.start_date))) &&
-                    (moment(start_date).isBefore(moment.unix(bullet.end_date))))
-                {
-                  temp.start_time = moment.unix(temp.start_date).startOf('day').unix()
-                  temp.end_time = moment.unix(temp.start_date).endOf('day').unix()
-                }
-
-                new_bullets[moment(start_date).format('dddd, MMMM Do, YYYY')].push(temp)
+                new_bullets[moment(ref_date).format('dddd, MMMM Do, YYYY')].push(temp)
               }
               // create a list of all available months
               if (new_months.indexOf(navMonth) === -1)
@@ -267,7 +272,7 @@ class Journal extends React.Component {
                 new_months.push(navMonth)
               }
 
-              start_date = moment(start_date).add(1, 'days')
+              ref_date = moment(ref_date).add(1, 'days')
             }
           }
       })
