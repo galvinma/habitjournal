@@ -20,14 +20,9 @@ input::-ms-clear {
   margin-right: 5px;
 }
 
-#timeone, #timetwo
-{
-  width: 80px;
-
-}
-
 #to_spacer
 {
   margin-left: 10px;
   margin-right: 10px;
+  font-size: 11px;
 }

@@ -16,12 +16,10 @@ import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
-
 import MomentUtils from '@date-io/moment'
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import { TimePicker } from 'material-ui-pickers';
 import { DatePicker } from 'material-ui-pickers';
-import { DateTimePicker } from 'material-ui-pickers';
 
 import './BulletSelector.css'
 
@@ -85,6 +83,13 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
   },
+  selector_datepicker_style: {
+    fontSize: '0.875em',
+  },
+  selector_timepicker_style: {
+    fontSize: '0.875em',
+    width: '65px',
+  },
 });
 
 class BulletSelector extends React.Component {
@@ -143,6 +148,11 @@ class BulletSelector extends React.Component {
                     id="dateone"
                     type="date"
                     format="YYYY-MM-DD"
+                    InputProps={{
+                    classes: {
+                        input: this.props.classes.selector_datepicker_style,
+                      }
+                    }}
                     value={moment.unix(this.props.startDate).format('YYYY-MM-DD')}
                     onChange={(e) => this.props.dateChange(e, "start")}/>
               </MuiPickersUtilsProvider>
@@ -152,10 +162,13 @@ class BulletSelector extends React.Component {
                   <TimePicker
                     id="timeone"
                     class="time_pick"
-                    className={this.props.classes.timeInput}
-                    style={{ width: '80px' }}
                     value={moment.unix(this.props.startTime)}
-                    onChange={(e) => this.props.timeChange(e, "start")}/>
+                    onChange={(e) => this.props.timeChange(e, "start")}
+                    InputProps={{
+                    classes: {
+                        input: this.props.classes.selector_timepicker_style,
+                      }
+                    }}/>
               </MuiPickersUtilsProvider>
             </Typography>
 
@@ -170,6 +183,11 @@ class BulletSelector extends React.Component {
                     id="datetwo"
                     type="date"
                     format="YYYY-MM-DD"
+                    InputProps={{
+                    classes: {
+                        input: this.props.classes.selector_datepicker_style,
+                      }
+                    }}
                     value={moment.unix(this.props.endDate).format('YYYY-MM-DD')}
                     onChange={(e) => this.props.dateChange(e, "end")}/>
               </MuiPickersUtilsProvider>
@@ -180,9 +198,13 @@ class BulletSelector extends React.Component {
                     id="timetwo"
                     class="time_pick"
                     className={this.props.classes.timeInput}
-                    style={{ width: '80px' }}
                     value={moment.unix(this.props.endTime)}
-                    onChange={(e) => this.props.timeChange(e, "end")}/>
+                    onChange={(e) => this.props.timeChange(e, "end")}
+                    InputProps={{
+                    classes: {
+                        input: this.props.classes.selector_timepicker_style,
+                      }
+                    }}/>
               </MuiPickersUtilsProvider>
             </Typography>
 

@@ -1,4 +1,6 @@
 import React from 'react'
+import moment from 'moment'
+import MomentUtils from '@date-io/moment'
 import PropTypes from 'prop-types';
 import Icon from '@mdi/react'
 import {  mdiSquare,
@@ -9,6 +11,10 @@ import {  mdiSquare,
           mdiTriangleOutline,
           mdiMinus,
           mdiClose,
+          mdiClockStart,
+          mdiClockEnd,
+          mdiWeatherSunset,
+          mdiWeatherNight,
         } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -17,6 +23,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import { TimePicker } from 'material-ui-pickers';
+import { DatePicker } from 'material-ui-pickers';
 
 // functions
 import { toggleIcon } from '../.././Utils/toggleicon'
@@ -41,6 +51,11 @@ const styles = theme => ({
     paddingTop: '0px',
     paddingBottom: '0px',
   },
+  bulletRow_sel: {
+    paddingTop: '0px',
+    paddingBottom: '0px',
+    paddingLeft: '0px',
+  },
   bulletItem: {
     display: 'flex',
     flexDirection: 'row',
@@ -55,6 +70,9 @@ const styles = theme => ({
   date_title: {
     paddingBottom: '5px',
   },
+  timepicker_list_style: {
+    fontSize: '11px',
+  }
 });
 
 class BulletList extends React.Component {
@@ -117,8 +135,78 @@ class BulletList extends React.Component {
   createList(i)
    {
      var p = this.convertType(i)
+     var entry_times
+     var start
+     var end
+
+     if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix() &&
+     moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
+     {
+       entry_times = null
+     }
+     else
+     {
+       if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix())
+       {
+         start =
+         <Icon path={mdiWeatherSunset} size={0.75} />
+       }
+       else
+       {
+         start =
+         <Typography variant="body1">
+           <MuiPickersUtilsProvider utils={MomentUtils}>
+               <TimePicker
+                 className={this.props.classes.timeInput}
+                 style={{ width: '50px' }}
+                 value={moment.unix(i.start_time)}
+                 onChange={(e) => this.props.timeChange(e, "start")}
+                 InputProps={{
+                 classes: {
+                     input: this.props.classes.timepicker_list_style,
+                   }
+                 }}/>
+           </MuiPickersUtilsProvider>
+         </Typography>
+       }
+
+       if (moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
+       {
+         end =
+         <Icon path={mdiWeatherNight} size={0.75} />
+       }
+       else
+       {
+         end =
+         <Typography variant="body1">
+           <MuiPickersUtilsProvider utils={MomentUtils}>
+               <TimePicker
+                 className={this.props.classes.timeInput}
+                 style={{ width: '50px'}}
+                 value={moment.unix(i.end_time)}
+                 onChange={(e) => this.props.timeChange(e, "end")}
+                 InputProps={{
+                 classes: {
+                     input: this.props.classes.timepicker_list_style,
+                   }
+                 }}/>
+           </MuiPickersUtilsProvider>
+         </Typography>
+       }
+
+         entry_times =
+         <ListItem className={this.props.classes.bulletRow}>
+            {start}
+           <div id="to_spacer">
+             <Typography variant="body1">to</Typography>
+           </div>
+            {end}
+         </ListItem>
+       }
+
      return (
-       <ListItem key={i.entry_id} className={this.props.classes.bulletRow}>
+       <div key={i.entry_id}>
+       <ListItem className={this.props.classes.bulletRow_sel}>
         <div className="bullet-item">
           <div className={this.props.classes.bulletItem}>
              <ListItemIcon>
@@ -152,6 +240,8 @@ class BulletList extends React.Component {
            </div>
          </div>
        </ListItem>
+       {entry_times}
+      </div>
    )
   }
 
