@@ -34,6 +34,8 @@ const styles = theme => ({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flexEnd',
+    paddingLeft: '3px',
+    paddingRight: '3px',
   },
   formStyle: {
     display: 'flex',
@@ -41,6 +43,10 @@ const styles = theme => ({
     overflow: 'hidden',
     alignItems: 'center',
     minWidth: '45vw',
+  },
+  check: {
+    paddingLeft: '3px',
+    paddingRight: '3px',
   },
   dateStyle: {
     display: 'flex',
@@ -106,16 +112,16 @@ class BulletSelector extends React.Component {
                   disableUnderline={true}
                 >
                   <MenuItem value="mdiSquareOutline">
-                    <Icon path={mdiSquareOutline} size={0.75} />
+                    <Icon path={mdiSquareOutline} size={1} />
                   </MenuItem>
                   <MenuItem value="mdiCircleOutline">
-                    <Icon path={mdiCircleOutline} size={0.75} />
+                    <Icon path={mdiCircleOutline} size={1} />
                   </MenuItem>
                   <MenuItem value="mdiTriangleOutline">
-                    <Icon path={mdiTriangleOutline} size={0.75} />
+                    <Icon path={mdiTriangleOutline} size={1} />
                   </MenuItem>
                   <MenuItem value="mdiMinus">
-                    <Icon path={mdiMinus} size={0.75} />
+                    <Icon path={mdiMinus} size={1} />
                   </MenuItem>
                 </Select>
               </FormControl>
@@ -134,12 +140,19 @@ class BulletSelector extends React.Component {
           <ListItem className={this.props.classes.list_item}>
             <Checkbox
               className={this.props.classes.check}
-              labelStyle={{color: 'black'}}
               iconStyle={{color: 'black'}}
               checked={this.props.checkedAllDay}
               onChange={(e) => this.props.handleAllDay(e)} />
             <div className={this.props.classes.selector_text}>
               <Typography variant="body1">All day</Typography>
+            </div>
+            <Checkbox
+              className={this.props.classes.check}
+              iconStyle={{color: 'black'}}
+              checked={this.props.checkedMultiDay}
+              onChange={(e) => this.props.handleMultiDay(e)} />
+            <div className={this.props.classes.selector_text}>
+              <Typography variant="body1">Multi day</Typography>
             </div>
             <Typography variant="body1">
               <MuiPickersUtilsProvider utils={MomentUtils}>

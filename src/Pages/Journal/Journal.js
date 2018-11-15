@@ -96,6 +96,7 @@ class Journal extends React.Component {
     endTime: moment().endOf('day').unix(),
     navigatorMonths: [],
     checkedAllDay: true,
+    checkedMultiDay: false,
   };
 
   checkAuth()
@@ -112,6 +113,7 @@ class Journal extends React.Component {
   this.dateChange = this.dateChange.bind(this)
   this.getBullets = this.getBullets.bind(this)
   this.handleAllDay = this.handleAllDay.bind(this)
+  this.handleMultiDay = this.handleMultiDay.bind(this)
   }
 
 
@@ -160,6 +162,29 @@ class Journal extends React.Component {
     }
   }
 
+  handleMultiDay(event)
+  {
+    if (event.target.checked === true)
+    {
+      document.getElementById("datetwo").style.display = "inline-block"
+    }
+    else
+    {
+      document.getElementById("datetwo").style.display = "none"
+    }
+
+    this.setState({ checkedMultiDay: event.target.checked });
+
+    if (this.state.checkedAllDay === false || event.target.checked === true)
+    {
+      document.getElementById("to_spacer").style.display = "inline-block"
+    }
+    else
+    {
+      document.getElementById("to_spacer").style.display = "none"
+    }
+  };
+
   handleAllDay(event)
   {
     if (event.target.checked === true)
@@ -180,6 +205,15 @@ class Journal extends React.Component {
     }
 
     this.setState({ checkedAllDay: event.target.checked });
+
+    if (event.target.checked === false || this.state.checkedMultiDay === true)
+    {
+      document.getElementById("to_spacer").style.display = "inline-block"
+    }
+    else
+    {
+      document.getElementById("to_spacer").style.display = "none"
+    }
   };
 
   addBullet()
@@ -189,13 +223,23 @@ class Journal extends React.Component {
     // console.log("startTime "+this.state.startTime)
     // console.log("endTime "+this.state.endTime)
 
+    var end
+    if (this.state.checkedMultiDay === false)
+    {
+      end = this.state.startDate
+    }
+    else
+    {
+      end = this.state.endDate
+    }
+
     axios.post('http://127.0.0.1:5002/api/save_entry', {
       params: {
         user: sessionStorage.getItem('user'),
         type: this.state.type,
         title: this.state.title,
         start_date: this.state.startDate,
-        end_date: this.state.endDate,
+        end_date: end,
         start_time: this.state.startTime,
         end_time: this.state.endTime,
       }
@@ -354,7 +398,6 @@ class Journal extends React.Component {
 
   updateBulletTitle(entry_id, val)
   {
-    // var val = document.getElementById(entry_id).value;
     axios.post('http://127.0.0.1:5002/api/update_entry_title', {
       params: {
         entry_id: entry_id,
@@ -369,7 +412,6 @@ class Journal extends React.Component {
       console.log(error);
     });
 
-    this.getBullets()
   }
 
   render() {
@@ -392,6 +434,7 @@ class Journal extends React.Component {
                 dateChange={this.dateChange}
                 timeChange={this.timeChange}
                 handleAllDay={this.handleAllDay}
+                handleMultiDay={this.handleMultiDay}
                 selected={this.state.selected}
                 title={this.state.title}
                 type={this.state.type}
@@ -401,7 +444,8 @@ class Journal extends React.Component {
                 endDate={this.state.endDate}
                 startTime={this.state.startTime}
                 endTime={this.state.endTime}
-                checkedAllDay={this.state.checkedAllDay} />
+                checkedAllDay={this.state.checkedAllDay}
+                checkedMultiDay={this.state.checkedMultiDay} />
               <BulletList
                 bullets={this.state.bullets}
                 removeBullet={this.removeBullet}

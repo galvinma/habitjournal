@@ -51,6 +51,10 @@ const styles = theme => ({
     paddingTop: '0px',
     paddingBottom: '0px',
   },
+  timeRow: {
+    paddingTop: '0px',
+    paddingBottom: '12px',
+  },
   bulletRow_sel: {
     paddingTop: '0px',
     paddingBottom: '0px',
@@ -72,7 +76,15 @@ const styles = theme => ({
   },
   timepicker_list_style: {
     fontSize: '11px',
-  }
+  },
+  list_selector:
+  {
+    marginRight: '8px',
+  },
+  list_container: {
+    paddingTop: '2px',
+    paddingBottom: '2px',
+  },
 });
 
 class BulletList extends React.Component {
@@ -139,8 +151,6 @@ class BulletList extends React.Component {
      var start
      var end
 
-
-     console.log(moment.unix(i.start_time))
       console.log(moment.unix(i.start_time).startOf('day').unix())
       console.log(moment.unix(i.start_time).unix())
 
@@ -200,11 +210,9 @@ class BulletList extends React.Component {
        }
 
          entry_times =
-         <ListItem className={this.props.classes.bulletRow}>
+         <ListItem className={this.props.classes.timeRow}>
             {start}
-           <div id="to_spacer">
-             <Typography variant="body1">to</Typography>
-           </div>
+           <div class="to_style">to</div>
             {end}
          </ListItem>
        }
@@ -214,7 +222,7 @@ class BulletList extends React.Component {
        <ListItem className={this.props.classes.bulletRow_sel}>
         <div className="bullet-item">
           <div className={this.props.classes.bulletItem}>
-             <ListItemIcon>
+             <ListItemIcon className={this.props.classes.list_selector}>
                 <Button onClick={(e) => {
                   toggleIcon(i.entry_id, i.type, i.status)
                   .then((response) => this.props.getBullets())
@@ -255,7 +263,7 @@ class BulletList extends React.Component {
       <div className={this.props.classes.root}>
         {
          Object.keys(this.props.bullets).map((k, index) => (
-            <List key={index}>
+            <List key={index} className={this.props.classes.list_container}>
               <div className={this.props.classes.list_container}>
                   <Typography variant="body1" className={this.props.classes.date_title}>
                     {k}

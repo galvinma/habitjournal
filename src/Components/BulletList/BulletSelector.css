@@ -20,8 +20,14 @@ input::-ms-clear {
   margin-right: 5px;
 }
 
+#datetwo
+{
+  display: none;
+}
+
 #to_spacer
 {
+  display: none;
   margin-left: 10px;
   margin-right: 10px;
   font-size: 11px;

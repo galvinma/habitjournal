@@ -4,3 +4,11 @@
 .bullet-item:hover .bullet-delete {
   opacity: 1;
 }
+
+.to_style
+{
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 11px;
+  font-family: Nunito;
+}

@@ -102,7 +102,7 @@ router.route('/update_entry_status')
 
 router.route('/update_entry_title')
   .post(function(req, res, next) {
-    Entries.update({ entry_id: req.body.params.entry_id },{description: req.body.params.title}).lean().exec(function(err, docs) {
+    Entries.update({ entry_id: req.body.params.entry_id },{title: req.body.params.title}).lean().exec(function(err, docs) {
       if (err)
       {
         throw err
