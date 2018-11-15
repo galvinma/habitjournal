@@ -85,7 +85,7 @@ class App extends Component {
           <Route path="/" exact component={_Landing}/>
           <Route path="/signin" exact component={_LogIn}/>
           <Route path="/join" exact component={_SignUp}/>
-          <Route path="/reset" exact component={_Reset}/>          
+          <Route path="/reset" exact component={_Reset}/>
           <Route path="/journal" exact component={_Journal}/>
           <Route path="/habits" exact component={_Habits}/>
           <Route path="/calendar" exact component={_Calendar}/>

@@ -88,22 +88,25 @@ const styles = theme => ({
 });
 
 class BulletList extends React.Component {
-  constructor(props){
-  super(props);
-  this.state = {
-    bullets: this.props.bullets,
-    title: this.props.title,
-    type: this.props.type,
-    selected: this.props.selected,
-    count: 0,
-    edit_value: '',
-  };
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      count: 0,
+      edit_value: '',
+    };
 
-  this.convertType = this.convertType.bind(this);
-  this.createList = this.createList.bind(this);
-  this.toggleIcon = toggleIcon.bind(this);
-
+    this.convertType = this.convertType.bind(this);
+    this.createList = this.createList.bind(this);
+    this.toggleIcon = toggleIcon.bind(this);
   }
+
+  // componentDidUpdate(prevProps)
+  // {
+  //    if (prevProps.bullets !== this.props.bullets) {
+  //        this.forceUpdate()
+  //    }
+  //  }
 
   convertType(i)
   {
@@ -150,9 +153,9 @@ class BulletList extends React.Component {
      var entry_times
      var start
      var end
-
-      console.log(moment.unix(i.start_time).startOf('day').unix())
-      console.log(moment.unix(i.start_time).unix())
+      //
+      // console.log(moment.unix(i.start_time).startOf('day').unix())
+      // console.log(moment.unix(i.start_time).unix())
 
      if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix() &&
      moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
@@ -175,7 +178,7 @@ class BulletList extends React.Component {
                  className={this.props.classes.timeInput}
                  style={{ width: '50px' }}
                  value={moment.unix(i.start_time)}
-                 onChange={(e) => this.props.timeChange(e, "start")}
+                 onChange={(e) => this.props.updateBulletTimes(e, "start")}
                  InputProps={{
                  classes: {
                      input: this.props.classes.timepicker_list_style,
@@ -199,7 +202,7 @@ class BulletList extends React.Component {
                  className={this.props.classes.timeInput}
                  style={{ width: '50px'}}
                  value={moment.unix(i.end_time)}
-                 onChange={(e) => this.props.timeChange(e, "end")}
+                 onChange={(e) => this.props.updateBulletTimes(e, "end")}
                  InputProps={{
                  classes: {
                      input: this.props.classes.timepicker_list_style,
@@ -234,7 +237,9 @@ class BulletList extends React.Component {
 
              <form>
                <Typography variant="body1">
-                  <input onChange={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
+                  <input
+                  onChange={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
+                  onBlur={this.props.getBullets}
                   className={this.props.classes.text_input}
                   type="text"
                   id={i.entry_id}

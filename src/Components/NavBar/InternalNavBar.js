@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Icon from '@mdi/react'
-import { mdiLogout, mdiMenu } from '@mdi/js'
+import { mdiLogout, mdiMenu, mdiFlowerOutline } from '@mdi/js'
 
 // redux
 import store from '../.././Store/store'
@@ -108,7 +108,7 @@ class InternalNavBar extends React.Component {
       <div className={this.props.classes.navbarContainer}>
         <AppBar className={this.props.classes.navbar} position="static">
           <Toolbar className={this.props.classes.toolbar_open}>
-            <NavLink to="/" className={this.props.classes.logo}>
+            <NavLink to="/journal" className={this.props.classes.logo}>
               <Typography variant="body1">Logo</Typography>
             </NavLink>
             <NavLink to="/journal" className={this.props.classes.link}>

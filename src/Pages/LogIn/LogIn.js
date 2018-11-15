@@ -5,15 +5,14 @@ import lifecycle from 'react-pure-lifecycle';
 import LandingNavBar from '../.././Components/NavBar/LandingNavBar'
 import LogInPrompt from '../.././Components/LogInPrompt/LogInPrompt'
 
-const methods = {
-
-};
-
-const LogIn = (props) => (
+class LogIn extends React.Component {
+  render() {
+    return (
   <div>
     <LandingNavBar />
     <LogInPrompt />
   </div>
-)
+)}
+}
 
-export default lifecycle(methods)(LogIn);
+export default (LogIn);

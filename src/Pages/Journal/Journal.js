@@ -114,8 +114,8 @@ class Journal extends React.Component {
   this.getBullets = this.getBullets.bind(this)
   this.handleAllDay = this.handleAllDay.bind(this)
   this.handleMultiDay = this.handleMultiDay.bind(this)
+  this.updateBulletTimes = this.updateBulletTimes.bind(this)
   }
-
 
   changeSelectedMonth(date)
   {
@@ -160,6 +160,11 @@ class Journal extends React.Component {
         endTime: moment.unix(utc).unix()
       })
     }
+  }
+
+  updateBulletTimes()
+  {
+
   }
 
   handleMultiDay(event)
@@ -332,6 +337,8 @@ class Journal extends React.Component {
     .catch((error)=>{
       console.log(error);
     });
+
+    this.forceUpdate()
   }
 
   selectorChange(event)
@@ -435,6 +442,7 @@ class Journal extends React.Component {
                 timeChange={this.timeChange}
                 handleAllDay={this.handleAllDay}
                 handleMultiDay={this.handleMultiDay}
+                updateBulletTimes={this.updateBulletTimes}
                 selected={this.state.selected}
                 title={this.state.title}
                 type={this.state.type}
@@ -451,8 +459,7 @@ class Journal extends React.Component {
                 removeBullet={this.removeBullet}
                 toggleIcon={this.toggleIcon}
                 getBullets={this.getBullets}
-                updateBulletTitle={this.updateBulletTitle}
-                className={this.props.classes.bulletlist} />
+                updateBulletTitle={this.updateBulletTitle} />
           </div>
           <div className={this.props.classes.month_container}>
             <BulletNavigator
