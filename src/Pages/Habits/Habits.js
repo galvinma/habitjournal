@@ -68,10 +68,28 @@ class Habits extends React.Component {
     this.toggleIcon = this.toggleIcon.bind(this)
     this.getHabitEntries = this.getHabitEntries.bind(this)
     this.updateHabit = this.updateHabit.bind(this)
+    this.prevWeekHandler = this.prevWeekHandler.bind(this)
+    this.nextWeekHandler = this.nextWeekHandler.bind(this)
 
     this.getHabits()
     this.getHabitEntries()
 
+  }
+
+  prevWeekHandler() {
+    this.setState({
+      firstDayOfWeekDate: moment(this.state.firstDayOfWeekDate).subtract(1, "weeks").format('YYYY-MM-DD'),
+    })
+
+    this.getHabitEntries()
+  }
+
+  nextWeekHandler() {
+    this.setState({
+      firstDayOfWeekDate: moment(this.state.firstDayOfWeekDate).add(1, "weeks").format('YYYY-MM-DD'),
+    })
+
+    this.getHabitEntries()
   }
 
    editModalValue(event)
@@ -299,7 +317,9 @@ class Habits extends React.Component {
               getHabits={this.getHabits}
               getHabitEntries={this.getHabitEntries}
               handleModalOpen={this.handleModalOpen}
-              toggleIcon={this.toggleIcon} />
+              toggleIcon={this.toggleIcon}
+              prevWeekHandler={this.prevWeekHandler}
+              nextWeekHandler={this.nextWeekHandler} />
           </div>
       </div>
     );

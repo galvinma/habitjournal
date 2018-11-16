@@ -10,19 +10,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@mdi/react'
-import { mdiCheck, mdiClose, mdiPlus, mdiDotsVertical} from '@mdi/js'
+import { mdiCheck, mdiClose, mdiPlus, mdiDotsVertical, mdiChevronLeft, mdiChevronRight} from '@mdi/js'
 
 import NewHabit from '../.././Components/Modal/NewHabit'
 
 const styles = theme => ({
-  calendar_row_container: {
-    width: '90vw',
-    display: 'flex',
-    flexDirection: "row",
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: "center",
-  },
   table_styles: {
     tableLayout: 'fixed',
   },
@@ -36,35 +28,22 @@ const styles = theme => ({
   icon_style: {
     verticalAlign: 'middle',
   },
+  chevron_container: {
+    display: "inline-block",
+    marginLeft: "auto",
+  },
   habit_cell: {
-    width: '10vw',
-    textAlign: "left",
-    alignItems: 'flex-start',
-    paddingLeft: '25px',
-    paddingRight: '0px',
-
-    [theme.breakpoints.down(768)]: {
-      width: '15vw',
-    },
-
-    [theme.breakpoints.down(500)]: {
-      width: '20vw',
-    },
+    display: 'flex',
+    flexDirection: "row",
+    textAlign: "center",
+    alignItems: 'center',
+    height: '56px',
   },
   edit_cell: {
-    width: '3vw',
-    textAlign: "left",
+    textAlign: "center",
     alignItems: 'flex-start',
     paddingLeft: '0px',
     paddingRight: '0px',
-
-    [theme.breakpoints.down(768)]: {
-      width: '6vw',
-    },
-
-    [theme.breakpoints.down(500)]: {
-      width: '9vw',
-    },
   },
   month_header: {
     width: '100%',
@@ -77,7 +56,7 @@ const styles = theme => ({
   habit_name: {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    textAlign: "left",
+    textAlign: "center",
   },
 })
 
@@ -159,7 +138,7 @@ class HabitsTable extends React.Component {
         <Table className={this.props.classes.table_styles}>
           <TableHead>
             <TableRow>
-              <TableCell className={this.props.classes.habit_cell}>
+              <TableCell className={this.props.classes.cell_style}>
                   <Icon className={this.props.classes.icon_style} path={mdiPlus} size={0.85} onClick={() => this.props.handleModalOpen("new")}/>
               </TableCell>
               {header.map((item, index) => {
@@ -171,7 +150,19 @@ class HabitsTable extends React.Component {
                     </TableCell>
                 )
               })}
-              <TableCell key={"spacing"} className={this.props.classes.edit_cell}>
+              <TableCell className={this.props.classes.edit_cell}>
+                <div className={this.props.classes.chevron_container}>
+                  <Icon
+                    className={this.props.classes.icon_style}
+                    path={mdiChevronLeft}
+                    size={0.85}
+                    onClick={(e) => this.props.prevWeekHandler()}/>
+                  <Icon
+                    className={this.props.classes.icon_style}
+                    path={mdiChevronRight}
+                    size={0.85}
+                    onClick={(e) => this.props.nextWeekHandler()}/>
+                </div>
               </TableCell>
             </TableRow>
           </TableHead>
