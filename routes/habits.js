@@ -58,6 +58,19 @@ router.route('/remove_habit')
     });
   })
 
+router.route('/update_habit')
+  .post(function(req, res, next) {
+    Habits.update({ habit_id: req.body.params.habit_id },{title: req.body.params.new_title}).lean().exec(function(err, docs) {
+      if (err)
+      {
+        throw err
+      }
+      res.json({
+        success: true,
+      });
+    });
+  })
+
 router.route('/log_habit')
 .post(function(req, res, next) {
   // check if habit exists

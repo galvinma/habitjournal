@@ -180,7 +180,7 @@ class HabitsTable extends React.Component {
               return (
                 <TableRow key={row.title} id={row.habit_id}>
                   <TableCell className={this.props.classes.cell_style} component="th" scope="row">
-                    <Typography component="div" variant="body1" className={this.props.classes.habit_name}>
+                    <Typography id={"title"+row.habit_id} variant="body1" className={this.props.classes.habit_name}>
                       {row.title}
                     </Typography>
                   </TableCell>
@@ -189,9 +189,10 @@ class HabitsTable extends React.Component {
                         <TableCell
                             id={"cell"+row.habit_id+"_"+dates_shortstamp[index]}
                             className={this.props.classes.cell_style}
-                            key={row+index}
+                            key={row.title+index+date}
                             onClick={(e) => this.props.toggleIcon(row.habit_id+"_"+dates_shortstamp[index])} >
                           <Icon
+                            key={row.title+index+"icon"+date}
                             path={mdiClose}
                             size={0.75}
                             id={row.habit_id+"_"+dates_shortstamp[index]}
@@ -202,11 +203,12 @@ class HabitsTable extends React.Component {
                   <TableCell className={this.props.classes.cell_style} component="th" scope="row">
                     <Typography component="div" variant="body1" className={this.props.classes.cell_style}>
                     <Icon
+                      key={row.title+"dots"}
                       path={mdiDotsVertical}
-                      value={row.habit_id}
+                      value={row.title}
                       size={0.75}
                       className={this.props.classes.icon_style}
-                      onClick={() => this.props.handleModalOpen("edit", row.habit_id)} />
+                      onClick={() => this.props.handleModalOpen("edit", row.habit_id, row.title)} />
                     </Typography>
                   </TableCell>
                 </TableRow>

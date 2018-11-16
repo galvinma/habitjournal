@@ -50,8 +50,8 @@ class Habits extends React.Component {
       edit_id: "",
       newModalState: false,
       editModalState: false,
-      editModalValue: "",
-      newModalValue: "",
+      editValue: "",
+      newValue: "",
       habits: [],
       habit_entries: [],
     };
@@ -67,6 +67,7 @@ class Habits extends React.Component {
     this.newModalValue = this.newModalValue.bind(this)
     this.toggleIcon = this.toggleIcon.bind(this)
     this.getHabitEntries = this.getHabitEntries.bind(this)
+    this.updateHabit = this.updateHabit.bind(this)
 
     this.getHabits()
     this.getHabitEntries()
@@ -76,18 +77,18 @@ class Habits extends React.Component {
    editModalValue(event)
    {
      this.setState({
-       editModalValue: event.target.value
+       editValue: event.target.value
      })
    }
 
    newModalValue(event)
    {
      this.setState({
-       newModalValue: event.target.value
+       newValue: event.target.value
      })
    }
 
-  handleModalOpen(modal, habit_id)
+  handleModalOpen(modal, habit_id, title)
   {
     if (modal === 'new')
     {
@@ -99,7 +100,8 @@ class Habits extends React.Component {
     {
       this.setState({
         editModalState: true,
-        edit_id: habit_id
+        edit_id: habit_id,
+        editValue: title,
       });
     }
   }
@@ -188,7 +190,7 @@ class Habits extends React.Component {
     axios.post('http://127.0.0.1:5002/api/save_habit', {
       params: {
         user: sessionStorage.getItem('user'),
-        title: this.state.newModalValue
+        title: this.state.newValue
       }
     })
     .then((response) => {
@@ -204,6 +206,25 @@ class Habits extends React.Component {
     })
   }
 
+  updateHabit()
+  {
+    axios.post('http://127.0.0.1:5002/api/update_habit', {
+      params: {
+        habit_id: this.state.edit_id,
+        new_title: this.state.editValue,
+      }
+    })
+    .then((response) => {
+      console.log(response)
+      this.handleModalClose()
+
+      document.getElementById(`title${this.state.edit_id}`).innerHTML = String(this.state.editValue)
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+
   deleteHabit()
   {
     axios.post('http://127.0.0.1:5002/api/remove_habit', {
@@ -213,8 +234,8 @@ class Habits extends React.Component {
     })
     .then((response) => {
       console.log(response)
+      this.handleModalClose()
       this.getHabits()
-
     })
     .catch((error)=>{
       console.log(error);
@@ -266,8 +287,10 @@ class Habits extends React.Component {
               newModalValue={this.newModalValue} />
           <EditHabit
               editModalState={this.state.editModalState}
+              editValue={this.state.editValue}
               handleModalClose={this.handleModalClose}
               deleteHabit={this.deleteHabit}
+              updateHabit={this.updateHabit}
               editModalValue={this.editModalValue} />
           <HabitsTable
               habits={this.state.habits}

@@ -238,7 +238,6 @@ class BulletList extends React.Component {
       <div className={this.props.classes.root}>
         {
          Object.keys(this.props.bullets).map((k, index) => (
-           console.log(k+index),
             <List key={k} className={this.props.classes.list_container}>
               <div className={this.props.classes.list_container}>
                   <Typography variant="body1" className={this.props.classes.date_title}>

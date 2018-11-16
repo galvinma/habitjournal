@@ -35,23 +35,26 @@ class EditHabit extends React.Component {
           <DialogTitle id="simple-dialog-title">Edit Habit</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Habit text...
+              <Typography variant="body1">Habit Title</Typography>
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
               id="edithabit"
-              label="Habit Name"
               fullWidth
+              defaultValue={this.props.editValue}
               onChange={this.props.editModalValue}
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.handleModalClose} color="primary">
-              Cancel
-            </Button>
             <Button onClick={this.props.deleteHabit} color="primary">
-              Delete
+              <Typography variant="body1">Delete</Typography>
+            </Button>
+            <Button onClick={this.props.handleModalClose} color="primary">
+              <Typography variant="body1">Cancel</Typography>
+            </Button>
+            <Button onClick={this.props.updateHabit} color="primary">
+              <Typography variant="body1">Confirm</Typography>
             </Button>
           </DialogActions>
         </Dialog>

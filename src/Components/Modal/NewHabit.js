@@ -36,15 +36,14 @@ class NewHabit extends React.Component {
 
           <DialogContent>
             <DialogContentText>
-              Please enter a name and description of your habit.
+              <Typography variant="body1">Habit Title</Typography>
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
               id="newhabit"
-              label="Habit Name"
               fullWidth
-              onChange={this.props.newModalValue}
+              onChange={this.props.newValue}
             />
           </DialogContent>
           <DialogActions>
