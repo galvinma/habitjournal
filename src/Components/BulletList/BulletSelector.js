@@ -126,14 +126,12 @@ class BulletSelector extends React.Component {
                 </Select>
               </FormControl>
               <form className={this.props.classes.formStyle}>
-                <Typography variant="body1">
-                   <input
-                   id="bulletSelector"
-                   className={this.props.classes.text_input}
-                   defaultValue={this.props.title}
-                   onChange={(e) => this.props.titleChange(e)}
-                   onKeyDown={(e) => this.props.checkSubmit(e)} />
-                </Typography>
+                 <input
+                 id="bulletSelector"
+                 className={this.props.classes.text_input}
+                 defaultValue={this.props.title}
+                 onChange={(e) => this.props.titleChange(e)}
+                 onKeyDown={(e) => this.props.checkSubmit(e)} />
               </form>
             </div>
           </ListItem>

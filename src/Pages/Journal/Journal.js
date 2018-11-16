@@ -83,12 +83,13 @@ const styles = theme => ({
 class Journal extends React.Component {
   constructor(props){
   super(props);
+
   this.state = {
-    bullets: {}, // date --> bullet list
+    bullets: {},
     title: '',
     type: 'task',
     selected: 'mdiSquareOutline',
-    selectedMonth: moment().format('MMMM, YYYY'), // initializes to current month
+    selectedMonth: moment().format('MMMM, YYYY'),
     reference: moment().startOf('day').unix(),
     startDate: moment().unix(),
     endDate: moment().unix(),
@@ -97,7 +98,7 @@ class Journal extends React.Component {
     navigatorMonths: [],
     checkedAllDay: true,
     checkedMultiDay: false,
-  };
+  }
 
   checkAuth()
   this.getBullets()
@@ -115,6 +116,32 @@ class Journal extends React.Component {
   this.handleAllDay = this.handleAllDay.bind(this)
   this.handleMultiDay = this.handleMultiDay.bind(this)
   this.updateBulletTimes = this.updateBulletTimes.bind(this)
+  this.blurHandler = this.blurHandler.bind(this)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.bullets !== this.state.bullets ||
+        nextState.navigatorMonths !== this.state.navigatorMonths ||
+        nextState.selected !== this.state.selected ||
+        nextState.type !== this.state.type ||
+        nextState.startDate !== this.state.startDate ||
+        nextState.endDate !== this.state.endDate ||
+        nextState.startTime !== this.state.startTime ||
+        nextState.endTime !== this.state.endTime ||
+        nextState.checkedMultiDay !== this.state.checkedMultiDay ||
+        nextState.checkedAllDay !== this.state.checkedAllDay)
+    {
+      return true
+    }
+    else
+    {
+      return false
+    }
+  }
+
+  blurHandler()
+  {
+    this.getBullets()
   }
 
   changeSelectedMonth(date)
@@ -162,9 +189,24 @@ class Journal extends React.Component {
     }
   }
 
-  updateBulletTimes()
+  updateBulletTimes(id, event, state)
   {
+    axios.post('http://127.0.0.1:5002/api/update_entry_time', {
+      params: {
+        entry_id: id,
+        new_time: moment(event).unix(),
+        state: state,
+      }
+    })
+    .then((response) => {
+      console.log(response)
 
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+
+    this.getBullets()
   }
 
   handleMultiDay(event)
@@ -324,7 +366,6 @@ class Journal extends React.Component {
             }
           }
       })
-
       new_bullets = sortBulletObject(new_bullets)
 
       this.setState({
@@ -337,7 +378,6 @@ class Journal extends React.Component {
       console.log(error);
     });
 
-    this.forceUpdate()
   }
 
   selectorChange(event)
@@ -417,7 +457,6 @@ class Journal extends React.Component {
     .catch((error)=>{
       console.log(error);
     });
-
   }
 
   render() {
@@ -441,7 +480,6 @@ class Journal extends React.Component {
                 timeChange={this.timeChange}
                 handleAllDay={this.handleAllDay}
                 handleMultiDay={this.handleMultiDay}
-                updateBulletTimes={this.updateBulletTimes}
                 selected={this.state.selected}
                 title={this.state.title}
                 type={this.state.type}
@@ -458,7 +496,9 @@ class Journal extends React.Component {
                 removeBullet={this.removeBullet}
                 toggleIcon={this.toggleIcon}
                 getBullets={this.getBullets}
-                updateBulletTitle={this.updateBulletTitle} />
+                blurHandler={this.blurHandler}
+                updateBulletTitle={this.updateBulletTitle}
+                updateBulletTimes={this.updateBulletTimes} />
           </div>
           <div className={this.props.classes.month_container}>
             <BulletNavigator

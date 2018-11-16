@@ -125,9 +125,6 @@ class BulletList extends React.Component {
      var entry_times
      var start
      var end
-      //
-      // console.log(moment.unix(i.start_time).startOf('day').unix())
-      // console.log(moment.unix(i.start_time).unix())
 
      if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix() &&
      moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
@@ -147,10 +144,11 @@ class BulletList extends React.Component {
          <Typography variant="body1">
            <MuiPickersUtilsProvider utils={MomentUtils}>
                <TimePicker
+                 key={i.entry_id+i.type+i.start_time}
                  className={this.props.classes.timeInput}
                  style={{ width: '50px' }}
                  value={moment.unix(i.start_time)}
-                 onChange={(e) => this.props.updateBulletTimes(e, "start")}
+                 onChange={(e) => this.props.updateBulletTimes(i.entry_id, e, "start_time")}
                  InputProps={{
                  classes: {
                      input: this.props.classes.timepicker_list_style,
@@ -171,10 +169,11 @@ class BulletList extends React.Component {
          <Typography variant="body1">
            <MuiPickersUtilsProvider utils={MomentUtils}>
                <TimePicker
+                 key={i.entry_id+i.type+i.end_time}
                  className={this.props.classes.timeInput}
                  style={{ width: '50px'}}
                  value={moment.unix(i.end_time)}
-                 onChange={(e) => this.props.updateBulletTimes(e, "end")}
+                 onChange={(e) => this.props.updateBulletTimes(i.entry_id, e, "end_time")}
                  InputProps={{
                  classes: {
                      input: this.props.classes.timepicker_list_style,
@@ -193,7 +192,7 @@ class BulletList extends React.Component {
        }
 
      return (
-       <div key={i.entry_id}>
+       <div key={i.entry_id+i.status}>
        <ListItem className={this.props.classes.bulletRow_sel}>
         <div className="bullet-item">
           <div className={this.props.classes.bulletItem}>
@@ -208,15 +207,14 @@ class BulletList extends React.Component {
              </ListItemIcon>
 
              <form>
-               <Typography variant="body1">
-                  <input
-                  onChange={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
-                  onBlur={this.props.getBullets}
-                  className={this.props.classes.text_input}
-                  type="text"
-                  id={i.entry_id}
-                  defaultValue={i.title} />
-               </Typography>
+                <input
+                key={i.entry_id+i.type+i.title}
+                onChange={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
+                onBlur={this.props.blurHandler}
+                className={this.props.classes.text_input}
+                type="text"
+                id={i.entry_id}
+                defaultValue={i.title} />
              </form>
 
              <ListItemIcon>
@@ -240,7 +238,8 @@ class BulletList extends React.Component {
       <div className={this.props.classes.root}>
         {
          Object.keys(this.props.bullets).map((k, index) => (
-            <List key={index} className={this.props.classes.list_container}>
+           console.log(k+index),
+            <List key={k} className={this.props.classes.list_container}>
               <div className={this.props.classes.list_container}>
                   <Typography variant="body1" className={this.props.classes.date_title}>
                     {k}

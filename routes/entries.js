@@ -127,4 +127,32 @@ router.route('/update_entry_description')
     });
   })
 
+router.route('/update_entry_time')
+  .post(function(req, res, next) {
+    if (req.body.params.state === "end_time")
+    {
+      Entries.update({ entry_id: req.body.params.entry_id },{end_time: req.body.params.new_time}).lean().exec(function(err, docs) {
+        if (err)
+        {
+          throw err
+        }
+        res.json({
+          success: true,
+        });
+      });
+    }
+    else
+    {
+      Entries.update({ entry_id: req.body.params.entry_id },{start_time: req.body.params.new_time}).lean().exec(function(err, docs) {
+        if (err)
+        {
+          throw err
+        }
+        res.json({
+          success: true,
+        });
+      });
+    }
+  })
+
 module.exports = router;
