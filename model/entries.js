@@ -14,6 +14,7 @@ var Entries = new Schema({
     title: {type: String, required: true},
     status: {type: String, required: true},
     description: {type: String},
+    multi_day: {type: Boolean, required: true},
 });
 
 module.exports = mongoose.model('Entries', Entries);

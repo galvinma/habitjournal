@@ -53,6 +53,7 @@ router.route('/save_entry')
     entry.title = req.body.params.title
     entry.description = req.body.params.description || ""
     entry.status = "0"
+    entry.multi_day = req.body.params.multi_day
 
     entry.save(function(err) {
         if (err)

@@ -223,19 +223,17 @@ class Journal extends React.Component {
 
   addBullet()
   {
-    // console.log("startDate "+this.state.startDate)
-    // console.log("endDate "+this.state.endDate)
-    // console.log("startTime "+this.state.startTime)
-    // console.log("endTime "+this.state.endTime)
-
     var end
+    var multi_day
     if (this.state.checkedMultiDay === false)
     {
       end = this.state.startDate
+      multi_day = false
     }
     else
     {
       end = this.state.endDate
+      multi_day = true
     }
 
     axios.post('http://127.0.0.1:5002/api/save_entry', {
@@ -247,6 +245,7 @@ class Journal extends React.Component {
         end_date: end,
         start_time: this.state.startTime,
         end_time: this.state.endTime,
+        multi_day: multi_day
       }
     })
     .then((response) => {
