@@ -124,7 +124,10 @@ class Habits extends React.Component {
       var res = response.data.entries
       var new_entries = []
       res.forEach(entry => {
-        new_entries.push(entry)
+        if (entry.type === 'habit')
+        {
+          new_entries.push(entry)
+        }
       })
 
       this.setState({
@@ -133,7 +136,7 @@ class Habits extends React.Component {
 
       new_entries.forEach(entry =>
       {
-        var id = entry.habit_id+"_"+moment.unix(entry.date).format('YYYY-MM-DD')
+        var id = entry.habit_id+"_"+moment.unix(entry.start_date).format('YYYY-MM-DD')
         if (document.getElementById(id))
         {
           if (entry.status === "1")
@@ -223,12 +226,18 @@ class Habits extends React.Component {
     var s = id.split("_")
     var habit_id = s[0]
     var date = moment(s[1], "YYYY/MM/DD").unix()
+    console.log(habit_id)
+    console.log(date)
     axios.post('http://127.0.0.1:5002/api/log_habit', {
       params: {
         user: sessionStorage.getItem('user'),
         habit_id: habit_id,
         type: 'habit',
-        date: date,
+        start_date: date,
+        end_date: date,
+        start_time: date,
+        end_time: date,
+        multi_day: false
       }
     })
     .then((response) => {

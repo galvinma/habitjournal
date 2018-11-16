@@ -17,7 +17,7 @@ router.route('/return_habit_names')
     {
       return
     }
-    Habits.find({ user_id: req.body.params.user }).sort({date: -1}).lean().exec(function(err, habits) {
+    Habits.find({ user_id: req.body.params.user }).sort({start_date: -1}).lean().exec(function(err, habits) {
       if (err)
       {
         throw err
@@ -61,7 +61,7 @@ router.route('/remove_habit')
 router.route('/log_habit')
 .post(function(req, res, next) {
   // check if habit exists
-  Entries.find({ user_id: req.body.params.user,  habit_id: req.body.params.habit_id, date: req.body.params.date}).lean().exec(function(err, habits) {
+  Entries.find({ user_id: req.body.params.user,  habit_id: req.body.params.habit_id, start_date: req.body.params.start_date}).lean().exec(function(err, habits) {
     if (err)
     {
       throw err
@@ -99,7 +99,11 @@ router.route('/log_habit')
         entry.entry_id = new ObjectId();
         entry.user_id = req.body.params.user
         entry.habit_id = req.body.params.habit_id || null
-        entry.date = req.body.params.date
+        entry.start_date = req.body.params.start_date
+        entry.end_date = req.body.params.end_date
+        entry.start_time = req.body.params.start_time
+        entry.end_time = req.body.params.end_time
+        entry.multi_day = req.body.params.multi_day
         entry.type = req.body.params.type
         entry.title = title[0].title
         entry.description = title[0].description

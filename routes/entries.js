@@ -36,7 +36,7 @@ router.route('/save_entry')
       return
     }
 
-    if (req.body.params.date === null || req.body.params.title === "")
+    if (req.body.params.start_date === null || req.body.params.start_date === "")
     {
       return
     }
