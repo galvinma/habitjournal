@@ -43,7 +43,7 @@ class NewHabit extends React.Component {
               margin="dense"
               id="newhabit"
               fullWidth
-              onChange={this.props.newValue}
+              onChange={this.props.newModalValue}
             />
           </DialogContent>
           <DialogActions>

@@ -265,8 +265,6 @@ class Habits extends React.Component {
     var s = id.split("_")
     var habit_id = s[0]
     var date = moment(s[1], "YYYY/MM/DD").unix()
-    console.log(habit_id)
-    console.log(date)
     axios.post('http://127.0.0.1:5002/api/log_habit', {
       params: {
         user: sessionStorage.getItem('user'),
