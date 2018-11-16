@@ -11,8 +11,6 @@ import {  mdiSquare,
           mdiTriangleOutline,
           mdiMinus,
           mdiClose,
-          mdiClockStart,
-          mdiClockEnd,
           mdiWeatherSunset,
           mdiWeatherNight,
         } from '@mdi/js'
@@ -27,11 +25,31 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import { TimePicker } from 'material-ui-pickers';
 import { DatePicker } from 'material-ui-pickers';
+import ReactSVG from 'react-svg'
 
 // functions
 import { toggleIcon } from '../.././Utils/toggleicon'
+import { convertToIcon } from '../../Utils/convertoicon'
 
+// CSS
 import './BulletList.css'
+
+// Images and Icons
+var minus = require('../.././Images/Icons/minus.svg')
+var checkboxBlankCircleOutline = require('../.././Images/Icons/checkbox-blank-circle-outline.svg')
+var checkboxBlankCircle = require('../.././Images/Icons/checkbox-blank-circle.svg')
+var checkboxBlankOutline = require('../.././Images/Icons/checkbox-blank-outline.svg')
+var checkboxBlankTriangleOutline = require('../.././Images/Icons/checkbox-blank-triangle-outline.svg')
+var checkboxBlankTriangle = require('../.././Images/Icons/checkbox-blank-triangle.svg')
+var checkboxBlank = require('../.././Images/Icons/checkbox-blank.svg')
+var checkboxMultipleBlankCircleOutline = require('../.././Images/Icons/checkbox-multiple-blank-circle-outline.svg')
+var checkboxMultipleBlankCircle = require('../.././Images/Icons/checkbox-multiple-blank-circle.svg')
+var checkboxMultipleBlankOutline = require('../.././Images/Icons/checkbox-multiple-blank-outline.svg')
+var checkboxMultipleBlankTriangleOutline = require('../.././Images/Icons/checkbox-multiple-blank-triangle-outline.svg')
+var checkboxMultipleBlankTriangle = require('../.././Images/Icons/checkbox-multiple-blank-triangle.svg')
+var checkboxMultipleBlank = require('../.././Images/Icons/checkbox-multiple-blank.svg')
+var flowerOutline = require('../.././Images/Icons/flower-outline.svg')
+var flower = require('../.././Images/Icons/flower.svg')
 
 const styles = theme => ({
   root: {
@@ -96,60 +114,14 @@ class BulletList extends React.Component {
       edit_value: '',
     };
 
-    this.convertType = this.convertType.bind(this);
     this.createList = this.createList.bind(this);
+    this.convertToIcon = convertToIcon.bind(this);
     this.toggleIcon = toggleIcon.bind(this);
-  }
-
-  // componentDidUpdate(prevProps)
-  // {
-  //    if (prevProps.bullets !== this.props.bullets) {
-  //        this.forceUpdate()
-  //    }
-  //  }
-
-  convertType(i)
-  {
-    if (i.type === 'event' && i.status === "0")
-    {
-      return mdiCircleOutline
-    }
-
-    if (i.type === 'event' && i.status === "1")
-    {
-      return mdiCircle
-    }
-
-    if (i.type === 'task' && i.status === "0")
-    {
-      return mdiSquareOutline
-    }
-
-    if (i.type === 'task' && i.status === "1")
-    {
-      return mdiSquare
-    }
-
-    if (i.type === 'appointment' && i.status === "0")
-    {
-      return mdiTriangleOutline
-    }
-
-    if (i.type === 'appointment' && i.status === "1")
-    {
-      return mdiTriangle
-    }
-
-    if (i.type === 'note')
-    {
-      return mdiMinus
-    }
-
   }
 
   createList(i)
    {
-     var p = this.convertType(i)
+     var p = this.convertToIcon(i)
      var entry_times
      var start
      var end
@@ -231,7 +203,7 @@ class BulletList extends React.Component {
                   .then((response) => this.props.getBullets())
                   .catch((error) => console.log(error))
                   }}>
-                  <Icon path={p} size={0.75} />
+                  <ReactSVG src={p} svgStyle={{ height: '20px' }}/>
                 </Button>
              </ListItemIcon>
 
