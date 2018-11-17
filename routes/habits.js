@@ -52,9 +52,17 @@ router.route('/remove_habit')
       {
         throw err
       }
-      res.json({
-        success: true,
-      });
+    })
+
+    Entries.deleteMany({ habit_id: req.body.params.habit_id }).lean().exec(function(err, habit) {
+      if (err)
+      {
+        throw err
+      }
+    });
+
+    res.json({
+      success: true,
     });
   })
 
@@ -65,9 +73,17 @@ router.route('/update_habit')
       {
         throw err
       }
-      res.json({
-        success: true,
-      });
+    });
+
+    Entries.update({ habit_id: req.body.params.habit_id },{title: req.body.params.new_title},{multi:true}).lean().exec(function(err, docs) {
+      if (err)
+      {
+        throw err
+      }
+    });
+
+    res.json({
+      success: true,
     });
   })
 
@@ -80,7 +96,7 @@ router.route('/log_habit')
       throw err
     }
 
-    if (habits.length > 0) // habit exists, toggle bool
+    if (habits.length > 0)
     {
       if (habits[0].status === "0")
       {

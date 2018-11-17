@@ -35,8 +35,26 @@ import { toggleIcon } from '../.././Utils/toggleicon'
 import store from '../.././Store/store'
 import { connect } from "react-redux";
 import { getEntriesModalState, getEntriesModalID } from '../.././Actions/actions'
+
 // CSS
 import './Calendar.css'
+
+// Images and Icons
+var minus = require('../.././Images/Icons/minus.svg')
+var checkboxBlankCircleOutline = require('../.././Images/Icons/checkbox-blank-circle-outline.svg')
+var checkboxBlankCircle = require('../.././Images/Icons/checkbox-blank-circle.svg')
+var checkboxBlankOutline = require('../.././Images/Icons/checkbox-blank-outline.svg')
+var checkboxBlankTriangleOutline = require('../.././Images/Icons/checkbox-blank-triangle-outline.svg')
+var checkboxBlankTriangle = require('../.././Images/Icons/checkbox-blank-triangle.svg')
+var checkboxBlank = require('../.././Images/Icons/checkbox-blank.svg')
+var checkboxMultipleBlankCircleOutline = require('../.././Images/Icons/checkbox-multiple-blank-circle-outline.svg')
+var checkboxMultipleBlankCircle = require('../.././Images/Icons/checkbox-multiple-blank-circle.svg')
+var checkboxMultipleBlankOutline = require('../.././Images/Icons/checkbox-multiple-blank-outline.svg')
+var checkboxMultipleBlankTriangleOutline = require('../.././Images/Icons/checkbox-multiple-blank-triangle-outline.svg')
+var checkboxMultipleBlankTriangle = require('../.././Images/Icons/checkbox-multiple-blank-triangle.svg')
+var checkboxMultipleBlank = require('../.././Images/Icons/checkbox-multiple-blank.svg')
+var flowerOutline = require('../.././Images/Icons/flower-outline.svg')
+var flower = require('../.././Images/Icons/flower.svg')
 
 const styles = theme => ({
   root: {
@@ -91,6 +109,7 @@ class Calendar extends React.Component {
     checkAuth()
 
     this.state = {
+      calendar_entries: {},
       selectedMonth: moment().month(),
       firstDayOfMonthDate: moment().startOf('month').format('YYYY-MM-DD'),
       displayMonthYear: moment().format('MMMM YYYY'),
@@ -215,50 +234,111 @@ class Calendar extends React.Component {
     })
     .then((response) => {
       var res = response.data.entries
-      res.forEach(entry => {
 
-        if (entry.type !== 'note')
+      var new_calendar_entries = {}
+      res.forEach(bullet => {
+          if (bullet.type !== "note")
+          {
+            var ref_date = moment.unix(bullet.start_date)
+            var start_date = moment.unix(bullet.start_date)
+            var end_date = moment.unix(bullet.end_date)
+
+            while (moment(ref_date).isSameOrBefore(moment(end_date), 'days'))
+            {
+              var temp = Object.assign([], bullet);
+              var navMonth = moment(ref_date).format('MMMM, YYYY')
+
+              if (navMonth === moment(this.state.firstDayOfMonthDate).format('MMMM, YYYY'))
+              {
+                if (!(new_calendar_entries[moment(ref_date).format('dddd, MMMM Do, YYYY')]))
+                {
+                  new_calendar_entries[moment(ref_date).format('dddd, MMMM Do, YYYY')] = []
+                }
+
+                console.log(moment(start_date))
+                console.log(moment(end_date))
+
+                if (!(moment(start_date).isSame(moment(end_date), 'days')))
+                {
+                  if (moment(ref_date).isSame(moment.unix(bullet.start_date), 'days'))
+                  {
+                    temp.end_time = moment.unix(temp.start_date).endOf('day').unix()
+                  }
+
+                  if (moment(ref_date).isSame(moment.unix(bullet.end_date), 'days'))
+                  {
+                    temp.start_time = moment.unix(temp.end_date).startOf('day').unix()
+                  }
+
+                  if ((moment(ref_date).isAfter(moment.unix(bullet.start_date))) &&
+                      (moment(ref_date).isBefore(moment.unix(bullet.end_date))))
+                  {
+                    temp.start_time = moment.unix(ref_date).startOf('day').unix()
+                    temp.end_time = moment.unix(ref_date).endOf('day').unix()
+                  }
+                }
+
+                new_calendar_entries[moment(ref_date).format('dddd, MMMM Do, YYYY')].push(temp)
+              }
+
+              ref_date = moment(ref_date).add(1, 'days')
+            }
+          }
+      })
+
+      this.setState({
+        calendar_entries: new_calendar_entries,
+      })
+
+      for (var key in new_calendar_entries)
+      {
+      new_calendar_entries[key].forEach(entry => {
+        if (entry.type === 'event' ||
+            entry.type === 'appointment' ||
+            (entry.type === 'habit' && entry.status === '1'))
         {
-          let timestamp = moment.unix(entry.date).format('dddd, MMMM Do, YYYY')
-          if (document.getElementById(String(timestamp)))
+          let timestamp = moment.unix(entry.start_date).format('dddd, MMMM Do, YYYY')
+          if (document.getElementById(key))
           {
             // Insert the SVG
-            var temp = document.getElementById(timestamp)
+            var temp = document.getElementById(key)
 
             let node = document.createElement("div");
             var type = convertToIcon(entry)
-            var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            var svg = document.createElement("IMG");
             svg.setAttribute('class', "calendar_icons")
-            svg.setAttributeNS(null, "viewBox", "0 0 24 24")
-            svg.setAttributeNS(null, "style", "width:1rem")
-            let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");
-            newpath.setAttributeNS(null, "d", type);
+            svg.setAttribute("src", type)
 
             svg.onclick = function() {
                 toggleIcon(entry.entry_id, entry.type, entry.status)
+
                 if (entry.status === "0")
                 {
                   entry.status = "1"
                   type = convertToIcon(entry)
-                  newpath.setAttributeNS(null, "d", type);
+                  svg.setAttribute("src", type)
                 }
                 else
                 {
                   entry.status = "0"
                   type = convertToIcon(entry)
-                  newpath.setAttributeNS(null, "d", type);
+                  svg.setAttribute("src", type)
                 }
             };
 
-            svg.appendChild(newpath)
             node.appendChild(svg)
 
             // Insert the bullet/habit text
             let textnode = document.createTextNode(entry.title)
             node.appendChild(textnode)
-
             node.className = "calendar_text"
             temp.appendChild(node);
+
+            let timenode = document.createElement("div");
+            let starttime_text = document.createTextNode(moment.unix(entry.start_time).format('h:mm a'))
+            let endtime_text = document.createTextNode(moment.unix(entry.end_time).format('h:mm a'))
+            timenode.append(starttime_text," to ",endtime_text)
+            temp.appendChild(timenode);
 
             var footer = document.getElementById("footer"+String(timestamp))
             if (footer.children.length === 0)
@@ -288,6 +368,8 @@ class Calendar extends React.Component {
           }
         }
       })
+    }
+
     })
   }
 

@@ -15,15 +15,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Icon from '@mdi/react'
 import Typography from '@material-ui/core/Typography';
-import {  mdiSquare,
-          mdiSquareOutline,
-          mdiCircle,
-          mdiCircleOutline,
-          mdiTriangle,
-          mdiTriangleOutline,
-          mdiMinus,
-          mdiClose,
-          mdiFlowerOutline,
+import ReactSVG from 'react-svg'
+import {  mdiClose,
           mdiDotsHorizontal } from '@mdi/js'
 
 // redux
@@ -32,6 +25,23 @@ import { connect } from "react-redux";
 
 // functions
 import { convertToIcon } from '../.././Utils/convertoicon'
+
+// Images and Icons
+var minus = require('../.././Images/Icons/minus.svg')
+var checkboxBlankCircleOutline = require('../.././Images/Icons/checkbox-blank-circle-outline.svg')
+var checkboxBlankCircle = require('../.././Images/Icons/checkbox-blank-circle.svg')
+var checkboxBlankOutline = require('../.././Images/Icons/checkbox-blank-outline.svg')
+var checkboxBlankTriangleOutline = require('../.././Images/Icons/checkbox-blank-triangle-outline.svg')
+var checkboxBlankTriangle = require('../.././Images/Icons/checkbox-blank-triangle.svg')
+var checkboxBlank = require('../.././Images/Icons/checkbox-blank.svg')
+var checkboxMultipleBlankCircleOutline = require('../.././Images/Icons/checkbox-multiple-blank-circle-outline.svg')
+var checkboxMultipleBlankCircle = require('../.././Images/Icons/checkbox-multiple-blank-circle.svg')
+var checkboxMultipleBlankOutline = require('../.././Images/Icons/checkbox-multiple-blank-outline.svg')
+var checkboxMultipleBlankTriangleOutline = require('../.././Images/Icons/checkbox-multiple-blank-triangle-outline.svg')
+var checkboxMultipleBlankTriangle = require('../.././Images/Icons/checkbox-multiple-blank-triangle.svg')
+var checkboxMultipleBlank = require('../.././Images/Icons/checkbox-multiple-blank.svg')
+var flowerOutline = require('../.././Images/Icons/flower-outline.svg')
+var flower = require('../.././Images/Icons/flower.svg')
 
 const styles = theme => ({
   paper: {
@@ -51,6 +61,7 @@ const styles = theme => ({
     textAlign: 'right',
   },
   entries_icon: {
+    display: 'inline-block',
     verticalAlign: 'sub',
     paddingRight: '2px',
     paddingLeft: '0px',
@@ -90,7 +101,7 @@ class CalendarEntries extends React.Component {
   {
     var p = this.convertToIcon(i)
     var salt = Math.random()*1000
-    if (moment.unix(i.date).format('dddd, MMMM Do, YYYY') === this.props.entries_modal_id.entries_modal_id &&
+    if (moment.unix(i.start_date).format('dddd, MMMM Do, YYYY') === this.props.entries_modal_id.entries_modal_id &&
         i.type !== 'note')
     {
       return (
@@ -98,7 +109,10 @@ class CalendarEntries extends React.Component {
         <ListItemText>
           <Typography variant="body1">
             <div>
-            <Icon className={this.props.classes.entries_icon} path={p} size={0.75} />
+            <ReactSVG
+              className={this.props.classes.entries_icon}
+              src={p}
+              svgStyle={{ height: '20px' }}/>
             {i.title}
             </div>
           </Typography>

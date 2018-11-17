@@ -2,10 +2,12 @@
   vertical-align: sub;
   padding-right: 2px;
   padding-left: 0px;
+  max-height: 16px;
 }
 
 .calendar_text
 {
+  vertical-align: middle;
   position: relative;
   clear: both;
   min-height: 25%;
