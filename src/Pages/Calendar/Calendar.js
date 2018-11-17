@@ -55,6 +55,8 @@ var checkboxMultipleBlankTriangle = require('../.././Images/Icons/checkbox-multi
 var checkboxMultipleBlank = require('../.././Images/Icons/checkbox-multiple-blank.svg')
 var flowerOutline = require('../.././Images/Icons/flower-outline.svg')
 var flower = require('../.././Images/Icons/flower.svg')
+var weatherNight = require('../.././Images/Icons/weather-night.svg')
+var weatherSunset = require('../.././Images/Icons/weather-sunset.svg')
 
 const styles = theme => ({
   root: {
@@ -334,11 +336,43 @@ class Calendar extends React.Component {
             node.className = "calendar_text"
             temp.appendChild(node);
 
-            let timenode = document.createElement("div");
-            let starttime_text = document.createTextNode(moment.unix(entry.start_time).format('h:mm a'))
-            let endtime_text = document.createTextNode(moment.unix(entry.end_time).format('h:mm a'))
-            timenode.append(starttime_text," to ",endtime_text)
-            temp.appendChild(timenode);
+            // If not an all day event, insert time node
+            if ((moment.unix(entry.start_time).startOf('day').unix() === moment.unix(entry.start_time).unix()) &&
+                (moment.unix(entry.end_time).endOf('day').unix() === moment.unix(entry.end_time).unix()))
+            {
+              // Manipulate all day here...
+            }
+            else
+            {
+              var endtime_text
+              var starttime_text
+              if (moment.unix(entry.start_time).startOf('day').unix() === moment.unix(entry.start_time).unix())
+              {
+                starttime_text = document.createElement("IMG");
+                starttime_text.setAttribute('class', "calendar_icons")
+                starttime_text.setAttribute("src", weatherSunset)
+              }
+              else
+              {
+                starttime_text = document.createTextNode(moment.unix(entry.start_time).format('h:mm a'))
+              }
+
+              if (moment.unix(entry.end_time).endOf('day').unix() === moment.unix(entry.end_time).unix())
+              {
+                endtime_text = document.createElement("IMG");
+                endtime_text.setAttribute('class', "calendar_icons")
+                endtime_text.setAttribute("src", weatherNight)
+              }
+              else
+              {
+                endtime_text = document.createTextNode(moment.unix(entry.end_time).format('h:mm a'))
+              }
+
+              let timenode = document.createElement("div");
+              timenode.append(starttime_text," to ",endtime_text)
+              temp.appendChild(timenode);
+
+            }
 
             var footer = document.getElementById("footer"+String(timestamp))
             if (footer.children.length === 0)
