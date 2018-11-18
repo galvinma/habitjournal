@@ -240,6 +240,13 @@ class Journal extends React.Component {
        for (var i = 0; i < l.length; i++)
        {
         l[i].style.display = "none"
+
+        this.setState({
+          startDate: moment().unix(),
+          endDate: moment().unix(),
+          startTime: moment().startOf('day').unix(),
+          endTime: moment().endOf('day').unix(),
+        })
        }
     }
     else

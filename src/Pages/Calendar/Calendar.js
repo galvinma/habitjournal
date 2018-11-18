@@ -118,6 +118,7 @@ class Calendar extends React.Component {
       daysInMonth: moment().daysInMonth(),
       showEntriesModalState: false,
       edit_id: "",
+      rand: 0
     };
 
     this.prevMonthHandler = this.prevMonthHandler.bind(this)
@@ -257,9 +258,6 @@ class Calendar extends React.Component {
                   new_calendar_entries[moment(ref_date).format('dddd, MMMM Do, YYYY')] = []
                 }
 
-                console.log(moment(start_date))
-                console.log(moment(end_date))
-
                 if (!(moment(start_date).isSame(moment(end_date), 'days')))
                 {
                   if (moment(ref_date).isSame(moment.unix(bullet.start_date), 'days'))
@@ -295,7 +293,8 @@ class Calendar extends React.Component {
       for (var key in new_calendar_entries)
       {
       new_calendar_entries[key].forEach(entry => {
-        if (entry.type === 'event' ||
+        if (entry.type === 'task' ||
+            entry.type === 'event' ||
             entry.type === 'appointment' ||
             (entry.type === 'habit' && entry.status === '1'))
         {
@@ -308,23 +307,45 @@ class Calendar extends React.Component {
             let node = document.createElement("div");
             var type = convertToIcon(entry)
             var svg = document.createElement("IMG");
-            svg.setAttribute('class', "calendar_icons")
+            svg.setAttribute('class', String(entry.entry_id))
+            svg.className += " calendar_icons"
             svg.setAttribute("src", type)
 
+            var _this = this
+            var _entry_id = entry.entry_id
+
+            // This onclick method manipulates the icon appearance instead of rerendering the whole calendar. At a later date the class should use "shouldComponentUpdate" to selectively rerender edited entries.
             svg.onclick = function() {
                 toggleIcon(entry.entry_id, entry.type, entry.status)
-
-                if (entry.status === "0")
+                for (var key in _this.state.calendar_entries)
                 {
-                  entry.status = "1"
-                  type = convertToIcon(entry)
-                  svg.setAttribute("src", type)
-                }
-                else
-                {
-                  entry.status = "0"
-                  type = convertToIcon(entry)
-                  svg.setAttribute("src", type)
+                  _this.state.calendar_entries[key].forEach(swap => {
+                    if (entry.entry_id === swap.entry_id)
+                    {
+                      if (swap.status === "0")
+                      {
+                        var l = document.getElementsByClassName(swap.entry_id)
+                        for (var i = 0; i < l.length; i++)
+                        {
+                          var s = l[i]
+                          swap.status = "1"
+                          type = convertToIcon(swap)
+                          s.setAttribute("src", type)
+                        }
+                      }
+                      else
+                      {
+                        var l = document.getElementsByClassName(swap.entry_id)
+                        for (var i = 0; i < l.length; i++)
+                        {
+                          var s = l[i]
+                          swap.status = "0"
+                          type = convertToIcon(swap)
+                          s.setAttribute("src", type)
+                        }
+                      }
+                    }
+                  })
                 }
             };
 
@@ -374,7 +395,7 @@ class Calendar extends React.Component {
 
             }
 
-            var footer = document.getElementById("footer"+String(timestamp))
+            var footer = document.getElementById("footer"+String(key))
             if (footer.children.length === 0)
             {
 
