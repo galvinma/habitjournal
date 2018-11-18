@@ -18,7 +18,6 @@ const styles = theme => ({
     textAlign: 'left',
     width: '12.8vw',
     maxWidth: '12.8vw',
-    height: '5vh',
   },
   hidden: {
     visibility: "hidden",

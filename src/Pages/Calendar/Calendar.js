@@ -65,7 +65,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '70px',
+    marginTop: '65px',
   },
   typo_width: {
     width: '12.8vw',
@@ -74,27 +74,30 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'left',
-    height: '12.5vh',
+    height: '10vh',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     listStyle: 'none',
     paddingTop: '0px',
     paddingBottom: '0px',
-    margin: '0',
+    marginTop: '0px',
+    marginBottom: '0px',
+    marginLeft: '2px',
+    marginRight: '2px',
   },
-  list_footer: {
+  list_footer_container: {
+    height: '1em',
     position: 'relative',
-    height: '1.5em',
+    height: '1em',
     clear: 'both',
     width: '100%',
-    paddingBottom: '10px',
+    paddingBottom: '5px',
   },
   calendar_header_names: {
     flexGrow: 1,
     textAlign: 'left',
     width: '12.8vw',
     maxWidth: '12.8vw',
-    height: '5vh',
   },
   hidden: {
     visibility: "hidden",
@@ -213,10 +216,10 @@ class Calendar extends React.Component {
       row.push(
           <div key={count+date+month+daysInMonth+salt}>
               <Typography component="div" variant="body2" className={this.props.classes.typo_width}>
-                <div>{count}</div>
+                <div class="count_style">{count}</div>
                 <div className={this.props.classes.calendar_list} id={date_to_compare}></div>
                 <div
-                  className={this.props.classes.list_footer}
+                  className={this.props.classes.list_footer_container}
                   id={"footer"+date_to_compare}
                   value={date_to_compare}></div>
             </Typography>
@@ -301,10 +304,7 @@ class Calendar extends React.Component {
           let timestamp = moment.unix(entry.start_date).format('dddd, MMMM Do, YYYY')
           if (document.getElementById(key))
           {
-            // Insert the SVG
-            var temp = document.getElementById(key)
-
-            let node = document.createElement("div");
+            // Create the SVG
             var type = convertToIcon(entry)
             var svg = document.createElement("IMG");
             svg.setAttribute('class', String(entry.entry_id))
@@ -349,15 +349,7 @@ class Calendar extends React.Component {
                 }
             };
 
-            node.appendChild(svg)
-
-            // Insert the bullet/habit text
-            let textnode = document.createTextNode(entry.title)
-            node.appendChild(textnode)
-            node.className = "calendar_text"
-            temp.appendChild(node);
-
-            // If not an all day event, insert time node
+            // If not an all day event, get the time nodes
             if ((moment.unix(entry.start_time).startOf('day').unix() === moment.unix(entry.start_time).unix()) &&
                 (moment.unix(entry.end_time).endOf('day').unix() === moment.unix(entry.end_time).unix()))
             {
@@ -375,7 +367,13 @@ class Calendar extends React.Component {
               }
               else
               {
-                starttime_text = document.createTextNode(moment.unix(entry.start_time).format('h:mm a'))
+                starttime_text = document.createTextNode(moment.unix(entry.start_time).format('h:mma'))
+              }
+
+              // This check ensures the last day in a multi day event does not get a start time
+              if (moment.unix(entry.start_time).startOf('day').unix() !== moment.unix(entry.start_date).startOf('day').unix())
+              {
+                starttime_text = null
               }
 
               if (moment.unix(entry.end_time).endOf('day').unix() === moment.unix(entry.end_time).unix())
@@ -386,20 +384,43 @@ class Calendar extends React.Component {
               }
               else
               {
-                endtime_text = document.createTextNode(moment.unix(entry.end_time).format('h:mm a'))
+                endtime_text = document.createTextNode(moment.unix(entry.end_time).format('h:mma'))
               }
-
-              let timenode = document.createElement("div");
-              timenode.append(starttime_text," to ",endtime_text)
-              temp.appendChild(timenode);
-
             }
+
+            // Entry text
+            var textcontainer = document.createElement("div");
+            var textnode = document.createTextNode(entry.title)
+            textcontainer.setAttribute('class', "entry_text")
+            textcontainer.append(textnode)
+
+            // Entry time
+            var timetextcontainer = document.createElement("div");
+            timetextcontainer.setAttribute('class', "entry_time")
+            timetextcontainer.append(starttime_text)
+
+            // Putting it all together
+            var temp = document.getElementById(key)
+            var node = document.createElement("div");
+            if (starttime_text)
+            {
+              node.append(svg,timetextcontainer,textcontainer)
+            }
+            else
+            {
+              node.append(svg,textcontainer)
+            }
+
+            // node.appendChild(textnode)
+            node.className = "calendar_text"
+            temp.appendChild(node);
 
             var footer = document.getElementById("footer"+String(key))
             if (footer.children.length === 0)
             {
 
               var div = document.createElement("div");
+              div.setAttribute('class', "list_footer")
               var dots = document.createElementNS("http://www.w3.org/2000/svg", "svg");
               dots.setAttribute('class', "footer_icon")
               dots.setAttributeNS(null, "viewBox", "0 0 24 24")
