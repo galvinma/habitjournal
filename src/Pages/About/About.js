@@ -2,6 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 // redux
 import store from '../.././Store/store'
@@ -19,12 +20,12 @@ const methods = {
 
 const styles = theme => ({
   root: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
+    alignItems: 'flexStart',
+    marginTop: '80px',
+    marginLeft: '50px',
+    marginRight: '50px',
   },
 });
 
@@ -44,7 +45,13 @@ class About extends React.Component {
     return(
       <div>
         <InternalNavBar />
-        <p>about content</p>
+        <div className={this.props.classes.root}>
+        <Typography component="div" variant="headline">What is Daisy Journal?</Typography>
+        <Typography component="div" variant="body1">
+        Daisy Journal is open source planning software.
+        </Typography>
+
+        </div>
       </div>
     );
   }

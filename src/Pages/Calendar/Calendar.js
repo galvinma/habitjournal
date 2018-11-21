@@ -25,6 +25,7 @@ import Navs from '../.././Components/Calendar/Navs'
 import CalendarHeader from '../.././Components/Calendar/CalendarHeader'
 import CalendarBody from '../.././Components/Calendar/CalendarBody'
 import CalendarEntries from '../.././Components/Modal/CalendarEntries'
+import EditEntry from '../.././Components/Modal/EditEntry'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -34,7 +35,7 @@ import { toggleIcon } from '../.././Utils/toggleicon'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
-import { getEntriesModalState, getEntriesModalID } from '../.././Actions/actions'
+import { getEntriesModalState, getEntriesModalID, getEditEntriesModalState } from '../.././Actions/actions'
 
 // CSS
 import './Calendar.css'
@@ -121,7 +122,7 @@ class Calendar extends React.Component {
       daysInMonth: moment().daysInMonth(),
       showEntriesModalState: false,
       edit_id: "",
-      rand: 0
+      editModalState: false,
     };
 
     this.prevMonthHandler = this.prevMonthHandler.bind(this)
@@ -150,11 +151,21 @@ class Calendar extends React.Component {
     this.getCalendarEntries()
   }
 
-  handleModalClose()
+  handleModalClose(mode)
   {
-    store.dispatch(getEntriesModalState({
-      entries_modal_status: false
-    }))
+    if (mode === "view")
+    {
+      store.dispatch(getEntriesModalState({
+        entries_modal_status: false
+      }))
+    }
+
+    if (mode === "edit")
+    {
+      store.dispatch(getEditEntriesModalState({
+        edit_entries_modal_status: false
+      }))
+    }
   }
 
   prevMonthHandler() {
@@ -392,6 +403,18 @@ class Calendar extends React.Component {
             var textcontainer = document.createElement("div");
             var textnode = document.createTextNode(entry.title)
             textcontainer.setAttribute('class', "entry_text")
+            if (entry.type !== 'habit')
+            {
+              textcontainer.onclick = function() {
+                store.dispatch(getEntriesModalID({
+                  entries_modal_id: entry.entry_id
+                }))
+                store.dispatch(getEditEntriesModalState({
+                  edit_entries_modal_status: true
+                }))
+              };  
+            }
+
             textcontainer.append(textnode)
 
             // Entry time
@@ -411,7 +434,6 @@ class Calendar extends React.Component {
               node.append(svg,textcontainer)
             }
 
-            // node.appendChild(textnode)
             node.className = "calendar_text"
             temp.appendChild(node);
 
@@ -470,10 +492,12 @@ class Calendar extends React.Component {
       <div>
         <InternalNavBar />
         <div className={this.props.classes.root}>
+          <EditEntry
+              handleModalOpen={this.handleModalOpen}
+              handleModalClose={this.handleModalClose}/>
           <CalendarEntries
               handleModalOpen={this.handleModalOpen}
-              handleModalClose={this.handleModalClose}
-              edit_id={this.state.edit_id} />
+              handleModalClose={this.handleModalClose} />
           <Navs
               prevMonthHandler = {this.prevMonthHandler}
               nextMonthHandler = {this.nextMonthHandler}

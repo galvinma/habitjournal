@@ -13,6 +13,11 @@ export const getEntriesModalState = entries_modal_status => ({
   entries_modal_status
 })
 
+export const getEditEntriesModalState = edit_entries_modal_status => ({
+  type: "EDIT_ENTRIES_MODAL_STATE",
+  edit_entries_modal_status
+})
+
 export const getEntriesModalID = entries_modal_id => ({
   type: "ENTRIES_MODAL_ID",
   entries_modal_id

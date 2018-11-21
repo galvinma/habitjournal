@@ -28,6 +28,26 @@ router.route('/return_entries')
   })
 });
 
+router.route('/return_one')
+  .post(function(req, res, next) {
+    if (req.body.params.user === 'null')
+    {
+      return
+    }
+    Entries.findOne({ entry_id: req.body.params.entry_id }).lean().exec(function(err, entry) {
+      if (err)
+      {
+        throw err
+      }
+
+      res.json({
+        entry: entry,
+      });
+
+  })
+});
+
+
 router.route('/save_entry')
   .post(function(req, res, next) {
 
@@ -78,6 +98,39 @@ router.route('/remove_entry')
       });
     });
   })
+
+  router.route('/update_entry')
+    .post(function(req, res, next) {
+      var entry_id = req.body.params.entry_id
+      var type = req.body.params.type
+      var start_date = req.body.params.start_date
+      var end_date = req.body.params.end_date
+      var start_time = req.body.params.start_time
+      var end_time = req.body.params.end_time
+      var title = req.body.params.title
+      var status = req.body.params.status
+      var multi_day = req.body.params.multi_day
+
+      Entries.update({ entry_id: req.body.params.entry_id },
+          { type: type,
+            start_date: start_date,
+            end_date: end_date,
+            start_time: start_time,
+            end_time: end_time,
+            title: title,
+            status: status,
+            multi_day: multi_day
+          }).lean().exec(function(err, docs) {
+        if (err)
+        {
+          throw err
+        }
+        res.json({
+          success: true,
+        });
+      });
+    })
+
 
 router.route('/update_entry_status')
   .post(function(req, res, next) {

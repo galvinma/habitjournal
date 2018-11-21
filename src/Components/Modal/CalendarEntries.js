@@ -121,21 +121,16 @@ class CalendarEntries extends React.Component {
     )}
   }
 
-  componentDidMount()
-  {
-    this.getMatch()
-  }
-
   render() {
     return(
       <div>
-        <Dialog open={this.props.entries_modal_status.entries_modal_status} onClose={this.props.handleModalClose}>
+        <Dialog onEnter={this.getMatch} open={this.props.entries_modal_status.entries_modal_status} onClose={this.props.handleModalClose}>
           <div className={this.props.classes.close_container}>
             <Icon
               path={mdiClose}
               size={1}
               className={this.props.classes.close}
-              onClick={() => this.props.handleModalClose("new")}/>
+              onClick={() => this.props.handleModalClose("view")}/>
           </div>
           <DialogTitle>
             {this.props.entries_modal_id.entries_modal_id}
