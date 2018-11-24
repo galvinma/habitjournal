@@ -170,27 +170,23 @@ class EditEntry extends React.Component {
       checkedAllDay: false,
       checkedMultiDay: false,
     }
-
-    this.getMatch = this.getMatch.bind(this)
     this.convertToIconStringNoMult = convertToIconStringNoMult.bind(this)
     this.selectorChange = this.selectorChange.bind(this)
     this.resetState = this.resetState.bind(this)
+    this.getMatch = this.getMatch.bind(this)
+    this.updateEntry = this.updateEntry.bind(this)
+    this.deleteEntry = this.deleteEntry.bind(this)
+    this.blurHandler = this.blurHandler.bind(this)
   }
 
   getMatch()
   {
-    axios.post('http://127.0.0.1:5002/api/return_one', {
-      params: {
-        user: sessionStorage.getItem('user'),
-        entry_id: store.getState().entries_modal_id.entries_modal_id
-      }
-    })
-    .then((response) => {
-      var res = response.data.entry
+    if (store.getState().current_entry.current_entry)
+    {
+      var res = store.getState().current_entry.current_entry
 
-
-      if ((moment.unix(response.data.entry.start_time).startOf('day').unix() === moment.unix(response.data.entry.start_time).unix()) &&
-          (moment.unix(response.data.entry.end_time).endOf('day').unix() === moment.unix(response.data.entry.end_time).unix()))
+      if ((moment.unix(res.start_time).startOf('day').unix() === moment.unix(res.start_time).unix()) &&
+          (moment.unix(res.end_time).endOf('day').unix() === moment.unix(res.end_time).unix()))
       {
         this.setState({
           checkedAllDay: true,
@@ -215,7 +211,7 @@ class EditEntry extends React.Component {
         }
       }
 
-      if (response.data.entry.multi_day === true)
+      if (res.multi_day === true)
       {
         this.setState({
           checkedMultiDay: true,
@@ -242,19 +238,18 @@ class EditEntry extends React.Component {
       }
 
       this.setState({
-        entry: response.data.entry,
-        selected: this.convertToIconStringNoMult(response.data.entry),
-        type: response.data.entry.type,
-        start_date: response.data.entry.start_date,
-        end_date: response.data.entry.end_date,
-        start_time: response.data.entry.start_time,
-        end_time: response.data.entry.end_time,
-        title: response.data.entry.title,
-        status: response.data.entry.status,
-        multi_day: response.data.entry.multi_day,
+        entry: res,
+        selected: this.convertToIconStringNoMult(res),
+        type: res.type,
+        start_date: res.start_date,
+        end_date: res.end_date,
+        start_time: res.start_time,
+        end_time: res.end_time,
+        title: res.title,
+        status: res.status,
+        multi_day: res.multi_day,
       })
-    })
-
+    }
   }
 
   resetState()
@@ -276,6 +271,23 @@ class EditEntry extends React.Component {
     })
   }
 
+  deleteEntry()
+  {
+    axios.post('http://127.0.0.1:5002/api/remove_entry', {
+      params: {
+        entry_id: store.getState().entries_modal_id.entries_modal_id
+      }
+    })
+    .then((response) => {
+      this.props.handleModalClose("edit")
+      this.props.getCalendarEntries()
+      this.props.removeOldEntries()
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+
   updateEntry()
   {
     axios.post('http://127.0.0.1:5002/api/update_entry', {
@@ -295,12 +307,12 @@ class EditEntry extends React.Component {
     })
     .then((response) => {
       this.props.handleModalClose("edit")
+      this.props.getCalendarEntries()
+      this.props.removeOldEntries()
     })
     .catch((error)=>{
       console.log(error);
     });
-
-    this.getBullets()
   }
 
   selectorChange(event)
@@ -360,12 +372,10 @@ class EditEntry extends React.Component {
 
   };
 
-  titleChange(event)
+  blurHandler()
   {
-    this.setState({
-      title: event.target.value
-    });
-  };
+    this.getBullets()
+  }
 
   dateChange(event, state)
   {
@@ -403,6 +413,14 @@ class EditEntry extends React.Component {
     }
   }
 
+  blurHandler(event)
+  {
+    this.setState({
+      title: event.target.value
+    });
+  }
+
+
   handleMultiDay(event)
   {
     if (event.target.checked === true)
@@ -434,13 +452,6 @@ class EditEntry extends React.Component {
        for (var i = 0; i < l.length; i++)
        {
         l[i].style.display = "none"
-
-        // this.setState({
-        //   start_date: moment().unix(),
-        //   end_date: moment().unix(),
-        //   start_time: moment().startOf('day').unix(),
-        //   end_time: moment().endOf('day').unix(),
-        // })
        }
     }
     else
@@ -463,21 +474,6 @@ class EditEntry extends React.Component {
       document.getElementById("to_spacer").style.display = "none"
     }
   };
-
-  deleteEntry(id)
-  {
-    axios.post('http://127.0.0.1:5002/api/remove_entry', {
-      params: {
-        entry_id: id
-      }
-    })
-    .then((response) => {
-      this.props.handleModalClose("edit")
-    })
-    .catch((error)=>{
-      console.log(error);
-    });
-  }
 
   render() {
     if (this.state.entry)
@@ -537,7 +533,7 @@ class EditEntry extends React.Component {
                      id="bulletSelector"
                      className={this.props.classes.text_input}
                      defaultValue={this.state.title}
-                     onChange={(e) => this.titleChange(e)} />
+                     onBlur={this.blurHandler} />
                   </form>
                 </div>
               </ListItem>
@@ -636,7 +632,7 @@ class EditEntry extends React.Component {
             <Button onClick={() => this.props.handleModalClose("edit")} color="primary">
               <Typography variant="body1">Cancel</Typography>
             </Button>
-            <Button onClick={this.props.updateHabit} color="primary">
+            <Button onClick={this.updateEntry} color="primary">
               <Typography variant="body1">Confirm</Typography>
             </Button>
           </DialogActions>

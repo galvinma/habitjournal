@@ -73,7 +73,6 @@ const _Reset = () => (
 
 
 const styles = theme => ({
-
 });
 
 class App extends Component {

@@ -22,3 +22,8 @@ export const getEntriesModalID = entries_modal_id => ({
   type: "ENTRIES_MODAL_ID",
   entries_modal_id
 })
+
+export const getCurrentEntry = current_entry => ({
+  type: "CURRENT_ENTRY",
+  current_entry
+})

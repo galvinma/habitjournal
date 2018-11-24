@@ -35,7 +35,7 @@ import { toggleIcon } from '../.././Utils/toggleicon'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
-import { getEntriesModalState, getEntriesModalID, getEditEntriesModalState } from '../.././Actions/actions'
+import { getEntriesModalState, getEntriesModalID, getEditEntriesModalState, getCurrentEntry } from '../.././Actions/actions'
 
 // CSS
 import './Calendar.css'
@@ -405,15 +405,31 @@ class Calendar extends React.Component {
             textcontainer.setAttribute('class', "entry_text")
             if (entry.type !== 'habit')
             {
-              textcontainer.onclick = function() {
+              textcontainer.onclick = function()
+              {
                 store.dispatch(getEntriesModalID({
                   entries_modal_id: entry.entry_id
                 }))
-                store.dispatch(getEditEntriesModalState({
-                  edit_entries_modal_status: true
-                }))
-              };  
+
+                axios.post('http://127.0.0.1:5002/api/return_one', {
+                  params: {
+                    user: sessionStorage.getItem('user'),
+                    entry_id: entry.entry_id
+                  }
+                })
+                .then((response) => {
+
+                  store.dispatch(getCurrentEntry({
+                    current_entry: response.data.entry
+                  }))
+
+                  store.dispatch(getEditEntriesModalState({
+                    edit_entries_modal_status: true
+                  }))
+                })
+              }
             }
+
 
             textcontainer.append(textnode)
 
@@ -494,7 +510,9 @@ class Calendar extends React.Component {
         <div className={this.props.classes.root}>
           <EditEntry
               handleModalOpen={this.handleModalOpen}
-              handleModalClose={this.handleModalClose}/>
+              handleModalClose={this.handleModalClose}
+              getCalendarEntries={this.getCalendarEntries}
+              removeOldEntries={this.removeOldEntries}/>
           <CalendarEntries
               handleModalOpen={this.handleModalOpen}
               handleModalClose={this.handleModalClose} />

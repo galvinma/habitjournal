@@ -93,6 +93,7 @@ router.route('/remove_entry')
       {
         throw err
       }
+
       res.json({
         success: true,
       });
@@ -125,6 +126,7 @@ router.route('/remove_entry')
         {
           throw err
         }
+
         res.json({
           success: true,
         });
