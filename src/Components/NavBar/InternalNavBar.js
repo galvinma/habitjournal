@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Icon from '@mdi/react'
+import Paper from '@material-ui/core/Paper';
 import ReactSVG from 'react-svg'
 import { mdiLogout, mdiMenu, mdiFlowerOutline } from '@mdi/js'
 
@@ -24,12 +25,8 @@ const styles = theme => ({
   navbarContainer: {
     flexGrow: 1,
     border: 'none',
-    position: 'fixed',
-    top: '0px',
-    height: '40px',
+    position: 'static',
     zIndex: '1000',
-    paddingTop: '10px',
-    paddingBottom: '10px',
   },
   navbar: {
     color: 'black',
@@ -39,16 +36,24 @@ const styles = theme => ({
     boxShadow: 'none',
     height: '40px',
     width: '100%',
-    position: 'fixed',
-    top: '0px',
+    position: 'static',
+    // top: '0px',
+  },
+  paperbar: {
+    marginLeft: '20px',
+    marginRight: '20px',
+    marginTop: '20px',
   },
   toolbar_open: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginBottom: '10px',
-    minHeight: '80px',
-    backgroundColor: 'rgb(255,255,255)',
+    // borderBottom: '1px solid black',
+    // marginBottom: '10px',
+    minHeight: '72px',
+    // backgroundColor: '#FFFAFA',
+    marginLeft: '20px',
+    marginRight: '20px',
 
     [theme.breakpoints.down(768)]: {
       display: 'none',
@@ -72,7 +77,7 @@ const styles = theme => ({
   },
   logo: {
     marginRight: 'auto',
-    paddingLeft: '40px',
+    // paddingLeft: '40px',
     paddingRight: '20px',
     textDecoration: 'none',
 
@@ -119,6 +124,7 @@ class InternalNavBar extends React.Component {
     return (
       <div className={this.props.classes.navbarContainer}>
         <AppBar className={this.props.classes.navbar} position="static">
+          <Paper className={this.props.classes.paperbar}>
           <Toolbar className={this.props.classes.toolbar_open}>
             <NavLink to="/journal" className={this.props.classes.logo}>
               <ReactSVG src={logo} svgStyle={{height: 50}}/>
@@ -139,6 +145,7 @@ class InternalNavBar extends React.Component {
               <Icon className={this.props.classes.logout} path={mdiLogout} size={0.75} />
             </NavLink>
           </Toolbar>
+          </Paper>
           <Toolbar className={this.props.classes.toolbar_collapse}>
             <NavLink to="/" className={this.props.classes.logo}>
               <ReactSVG src={logo} svgStyle={{height: 50}}/>

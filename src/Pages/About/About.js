@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 // redux
 import store from '../.././Store/store'
@@ -24,10 +25,26 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flexStart',
+    alignItems: 'flex-start',
     marginTop: '80px',
-    marginLeft: '50px',
-    marginRight: '50px',
+    marginBottom: '20px',
+    marginLeft: '20px',
+    marginRight: '20px',
+    minHeight: '80vh',
+
+    [theme.breakpoints.down(768)]: {
+      marginLeft: '10px',
+      marginRight: '10px',
+    },
+  },
+  about_container: {
+    minHeight: '80vh',
+    marginTop: '8px',
+    marginLeft: '20px',
+    marginRight: '20px',
+  },
+  img_containter: {
+    marginLeft: 'auto'
   },
 });
 
@@ -47,14 +64,17 @@ class About extends React.Component {
     return(
       <div>
         <InternalNavBar />
-        <img id="about_flower" alt="" style ={ { backgroundImage: "url("+flower+")" } }/>
-        <div className={this.props.classes.root}>
-        <Typography component="div" variant="headline">What is Daisy Journal?</Typography>
-        <Typography component="div" variant="body1">
-        Daisy Journal is open source planning software.
-        </Typography>
-
-        </div>
+        <Paper className={this.props.classes.root}>
+          <div className={this.props.classes.about_container}>
+            <div className={this.props.classes.img_containter}>
+              <img id="about_flower" alt="" style ={ { backgroundImage: "url("+flower+")" } }/>
+            </div>
+            <Typography component="div" variant="headline">What is Daisy Journal?</Typography>
+            <Typography component="div" variant="body1">
+            Daisy Journal is open source planning software.
+            </Typography>
+          </div>
+        </Paper>
       </div>
     );
   }

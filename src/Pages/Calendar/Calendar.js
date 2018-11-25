@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@mdi/react'
+import Paper from '@material-ui/core/Paper';
 import MediaQuery from 'react-responsive';
 import {  mdiSquare,
           mdiSquareOutline,
@@ -61,12 +62,19 @@ var weatherSunset = require('../.././Images/Icons/weather-sunset.svg')
 
 const styles = theme => ({
   root: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: '80px',
+    marginBottom: '20px',
+    marginLeft: '20px',
+    marginRight: '20px',
+    // backgroundColor: 'rgb(255,255,255)'
+
+    [theme.breakpoints.down(768)]: {
+      marginLeft: '10px',
+      marginRight: '10px',
+    },
   },
   typo_width: {
     width: '12.8vw',
@@ -507,7 +515,7 @@ class Calendar extends React.Component {
     return(
       <div>
         <InternalNavBar />
-        <div className={this.props.classes.root}>
+        <Paper className={this.props.classes.root}>
           <EditEntry
               handleModalOpen={this.handleModalOpen}
               handleModalClose={this.handleModalClose}
@@ -534,7 +542,7 @@ class Calendar extends React.Component {
               getCalendarEntries={this.getCalendarEntries}
               updateCalendarHeader={this.updateCalendarHeader}
               updateCalendarBody={this.updateCalendarBody} />
-        </div>
+        </Paper>
       </div>
     );
   }

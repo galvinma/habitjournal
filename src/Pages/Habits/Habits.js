@@ -5,6 +5,7 @@ import moment from 'moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Icon from '@mdi/react'
+import Paper from '@material-ui/core/Paper';
 import { mdiCheck, mdiClose } from '@mdi/js'
 // redux
 import store from '../.././Store/store'
@@ -27,15 +28,16 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '70px',
     minWidth: '80vw',
     maxWidth: '100vw',
-    marginLeft: '50px',
-    marginRight: '50px',
+    marginTop: '80px',
+    marginBottom: '20px',
+    marginLeft: '20px',
+    marginRight: '20px',
 
     [theme.breakpoints.down(768)]: {
-      marginLeft: '15px',
-      marginRight: '15px',
+      marginLeft: '10px',
+      marginRight: '10px',
     },
   },
 });
@@ -298,7 +300,7 @@ class Habits extends React.Component {
     return(
       <div>
         <InternalNavBar />
-        <div className={this.props.classes.root}>
+        <Paper className={this.props.classes.root}>
           <NewHabit
               newModalState={this.state.newModalState}
               handleModalClose={this.handleModalClose}
@@ -321,7 +323,7 @@ class Habits extends React.Component {
               toggleIcon={this.toggleIcon}
               prevWeekHandler={this.prevWeekHandler}
               nextWeekHandler={this.nextWeekHandler} />
-          </div>
+          </Paper>
       </div>
     );
   }

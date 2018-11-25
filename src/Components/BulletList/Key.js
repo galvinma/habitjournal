@@ -24,7 +24,6 @@ const styles = theme => ({
     paddingRight: '15px',
   },
   nav_container: {
-    position: 'fixed',
     display: 'flex',
     flexDirection: 'column',
     top: '100px',
@@ -43,12 +42,21 @@ const styles = theme => ({
       flexDirection: 'column',
     },
   },
+  key_title: {
+    textAlign: 'left',
+    marginLeft: '28px',
+    marginTop: '8px',
+    marginBottom: '8px',
+  }
 });
 
 class Key extends React.Component {
   render() {
     return(
       <div className={this.props.classes.nav_container}>
+          <Typography variant="headline" className={this.props.classes.key_title}>
+            Key
+          </Typography>
           <List className={this.props.classes.nav_list}>
             <ListItem>
               <ListItemText>

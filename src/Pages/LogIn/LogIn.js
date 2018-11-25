@@ -18,7 +18,7 @@ class LogIn extends React.Component {
   <div>
     <LandingNavBar />
     <LogInPrompt />
-    <ReactSVG id="prompt_background" src={prompt_back}/>
+    <img id="prompt_background" alt="" style ={ { backgroundImage: "url("+prompt_back+")" } }/>
   </div>
 )}
 }

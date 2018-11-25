@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   calendar_title_containter: {
+    marginTop: '2vh',
     marginBottom: '2vh',
     display: 'flex',
     alignContent: 'center',

@@ -1,12 +1,9 @@
 #about_flower
 {
-  z-index: -100;
-  /* background-attachment: fixed; */
+  z-index: 100;
   position: fixed;
-  width: 40%;
+  width: 90%;
   height: 80%;
   background-repeat: no-repeat;
   background-position: right bottom;
-  right: 0;
-  bottom: 0;
 }

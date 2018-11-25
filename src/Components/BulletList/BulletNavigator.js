@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
-    position: 'fixed',
     top: '100px',
     display: 'flex',
     flexDirection: 'column',

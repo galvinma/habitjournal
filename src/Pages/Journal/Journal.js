@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment'
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 
 // Components
@@ -31,23 +32,26 @@ const styles = theme => ({
   journal_container: {
     display: 'flex',
     flexDirection: 'row',
-    marginTop: '25px', // aligns with frozen left and right panel
-    minWidth: '100vw',
+    minWidth: '80vw',
+    marginTop: '80px',
+    marginBottom: '20px',
+    marginLeft: '20px',
+    marginRight: '20px',
+
     [theme.breakpoints.down(768)]: {
       flexDirection: 'column',
-      marginTop: '30px',
+      marginLeft: '10px',
+      marginRight: '10px',
     },
   },
   bullet_container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    marginTop: '75px',
+    marginTop: '8px',
     maxWidth: '60vw',
 
     [theme.breakpoints.down(768)]: {
-      marginTop: '50px', // 40 for navbar, 10 for spacing
-      minWidth: '90vw',
       paddingLeft: '20px',
       paddingRight: '20px',
     },
@@ -57,6 +61,7 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'left',
     height: '90vh',
+    marginTop: '8px',
     marginLeft: 'auto',
     minWidth: '20vw',
     maxWidth: '20vw',
@@ -73,6 +78,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     marginLeft: '20px',
+    marginTop: '8px',
     height: '90vh',
     minWidth: '20vw',
     maxWidth: '20vw',
@@ -480,7 +486,7 @@ class Journal extends React.Component {
     return (
       <div>
         <InternalNavBar />
-          <div className={this.props.classes.journal_container}>
+          <Paper className={this.props.classes.journal_container}>
             <div className={this.props.classes.key_container}>
               <Key />
             </div>
@@ -519,7 +525,7 @@ class Journal extends React.Component {
               navigatorMonths={this.state.navigatorMonths}
               changeSelectedMonth={this.changeSelectedMonth}/>
           </div>
-        </div>
+        </Paper>
       </div>
     );
   }
