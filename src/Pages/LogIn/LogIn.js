@@ -10,7 +10,7 @@ import LandingNavBar from '../.././Components/NavBar/LandingNavBar'
 import LogInPrompt from '../.././Components/LogInPrompt/LogInPrompt'
 
 // Images
-var daisy = require('../.././Images/landing.svg')
+var prompt_back = require('../.././Images/prompt.svg')
 
 class LogIn extends React.Component {
   render() {
@@ -18,7 +18,7 @@ class LogIn extends React.Component {
   <div>
     <LandingNavBar />
     <LogInPrompt />
-    <ReactSVG id="landing_background" src={daisy}/>
+    <ReactSVG id="prompt_background" src={prompt_back}/>
   </div>
 )}
 }

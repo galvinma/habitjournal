@@ -65,6 +65,7 @@ const styles = theme => ({
   text_input: {
     minWidth: '45vw',
     border:'none',
+    background: 'transparent',
     outline: 'none',
     borderBottom: '1px solid black',
     verticalAlign: 'bottom',

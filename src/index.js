@@ -37,9 +37,9 @@ const theme = createMuiTheme({
         ].join(','),
       },
     },
-    MuiInputLabel: {
-      color: grey[900],
-    },
+    // MuiInputLabel: {
+    //   color: grey[900],
+    // },
     MuiTableCell: {
       root: {
         "&:last-child": {
@@ -56,7 +56,7 @@ ReactDOM.render(
       <HashRouter>
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <App />
-        </MuiPickersUtilsProvider>          
+        </MuiPickersUtilsProvider>
       </HashRouter>
     </Provider>
   </MuiThemeProvider>,

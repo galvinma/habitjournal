@@ -18,7 +18,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minWidth: '15vw',
-    height: '90vh',
+    maxHeight: '70vh',
+    overflowY: 'srcoll',
 
     [theme.breakpoints.down(768)]: {
       display: 'flex',

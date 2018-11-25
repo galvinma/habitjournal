@@ -14,9 +14,11 @@ import { checkAuth } from '../.././Utils/checkauth'
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 
-const methods = {
+// css
+import './About.css'
 
-};
+// Images
+var flower = require('../.././Images/about.svg')
 
 const styles = theme => ({
   root: {
@@ -45,6 +47,7 @@ class About extends React.Component {
     return(
       <div>
         <InternalNavBar />
+        <img id="about_flower" alt="" style ={ { backgroundImage: "url("+flower+")" } }/>
         <div className={this.props.classes.root}>
         <Typography component="div" variant="headline">What is Daisy Journal?</Typography>
         <Typography component="div" variant="body1">

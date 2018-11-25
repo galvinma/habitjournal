@@ -66,7 +66,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '65px',
+    marginTop: '80px',
   },
   typo_width: {
     width: '12.8vw',

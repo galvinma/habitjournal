@@ -88,6 +88,7 @@ const styles = theme => ({
     minWidth: '40vw',
     border:'none',
     outline: 'none',
+    background: 'transparent',
   },
   date_title: {
     paddingBottom: '5px',

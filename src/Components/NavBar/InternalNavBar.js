@@ -9,12 +9,16 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Icon from '@mdi/react'
+import ReactSVG from 'react-svg'
 import { mdiLogout, mdiMenu, mdiFlowerOutline } from '@mdi/js'
 
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
 import {getAuthStatus, getCurrentUser} from '../.././Actions/actions'
+
+// Images
+var logo = require('../.././Images/logo.svg')
 
 const styles = theme => ({
   navbarContainer: {
@@ -24,6 +28,8 @@ const styles = theme => ({
     top: '0px',
     height: '40px',
     zIndex: '1000',
+    paddingTop: '10px',
+    paddingBottom: '10px',
   },
   navbar: {
     color: 'black',
@@ -41,6 +47,7 @@ const styles = theme => ({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginBottom: '10px',
+    minHeight: '80px',
     backgroundColor: 'rgb(255,255,255)',
 
     [theme.breakpoints.down(768)]: {
@@ -59,15 +66,20 @@ const styles = theme => ({
     },
   },
   link: {
-    paddingLeft: '20px',
+    paddingLeft: '40px',
     paddingRight: '20px',
     textDecoration: 'none',
   },
   logo: {
     marginRight: 'auto',
-    paddingLeft: '20px',
+    paddingLeft: '40px',
     paddingRight: '20px',
     textDecoration: 'none',
+
+    [theme.breakpoints.down(768)]: {
+      paddingLeft: '0px',
+      paddingRight: '0px',
+    },
   },
   logout: {
     verticalAlign: 'middle',
@@ -109,7 +121,7 @@ class InternalNavBar extends React.Component {
         <AppBar className={this.props.classes.navbar} position="static">
           <Toolbar className={this.props.classes.toolbar_open}>
             <NavLink to="/journal" className={this.props.classes.logo}>
-              <Typography variant="body1">Logo</Typography>
+              <ReactSVG src={logo} svgStyle={{height: 50}}/>
             </NavLink>
             <NavLink to="/journal" className={this.props.classes.link}>
               <Typography variant="body1">Journal</Typography>
@@ -129,7 +141,7 @@ class InternalNavBar extends React.Component {
           </Toolbar>
           <Toolbar className={this.props.classes.toolbar_collapse}>
             <NavLink to="/" className={this.props.classes.logo}>
-              <Typography variant="body1">Logo</Typography>
+              <ReactSVG src={logo} svgStyle={{height: 50}}/>
             </NavLink>
             <Icon
             aria-owns={anchorEl ? 'simple-menu' : undefined}

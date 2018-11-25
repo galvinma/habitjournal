@@ -20,6 +20,13 @@ import { sortBulletObject } from '../.././Utils/sortbullets'
 import store from '../.././Store/store'
 import { connect } from "react-redux";
 
+// css
+import './Journal.css'
+
+// Images
+// var wallpaper = require('../.././Images/wallpaper.svg')
+// <img id="wallpaper_background" alt="" style ={ { backgroundImage: "url("+wallpaper+")" } }/>
+
 const styles = theme => ({
   journal_container: {
     display: 'flex',
@@ -28,7 +35,7 @@ const styles = theme => ({
     minWidth: '100vw',
     [theme.breakpoints.down(768)]: {
       flexDirection: 'column',
-      marginTop: '5px', // aligns with frozen left and right panel
+      marginTop: '30px',
     },
   },
   bullet_container: {
