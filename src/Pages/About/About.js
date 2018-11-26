@@ -33,8 +33,9 @@ const styles = theme => ({
     minHeight: '80vh',
 
     [theme.breakpoints.down(768)]: {
-      marginLeft: '10px',
-      marginRight: '10px',
+      marginLeft: '8px',
+      marginRight: '8px',
+      marginTop: '64px',
     },
   },
   about_container: {

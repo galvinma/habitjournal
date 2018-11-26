@@ -37,16 +37,16 @@ const styles = theme => ({
 
     [theme.breakpoints.down(768)]: {
       flexDirection: 'column',
-      marginLeft: '10px',
-      marginRight: '10px',
+      marginLeft: '8px',
+      marginRight: '8px',
+      marginTop: '64px',
     },
   },
   bullet_container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    marginTop: '8px',
-    width: '70vw',
+    minWidth: '70vw',
     paddingLeft: '20px',
     paddingRight: '20px',
 
@@ -77,7 +77,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     marginLeft: '20px',
-    marginTop: '8px',
     height: '90vh',
     minWidth: '20vw',
     maxWidth: '20vw',

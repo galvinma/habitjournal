@@ -42,6 +42,11 @@ const styles = theme => ({
     marginLeft: '20px',
     marginRight: '20px',
     marginTop: '20px',
+
+    [theme.breakpoints.down(768)]: {
+      marginLeft: '8px',
+      marginRight: '8px',
+    },
   },
   toolbar_open: {
     display: 'flex',
@@ -66,6 +71,8 @@ const styles = theme => ({
     backgroundColor: 'rgb(255,255,255)',
 
     [theme.breakpoints.down(768)]: {
+      paddingLeft: '0px',
+      paddingRight: '0px',
       display: 'flex',
     },
   },

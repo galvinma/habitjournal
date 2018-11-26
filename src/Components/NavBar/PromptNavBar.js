@@ -35,7 +35,12 @@ const styles = theme => ({
     paddingLeft: '20px',
     paddingRight: '20px',
     textDecoration: 'none',
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
+
+    [theme.breakpoints.down(768)]: {
+      paddingLeft: '5px',
+      paddingRight: '5px',
+    },
   },
   paperbar: {
     marginLeft: '20px',

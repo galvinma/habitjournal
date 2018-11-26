@@ -36,8 +36,9 @@ const styles = theme => ({
     marginRight: '20px',
 
     [theme.breakpoints.down(768)]: {
-      marginLeft: '10px',
-      marginRight: '10px',
+      marginLeft: '8px',
+      marginRight: '8px',
+      marginTop: '64px',
     },
   },
 });

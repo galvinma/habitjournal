@@ -69,11 +69,11 @@ const styles = theme => ({
     marginBottom: '20px',
     marginLeft: '20px',
     marginRight: '20px',
-    // backgroundColor: 'rgb(255,255,255)'
 
     [theme.breakpoints.down(768)]: {
-      marginLeft: '10px',
-      marginRight: '10px',
+      marginLeft: '8px',
+      marginRight: '8px',
+      marginTop: '64px',
     },
   },
   typo_width: {
