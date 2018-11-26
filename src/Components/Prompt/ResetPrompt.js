@@ -38,6 +38,10 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+
+    [theme.breakpoints.down(768)]: {
+      marginTop: theme.spacing.unit * 4,
+    },
   },
 });
 
@@ -111,7 +115,6 @@ class LoginPrompt extends React.Component {
       <div>
         <div className={this.props.classes.layout}>
           <Paper className={this.props.classes.paper}>
-            <Typography variant="headline">Reset Password</Typography>
              <form className={this.props.classes.form}>
                <FormControl
                     margin="normal"

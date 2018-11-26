@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -10,7 +10,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-
 
 // redux
 import store from '../.././Store/store'
@@ -38,25 +37,31 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+
+    [theme.breakpoints.down(768)]: {
+      marginTop: theme.spacing.unit * 4,
+    },
   },
   helper: {
     color: '#E53935',
   }
 });
 
-class SignUpPrompt extends React.Component {
+class LoginPrompt extends React.Component {
   constructor(props) {
   super(props);
 
   this.state = {
     email: "",
     password: "",
-    firstname: "",
-    lastname: "",
+    email_validation_text: "",
+    password_validation_text: "",
+    reset: false
   };
 
   this.handleChange = this.handleChange.bind(this);
-
+  this.checkLogin = this.checkLogin.bind(this);
+  this.resetRedirect = this.resetRedirect.bind(this);
 }
 
   handleChange(event) {
@@ -65,21 +70,22 @@ class SignUpPrompt extends React.Component {
     });
   };
 
-  signUpUser() {
-
+  loginUser() {
+    // reset validators
     this.setState({
-      firstname_validation_text: "",
-      lastname_validation_text: "",
       email_validation_text: "",
       password_validation_text: "",
     })
 
-    if (this.state.email === "" ||
-        this.state.password === "" ||
-        this.state.firstname === "" ||
-        this.state.lastname === "")
+    if (this.state.email === "")
     {
-      this.setState({ password_validation_text: "Missing required field(s)"})
+      this.setState({ email_validation_text: "Enter a valid email address"})
+      return
+    }
+
+    if (this.state.password === "")
+    {
+      this.setState({ password_validation_text: "Enter a valid password"})
       return
     }
 
@@ -89,22 +95,10 @@ class SignUpPrompt extends React.Component {
       return
     }
 
-    if (this.state.password.length < 8)
-    {
-      this.setState({ password_validation_text: "Password must be at least 8 characters"})
-      return
-    }
-
-    axios.post('http://127.0.0.1:5002/api/signup', {
+    axios.post('http://127.0.0.1:5002/api/login', {
       params: {
         email: this.state.email,
         password: this.state.password,
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
-        email_validation_text: "",
-        password_validation_text: "",
-        firstname_validation_text: "",
-        lastname_validation_text: "",
       }
     })
     .then((response) => {
@@ -124,57 +118,67 @@ class SignUpPrompt extends React.Component {
       }
       else
       {
-        this.setState({ password_validation_text: "Unable to register user"})
+        this.setState({ password_validation_text: "Incorrect email or password"})
       }
     })
+    .catch((error)=>{
+      console.log(error);
+    });
   }
 
-  checkJoin(event)
+  checkLogin(event)
   {
     if (event.keyCode === 13) {
-        this.signUpUser()
+        this.loginUser()
     }
+  }
+
+  resetRedirect() {
+    this.setState({
+      reset: true
+    })
   }
 
   render() {
     if (store.getState().auth_status.auth_status === true) {
       return <Redirect to='/journal' />
     }
+    if (this.state.reset === true) {
+      return <Redirect to='/reset' />
+    }
+
     return (
       <div>
         <div className={this.props.classes.layout}>
           <Paper className={this.props.classes.paper}>
-            <Typography variant="headline">Join</Typography>
              <form className={this.props.classes.form}>
-               <FormControl margin="normal" required fullWidth value={this.state.firstname} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
-                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}}  htmlFor="firstname">First Name</InputLabel>
-                 <Input id="firstname" name="firstname" autoComplete="firstname" autoFocus />
-                 <FormHelperText className={this.props.classes.helper}>{this.state.firstname_validation_text}</FormHelperText>
-               </FormControl>
-               <FormControl margin="normal" required fullWidth value={this.state.lastname} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
-                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="lastname">Last Name</InputLabel>
-                 <Input id="lastname" name="lastname" autoComplete="lastname" />
-                 <FormHelperText className={this.props.classes.helper}>{this.state.lastname_validation_text}</FormHelperText>
-               </FormControl>
-               <FormControl margin="normal" required fullWidth value={this.state.email}  onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
+               <FormControl
+                    margin="normal"
+                    required fullWidth
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    onKeyDown={(e) => this.checkLogin(e)}
+                    >
                  <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="email">Email Address</InputLabel>
-                 <Input id="email" name="email" autoComplete="email" />
+                 <Input id="email" name="email" autoComplete="email" autoFocus />
                  <FormHelperText className={this.props.classes.helper}>{this.state.email_validation_text}</FormHelperText>
                </FormControl>
-               <FormControl margin="normal" required fullWidth value={this.state.password} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
+               <FormControl margin="normal" required fullWidth value={this.state.password} onChange={this.handleChange}>
                  <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="password">Password</InputLabel>
                  <Input
                    name="password"
                    type="password"
                    id="password"
                    autoComplete="current-password"
+                   onKeyDown={(e) => this.checkLogin(e)}
                  />
                  <FormHelperText className={this.props.classes.helper}>{this.state.password_validation_text}</FormHelperText>
+                 <FormHelperText onClick={this.resetRedirect}>forgot?</FormHelperText>
                </FormControl>
                <Button
                  fullWidth
                  className={this.props.classes.submit}
-                 onClick={() => this.signUpUser()}>Get Started
+                 onClick={() => this.loginUser()} >Sign In
                </Button>
             </form>
           </Paper>
@@ -184,7 +188,7 @@ class SignUpPrompt extends React.Component {
   }
 }
 
-SignUpPrompt.propTypes = {
+LoginPrompt.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
@@ -195,4 +199,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(SignUpPrompt));
+export default connect(mapStateToProps)(withStyles(styles)(LoginPrompt));

@@ -12,6 +12,7 @@ import BulletList from '../.././Components/BulletList/BulletList'
 import BulletSelector from '../.././Components/BulletList/BulletSelector'
 import BulletNavigator from '../.././Components/BulletList/BulletNavigator'
 import Key from '../.././Components/BulletList/Key'
+import JournalTabs from '../.././Components/Tabs/JournalTabs'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -23,10 +24,6 @@ import { connect } from "react-redux";
 
 // css
 import './Journal.css'
-
-// Images
-// var wallpaper = require('../.././Images/wallpaper.svg')
-// <img id="wallpaper_background" alt="" style ={ { backgroundImage: "url("+wallpaper+")" } }/>
 
 const styles = theme => ({
   journal_container: {
@@ -49,7 +46,7 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'left',
     marginTop: '8px',
-    maxWidth: '60vw',
+    width: '65vw',
 
     [theme.breakpoints.down(768)]: {
       paddingLeft: '20px',
@@ -60,11 +57,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '90vh',
+    height: '80vh',
     marginTop: '8px',
     marginLeft: 'auto',
-    minWidth: '20vw',
-    maxWidth: '20vw',
+    width: '25vw',
 
     [theme.breakpoints.down(768)]: {
       minWidth: '90vw',
@@ -479,6 +475,14 @@ class Journal extends React.Component {
     });
   }
 
+  // <div className={this.props.classes.key_container}>
+  //   <Key />
+  // </div>
+
+  // <BulletNavigator
+  //   navigatorMonths={this.state.navigatorMonths}
+  //   changeSelectedMonth={this.changeSelectedMonth}/>
+
   render() {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
@@ -486,11 +490,8 @@ class Journal extends React.Component {
     return (
       <div>
         <InternalNavBar />
-          <Paper className={this.props.classes.journal_container}>
-            <div className={this.props.classes.key_container}>
-              <Key />
-            </div>
-            <div className={this.props.classes.bullet_container}>
+          <div className={this.props.classes.journal_container}>
+            <Paper className={this.props.classes.bullet_container}>
               <BulletSelector
                 checkSubmit={this.checkSubmit}
                 selectorChange={this.selectorChange}
@@ -519,13 +520,11 @@ class Journal extends React.Component {
                 blurHandler={this.blurHandler}
                 updateBulletTitle={this.updateBulletTitle}
                 updateBulletTimes={this.updateBulletTimes} />
-          </div>
-          <div className={this.props.classes.month_container}>
-            <BulletNavigator
-              navigatorMonths={this.state.navigatorMonths}
-              changeSelectedMonth={this.changeSelectedMonth}/>
-          </div>
-        </Paper>
+            </Paper>
+          <Paper className={this.props.classes.month_container}>
+            <JournalTabs />
+          </Paper>
+        </div>
       </div>
     );
   }

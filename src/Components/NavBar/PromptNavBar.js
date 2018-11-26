@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import ReactSVG from 'react-svg'
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   navbarContainer: {
@@ -20,75 +22,65 @@ const styles = theme => ({
   },
   toolbar: {
     display: 'flex',
+    minHeight: '72px',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginLeft: '20px',
-    marginRight: '20px',
-    marginTop: '20px',
-    marginBottom: '10px',
-
-    [theme.breakpoints.down(768)]: {
-      marginLeft: '5px',
-      marginRight: '5px',
-    },
-
-    [theme.breakpoints.down(500)]: {
-      marginLeft: '0px',
-      marginRight: '0px',
-    },
   },
   link: {
     margin: '10px',
     textDecoration: 'none',
-  },
-  join: {
-    margin: '10px',
-    textDecoration: 'none',
-    color: '#93AAB5',
-    paddingLeft: '15px',
-    paddingRight: '15px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-    borderRadius: '2px',
-    border: '2px solid #93AAB5',
   },
   logo: {
     marginRight: 'auto',
     paddingLeft: '20px',
     paddingRight: '20px',
     textDecoration: 'none',
+    verticalAlign: 'middle'
+  },
+  paperbar: {
+    marginLeft: '20px',
+    marginRight: '20px',
+    marginTop: '20px',
   },
   nav_text: {
     fontSize: '18px',
 
     [theme.breakpoints.down(768)]: {
-      fontSize: '16px',
+      fontSize: '14px',
     },
   }
 });
 
-class LandingNavBar extends React.Component {
+// Images
+var logo = require('../.././Images/logo.svg')
+
+class PromptNavBar extends React.Component {
   render() {
     var return_icon
     return (
       <div className={this.props.classes.navbarContainer}>
         <AppBar className={this.props.classes.navbar} position="static">
-          <Toolbar className={this.props.classes.toolbar}>
-            <NavLink to="/signin" className={this.props.classes.link}>
-              <Typography variant="body1" className={this.props.classes.nav_text}>Sign In</Typography>
-            </NavLink>
-            <NavLink to="/join" className={this.props.classes.join}>
-              <Typography variant="body1" className={this.props.classes.nav_text}>Join</Typography>
-            </NavLink>
-          </Toolbar>
+          <Paper className={this.props.classes.paperbar}>
+            <Toolbar className={this.props.classes.toolbar}>
+              <NavLink to="/" className={this.props.classes.logo}>
+                <ReactSVG src={logo} svgStyle={{height: 50}}/>
+              </NavLink>
+              <NavLink to="/signin" className={this.props.classes.link}>
+                <Typography variant="body1" className={this.props.classes.nav_text}>Sign In</Typography>
+              </NavLink>
+              <NavLink to="/join" className={this.props.classes.link}>
+                <Typography variant="body1" className={this.props.classes.nav_text}>Join</Typography>
+              </NavLink>
+            </Toolbar>
+          </Paper>
         </AppBar>
       </div>
     );
   }
 }
 
-LandingNavBar.propTypes = {
+PromptNavBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LandingNavBar);
+export default withStyles(styles)(PromptNavBar);

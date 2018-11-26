@@ -37,7 +37,6 @@ const styles = theme => ({
     height: '40px',
     width: '100%',
     position: 'static',
-    // top: '0px',
   },
   paperbar: {
     marginLeft: '20px',
@@ -48,12 +47,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    // borderBottom: '1px solid black',
-    // marginBottom: '10px',
     minHeight: '72px',
-    // backgroundColor: '#FFFAFA',
     marginLeft: '20px',
     marginRight: '20px',
+    backgroundColor: 'rgb(255,255,255)',
 
     [theme.breakpoints.down(768)]: {
       display: 'none',
@@ -63,7 +60,9 @@ const styles = theme => ({
     display: 'none',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginBottom: '10px',
+    minHeight: '72px',
+    marginLeft: '20px',
+    marginRight: '20px',
     backgroundColor: 'rgb(255,255,255)',
 
     [theme.breakpoints.down(768)]: {
@@ -71,14 +70,13 @@ const styles = theme => ({
     },
   },
   link: {
-    paddingLeft: '40px',
-    paddingRight: '20px',
+    paddingLeft: '15px',
+    paddingRight: '15px',
     textDecoration: 'none',
   },
   logo: {
     marginRight: 'auto',
-    // paddingLeft: '40px',
-    paddingRight: '20px',
+    paddingRight: '15px',
     textDecoration: 'none',
 
     [theme.breakpoints.down(768)]: {
@@ -89,6 +87,13 @@ const styles = theme => ({
   logout: {
     verticalAlign: 'middle',
   },
+  nav_text: {
+    fontSize: '16px',
+
+    [theme.breakpoints.down(768)]: {
+      fontSize: '14px',
+    },
+  }
 })
 
 class InternalNavBar extends React.Component {
@@ -125,68 +130,69 @@ class InternalNavBar extends React.Component {
       <div className={this.props.classes.navbarContainer}>
         <AppBar className={this.props.classes.navbar} position="static">
           <Paper className={this.props.classes.paperbar}>
-          <Toolbar className={this.props.classes.toolbar_open}>
-            <NavLink to="/journal" className={this.props.classes.logo}>
-              <ReactSVG src={logo} svgStyle={{height: 50}}/>
-            </NavLink>
-            <NavLink to="/journal" className={this.props.classes.link}>
-              <Typography variant="body1">Journal</Typography>
-            </NavLink>
-            <NavLink to="/habits" className={this.props.classes.link}>
-              <Typography variant="body1">Habits</Typography>
-            </NavLink>
-            <NavLink to="/calendar" className={this.props.classes.link}>
-              <Typography variant="body1">Calendar</Typography>
-            </NavLink>
-            <NavLink to="/about" className={this.props.classes.link}>
-              <Typography variant="body1">About</Typography>
-            </NavLink>
-            <NavLink to="/" className={this.props.classes.link} onClick={() => this.logoutUser()}>
-              <Icon className={this.props.classes.logout} path={mdiLogout} size={0.75} />
-            </NavLink>
-          </Toolbar>
+            <Toolbar className={this.props.classes.toolbar_open}>
+              <NavLink to="/journal" className={this.props.classes.logo}>
+                <ReactSVG src={logo} svgStyle={{height: 50}}/>
+              </NavLink>
+              <NavLink to="/journal" className={this.props.classes.link}>
+                <Typography variant="body1" className={this.props.classes.nav_text}>Journal</Typography>
+              </NavLink>
+              <NavLink to="/habits" className={this.props.classes.link}>
+                <Typography variant="body1" className={this.props.classes.nav_text}>Habits</Typography>
+              </NavLink>
+              <NavLink to="/calendar" className={this.props.classes.link}>
+                <Typography variant="body1" className={this.props.classes.nav_text}>Calendar</Typography>
+              </NavLink>
+              <NavLink to="/about" className={this.props.classes.link}>
+                <Typography variant="body1" className={this.props.classes.nav_text}>About</Typography>
+              </NavLink>
+              <NavLink to="/" className={this.props.classes.link} onClick={() => this.logoutUser()}>
+                <Icon className={this.props.classes.logout} path={mdiLogout} size={0.75} />
+              </NavLink>
+            </Toolbar>
+
+            <Toolbar className={this.props.classes.toolbar_collapse}>
+              <NavLink to="/" className={this.props.classes.logo}>
+                <ReactSVG src={logo} svgStyle={{height: 50}}/>
+              </NavLink>
+              <Icon
+              aria-owns={anchorEl ? 'simple-menu' : undefined}
+              aria-haspopup="true"
+              onClick={this.handleClick}
+              path={mdiMenu} size={0.75} />
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={this.handleClose} >
+                <MenuItem onClick={this.handleClose}>
+                  <NavLink to="/journal" className={this.props.classes.link}>
+                    <Typography variant="body1">Journal</Typography>
+                  </NavLink>
+                </MenuItem>
+                <MenuItem onClick={this.handleClose}>
+                  <NavLink to="/habits" className={this.props.classes.link}>
+                    <Typography variant="body1">Habits</Typography>
+                  </NavLink>
+                </MenuItem>
+                <MenuItem onClick={this.handleClose}>
+                  <NavLink to="/calendar" className={this.props.classes.link}>
+                    <Typography variant="body1">Calendar</Typography>
+                  </NavLink>
+                </MenuItem>
+                <MenuItem onClick={this.handleClose}>
+                  <NavLink to="/about" className={this.props.classes.link}>
+                    <Typography variant="body1">About</Typography>
+                  </NavLink>
+                </MenuItem>
+                <MenuItem onClick={this.handleClose}>
+                  <NavLink to="/" className={this.props.classes.link} onClick={() => this.logoutUser()}>
+                    <Typography variant="body1">Sign Out</Typography>
+                  </NavLink>
+                </MenuItem>
+              </Menu>
+            </Toolbar>
           </Paper>
-          <Toolbar className={this.props.classes.toolbar_collapse}>
-            <NavLink to="/" className={this.props.classes.logo}>
-              <ReactSVG src={logo} svgStyle={{height: 50}}/>
-            </NavLink>
-            <Icon
-            aria-owns={anchorEl ? 'simple-menu' : undefined}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-            path={mdiMenu} size={0.75} />
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={this.handleClose} >
-              <MenuItem onClick={this.handleClose}>
-                <NavLink to="/journal" className={this.props.classes.link}>
-                  <Typography variant="body1">Journal</Typography>
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={this.handleClose}>
-                <NavLink to="/habits" className={this.props.classes.link}>
-                  <Typography variant="body1">Habits</Typography>
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={this.handleClose}>
-                <NavLink to="/calendar" className={this.props.classes.link}>
-                  <Typography variant="body1">Calendar</Typography>
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={this.handleClose}>
-                <NavLink to="/about" className={this.props.classes.link}>
-                  <Typography variant="body1">About</Typography>
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={this.handleClose}>
-                <NavLink to="/" className={this.props.classes.link} onClick={() => this.logoutUser()}>
-                  <Typography variant="body1">Sign Out</Typography>
-                </NavLink>
-              </MenuItem>
-            </Menu>
-          </Toolbar>
         </AppBar>
       </div>
     );

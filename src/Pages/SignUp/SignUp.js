@@ -4,20 +4,26 @@ import ReactSVG from 'react-svg'
 
 // css
 import './SignUp.css'
+import '../.././Images/Prompt.css'
 
 // Components
-import LandingNavBar from '../.././Components/NavBar/LandingNavBar'
-import SignUpPrompt from '../.././Components/SignUpPrompt/SignUpPrompt'
+import PromptNavBar from '../.././Components/NavBar/PromptNavBar'
+import SignUpPrompt from '../.././Components/Prompt/SignUpPrompt'
 
+// Images
+var prompt_back = require('../.././Images/prompt.svg')
 
 class SignUp extends React.Component {
   render() {
     return (
-  <div>
-    <LandingNavBar />
-    <SignUpPrompt />
-  </div>
-)}
+      <div>
+        <PromptNavBar />
+        <SignUpPrompt />
+        <div id="block_one"/>
+        <div id="block_two"/>
+        <svg viewBox="0 0 100 100" id="prompt_background" alt="" style ={{ backgroundImage: "url("+prompt_back+")" }}/>
+      </div>
+  )}
 }
 
 export default (SignUp);
