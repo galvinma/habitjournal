@@ -46,7 +46,9 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'left',
     marginTop: '8px',
-    width: '65vw',
+    width: '70vw',
+    paddingLeft: '20px',
+    paddingRight: '20px',
 
     [theme.breakpoints.down(768)]: {
       paddingLeft: '20px',
@@ -60,7 +62,8 @@ const styles = theme => ({
     height: '80vh',
     marginTop: '8px',
     marginLeft: 'auto',
-    width: '25vw',
+    width: '22.5vw',
+    overflowY: 'auto',
 
     [theme.breakpoints.down(768)]: {
       minWidth: '90vw',
@@ -475,14 +478,6 @@ class Journal extends React.Component {
     });
   }
 
-  // <div className={this.props.classes.key_container}>
-  //   <Key />
-  // </div>
-
-  // <BulletNavigator
-  //   navigatorMonths={this.state.navigatorMonths}
-  //   changeSelectedMonth={this.changeSelectedMonth}/>
-
   render() {
     if (store.getState().auth_status.auth_status === false) {
       return <Redirect to='/' />
@@ -522,7 +517,9 @@ class Journal extends React.Component {
                 updateBulletTimes={this.updateBulletTimes} />
             </Paper>
           <Paper className={this.props.classes.month_container}>
-            <JournalTabs />
+            <JournalTabs
+              navigatorMonths={this.state.navigatorMonths}
+              changeSelectedMonth={this.changeSelectedMonth}/>
           </Paper>
         </div>
       </div>
