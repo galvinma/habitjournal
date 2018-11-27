@@ -60,7 +60,6 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'left',
     height: '80vh',
-    marginTop: '8px',
     marginLeft: 'auto',
     width: '22.5vw',
     overflowY: 'auto',
@@ -102,8 +101,8 @@ class Journal extends React.Component {
     selected: 'mdiSquareOutline',
     selectedMonth: moment().format('MMMM, YYYY'),
     reference: moment().startOf('day').unix(),
-    startDate: moment().unix(),
-    endDate: moment().unix(),
+    startDate: moment().startOf('day').unix(),
+    endDate: moment().endOf('day').unix(),
     startTime: moment().startOf('day').unix(),
     endTime: moment().endOf('day').unix(),
     navigatorMonths: [],
@@ -168,14 +167,19 @@ class Journal extends React.Component {
   {
     if (state === 'start')
     {
+
+      let delta = this.state.startTime - this.state.startDate
       this.setState({
-        startDate: moment(event).unix()
+        startDate: moment(event).unix(),
+        startTime: moment(event).unix()+delta
       })
     }
     else if (state === 'end')
     {
+      let delta = this.state.endTime - this.state.endDate
       this.setState({
-        endDate: moment(event).unix()
+        endDate: moment(event).unix(),
+        endTime: moment(event).unix()+delta
       })
     }
   }

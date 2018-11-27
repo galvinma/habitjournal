@@ -156,14 +156,14 @@ class EditEntry extends React.Component {
 
     super(props);
     this.state = {
-      reference: moment().startOf('day').unix(),
+      reference: "",
       entry: null,
       selected: "",
       type: "",
-      start_date: moment().startOf('day').unix(),
-      end_date: moment().endOf('day').unix(),
-      start_time: moment().startOf('day').unix(),
-      end_time: moment().endOf('day').unix(),
+      start_date: "",
+      end_date: "",
+      start_time: "",
+      end_time: "",
       title: "",
       status: "",
       multi_day: null,
@@ -202,13 +202,15 @@ class EditEntry extends React.Component {
      {
         this.setState({
           checkedAllDay: false,
-        })
+      })
 
-        var l = document.getElementsByClassName("time_pick")
-        for (var i = 0; i < l.length; i++)
+      var l = document.getElementsByClassName("time_pick")
+      for (var i = 0; i < l.length; i++)
         {
          l[i].style.display = "inline-block"
         }
+
+        document.getElementById("to_spacer").style.display = "inline-block"
       }
 
       if (res.multi_day === true)
@@ -223,21 +225,19 @@ class EditEntry extends React.Component {
       {
         this.setState({
           checkedMultiDay: false,
-        })
+      })
 
         document.getElementById("datetwo").style.display = "none"
       }
 
-      if (this.state.checkedAllDay === false || this.state.checkedMultiDay === true)
+      if (res.multi_day === true)
       {
         document.getElementById("to_spacer").style.display = "inline-block"
       }
-      else
-      {
-        document.getElementById("to_spacer").style.display = "none"
-      }
+
 
       this.setState({
+        reference: res.start_date,
         entry: res,
         selected: this.convertToIconStringNoMult(res),
         type: res.type,
@@ -255,14 +255,14 @@ class EditEntry extends React.Component {
   resetState()
   {
     this.setState({
-      reference: moment().startOf('day').unix(),
+      reference: "",
       entry: null,
       selected: "",
       type: "",
-      start_date: moment().startOf('day').unix(),
-      end_date: moment().endOf('day').unix(),
-      start_time: moment().startOf('day').unix(),
-      end_time: moment().endOf('day').unix(),
+      start_date: "",
+      end_date: "",
+      start_time: "",
+      end_time: '',
       title: "",
       status: "",
       multi_day: null,
@@ -290,19 +290,30 @@ class EditEntry extends React.Component {
 
   updateEntry()
   {
+    var end
+    var multi_day
+    if (this.state.checkedMultiDay === false)
+    {
+      end = this.state.start_date
+      multi_day = false
+    }
+    else
+    {
+      end = this.state.end_date
+      multi_day = true
+    }
+
     axios.post('http://127.0.0.1:5002/api/update_entry', {
       params: {
         entry_id: store.getState().entries_modal_id.entries_modal_id,
         type: this.state.type,
         start_date: this.state.start_date,
-        end_date: this.state.end_date,
+        end_date: end,
         start_time: this.state.start_time,
         end_time: this.state.end_time,
         title: this.state.title,
         status: this.state.status,
-        multi_day: this.state.multi_day,
-        checkedAllDay: true,
-        checkedMultiDay: false,
+        multi_day: multi_day,
       }
     })
     .then((response) => {
@@ -317,7 +328,6 @@ class EditEntry extends React.Component {
 
   selectorChange(event)
   {
-
     this.setState({
       selected: event.target.value }
     );
@@ -381,14 +391,18 @@ class EditEntry extends React.Component {
   {
     if (state === 'start')
     {
+      let delta = this.state.start_time - this.state.start_date
       this.setState({
-        start_date: moment(event).unix()
+        start_date: moment(event).unix(),
+        start_date: moment(event).unix()+delta
       })
     }
     else if (state === 'end')
     {
+      let delta = this.state.end_time - this.state.end_date
       this.setState({
-        end_date: moment(event).unix()
+        end_date: moment(event).unix(),
+        end_time: moment(event).unix()+delta
       })
     }
   }
@@ -432,7 +446,10 @@ class EditEntry extends React.Component {
       document.getElementById("datetwo").style.display = "none"
     }
 
-    this.setState({ checkedMultiDay: event.target.checked });
+    this.setState({
+      checkedMultiDay: event.target.checked,
+      multi_day: event.target.checked,
+    });
 
     if (this.state.checkedAllDay === false || event.target.checked === true)
     {
@@ -453,6 +470,12 @@ class EditEntry extends React.Component {
        {
         l[i].style.display = "none"
        }
+
+       this.setState({
+         start_time: moment(this.state.start_date).startOf('day').unix(),
+         end_time: moment(this.state.end_date).endOf('day').unix(),
+       })
+
     }
     else
     {

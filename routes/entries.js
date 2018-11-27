@@ -112,6 +112,11 @@ router.route('/remove_entry')
       var status = req.body.params.status
       var multi_day = req.body.params.multi_day
 
+      console.log("start time "+start_time)
+      console.log("end time "+end_time)
+      console.log("start date "+start_date)
+      console.log("end_date "+end_date)
+
       Entries.update({ entry_id: req.body.params.entry_id },
           { type: type,
             start_date: start_date,
