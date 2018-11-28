@@ -292,19 +292,19 @@ class Calendar extends React.Component {
                   if (moment(ref_date).isSame(moment.unix(bullet.end_date), 'days'))
                   {
                     temp.start_time = moment.unix(temp.end_date).startOf('day').unix()
-                    console.log("ref_date isSame as endDate")
-                    console.log(temp.title)
-                    console.log(temp.start_time)
-                    console.log(" ")
+                    // console.log("ref_date isSame as endDate")
+                    // console.log(temp.title)
+                    // console.log(temp.start_time)
+                    // console.log(" ")
                   }
 
                   if ((moment(ref_date).isAfter(moment.unix(bullet.start_date))) &&
                       (moment(ref_date).isBefore(moment.unix(bullet.end_date))))
                   {
                     temp.start_time = moment.unix(ref_date).startOf('day').unix()
-                    console.log(temp.title)
-                    console.log(temp.start_time)
-                    console.log(" ")
+                    // console.log(temp.title)
+                    // console.log(temp.start_time)
+                    // console.log(" ")
                     temp.end_time = moment.unix(ref_date).endOf('day').unix()
                   }
                 }

@@ -102,7 +102,7 @@ class Journal extends React.Component {
     selectedMonth: moment().format('MMMM, YYYY'),
     reference: moment().startOf('day').unix(),
     startDate: moment().startOf('day').unix(),
-    endDate: moment().endOf('day').unix(),
+    endDate: moment().startOf('day').unix(),
     startTime: moment().startOf('day').unix(),
     endTime: moment().endOf('day').unix(),
     navigatorMonths: [],
@@ -167,19 +167,18 @@ class Journal extends React.Component {
   {
     if (state === 'start')
     {
-
       let delta = this.state.startTime - this.state.startDate
       this.setState({
-        startDate: moment(event).unix(),
-        startTime: moment(event).unix()+delta
+        startDate: moment(event).startOf('day').unix(),
+        startTime: moment(event).startOf('day').unix()+delta
       })
     }
     else if (state === 'end')
     {
       let delta = this.state.endTime - this.state.endDate
       this.setState({
-        endDate: moment(event).unix(),
-        endTime: moment(event).unix()+delta
+        endDate: moment(event).startOf('day').unix(),
+        endTime: moment(event).startOf('day').unix()+delta
       })
     }
   }
@@ -188,18 +187,14 @@ class Journal extends React.Component {
   {
     if (state === 'start')
     {
-      var delta = moment(event).unix() - this.state.reference
-      var utc = moment.unix(this.state.startDate).startOf('day').unix() + delta
       this.setState({
-        startTime: moment.unix(utc).unix()
+        startTime: moment(event).unix()
       })
     }
     else if (state === 'end')
     {
-      var delta = moment(event).unix() - this.state.reference
-      var utc = moment.unix(this.state.endDate).startOf('day').unix() + delta
       this.setState({
-        endTime: moment.unix(utc).unix()
+        endTime: moment(event).unix()
       })
     }
   }
@@ -226,6 +221,39 @@ class Journal extends React.Component {
 
   handleMultiDay(event)
   {
+    this.setState({ checkedMultiDay: event.target.checked });
+
+    //  Reset the pickers...
+    if (event.target.checked === false && this.state.checkedAllDay === true)
+    {
+      this.setState({
+        endDate: moment().startOf('day').unix(),
+        endTime: moment().endOf('day').unix(),
+      })
+    }
+    else if (event.target.checked === false && this.state.checkedAllDay === false)
+    {
+      this.setState({
+        endDate: moment.unix(this.state.startDate).startOf('day').unix(),
+        endTime: moment.unix(this.state.startDate).endOf('day').unix()
+      })
+    }
+    else if (event.target.checked === true && this.state.checkedAllDay === false)
+    {
+      this.setState({
+        endDate: moment().startOf('day').unix(),
+        endTime: moment().endOf('day').unix(),
+      })
+    }
+    else if (event.target.checked === true && this.state.checkedAllDay === true)
+    {
+      this.setState({
+        startTime: moment.unix(this.state.startDate).startOf('day').unix(),
+        endTime: moment.unix(this.state.startDate).endOf('day').unix()
+      })
+    }
+
+    // UI handles...
     if (event.target.checked === true)
     {
       document.getElementById("datetwo").style.display = "inline-block"
@@ -234,8 +262,6 @@ class Journal extends React.Component {
     {
       document.getElementById("datetwo").style.display = "none"
     }
-
-    this.setState({ checkedMultiDay: event.target.checked });
 
     if (this.state.checkedAllDay === false || event.target.checked === true)
     {
@@ -249,19 +275,52 @@ class Journal extends React.Component {
 
   handleAllDay(event)
   {
+    this.setState({ checkedAllDay: event.target.checked });
+
+
+    // Reset the pickers on check...
+    if (event.target.checked === true && this.state.checkedMultiDay === true)
+    {
+      this.setState({
+        startTime: moment.unix(this.state.startDate).startOf('day').unix(),
+        endTime: moment.unix(this.state.EndDate).endOf('day').unix(),
+      })
+    }
+
+    else if (event.target.checked === false && this.state.checkedMultiDay === false)
+    {
+      // Multi day is false, all day is false, reset times to selected day
+      this.setState({
+        startTime: moment.unix(this.state.startDate).startOf('day').unix(),
+        endTime: moment.unix(this.state.startDate).endOf('day').unix(),
+      })
+    }
+    else if (event.target.checked === false && this.state.checkedMultiDay === true)
+    {
+      // Multi day is true, all day is false, reset times to selected day
+      this.setState({
+        startTime: moment.unix(this.state.startDate).startOf('day').unix(),
+        endTime: moment.unix(this.state.endDate).endOf('day').unix(),
+      })
+    }
+    else if (event.target.checked === true && this.state.checkedMultiDay === false)
+    {
+      // Multi day is false, reset all
+      this.setState({
+        startDate: moment().startOf('day').unix(),
+        endDate: moment().startOf('day').unix(),
+        startTime: moment().startOf('day').unix(),
+        endTime: moment().endOf('day').unix(),
+      })
+    }
+
+    // UI handles
     if (event.target.checked === true)
     {
        var l = document.getElementsByClassName("time_pick")
        for (var i = 0; i < l.length; i++)
        {
         l[i].style.display = "none"
-
-        this.setState({
-          startDate: moment().unix(),
-          endDate: moment().unix(),
-          startTime: moment().startOf('day').unix(),
-          endTime: moment().endOf('day').unix(),
-        })
        }
     }
     else
@@ -272,8 +331,6 @@ class Journal extends React.Component {
        l[i].style.display = "inline-block"
       }
     }
-
-    this.setState({ checkedAllDay: event.target.checked });
 
     if (event.target.checked === false || this.state.checkedMultiDay === true)
     {
@@ -287,17 +344,28 @@ class Journal extends React.Component {
 
   addBullet()
   {
-    var end
-    var multi_day
-    if (this.state.checkedMultiDay === false)
+    let endDate
+    let endTime
+
+    if (this.state.checkedMultiDay === false && this.state.checkedAllDay === true)
     {
-      end = this.state.startDate
-      multi_day = false
+      // Single Day / All Day
+      // Set end date and time
+      endDate = moment.unix(this.state.startDate).startOf('day').unix()
+      endTime = moment.unix(this.state.startDate).endOf('day').unix()
+    }
+    else if (this.state.checkedMultiDay === true && this.state.checkedAllDay === true )
+    {
+      // Multi Day / All Day
+      // Set end time
+      endDate = this.state.endDate
+      endTime = moment.unix(this.state.endDate).endOf('day').unix()
     }
     else
     {
-      end = this.state.endDate
-      multi_day = true
+      // If not an All day event, use the selected times
+      endDate = this.state.endDate
+      endTime = this.state.endTime
     }
 
     axios.post('http://127.0.0.1:5002/api/save_entry', {
@@ -306,10 +374,11 @@ class Journal extends React.Component {
         type: this.state.type,
         title: this.state.title,
         start_date: this.state.startDate,
-        end_date: end,
+        end_date: endDate,
         start_time: this.state.startTime,
-        end_time: this.state.endTime,
-        multi_day: multi_day
+        end_time: endTime,
+        multi_day: this.state.checkedMultiDay,
+        all_day: this.state.checkedAllDay,
       }
     })
     .then((response) => {
@@ -343,6 +412,12 @@ class Journal extends React.Component {
             var start_date = moment.unix(bullet.start_date)
             var end_date = moment.unix(bullet.end_date)
 
+            console.log(bullet.title)
+            console.log("start time "+bullet.start_time)
+            console.log("end time "+bullet.end_time)
+            console.log("start date "+bullet.start_date)
+            console.log("end date "+bullet.end_date)
+
             while (moment(ref_date).isSameOrBefore(moment(end_date), 'days'))
             {
               var temp = Object.assign([], bullet);
@@ -374,11 +449,6 @@ class Journal extends React.Component {
                     temp.start_time = moment.unix(ref_date).startOf('day').unix()
                     temp.end_time = moment.unix(ref_date).endOf('day').unix()
 
-                    console.log(temp.title)
-                    console.log("start time "+temp.start_time)
-                    console.log("end time "+temp.end_time)
-                    console.log("start time "+temp.start_date)
-                    console.log("end time "+temp.end_date)                             
                   }
                 }
 
