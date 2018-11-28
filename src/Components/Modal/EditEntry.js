@@ -509,7 +509,7 @@ class EditEntry extends React.Component {
       <div key={this.props.entries_modal_id.entries_modal_id}>
       <Dialog
         onEnter={this.getMatch}
-        onExit={this.resetState}
+        onExited={this.resetState}
         open={this.props.edit_entries_modal_status.edit_entries_modal_status}
         onClose={this.props.handleModalClose}>
           <div className={this.props.classes.close_container}>

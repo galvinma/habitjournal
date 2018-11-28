@@ -275,11 +275,13 @@ class Calendar extends React.Component {
 
               if (navMonth === moment(this.state.firstDayOfMonthDate).format('MMMM, YYYY'))
               {
+                // If entry does not exists, create a bucket
                 if (!(new_calendar_entries[moment(ref_date).format('dddd, MMMM Do, YYYY')]))
                 {
                   new_calendar_entries[moment(ref_date).format('dddd, MMMM Do, YYYY')] = []
                 }
 
+                // A multi day event, create clones...
                 if (!(moment(start_date).isSame(moment(end_date), 'days')))
                 {
                   if (moment(ref_date).isSame(moment.unix(bullet.start_date), 'days'))
@@ -290,12 +292,19 @@ class Calendar extends React.Component {
                   if (moment(ref_date).isSame(moment.unix(bullet.end_date), 'days'))
                   {
                     temp.start_time = moment.unix(temp.end_date).startOf('day').unix()
+                    console.log("ref_date isSame as endDate")
+                    console.log(temp.title)
+                    console.log(temp.start_time)
+                    console.log(" ")
                   }
 
                   if ((moment(ref_date).isAfter(moment.unix(bullet.start_date))) &&
                       (moment(ref_date).isBefore(moment.unix(bullet.end_date))))
                   {
                     temp.start_time = moment.unix(ref_date).startOf('day').unix()
+                    console.log(temp.title)
+                    console.log(temp.start_time)
+                    console.log(" ")
                     temp.end_time = moment.unix(ref_date).endOf('day').unix()
                   }
                 }
@@ -320,7 +329,6 @@ class Calendar extends React.Component {
             entry.type === 'appointment' ||
             (entry.type === 'habit' && entry.status === '1'))
         {
-          let timestamp = moment.unix(entry.start_date).format('dddd, MMMM Do, YYYY')
           if (document.getElementById(key))
           {
             // Create the SVG
@@ -464,6 +472,7 @@ class Calendar extends React.Component {
             var footer = document.getElementById("footer"+String(key))
             if (footer.children.length === 0)
             {
+              let timestamp = moment.unix(entry.start_time).format('dddd, MMMM Do, YYYY')
 
               var div = document.createElement("div");
               div.setAttribute('class', "list_footer")

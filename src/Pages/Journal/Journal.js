@@ -373,6 +373,12 @@ class Journal extends React.Component {
                   {
                     temp.start_time = moment.unix(ref_date).startOf('day').unix()
                     temp.end_time = moment.unix(ref_date).endOf('day').unix()
+
+                    console.log(temp.title)
+                    console.log("start time "+temp.start_time)
+                    console.log("end time "+temp.end_time)
+                    console.log("start time "+temp.start_date)
+                    console.log("end time "+temp.end_date)                             
                   }
                 }
 

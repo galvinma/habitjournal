@@ -19,9 +19,12 @@ import ReactSVG from 'react-svg'
 import {  mdiClose,
           mdiDotsHorizontal } from '@mdi/js'
 
+
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
+import { getEntriesModalState, getEntriesModalID, getEditEntriesModalState, getCurrentEntry } from '../.././Actions/actions'
+
 
 // functions
 import { convertToIcon } from '../.././Utils/convertoicon'
@@ -66,6 +69,10 @@ const styles = theme => ({
     paddingRight: '2px',
     paddingLeft: '0px',
   },
+  list_item_container: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 });
 
 class CalendarEntries extends React.Component {
@@ -79,6 +86,7 @@ class CalendarEntries extends React.Component {
     this.getMatch = this.getMatch.bind(this)
     this.createList = this.createList.bind(this)
     this.convertToIcon = convertToIcon.bind(this);
+    this.dispatchEditModal = this.dispatchEditModal.bind(this)
 
   }
 
@@ -97,25 +105,59 @@ class CalendarEntries extends React.Component {
     })
   }
 
+  dispatchEditModal(entry_id, type, status)
+  {
+    if (type !== 'habit')
+    {
+      store.dispatch(getEntriesModalState({
+        entries_modal_status: false
+      }))
+
+      axios.post('http://127.0.0.1:5002/api/return_one', {
+        params: {
+          user: sessionStorage.getItem('user'),
+          entry_id: entry_id
+        }
+      })
+      .then((response) => {
+
+        store.dispatch(getEntriesModalID({
+          entries_modal_id: entry_id
+        }))
+
+        store.dispatch(getCurrentEntry({
+          current_entry: response.data.entry
+        }))
+
+        store.dispatch(getEditEntriesModalState({
+          edit_entries_modal_status: true
+        }))
+      })
+    }
+  }
+
   createList(i)
   {
     var p = this.convertToIcon(i)
     var salt = Math.random()*1000
-    if (moment.unix(i.start_date).format('dddd, MMMM Do, YYYY') === this.props.entries_modal_id.entries_modal_id &&
+    console.log(moment.unix(i.start_date).format('dddd, MMMM Do, YYYY'))
+    console.log(i.title)
+    console.log(" ")
+    if (moment.unix(i.start_time).format('dddd, MMMM Do, YYYY') === this.props.entries_modal_id.entries_modal_id &&
         i.type !== 'note')
     {
       return (
       <ListItem key={i+salt}>
         <ListItemText>
-          <Typography variant="body1">
-            <div>
-            <ReactSVG
-              className={this.props.classes.entries_icon}
-              src={p}
-              svgStyle={{ height: '20px' }}/>
-            {i.title}
+            <div className={this.props.classes.list_item_container}>
+              <ReactSVG
+                className={this.props.classes.entries_icon}
+                src={p}
+                svgStyle={{ height: '20px' }} />
+              <div onClick={() => this.dispatchEditModal(i.entry_id, i.type, i.status)}>
+                <Typography variant="body1">{i.title}</Typography>
+              </div>
             </div>
-          </Typography>
         </ListItemText>
       </ListItem>
     )}
