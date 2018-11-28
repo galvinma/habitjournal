@@ -19,7 +19,6 @@ import ReactSVG from 'react-svg'
 import {  mdiClose,
           mdiDotsHorizontal } from '@mdi/js'
 
-
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
@@ -79,30 +78,11 @@ class CalendarEntries extends React.Component {
   constructor(props)
   {
     super(props);
-    this.state = {
-      entries: [],
-    }
 
-    this.getMatch = this.getMatch.bind(this)
-    this.createList = this.createList.bind(this)
+    this.mapList = this.mapList.bind(this)
     this.convertToIcon = convertToIcon.bind(this);
     this.dispatchEditModal = this.dispatchEditModal.bind(this)
 
-  }
-
-  getMatch()
-  {
-    axios.post('http://127.0.0.1:5002/api/return_entries', {
-      params: {
-        user: sessionStorage.getItem('user'),
-      }
-    })
-    .then((response) => {
-      var res = response.data.entries
-      this.setState({
-        entries: response.data.entries
-      })
-    })
   }
 
   dispatchEditModal(entry_id, type, status)
@@ -136,37 +116,48 @@ class CalendarEntries extends React.Component {
     }
   }
 
-  createList(i)
+  mapList()
   {
-    var p = this.convertToIcon(i)
-    var salt = Math.random()*1000
-    console.log(moment.unix(i.start_date).format('dddd, MMMM Do, YYYY'))
-    console.log(i.title)
-    console.log(" ")
-    if (moment.unix(i.start_time).format('dddd, MMMM Do, YYYY') === this.props.entries_modal_id.entries_modal_id &&
-        i.type !== 'note')
-    {
-      return (
-      <ListItem key={i+salt}>
-        <ListItemText>
-            <div className={this.props.classes.list_item_container}>
-              <ReactSVG
-                className={this.props.classes.entries_icon}
-                src={p}
-                svgStyle={{ height: '20px' }} />
-              <div onClick={() => this.dispatchEditModal(i.entry_id, i.type, i.status)}>
-                <Typography variant="body1">{i.title}</Typography>
-              </div>
-            </div>
-        </ListItemText>
-      </ListItem>
-    )}
+    var row = []
+     Object.keys(this.props.calendar_entries).map((k, index) => {
+      if (k === this.props.entries_modal_id.entries_modal_id)
+        {
+          this.props.calendar_entries[k].forEach(entry => {
+            console.log(entry)
+            if (entry.type !== 'note')
+            {
+                var p = this.convertToIcon(entry)
+                var salt = Math.random()*1000
+                row.push(
+                  <ListItem key={entry+salt}>
+                    <ListItemText>
+                        <div className={this.props.classes.list_item_container}>
+                          <ReactSVG
+                            className={this.props.classes.entries_icon}
+                            src={p}
+                            svgStyle={{ height: '20px' }} />
+                          <div onClick={() => this.dispatchEditModal(entry.entry_id, entry.type, entry.status)}>
+                            <Typography variant="body1">{entry.title}</Typography>
+                          </div>
+                        </div>
+                    </ListItemText>
+                  </ListItem>
+                )
+            }
+          })
+        }
+    })
+    return row
   }
 
   render() {
+    if (this.props.calendar_entries)
+    {
+      var list = this.mapList()
+    }
     return(
       <div>
-        <Dialog onEnter={this.getMatch} open={this.props.entries_modal_status.entries_modal_status} onClose={this.props.handleModalClose}>
+        <Dialog onEnter={this.mapList} open={this.props.entries_modal_status.entries_modal_status} onClose={this.props.handleModalClose}>
           <div className={this.props.classes.close_container}>
             <Icon
               path={mdiClose}
@@ -178,9 +169,9 @@ class CalendarEntries extends React.Component {
             {this.props.entries_modal_id.entries_modal_id}
           </DialogTitle>
           <DialogContent>
-            <List dense={true}>
-                {this.state.entries.map(this.createList)}
-            </List>
+              <List dense={true}>
+                {list}
+              </List>
           </DialogContent>
         </Dialog>
       </div>

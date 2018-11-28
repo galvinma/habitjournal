@@ -409,12 +409,6 @@ class Journal extends React.Component {
             var start_date = moment.unix(bullet.start_date)
             var end_date = moment.unix(bullet.end_date)
 
-            console.log(bullet.title)
-            console.log("start time "+bullet.start_time)
-            console.log("end time "+bullet.end_time)
-            console.log("start date "+bullet.start_date)
-            console.log("end date "+bullet.end_date)
-
             while (moment(ref_date).isSameOrBefore(moment(end_date), 'days'))
             {
               var temp = Object.assign([], bullet);
