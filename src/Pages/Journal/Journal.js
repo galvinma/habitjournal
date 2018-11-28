@@ -168,10 +168,19 @@ class Journal extends React.Component {
     if (state === 'start')
     {
       let delta = this.state.startTime - this.state.startDate
+      let end_delta = this.state.endTime - this.state.endDate
       this.setState({
         startDate: moment(event).startOf('day').unix(),
         startTime: moment(event).startOf('day').unix()+delta
       })
+
+      if (this.state.checkedAllDay === false && this.state.checkedMultiDay === false)
+      {
+        this.setState({
+          endDate: moment(event).startOf('day').unix(),
+          endTime: moment(event).startOf('day').unix()+end_delta
+        })
+      }
     }
     else if (state === 'end')
     {
@@ -197,26 +206,6 @@ class Journal extends React.Component {
         endTime: moment(event).unix()
       })
     }
-  }
-
-  updateBulletTimes(id, event, state)
-  {
-    axios.post('http://127.0.0.1:5002/api/update_entry_time', {
-      params: {
-        entry_id: id,
-        new_time: moment(event).unix(),
-        state: state,
-      }
-    })
-    .then((response) => {
-      console.log(response)
-
-    })
-    .catch((error)=>{
-      console.log(error);
-    });
-
-    this.getBullets()
   }
 
   handleMultiDay(event)
@@ -277,8 +266,7 @@ class Journal extends React.Component {
   {
     this.setState({ checkedAllDay: event.target.checked });
 
-
-    // Reset the pickers on check...
+    // Reset the pickers...
     if (event.target.checked === true && this.state.checkedMultiDay === true)
     {
       this.setState({
@@ -293,6 +281,7 @@ class Journal extends React.Component {
       this.setState({
         startTime: moment.unix(this.state.startDate).startOf('day').unix(),
         endTime: moment.unix(this.state.startDate).endOf('day').unix(),
+        endDate: moment.unix(this.state.startDate).startOf('day').unix(),
       })
     }
     else if (event.target.checked === false && this.state.checkedMultiDay === true)
@@ -307,10 +296,10 @@ class Journal extends React.Component {
     {
       // Multi day is false, reset all
       this.setState({
-        startDate: moment().startOf('day').unix(),
-        endDate: moment().startOf('day').unix(),
-        startTime: moment().startOf('day').unix(),
-        endTime: moment().endOf('day').unix(),
+        startDate: moment.unix(this.state.startDate).startOf('day').unix(),
+        endDate: moment.unix(this.state.startDate).startOf('day').unix(),
+        startTime: moment.unix(this.state.startDate).startOf('day').unix(),
+        endTime: moment.unix(this.state.EndDate).endOf('day').unix(),
       })
     }
 
@@ -354,6 +343,13 @@ class Journal extends React.Component {
       endDate = moment.unix(this.state.startDate).startOf('day').unix()
       endTime = moment.unix(this.state.startDate).endOf('day').unix()
     }
+    else if (this.state.checkedMultiDay === true && this.state.checkedAllDay === false )
+    {
+      // Multi / Timed
+      // Use set values
+      endDate = this.state.endDate
+      endTime = this.state.endTime
+    }
     else if (this.state.checkedMultiDay === true && this.state.checkedAllDay === true )
     {
       // Multi Day / All Day
@@ -361,10 +357,11 @@ class Journal extends React.Component {
       endDate = this.state.endDate
       endTime = moment.unix(this.state.endDate).endOf('day').unix()
     }
-    else
+    else if (this.state.checkedMultiDay === false && this.state.checkedAllDay === false )
     {
-      // If not an All day event, use the selected times
-      endDate = this.state.endDate
+      // Single Day / Timed
+      // Set end date and time
+      endDate = moment.unix(this.state.startDate).startOf('day').unix()
       endTime = this.state.endTime
     }
 
@@ -476,6 +473,26 @@ class Journal extends React.Component {
       console.log(error);
     });
 
+  }
+
+  updateBulletTimes(id, event, state)
+  {
+    axios.post('http://127.0.0.1:5002/api/update_entry_time', {
+      params: {
+        entry_id: id,
+        new_time: moment(event).unix(),
+        state: state,
+      }
+    })
+    .then((response) => {
+      console.log(response)
+
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+
+    this.getBullets()
   }
 
   selectorChange(event)

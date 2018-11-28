@@ -74,6 +74,7 @@ router.route('/save_entry')
     entry.description = req.body.params.description || ""
     entry.status = "0"
     entry.multi_day = req.body.params.multi_day
+    entry.all_day = req.body.params.all_day
 
     entry.save(function(err) {
         if (err)
@@ -111,6 +112,7 @@ router.route('/remove_entry')
       var title = req.body.params.title
       var status = req.body.params.status
       var multi_day = req.body.params.multi_day
+      var all_day = req.body.params.all_day
 
       console.log("start time "+start_time)
       console.log("end time "+end_time)
