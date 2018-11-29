@@ -143,7 +143,7 @@ class BulletSelector extends React.Component {
               checked={this.props.checkedAllDay}
               onChange={(e) => this.props.handleAllDay(e)} />
             <div className={this.props.classes.selector_text}>
-              <Typography variant="body1">All day</Typography>
+              <Typography component={'span'} variant="body1">All day</Typography>
             </div>
             <Checkbox
               className={this.props.classes.check}
@@ -151,9 +151,9 @@ class BulletSelector extends React.Component {
               checked={this.props.checkedMultiDay}
               onChange={(e) => this.props.handleMultiDay(e)} />
             <div className={this.props.classes.selector_text}>
-              <Typography variant="body1">Multi day</Typography>
+              <Typography component={'span'} variant="body1">Multi day</Typography>
             </div>
-            <Typography variant="body1">
+            <Typography component={'span'} variant="body1">
               <MuiPickersUtilsProvider utils={MomentUtils}>
                   <DatePicker
                     className={this.props.classes.dateInput}
@@ -169,7 +169,7 @@ class BulletSelector extends React.Component {
                     onChange={(e) => this.props.dateChange(e, "start")}/>
               </MuiPickersUtilsProvider>
             </Typography>
-            <Typography variant="body1">
+            <Typography component={'span'} variant="body1">
               <MuiPickersUtilsProvider utils={MomentUtils}>
                   <TimePicker
                     id="timeone"
@@ -185,10 +185,10 @@ class BulletSelector extends React.Component {
             </Typography>
 
             <div id="to_spacer">
-              <Typography variant="body1">to</Typography>
+              <Typography component={'span'} variant="body1">to</Typography>
             </div>
 
-            <Typography variant="body1">
+            <Typography component={'span'} variant="body1">
               <MuiPickersUtilsProvider utils={MomentUtils}>
                   <DatePicker
                     className={this.props.classes.dateInput}
@@ -204,7 +204,7 @@ class BulletSelector extends React.Component {
                     onChange={(e) => this.props.dateChange(e, "end")}/>
               </MuiPickersUtilsProvider>
             </Typography>
-            <Typography variant="body1">
+            <Typography component={'span'} variant="body1">
               <MuiPickersUtilsProvider utils={MomentUtils}>
                   <TimePicker
                     id="timetwo"

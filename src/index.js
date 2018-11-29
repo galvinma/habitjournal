@@ -22,24 +22,14 @@ const theme = createMuiTheme({
     primary: { main: grey[900] },
     secondary: { main: grey[900] },
   },
-  overrides:{
+  overrides: {
     MuiInput: {
       underline: {
         '&:after': {
           borderBottom: '#FFFFFF',
           }
       },
-      typography: {
-        fontFamily: [
-          'Nunito',
-          'Nunito Sans',
-          'Montserrat',
-        ].join(','),
-      },
     },
-    // MuiInputLabel: {
-    //   color: grey[900],
-    // },
     MuiTableCell: {
       root: {
         "&:last-child": {
