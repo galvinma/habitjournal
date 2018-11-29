@@ -14,7 +14,7 @@ import BulletNavigator from '../.././Components/BulletList/BulletNavigator'
 import Key from '../.././Components/BulletList/Key'
 import JournalTabs from '../.././Components/Tabs/JournalTabs'
 
-// functions
+// Functions
 import { checkAuth } from '../.././Utils/checkauth'
 import { sortBulletObject } from '../.././Utils/sortbullets'
 import { dateChange } from '../.././Utils/datechange'
@@ -31,6 +31,9 @@ import { selectorChange } from '../.././Utils/selectorchange'
 import { checkSubmit } from '../.././Utils/checksubmit'
 import { titleChange } from '../.././Utils/titlechange'
 import { changeSelectedMonth } from '../.././Utils/changeselectedmonth'
+  // Habit Page Prep
+  import { getHabitEntries } from '../.././Utils/gethabitentries'
+  import { getHabits } from '../.././Utils/gethabits'
 
 // redux
 import store from '../.././Store/store'
@@ -125,6 +128,8 @@ class Journal extends React.Component {
     checkedMultiDay: false,
   }
 
+  checkAuth()
+
   this.changeSelectedMonth = changeSelectedMonth.bind(this)
   this.titleChange = titleChange.bind(this)
   this.removeBullet = removeBullet.bind(this)
@@ -139,12 +144,17 @@ class Journal extends React.Component {
   this.dateChange = dateChange.bind(this)
   this.handleAllDay = handleAllDay.bind(this)
   this.handleMultiDay = handleMultiDay.bind(this)
+
+  // Habit Page
+  this.getHabits = getHabits.bind(this)
+  this.getHabitEntries = getHabitEntries.bind(this)
   }
 
   componentDidMount()
   {
-    checkAuth()
     this.getBullets()
+    this.getHabits()
+    this.getHabitEntries()
   }
 
   shouldComponentUpdate(nextProps, nextState)

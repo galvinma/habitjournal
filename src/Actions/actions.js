@@ -37,3 +37,13 @@ export const getNavMonths = nav_months => ({
   type: "NAV_MONTHS",
   nav_months
 })
+
+export const getStoreHabits = habits => ({
+  type: "HABITS",
+  habits
+})
+
+export const getStoreHabitEntries = habit_entries => ({
+  type: "HABIT_ENTRIES",
+  habit_entries
+})

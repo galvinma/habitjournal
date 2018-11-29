@@ -7,6 +7,8 @@ import {  CURRENT_USER,
           CURRENT_ENTRY,
           ALL_ENTRIES,
           NAV_MONTHS,
+          HABITS,
+          HABIT_ENTRIES,
         }
 from "../Constants/action-types";
 
@@ -19,6 +21,8 @@ const initialState = {
   current_entry: {current_entry: null},
   all_entries: {all_entries: null},
   nav_months: {nav_months: null},
+  habits: {habits: null},
+  habit_entries: {habit_entries: null},
 };
 
 function rootReducer(state = initialState, action) {
@@ -39,6 +43,10 @@ function rootReducer(state = initialState, action) {
       return getAllEntries(state, action.all_entries)
     case NAV_MONTHS:
       return getNavMonths(state, action.nav_months)
+    case HABITS:
+      return getStoreHabits(state, action.habits)
+    case HABIT_ENTRIES:
+      return getStoreHabitEntries(state, action.habit_entries)
     default:
       return state;
   }
@@ -99,5 +107,20 @@ function getNavMonths(state, nav_months) {
     nav_months: nav_months
   }
 }
+
+function getStoreHabits(state, habits) {
+  return {
+    ...state,
+    habits: habits
+  }
+}
+
+function getStoreHabitEntries(state, habit_entries) {
+  return {
+    ...state,
+    habit_entries: habit_entries
+  }
+}
+
 
 export default rootReducer;

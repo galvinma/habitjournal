@@ -130,7 +130,6 @@ class HabitsTable extends React.Component {
         );
         count++
       }
-
     }
 
     return(
@@ -181,7 +180,7 @@ class HabitsTable extends React.Component {
                             id={"cell"+row.habit_id+"_"+dates_shortstamp[index]}
                             className={this.props.classes.cell_style}
                             key={row.title+index+date}
-                            onClick={(e) => this.props.toggleIcon(row.habit_id+"_"+dates_shortstamp[index])} >
+                            onClick={(e) => this.props.logHabit(row.habit_id+"_"+dates_shortstamp[index])} >
                           <Icon
                             key={row.title+index+"icon"+date}
                             path={mdiClose}

@@ -133,6 +133,7 @@ router.route('/log_habit')
         entry.start_time = req.body.params.start_time
         entry.end_time = req.body.params.end_time
         entry.multi_day = req.body.params.multi_day
+        entry.all_day = req.body.params.all_day
         entry.type = req.body.params.type
         entry.title = title[0].title
         entry.description = title[0].description
