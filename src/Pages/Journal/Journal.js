@@ -35,6 +35,7 @@ import { changeSelectedMonth } from '../.././Utils/changeselectedmonth'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
+import { getAllEntries, getNavMonths } from '../.././Actions/actions'
 
 // css
 import './Journal.css'
@@ -109,7 +110,7 @@ class Journal extends React.Component {
   super(props);
 
   this.state = {
-    bullets: {},
+    bullets: store.getState().all_entries.all_entries || {},
     title: '',
     type: 'task',
     selected: 'mdiSquareOutline',
@@ -119,7 +120,7 @@ class Journal extends React.Component {
     endDate: moment().startOf('day').unix(),
     startTime: moment().startOf('day').unix(),
     endTime: moment().endOf('day').unix(),
-    navigatorMonths: [],
+    navigatorMonths: store.getState().nav_months.nav_months || [],
     checkedAllDay: true,
     checkedMultiDay: false,
   }
@@ -223,7 +224,8 @@ Journal.propTypes = {
 const mapStateToProps = state => {
   return {
     auth_status: state.auth_status,
-    current_user: state.current_user
+    current_user: state.current_user,
+    all_entries: state.all_entries,
   }
 }
 

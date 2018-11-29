@@ -1,6 +1,13 @@
 import axios from 'axios';
 import moment from 'moment'
+
+// functions
 import { sortBulletObject } from './sortbullets'
+
+// redux
+import store from '.././Store/store'
+import { connect } from "react-redux";
+import { getAllEntries, getNavMonths } from '.././Actions/actions'
 
 export function getBullets()
 {
@@ -72,6 +79,15 @@ export function getBullets()
       bullets: new_bullets,
       navigatorMonths: new_months,
     })
+
+    store.dispatch(getAllEntries({
+      all_entries: new_bullets,
+    }))
+
+    store.dispatch(getNavMonths({
+      nav_months: new_months,
+    }))
+
 
   })
   .catch((error)=>{

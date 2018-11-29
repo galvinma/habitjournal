@@ -5,6 +5,8 @@ import {  CURRENT_USER,
           EDIT_ENTRIES_MODAL_STATE,
           ENTRIES_MODAL_ID,
           CURRENT_ENTRY,
+          ALL_ENTRIES,
+          NAV_MONTHS,
         }
 from "../Constants/action-types";
 
@@ -15,6 +17,8 @@ const initialState = {
   edit_entries_modal_status: {edit_entries_modal_status: false},
   entries_modal_id: {entries_modal_id: null},
   current_entry: {current_entry: null},
+  all_entries: {all_entries: null},
+  nav_months: {nav_months: null},
 };
 
 function rootReducer(state = initialState, action) {
@@ -31,6 +35,10 @@ function rootReducer(state = initialState, action) {
       return getEntriesModalID(state, action.entries_modal_id)
     case CURRENT_ENTRY:
       return getCurrentEntry(state, action.current_entry)
+    case ALL_ENTRIES:
+      return getAllEntries(state, action.all_entries)
+    case NAV_MONTHS:
+      return getNavMonths(state, action.nav_months)
     default:
       return state;
   }
@@ -75,6 +83,20 @@ function getCurrentEntry(state, current_entry) {
   return {
     ...state,
     current_entry: current_entry
+  }
+}
+
+function getAllEntries(state, all_entries) {
+  return {
+    ...state,
+    all_entries: all_entries
+  }
+}
+
+function getNavMonths(state, nav_months) {
+  return {
+    ...state,
+    nav_months: nav_months
   }
 }
 

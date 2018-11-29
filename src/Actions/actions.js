@@ -27,3 +27,13 @@ export const getCurrentEntry = current_entry => ({
   type: "CURRENT_ENTRY",
   current_entry
 })
+
+export const getAllEntries = all_entries => ({
+  type: "ALL_ENTRIES",
+  all_entries
+})
+
+export const getNavMonths = nav_months => ({
+  type: "NAV_MONTHS",
+  nav_months
+})
