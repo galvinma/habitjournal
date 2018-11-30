@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Icon from '@mdi/react'
 import Paper from '@material-ui/core/Paper';
 import { mdiCheck, mdiClose } from '@mdi/js'
+
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
@@ -20,6 +21,8 @@ import { createHabit } from '../.././Utils/createhabit'
 import { updateHabit } from '../.././Utils/updatehabit'
 import { deleteHabit } from '../.././Utils/deletehabit'
 import { logHabit } from '../.././Utils/loghabit'
+import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
+import { softUpdateHabitEntries } from '../.././Utils/softupdatehabitentries'
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -61,8 +64,8 @@ class Habits extends React.Component {
       editModalState: false,
       editValue: "",
       newValue: "",
-      habits: store.getState().habits.habits || [],
-      habit_entries: store.getState().habit_entries.habit_entries || [],
+      habits: store.getState().habits.habits,
+      habit_entries: store.getState().habit_entries.habit_entries,
     };
 
     checkAuth()
@@ -80,9 +83,16 @@ class Habits extends React.Component {
     this.updateHabit = updateHabit.bind(this)
     this.getHabits = getHabits.bind(this)
     this.getHabitEntries = getHabitEntries.bind(this)
+    this.renderLoggedHabits = renderLoggedHabits.bind(this)
+    this.softUpdateHabitEntries = softUpdateHabitEntries.bind(this)
   }
 
   componentDidMount()
+  {
+    this.renderLoggedHabits()
+  }
+
+  componentWillUnmount()
   {
     this.getHabits()
     this.getHabitEntries()
@@ -173,6 +183,7 @@ class Habits extends React.Component {
               getHabitEntries={this.getHabitEntries}
               handleModalOpen={this.handleModalOpen}
               logHabit={this.logHabit}
+              softUpdateHabitEntries={this.softUpdateHabitEntries}
               prevWeekHandler={this.prevWeekHandler}
               nextWeekHandler={this.nextWeekHandler} />
           </Paper>

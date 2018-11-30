@@ -8,6 +8,11 @@ export const getAuthStatus = auth_status => ({
   auth_status
 });
 
+export const getFirstLoadStatus = first_load => ({
+  type: "FIRST_LOAD",
+  first_load
+});
+
 export const getEntriesModalState = entries_modal_status => ({
   type: "ENTRIES_MODAL_STATE",
   entries_modal_status

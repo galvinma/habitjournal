@@ -24,36 +24,9 @@ export function getHabitEntries()
       }
     })
 
-    this.setState({
-      habit_entries: new_entries,
-    })
-
     store.dispatch(getStoreHabitEntries({
       habit_entries: new_entries,
     }))
-
-    new_entries.forEach(entry =>
-    {
-      var id = entry.habit_id+"_"+moment.unix(entry.start_date).format('YYYY-MM-DD')
-      if (document.getElementById(id))
-      {
-        if (entry.status === "1")
-        {
-          var cell = document.getElementById("cell"+id)
-          var svg = cell.firstChild
-          svg.firstChild.setAttribute("d",mdiCheck)
-        }
-      }
-      if (document.getElementById(id))
-      {
-        if (entry.status === "0")
-        {
-          var cell = document.getElementById("cell"+id)
-          var svg = cell.firstChild
-          svg.firstChild.setAttribute("d",mdiClose)
-        }
-      }
-    })
 
   })
   .catch((error)=>{

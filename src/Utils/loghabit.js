@@ -23,7 +23,7 @@ export function logHabit(id)
     }
   })
   .then((response) => {
-    this.getHabitEntries()
+    console.log(response)
   })
   .catch((error)=>{
     console.log(error);

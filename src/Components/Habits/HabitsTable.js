@@ -12,7 +12,12 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@mdi/react'
 import { mdiCheck, mdiClose, mdiPlus, mdiDotsVertical, mdiChevronLeft, mdiChevronRight} from '@mdi/js'
 
+// Components
 import NewHabit from '../.././Components/Modal/NewHabit'
+
+// redux
+import store from '../.././Store/store'
+import { connect } from "react-redux";
 
 const styles = theme => ({
   table_styles: {
@@ -75,6 +80,7 @@ class HabitsTable extends React.Component {
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+
   }
 
   componentWillUnmount() {
@@ -166,7 +172,7 @@ class HabitsTable extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.habits.map(row => {
+            {store.getState().habits.habits.map(row => {
               return (
                 <TableRow key={row.title} id={row.habit_id}>
                   <TableCell className={this.props.classes.cell_style} component="th" scope="row">
@@ -180,9 +186,13 @@ class HabitsTable extends React.Component {
                             id={"cell"+row.habit_id+"_"+dates_shortstamp[index]}
                             className={this.props.classes.cell_style}
                             key={row.title+index+date}
-                            onClick={(e) => this.props.logHabit(row.habit_id+"_"+dates_shortstamp[index])} >
+                            onClick={(e) => {
+                              this.props.logHabit(row.habit_id+"_"+dates_shortstamp[index])
+                              this.props.softUpdateHabitEntries(row.habit_id+"_"+dates_shortstamp[index])
+                              }}>
                           <Icon
                             key={row.title+index+"icon"+date}
+                            value="0"
                             path={mdiClose}
                             size={0.75}
                             id={row.habit_id+"_"+dates_shortstamp[index]}
@@ -215,5 +225,10 @@ HabitsTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+const mapStateToProps = state => {
+  return {
+    habit_entries: state.habit_entries,
+  }
+}
 
-export default withStyles(styles)(HabitsTable);
+export default connect(mapStateToProps)(withStyles(styles)(HabitsTable));

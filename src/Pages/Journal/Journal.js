@@ -34,11 +34,12 @@ import { changeSelectedMonth } from '../.././Utils/changeselectedmonth'
   // Habit Page Prep
   import { getHabitEntries } from '../.././Utils/gethabitentries'
   import { getHabits } from '../.././Utils/gethabits'
+  import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
 
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
-import { getAllEntries, getNavMonths } from '../.././Actions/actions'
+import { getAllEntries, getNavMonths, getFirstLoadStatus } from '../.././Actions/actions'
 
 // css
 import './Journal.css'
@@ -148,13 +149,27 @@ class Journal extends React.Component {
   // Habit Page
   this.getHabits = getHabits.bind(this)
   this.getHabitEntries = getHabitEntries.bind(this)
+  this.renderLoggedHabits = renderLoggedHabits.bind(this)
+
   }
 
   componentDidMount()
   {
+    if (store.getState().first_load.first_load === true)
+    {
+      this.getBullets()
+      this.getHabits()
+      this.getHabitEntries()
+
+      store.dispatch(getFirstLoadStatus({
+        first_load: false,
+      }))
+    }
+  }
+
+  componentWillUnmount()
+  {
     this.getBullets()
-    this.getHabits()
-    this.getHabitEntries()
   }
 
   shouldComponentUpdate(nextProps, nextState)

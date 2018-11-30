@@ -9,6 +9,7 @@ import {  CURRENT_USER,
           NAV_MONTHS,
           HABITS,
           HABIT_ENTRIES,
+          FIRST_LOAD,
         }
 from "../Constants/action-types";
 
@@ -21,8 +22,9 @@ const initialState = {
   current_entry: {current_entry: null},
   all_entries: {all_entries: null},
   nav_months: {nav_months: null},
-  habits: {habits: null},
-  habit_entries: {habit_entries: null},
+  habits: {habits: [] },
+  habit_entries: {habit_entries: [] },
+  first_load: {first_load: true}
 };
 
 function rootReducer(state = initialState, action) {
@@ -47,6 +49,8 @@ function rootReducer(state = initialState, action) {
       return getStoreHabits(state, action.habits)
     case HABIT_ENTRIES:
       return getStoreHabitEntries(state, action.habit_entries)
+    case FIRST_LOAD:
+      return getFirstLoadStatus(state, action.first_load)
     default:
       return state;
   }
@@ -63,6 +67,13 @@ function getAuthStatus(state, auth_status) {
   return {
     ...state,
     auth_status: auth_status
+  }
+}
+
+function getFirstLoadStatus(state, first_load) {
+  return {
+    ...state,
+    first_load: first_load
   }
 }
 
