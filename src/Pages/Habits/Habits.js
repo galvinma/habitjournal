@@ -58,14 +58,15 @@ class Habits extends React.Component {
   {
     super(props);
     this.state = {
+      count: 0,
       firstDayOfWeekDate: moment().startOf('week').format('YYYY-MM-DD'),
       edit_id: "",
       newModalState: false,
       editModalState: false,
       editValue: "",
       newValue: "",
-      habits: store.getState().habits.habits,
-      habit_entries: store.getState().habit_entries.habit_entries,
+      habits: this.props.habits.habits,
+      habit_entries: this.props.habit_entries.habit_entries,
     };
 
     checkAuth()
@@ -89,7 +90,10 @@ class Habits extends React.Component {
 
   componentDidMount()
   {
+    // Initial renderHabits call will check all entries in redux store
+    // Additional call in getHabitEntries will catch if the user toggles between routes quickly
     this.renderLoggedHabits()
+    this.getHabitEntries()
   }
 
   componentWillUnmount()

@@ -9,7 +9,7 @@ import { getStoreHabits, getStoreHabitEntries } from '.././Actions/actions'
 
 export function renderLoggedHabits()
 {
-  store.getState().habit_entries.habit_entries.forEach(entry =>
+  this.state.habit_entries.forEach(entry =>
   {
     var id = entry.habit_id+"_"+moment.unix(entry.start_date).format('YYYY-MM-DD')
     if (document.getElementById(id))
