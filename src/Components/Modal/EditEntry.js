@@ -281,7 +281,7 @@ class EditEntry extends React.Component {
     .then((response) => {
       this.props.handleModalClose("edit")
       this.props.getCalendarEntries()
-      this.props.removeOldEntries()
+      this.props.removeOldCalendarEntries()
     })
     .catch((error)=>{
       console.log(error);
@@ -319,7 +319,7 @@ class EditEntry extends React.Component {
     .then((response) => {
       this.props.handleModalClose("edit")
       this.props.getCalendarEntries()
-      this.props.removeOldEntries()
+      this.props.removeOldCalendarEntries()
     })
     .catch((error)=>{
       console.log(error);
