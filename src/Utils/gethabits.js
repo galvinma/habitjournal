@@ -19,6 +19,10 @@ export function getHabits()
       habs.push(habit)
     })
 
+    this.setState({
+      habits: habs,
+    })
+
     store.dispatch(getStoreHabits({
       habits: habs,
     }))

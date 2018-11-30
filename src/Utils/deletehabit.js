@@ -8,7 +8,6 @@ export function deleteHabit()
       }
     })
     .then((response) => {
-      console.log(response)
       this.handleModalClose()
       this.getHabits()
     })

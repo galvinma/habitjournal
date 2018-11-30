@@ -172,7 +172,7 @@ class HabitsTable extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {store.getState().habits.habits.map(row => {
+            {this.props.habits.map(row => {
               return (
                 <TableRow key={row.title} id={row.habit_id}>
                   <TableCell className={this.props.classes.cell_style} component="th" scope="row">
