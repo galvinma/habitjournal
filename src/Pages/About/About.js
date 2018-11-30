@@ -26,11 +26,13 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
+    minWidth: '80vw',
+    minHeight: '80vh',
+    maxWidth: '100vw',
     marginTop: '80px',
     marginBottom: '20px',
     marginLeft: '20px',
     marginRight: '20px',
-    minHeight: '80vh',
 
     [theme.breakpoints.down(768)]: {
       marginLeft: '8px',
@@ -39,7 +41,6 @@ const styles = theme => ({
     },
   },
   about_container: {
-    minHeight: '80vh',
     marginTop: '8px',
     marginLeft: '20px',
     marginRight: '20px',
