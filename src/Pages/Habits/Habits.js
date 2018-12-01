@@ -15,7 +15,7 @@ import { getStoreHabits, getStoreHabitEntries } from '../.././Actions/actions'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
-import { updateAllEntries } from '../.././Utils/updateallentries'
+import { updateAllUIEntries } from '../.././Utils/updatealluientries'
 import { getHabitEntries } from '../.././Utils/gethabitentries'
 import { getHabits } from '../.././Utils/gethabits'
 import { createHabit } from '../.././Utils/createhabit'
@@ -90,7 +90,7 @@ class Habits extends React.Component {
     this.getHabitEntries = getHabitEntries.bind(this)
     this.renderLoggedHabits = renderLoggedHabits.bind(this)
     this.softUpdateHabitEntries = softUpdateHabitEntries.bind(this)
-    this.updateAllEntries = updateAllEntries.bind(this)
+    this.updateAllUIEntries = updateAllUIEntries.bind(this)
   }
 
   componentDidMount()

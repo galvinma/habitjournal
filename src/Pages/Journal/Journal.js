@@ -16,14 +16,16 @@ import JournalTabs from '../.././Components/Tabs/JournalTabs'
 
 // Functions
 import { checkAuth } from '../.././Utils/checkauth'
+import { updateStoreEntry } from '../.././Utils/updatestoreentry'
+import { updateStoreEntryId } from '../.././Utils/updatestoreentryid'
 import { updateAllEntries } from '../.././Utils/updateallentries'
+import { updateAllUIEntries } from '../.././Utils/updatealluientries'
 import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
 import { sortBulletObject } from '../.././Utils/sortbullets'
 import { dateChange } from '../.././Utils/datechange'
 import { timeChange } from '../.././Utils/timechange'
 import { handleMultiDay } from '../.././Utils/handlemultiday'
 import { handleAllDay } from '../.././Utils/handleallday'
-import { blurHandler } from '../.././Utils/blurhandler'
 import { updateBulletTitle } from '../.././Utils/updatebullettitle'
 import { updateBulletTimes } from '../.././Utils/updatebullettimes'
 import { addBullet } from '../.././Utils/addbullet'
@@ -33,6 +35,7 @@ import { selectorChange } from '../.././Utils/selectorchange'
 import { checkSubmit } from '../.././Utils/checksubmit'
 import { titleChange } from '../.././Utils/titlechange'
 import { changeSelectedMonth } from '../.././Utils/changeselectedmonth'
+import { toggleIcon } from '../.././Utils/toggleicon'
   // Additional Page Prep
   import { getHabitEntries } from '../.././Utils/gethabitentries'
   import { getHabits } from '../.././Utils/gethabits'
@@ -130,6 +133,7 @@ class Journal extends React.Component {
     navigatorMonths: store.getState().nav_months.nav_months || [],
     checkedAllDay: true,
     checkedMultiDay: false,
+    IDCount: 0,
   }
 
   checkAuth()
@@ -141,15 +145,18 @@ class Journal extends React.Component {
   this.checkSubmit = checkSubmit.bind(this)
   this.selectorChange = selectorChange.bind(this)
   this.updateBulletTimes = updateBulletTimes.bind(this)
-  this.returnAllDatabaseEntries = returnAllDatabaseEntries.bind(this)
-  this.updateAllEntries = updateAllEntries.bind(this)
   this.addBullet = addBullet.bind(this)
   this.getBullets = getBullets.bind(this)
-  this.blurHandler = blurHandler.bind(this)
   this.timeChange = timeChange.bind(this)
   this.dateChange = dateChange.bind(this)
   this.handleAllDay = handleAllDay.bind(this)
   this.handleMultiDay = handleMultiDay.bind(this)
+  this.updateStoreEntry = updateStoreEntry.bind(this)
+  this.returnAllDatabaseEntries = returnAllDatabaseEntries.bind(this)
+  this.updateAllEntries = updateAllEntries.bind(this)
+  this.updateAllUIEntries = updateAllUIEntries.bind(this)
+  this.toggleIcon = toggleIcon.bind(this)
+  this.updateStoreEntryId = updateStoreEntryId.bind(this)
 
   // Other
   this.getHabits = getHabits.bind(this)
@@ -171,36 +178,7 @@ class Journal extends React.Component {
     }
     else
     {
-      this.returnAllDatabaseEntries()
-      .then((response) => {
-          this.getBullets()
-      })
-      .catch((error)=>{
-        console.log(error);
-      });
-    }
-
-    this.getHabits()
-  }
-
-  shouldComponentUpdate(nextProps, nextState)
-  {
-    if (nextState.bullets !== this.state.bullets ||
-        nextState.navigatorMonths !== this.state.navigatorMonths ||
-        nextState.selected !== this.state.selected ||
-        nextState.type !== this.state.type ||
-        nextState.startDate !== this.state.startDate ||
-        nextState.endDate !== this.state.endDate ||
-        nextState.startTime !== this.state.startTime ||
-        nextState.endTime !== this.state.endTime ||
-        nextState.checkedMultiDay !== this.state.checkedMultiDay ||
-        nextState.checkedAllDay !== this.state.checkedAllDay)
-    {
-      return true
-    }
-    else
-    {
-      return false
+      this.updateAllUIEntries()
     }
   }
 
@@ -238,7 +216,6 @@ class Journal extends React.Component {
                 removeBullet={this.removeBullet}
                 toggleIcon={this.toggleIcon}
                 getBullets={this.getBullets}
-                blurHandler={this.blurHandler}
                 updateBulletTitle={this.updateBulletTitle}
                 updateBulletTimes={this.updateBulletTimes}
                 updateAllEntries={this.updateAllEntries} />

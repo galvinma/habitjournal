@@ -32,7 +32,7 @@ import EditEntry from '../.././Components/Modal/EditEntry'
 import { checkAuth } from '../.././Utils/checkauth'
 import { convertToIcon } from '../.././Utils/convertoicon'
 import { toggleIcon } from '../.././Utils/toggleicon'
-import { updateAllEntries } from '../.././Utils/updateallentries'
+import { updateAllUIEntries } from '../.././Utils/updatealluientries'
 import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
 import { removeOldCalendarEntries } from '../.././Utils/removeoldcalendarentries'
 import { getCalendarEntries } from '../.././Utils/getcalendarentries'
@@ -145,7 +145,7 @@ class Calendar extends React.Component {
     this.nextMonthHandler = this.nextMonthHandler.bind(this)
     this.handleModalClose = this.handleModalClose.bind(this)
 
-    this.updateAllEntries = updateAllEntries.bind(this)
+    this.updateAllUIEntries = updateAllUIEntries.bind(this)
     this.returnAllDatabaseEntries = returnAllDatabaseEntries.bind(this)
     this.updateCalendarBody = updateCalendarBody.bind(this)
     this.removeOldCalendarEntries = removeOldCalendarEntries.bind(this)

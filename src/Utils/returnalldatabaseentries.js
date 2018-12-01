@@ -1,9 +1,6 @@
 import axios from 'axios';
 import moment from 'moment'
 
-// functions
-import { sortBulletObject } from './sortbullets'
-
 // redux
 import store from '.././Store/store'
 import { connect } from "react-redux";

@@ -28,7 +28,6 @@ import { DatePicker } from 'material-ui-pickers';
 import ReactSVG from 'react-svg'
 
 // functions
-import { toggleIcon } from '../.././Utils/toggleicon'
 import { convertToIcon } from '../../Utils/convertoicon'
 
 // CSS
@@ -117,7 +116,6 @@ class BulletList extends React.Component {
 
     this.createList = this.createList.bind(this);
     this.convertToIcon = convertToIcon.bind(this);
-    this.toggleIcon = toggleIcon.bind(this);
   }
 
   createList(i)
@@ -198,11 +196,7 @@ class BulletList extends React.Component {
         <div className="bullet-item">
           <div className={this.props.classes.bulletItem}>
              <ListItemIcon className={this.props.classes.list_selector}>
-                <Button onClick={(e) => {
-                  toggleIcon(i.entry_id, i.type, i.status)
-                  .then((response) => this.props.updateAllEntries())
-                  .catch((error) => console.log(error))
-                  }}>
+                <Button onClick={(e) => {this.props.toggleIcon(i.entry_id, i.type, i.status)}}>
                   <ReactSVG src={p} svgStyle={{ height: '20px' }}/>
                 </Button>
              </ListItemIcon>
@@ -210,8 +204,7 @@ class BulletList extends React.Component {
              <form>
                 <input
                 key={i.entry_id+i.type+i.title}
-                onChange={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
-                onBlur={this.props.blurHandler}
+                onBlur={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
                 className={this.props.classes.text_input}
                 type="text"
                 id={i.entry_id}

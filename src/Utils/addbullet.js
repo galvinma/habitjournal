@@ -1,6 +1,10 @@
 import axios from 'axios';
 import moment from 'moment'
 
+// redux
+import store from '.././Store/store'
+import { getAllEntries } from '.././Actions/actions'
+
 export function addBullet()
 {
   let endDate
@@ -35,11 +39,48 @@ export function addBullet()
     endTime = this.state.endTime
   }
 
+  let val = document.getElementById("bulletSelector").value
+  let temp_id = "TEMP_"+String(this.state.IDCount)
+
+  this.setState({ IDCount: this.state.IDCount + 1})
+
+  // Update UI
+
+  this.setState({
+    title: ""
+  });
+
+  document.getElementById("bulletSelector").value = ""
+
+  var entries = store.getState().all_entries.all_entries
+  entries.push({
+    entry_id: temp_id,
+    user_id: sessionStorage.getItem('user'),
+    type: this.state.type,
+    title: val,
+    start_date: this.state.startDate,
+    end_date: endDate,
+    start_time: this.state.startTime,
+    end_time: endTime,
+    multi_day: this.state.checkedMultiDay,
+    all_day: this.state.checkedAllDay,
+    habit_id: null,
+    description: "",
+    status: "0"
+  })
+
+  store.dispatch(getAllEntries({
+    all_entries: entries,
+  }))
+
+  this.updateAllUIEntries()
+
+  // Update DB
   axios.post('http://127.0.0.1:5002/api/save_entry', {
     params: {
       user: sessionStorage.getItem('user'),
       type: this.state.type,
-      title: this.state.title,
+      title: val,
       start_date: this.state.startDate,
       end_date: endDate,
       start_time: this.state.startTime,
@@ -49,18 +90,16 @@ export function addBullet()
     }
   })
   .then((response) => {
-    this.setState({
-      title: ""
-    });
-    document.getElementById("bulletSelector").value = ""
-
-    this.returnAllDatabaseEntries()
+    let parameters = {temp_id: temp_id, entry_id: response.data.entry_id}
+    this.updateStoreEntryId(parameters)
     .then((response) => {
-        this.getBullets()
+      this.updateAllUIEntries()
     })
-    .catch((error)=>{
+    .catch((error) => {
       console.log(error);
     });
+
+
   })
   .catch((error) => {
     console.log(error);
