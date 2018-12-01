@@ -7,17 +7,11 @@ import { sortBulletObject } from './sortbullets'
 // redux
 import store from '.././Store/store'
 import { connect } from "react-redux";
-import { getAllEntries, getNavMonths } from '.././Actions/actions'
+import { getStoreJournalEntries, getNavMonths } from '.././Actions/actions'
 
 export function getBullets()
 {
-  axios.post('http://127.0.0.1:5002/api/return_entries', {
-    params: {
-      user: sessionStorage.getItem('user'),
-    }
-  })
-  .then((response) => {
-    var res = response.data.entries
+    var res = store.getState().all_entries.all_entries
     var new_bullets = {}
     var new_months = []
     res.forEach(bullet => {
@@ -80,18 +74,11 @@ export function getBullets()
       navigatorMonths: new_months,
     })
 
-    store.dispatch(getAllEntries({
-      all_entries: new_bullets,
+    store.dispatch(getStoreJournalEntries({
+      journal_entries: new_bullets,
     }))
 
     store.dispatch(getNavMonths({
       nav_months: new_months,
     }))
-
-
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
-
 }

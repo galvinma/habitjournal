@@ -54,7 +54,13 @@ export function addBullet()
     });
     document.getElementById("bulletSelector").value = ""
 
-    this.getBullets()
+    this.returnAllDatabaseEntries()
+    .then((response) => {
+        this.getBullets()
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
   })
   .catch((error) => {
     console.log(error);

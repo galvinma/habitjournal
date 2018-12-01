@@ -227,7 +227,6 @@ HabitsTable.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    habit_entries: state.habit_entries,
   }
 }
 

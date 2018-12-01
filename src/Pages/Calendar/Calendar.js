@@ -32,9 +32,15 @@ import EditEntry from '../.././Components/Modal/EditEntry'
 import { checkAuth } from '../.././Utils/checkauth'
 import { convertToIcon } from '../.././Utils/convertoicon'
 import { toggleIcon } from '../.././Utils/toggleicon'
+import { updateAllEntries } from '../.././Utils/updateallentries'
+import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
 import { removeOldCalendarEntries } from '../.././Utils/removeoldcalendarentries'
 import { getCalendarEntries } from '../.././Utils/getcalendarentries'
 import { updateCalendarBody } from '../.././Utils/updatecalendarbody'
+  // Additional Page Prep
+  import { getHabitEntries } from '../.././Utils/gethabitentries'
+  import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
+  import { getBullets} from '../.././Utils/getbullets'
 
 // redux
 import store from '../.././Store/store'
@@ -125,7 +131,7 @@ class Calendar extends React.Component {
     checkAuth()
 
     this.state = {
-      calendar_entries: {},
+      calendar_entries:  store.getState().calendar_entries.calendar_entries || {},
       selectedMonth: moment().month(),
       firstDayOfMonthDate: moment().startOf('month').format('YYYY-MM-DD'),
       displayMonthYear: moment().format('MMMM YYYY'),
@@ -139,9 +145,16 @@ class Calendar extends React.Component {
     this.nextMonthHandler = this.nextMonthHandler.bind(this)
     this.handleModalClose = this.handleModalClose.bind(this)
 
+    this.updateAllEntries = updateAllEntries.bind(this)
+    this.returnAllDatabaseEntries = returnAllDatabaseEntries.bind(this)
     this.updateCalendarBody = updateCalendarBody.bind(this)
     this.removeOldCalendarEntries = removeOldCalendarEntries.bind(this)
     this.getCalendarEntries = getCalendarEntries.bind(this)
+
+    // Other
+    this.getBullets = getBullets.bind(this)
+    this.getHabitEntries = getHabitEntries.bind(this)
+    this.renderLoggedHabits = renderLoggedHabits.bind(this)
 
   }
 
@@ -162,6 +175,13 @@ class Calendar extends React.Component {
 
   componentDidMount() {
     this.getCalendarEntries()
+    this.returnAllDatabaseEntries()
+    .then((response) => {
+        this.getCalendarEntries()
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
   }
 
   handleModalClose(mode)

@@ -16,6 +16,8 @@ import JournalTabs from '../.././Components/Tabs/JournalTabs'
 
 // Functions
 import { checkAuth } from '../.././Utils/checkauth'
+import { updateAllEntries } from '../.././Utils/updateallentries'
+import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
 import { sortBulletObject } from '../.././Utils/sortbullets'
 import { dateChange } from '../.././Utils/datechange'
 import { timeChange } from '../.././Utils/timechange'
@@ -31,10 +33,11 @@ import { selectorChange } from '../.././Utils/selectorchange'
 import { checkSubmit } from '../.././Utils/checksubmit'
 import { titleChange } from '../.././Utils/titlechange'
 import { changeSelectedMonth } from '../.././Utils/changeselectedmonth'
-  // Habit Page Prep
+  // Additional Page Prep
   import { getHabitEntries } from '../.././Utils/gethabitentries'
   import { getHabits } from '../.././Utils/gethabits'
   import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
+  import { getCalendarEntries } from '../.././Utils/getcalendarentries'
 
 // redux
 import store from '../.././Store/store'
@@ -114,7 +117,7 @@ class Journal extends React.Component {
   super(props);
 
   this.state = {
-    bullets: store.getState().all_entries.all_entries || {},
+    bullets: store.getState().journal_entries.journal_entries,
     title: '',
     type: 'task',
     selected: 'mdiSquareOutline',
@@ -138,6 +141,8 @@ class Journal extends React.Component {
   this.checkSubmit = checkSubmit.bind(this)
   this.selectorChange = selectorChange.bind(this)
   this.updateBulletTimes = updateBulletTimes.bind(this)
+  this.returnAllDatabaseEntries = returnAllDatabaseEntries.bind(this)
+  this.updateAllEntries = updateAllEntries.bind(this)
   this.addBullet = addBullet.bind(this)
   this.getBullets = getBullets.bind(this)
   this.blurHandler = blurHandler.bind(this)
@@ -146,10 +151,11 @@ class Journal extends React.Component {
   this.handleAllDay = handleAllDay.bind(this)
   this.handleMultiDay = handleMultiDay.bind(this)
 
-  // Habit Page
+  // Other
   this.getHabits = getHabits.bind(this)
   this.getHabitEntries = getHabitEntries.bind(this)
   this.renderLoggedHabits = renderLoggedHabits.bind(this)
+  this.getCalendarEntries = getCalendarEntries.bind(this)
 
   }
 
@@ -157,19 +163,24 @@ class Journal extends React.Component {
   {
     if (store.getState().first_load.first_load === true)
     {
-      this.getBullets()
-      this.getHabits()
-      this.getHabitEntries()
+      this.updateAllEntries()
 
       store.dispatch(getFirstLoadStatus({
         first_load: false,
       }))
     }
-  }
+    else
+    {
+      this.returnAllDatabaseEntries()
+      .then((response) => {
+          this.getBullets()
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
+    }
 
-  componentWillUnmount()
-  {
-    this.getBullets()
+    this.getHabits()
   }
 
   shouldComponentUpdate(nextProps, nextState)
@@ -229,7 +240,8 @@ class Journal extends React.Component {
                 getBullets={this.getBullets}
                 blurHandler={this.blurHandler}
                 updateBulletTitle={this.updateBulletTitle}
-                updateBulletTimes={this.updateBulletTimes} />
+                updateBulletTimes={this.updateBulletTimes}
+                updateAllEntries={this.updateAllEntries} />
             </Paper>
           <Paper className={this.props.classes.month_container}>
             <JournalTabs

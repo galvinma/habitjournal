@@ -8,7 +8,13 @@ export function removeBullet(id)
     }
   })
   .then((response) => {
-    this.getBullets()
+    this.returnAllDatabaseEntries()
+    .then((response) => {
+        this.getBullets()
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
 
   })
   .catch((error)=>{

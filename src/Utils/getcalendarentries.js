@@ -5,7 +5,7 @@ import { mdiDotsHorizontal } from '@mdi/js'
 // redux
 import store from '.././Store/store'
 import { connect } from "react-redux";
-import { getEntriesModalState, getEntriesModalID, getEditEntriesModalState, getCurrentEntry } from '.././Actions/actions'
+import { getStoreCalendarEntries, getEntriesModalState, getEntriesModalID, getEditEntriesModalState, getCurrentEntry } from '.././Actions/actions'
 
 // Functions
 import { convertToIcon } from './convertoicon'
@@ -17,13 +17,7 @@ var weatherSunset = require('.././Images/Icons/weather-sunset.svg')
 
 export function getCalendarEntries()
 {
-  axios.post('http://127.0.0.1:5002/api/return_entries', {
-    params: {
-      user: sessionStorage.getItem('user'),
-    }
-  })
-  .then((response) => {
-    var res = response.data.entries
+    var res = store.getState().all_entries.all_entries
 
     var new_calendar_entries = {}
     res.forEach(bullet => {
@@ -73,11 +67,14 @@ export function getCalendarEntries()
         }
     })
 
+    store.dispatch(getStoreCalendarEntries({
+      calendar_entries: new_calendar_entries,
+    }))
+
     this.setState({
       calendar_entries: new_calendar_entries,
     }, () =>
       {
-        console.log(this.state.calendar_entries)
         for (var key in new_calendar_entries)
         {
           new_calendar_entries[key].forEach(entry => {
@@ -101,6 +98,8 @@ export function getCalendarEntries()
                 // This onclick method manipulates the icon appearance instead of rerendering the whole calendar. At a later date the class should use "shouldComponentUpdate" to selectively rerender edited entries.
                 svg.onclick = function() {
                     toggleIcon(entry.entry_id, entry.type, entry.status)
+                    .then((response) => _this.updateAllEntries())
+                    .catch((error) => console.log(error))
                     for (var key in _this.state.calendar_entries)
                     {
                       _this.state.calendar_entries[key].forEach(swap => {
@@ -258,5 +257,4 @@ export function getCalendarEntries()
           })
         }
     })
-  })
 }

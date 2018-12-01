@@ -15,6 +15,7 @@ import { getStoreHabits, getStoreHabitEntries } from '../.././Actions/actions'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
+import { updateAllEntries } from '../.././Utils/updateallentries'
 import { getHabitEntries } from '../.././Utils/gethabitentries'
 import { getHabits } from '../.././Utils/gethabits'
 import { createHabit } from '../.././Utils/createhabit'
@@ -23,6 +24,7 @@ import { deleteHabit } from '../.././Utils/deletehabit'
 import { logHabit } from '../.././Utils/loghabit'
 import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
 import { softUpdateHabitEntries } from '../.././Utils/softupdatehabitentries'
+import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -66,8 +68,8 @@ class Habits extends React.Component {
       editModalState: false,
       editValue: "",
       newValue: "",
-      habits: this.props.habits.habits,
-      habit_entries: this.props.habit_entries.habit_entries,
+      habits: store.getState().habits.habits,
+      habit_entries: store.getState().habit_entries.habit_entries,
     };
 
     checkAuth()
@@ -79,6 +81,7 @@ class Habits extends React.Component {
     this.prevWeekHandler = this.prevWeekHandler.bind(this)
     this.nextWeekHandler = this.nextWeekHandler.bind(this)
 
+    this.returnAllDatabaseEntries = returnAllDatabaseEntries.bind(this)
     this.createHabit = createHabit.bind(this)
     this.deleteHabit = deleteHabit.bind(this)
     this.logHabit = logHabit.bind(this)
@@ -87,6 +90,7 @@ class Habits extends React.Component {
     this.getHabitEntries = getHabitEntries.bind(this)
     this.renderLoggedHabits = renderLoggedHabits.bind(this)
     this.softUpdateHabitEntries = softUpdateHabitEntries.bind(this)
+    this.updateAllEntries = updateAllEntries.bind(this)
   }
 
   componentDidMount()
@@ -94,13 +98,14 @@ class Habits extends React.Component {
     // Initial renderHabits call will check all entries in redux store
     // Additional call in getHabitEntries will catch if the user toggles between routes quickly
     this.renderLoggedHabits()
-    this.getHabitEntries()
-  }
 
-  componentWillUnmount()
-  {
-    this.getHabits()
-    this.getHabitEntries()
+    this.returnAllDatabaseEntries()
+    .then((response) => {
+        this.getHabitEntries()
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
   }
 
   prevWeekHandler() {

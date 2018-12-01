@@ -9,13 +9,7 @@ import { getStoreHabitEntries } from '.././Actions/actions'
 
 export function getHabitEntries()
 {
-  axios.post('http://127.0.0.1:5002/api/return_entries', {
-    params: {
-      user: sessionStorage.getItem('user'),
-    }
-  })
-  .then((response) => {
-    var res = response.data.entries
+    var res = store.getState().all_entries.all_entries
     var new_entries = []
     res.forEach(entry => {
       if (entry.type === 'habit')
@@ -35,8 +29,4 @@ export function getHabitEntries()
       habit_entries: new_entries,
     }))
 
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
 }

@@ -200,7 +200,7 @@ class BulletList extends React.Component {
              <ListItemIcon className={this.props.classes.list_selector}>
                 <Button onClick={(e) => {
                   toggleIcon(i.entry_id, i.type, i.status)
-                  .then((response) => this.props.getBullets())
+                  .then((response) => this.props.updateAllEntries())
                   .catch((error) => console.log(error))
                   }}>
                   <ReactSVG src={p} svgStyle={{ height: '20px' }}/>

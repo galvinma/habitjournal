@@ -10,21 +10,26 @@ import {  CURRENT_USER,
           HABITS,
           HABIT_ENTRIES,
           FIRST_LOAD,
+          CALENDAR_ENTRIES,
+          JOURNAL_ENTRIES,
         }
+
 from "../Constants/action-types";
 
 const initialState = {
+  first_load: {first_load: true},
   current_user: {current_user: null},
   auth_status: {auth_status: false},
   entries_modal_status: {entries_modal_status: false},
   edit_entries_modal_status: {edit_entries_modal_status: false},
   entries_modal_id: {entries_modal_id: null},
   current_entry: {current_entry: null},
-  all_entries: {all_entries: null},
+  all_entries: {all_entries: []}  ,
   nav_months: {nav_months: null},
   habits: {habits: [] },
+  calendar_entries: {calendar_entries: {}},
   habit_entries: {habit_entries: [] },
-  first_load: {first_load: true}
+  journal_entries: {journal_entries: {}},
 };
 
 function rootReducer(state = initialState, action) {
@@ -49,6 +54,10 @@ function rootReducer(state = initialState, action) {
       return getStoreHabits(state, action.habits)
     case HABIT_ENTRIES:
       return getStoreHabitEntries(state, action.habit_entries)
+    case JOURNAL_ENTRIES:
+      return getStoreJournalEntries(state, action.journal_entries)
+    case CALENDAR_ENTRIES:
+      return getStoreCalendarEntries(state, action.calendar_entries)
     case FIRST_LOAD:
       return getFirstLoadStatus(state, action.first_load)
     default:
@@ -130,6 +139,20 @@ function getStoreHabitEntries(state, habit_entries) {
   return {
     ...state,
     habit_entries: habit_entries
+  }
+}
+
+function getStoreJournalEntries(state, journal_entries) {
+  return {
+    ...state,
+    journal_entries: journal_entries
+  }
+}
+
+function getStoreCalendarEntries(state, calendar_entries) {
+  return {
+    ...state,
+    calendar_entries: calendar_entries
   }
 }
 

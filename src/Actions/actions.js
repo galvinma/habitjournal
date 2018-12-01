@@ -52,3 +52,13 @@ export const getStoreHabitEntries = habit_entries => ({
   type: "HABIT_ENTRIES",
   habit_entries
 })
+
+export const getStoreCalendarEntries = calendar_entries => ({
+  type: "CALENDAR_ENTRIES",
+  calendar_entries
+})
+
+export const getStoreJournalEntries = journal_entries => ({
+  type: "JOURNAL_ENTRIES",
+  journal_entries
+})

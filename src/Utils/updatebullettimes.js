@@ -18,5 +18,11 @@ export function updateBulletTimes(id, event, state)
     console.log(error);
   });
 
-  this.getBullets()
+  this.returnAllDatabaseEntries()
+  .then((response) => {
+      this.getBullets()
+  })
+  .catch((error)=>{
+    console.log(error);
+  });
 }
