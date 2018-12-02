@@ -28,7 +28,7 @@ import { handleMultiDay } from '../.././Utils/handlemultiday'
 import { handleAllDay } from '../.././Utils/handleallday'
 import { updateBulletTitle } from '../.././Utils/updatebullettitle'
 import { updateBulletTimes } from '../.././Utils/updatebullettimes'
-import { addBullet } from '../.././Utils/addbullet'
+import { addEntry } from '../.././Utils/addentry'
 import { removeBullet} from '../.././Utils/removebullet'
 import { getBullets } from '../.././Utils/getbullets'
 import { selectorChange } from '../.././Utils/selectorchange'
@@ -145,7 +145,7 @@ class Journal extends React.Component {
   this.checkSubmit = checkSubmit.bind(this)
   this.selectorChange = selectorChange.bind(this)
   this.updateBulletTimes = updateBulletTimes.bind(this)
-  this.addBullet = addBullet.bind(this)
+  this.addEntry = addEntry.bind(this)
   this.getBullets = getBullets.bind(this)
   this.timeChange = timeChange.bind(this)
   this.dateChange = dateChange.bind(this)
@@ -171,6 +171,7 @@ class Journal extends React.Component {
     if (store.getState().first_load.first_load === true)
     {
       this.updateAllEntries()
+      this.getHabits()
 
       store.dispatch(getFirstLoadStatus({
         first_load: false,
@@ -195,7 +196,7 @@ class Journal extends React.Component {
                 checkSubmit={this.checkSubmit}
                 selectorChange={this.selectorChange}
                 titleChange={this.titleChange}
-                addBullet={this.addBullet}
+                addEntry={this.addEntry}
                 dateChange={this.dateChange}
                 timeChange={this.timeChange}
                 handleAllDay={this.handleAllDay}

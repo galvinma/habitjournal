@@ -25,6 +25,10 @@ import { logHabit } from '../.././Utils/loghabit'
 import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
 import { softUpdateHabitEntries } from '../.././Utils/softupdatehabitentries'
 import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
+import { updateStoreEntryId } from '../.././Utils/updatestoreentryid'
+  // Additional Page Prep
+  import { getBullets } from '../.././Utils/getbullets'
+  import { getCalendarEntries } from '../.././Utils/getcalendarentries'
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -61,7 +65,8 @@ class Habits extends React.Component {
   {
     super(props);
     this.state = {
-      count: 0,
+      IDCount: 0,
+      type: 'habit',
       firstDayOfWeekDate: moment().startOf('week').format('YYYY-MM-DD'),
       edit_id: "",
       newModalState: false,
@@ -91,21 +96,17 @@ class Habits extends React.Component {
     this.renderLoggedHabits = renderLoggedHabits.bind(this)
     this.softUpdateHabitEntries = softUpdateHabitEntries.bind(this)
     this.updateAllUIEntries = updateAllUIEntries.bind(this)
+    this.updateStoreEntryId = updateStoreEntryId.bind(this)
+
+    // Other
+    this.getBullets = getBullets.bind(this)
+    this.getCalendarEntries = getCalendarEntries.bind(this)
   }
 
   componentDidMount()
   {
-    // Initial renderHabits call will check all entries in redux store
-    // Additional call in getHabitEntries will catch if the user toggles between routes quickly
+    this.updateAllUIEntries()
     this.renderLoggedHabits()
-
-    this.returnAllDatabaseEntries()
-    .then((response) => {
-        this.getHabitEntries()
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
   }
 
   prevWeekHandler() {

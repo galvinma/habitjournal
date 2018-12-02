@@ -5,7 +5,7 @@ import moment from 'moment'
 import store from '.././Store/store'
 import { getAllEntries } from '.././Actions/actions'
 
-export function addBullet()
+export function addEntry()
 {
   let endDate
   let endTime
