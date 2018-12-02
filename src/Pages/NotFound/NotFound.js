@@ -12,34 +12,48 @@ import { checkAuth } from '../.././Utils/checkauth'
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
+import NotFoundCard from '../.././Components/Cards/NotFoundCard'
 
-const methods = {
 
-};
+// css
+import './NotFound.css'
+import '../.././Images/Prompt.css'
+
+// Images
+var not_found = require('../.././Images/404.svg')
 
 const styles = theme => ({
-  root: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
+  journal_container: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-  },
-});
+    flexDirection: 'row',
+    minWidth: '80vw',
+    marginTop: '80px',
+    marginBottom: '20px',
+    marginLeft: '20px',
+    marginRight: '20px',
+}})
 
 class NotFound extends React.Component {
   constructor(props)
   {
     super(props);
+
+    checkAuth()
   }
 
   render() {
-    return(
+    if (store.getState().auth_status.auth_status === false) {
+      return <Redirect to='/' />
+    }
+    return (
       <div>
-        <p>404</p>
+        <InternalNavBar />
+        <NotFoundCard />
+        <div id="block_one"/>
+        <div id="block_two"/>
+        <svg viewBox="0 0 100 100" id="not_found" alt="" style ={{ backgroundImage: "url("+not_found+")"}}/>
       </div>
-    );
+    )
   }
 }
 

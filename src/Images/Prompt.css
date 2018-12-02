@@ -10,6 +10,18 @@
   bottom: 0px;
 }
 
+#not_found
+{
+  z-index: -100;
+  background-attachment: fixed;
+  position: fixed;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  left: 0px;
+  bottom: 0px;
+}
+
 #block_one
 {
   z-index: -150;
