@@ -25,7 +25,7 @@ const initialState = {
   entries_modal_id: {entries_modal_id: null},
   current_entry: {current_entry: null},
   all_entries: {all_entries: []}  ,
-  nav_months: {nav_months: null},
+  nav_months: {nav_months: []},
   habits: {habits: [] },
   calendar_entries: {calendar_entries: {}},
   habit_entries: {habit_entries: [] },

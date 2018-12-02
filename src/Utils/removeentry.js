@@ -4,7 +4,7 @@ import axios from 'axios';
 import store from '.././Store/store'
 import { getAllEntries } from '.././Actions/actions'
 
-export function removeBullet(id)
+export function removeEntry(id)
 {
   // UI
   let entries = store.getState().all_entries.all_entries

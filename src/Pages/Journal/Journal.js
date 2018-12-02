@@ -29,7 +29,7 @@ import { handleAllDay } from '../.././Utils/handleallday'
 import { updateBulletTitle } from '../.././Utils/updatebullettitle'
 import { updateBulletTimes } from '../.././Utils/updatebullettimes'
 import { addEntry } from '../.././Utils/addentry'
-import { removeBullet} from '../.././Utils/removebullet'
+import { removeEntry} from '../.././Utils/removeentry'
 import { getBullets } from '../.././Utils/getbullets'
 import { selectorChange } from '../.././Utils/selectorchange'
 import { checkSubmit } from '../.././Utils/checksubmit'
@@ -130,7 +130,7 @@ class Journal extends React.Component {
     endDate: moment().startOf('day').unix(),
     startTime: moment().startOf('day').unix(),
     endTime: moment().endOf('day').unix(),
-    navigatorMonths: store.getState().nav_months.nav_months || [],
+    navigatorMonths: store.getState().nav_months.nav_months,
     checkedAllDay: true,
     checkedMultiDay: false,
     IDCount: 0,
@@ -140,7 +140,7 @@ class Journal extends React.Component {
 
   this.changeSelectedMonth = changeSelectedMonth.bind(this)
   this.titleChange = titleChange.bind(this)
-  this.removeBullet = removeBullet.bind(this)
+  this.removeEntry = removeEntry.bind(this)
   this.updateBulletTitle = updateBulletTitle.bind(this)
   this.checkSubmit = checkSubmit.bind(this)
   this.selectorChange = selectorChange.bind(this)
@@ -214,7 +214,7 @@ class Journal extends React.Component {
                 checkedMultiDay={this.state.checkedMultiDay} />
               <BulletList
                 bullets={this.state.bullets}
-                removeBullet={this.removeBullet}
+                removeEntry={this.removeEntry}
                 toggleIcon={this.toggleIcon}
                 getBullets={this.getBullets}
                 updateBulletTitle={this.updateBulletTitle}
@@ -241,6 +241,7 @@ const mapStateToProps = state => {
     auth_status: state.auth_status,
     current_user: state.current_user,
     all_entries: state.all_entries,
+    journal_entries: state.journal_entries,
   }
 }
 

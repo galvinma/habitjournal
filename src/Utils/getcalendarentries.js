@@ -97,38 +97,9 @@ export function getCalendarEntries()
 
                 // This onclick method manipulates the icon appearance instead of rerendering the whole calendar. At a later date the class should use "shouldComponentUpdate" to selectively rerender edited entries.
                 svg.onclick = function() {
-                    toggleIcon(entry.entry_id, entry.type, entry.status)
-                    .then((response) => _this.updateAllEntries())
-                    .catch((error) => console.log(error))
-                    for (var key in _this.state.calendar_entries)
+                    if (entry.type !== 'habit')
                     {
-                      _this.state.calendar_entries[key].forEach(swap => {
-                        if (entry.entry_id === swap.entry_id)
-                        {
-                          if (swap.status === "0")
-                          {
-                            var l = document.getElementsByClassName(swap.entry_id)
-                            for (var i = 0; i < l.length; i++)
-                            {
-                              var s = l[i]
-                              swap.status = "1"
-                              type = convertToIcon(swap)
-                              s.setAttribute("src", type)
-                            }
-                          }
-                          else
-                          {
-                            var l = document.getElementsByClassName(swap.entry_id)
-                            for (var i = 0; i < l.length; i++)
-                            {
-                              var s = l[i]
-                              swap.status = "0"
-                              type = convertToIcon(swap)
-                              s.setAttribute("src", type)
-                            }
-                          }
-                        }
-                      })
+                      _this.toggleIcon(entry.entry_id, entry.type, entry.status)                      
                     }
                 };
 

@@ -23,7 +23,6 @@ import { updateHabit } from '../.././Utils/updatehabit'
 import { deleteHabit } from '../.././Utils/deletehabit'
 import { logHabit } from '../.././Utils/loghabit'
 import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
-import { softUpdateHabitEntries } from '../.././Utils/softupdatehabitentries'
 import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
 import { updateStoreEntryId } from '../.././Utils/updatestoreentryid'
   // Additional Page Prep
@@ -94,7 +93,6 @@ class Habits extends React.Component {
     this.getHabits = getHabits.bind(this)
     this.getHabitEntries = getHabitEntries.bind(this)
     this.renderLoggedHabits = renderLoggedHabits.bind(this)
-    this.softUpdateHabitEntries = softUpdateHabitEntries.bind(this)
     this.updateAllUIEntries = updateAllUIEntries.bind(this)
     this.updateStoreEntryId = updateStoreEntryId.bind(this)
 
@@ -106,7 +104,6 @@ class Habits extends React.Component {
   componentDidMount()
   {
     this.updateAllUIEntries()
-    this.renderLoggedHabits()
   }
 
   prevWeekHandler() {
@@ -194,7 +191,6 @@ class Habits extends React.Component {
               getHabitEntries={this.getHabitEntries}
               handleModalOpen={this.handleModalOpen}
               logHabit={this.logHabit}
-              softUpdateHabitEntries={this.softUpdateHabitEntries}
               prevWeekHandler={this.prevWeekHandler}
               nextWeekHandler={this.nextWeekHandler} />
           </Paper>

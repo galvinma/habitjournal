@@ -216,7 +216,7 @@ class BulletList extends React.Component {
                 className="bullet-delete"
                 path={mdiClose}
                 size={0.75}
-                onClick={(e) => this.props.removeBullet(i.entry_id)} />
+                onClick={(e) => this.props.removeEntry(i.entry_id)} />
              </ListItemIcon>
 
            </div>

@@ -37,6 +37,10 @@ import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries
 import { removeOldCalendarEntries } from '../.././Utils/removeoldcalendarentries'
 import { getCalendarEntries } from '../.././Utils/getcalendarentries'
 import { updateCalendarBody } from '../.././Utils/updatecalendarbody'
+import { updateStoreEntryId } from '../.././Utils/updatestoreentryid'
+import { updateStoreEntry } from '../.././Utils/updatestoreentry'
+import { updateAllEntries } from '../.././Utils/updateallentries'
+
   // Additional Page Prep
   import { getHabitEntries } from '../.././Utils/gethabitentries'
   import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
@@ -131,7 +135,7 @@ class Calendar extends React.Component {
     checkAuth()
 
     this.state = {
-      calendar_entries:  store.getState().calendar_entries.calendar_entries || {},
+      calendar_entries: store.getState().calendar_entries.calendar_entries,
       selectedMonth: moment().month(),
       firstDayOfMonthDate: moment().startOf('month').format('YYYY-MM-DD'),
       displayMonthYear: moment().format('MMMM YYYY'),
@@ -150,6 +154,10 @@ class Calendar extends React.Component {
     this.updateCalendarBody = updateCalendarBody.bind(this)
     this.removeOldCalendarEntries = removeOldCalendarEntries.bind(this)
     this.getCalendarEntries = getCalendarEntries.bind(this)
+    this.toggleIcon = toggleIcon.bind(this)
+    this.updateStoreEntryId = updateStoreEntryId.bind(this)
+    this.updateStoreEntry = updateStoreEntry.bind(this)
+    this.updateAllEntries = updateAllEntries.bind(this)
 
     // Other
     this.getBullets = getBullets.bind(this)
@@ -159,29 +167,22 @@ class Calendar extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.selectedMonth !== this.state.selectedMonth ||
-        nextState.firstDayOfMonthDate !== this.state.firstDayOfMonthDate ||
-        nextState.displayMonthYear !== this.state.displayMonthYear ||
-        nextState.daysInMonth !== this.state.daysInMonth ||
-        nextState.calendar_entries !== this.state.calendar_entries)
-    {
-      return true
-    }
-    else
-    {
-      return false
-    }
-  }
+   if (nextState.selectedMonth !== this.state.selectedMonth ||
+       nextState.firstDayOfMonthDate !== this.state.firstDayOfMonthDate ||
+       nextState.displayMonthYear !== this.state.displayMonthYear ||
+       nextState.daysInMonth !== this.state.daysInMonth ||
+       nextState.calendar_entries !== this.state.calendar_entries)
+   {
+     return true
+   }
+   else
+   {
+     return false
+   }
+}
 
   componentDidMount() {
-    this.getCalendarEntries()
-    this.returnAllDatabaseEntries()
-    .then((response) => {
-        this.getCalendarEntries()
-    })
-    .catch((error)=>{
-      console.log(error);
-    });
+    this.updateAllUIEntries()
   }
 
   handleModalClose(mode)
@@ -210,10 +211,10 @@ class Calendar extends React.Component {
       firstDayOfMonthDate: moment(this.state.firstDayOfMonthDate).subtract(1, 'months').format('YYYY-MM-DD'),
       displayMonthYear: moment(this.state.firstDayOfMonthDate).subtract(1, 'months').format('MMMM YYYY'),
       daysInMonth: moment(this.state.firstDayOfMonthDate).subtract(1, 'months').daysInMonth(),
+    }, () => {
+      this.updateCalendarBody()
+      this.getCalendarEntries()
     })
-
-    this.updateCalendarBody()
-    this.getCalendarEntries()
   }
 
   nextMonthHandler() {
@@ -225,10 +226,10 @@ class Calendar extends React.Component {
       firstDayOfMonthDate: moment(this.state.firstDayOfMonthDate).add(1, 'months').format('YYYY-MM-DD'),
       displayMonthYear: moment(this.state.firstDayOfMonthDate).add(1, 'months').format('MMMM YYYY'),
       daysInMonth: moment(this.state.firstDayOfMonthDate).add(1, 'months').daysInMonth(),
+    }, () => {
+      this.updateCalendarBody()
+      this.getCalendarEntries()
     })
-
-    this.updateCalendarBody()
-    this.getCalendarEntries()
   }
 
   render() {
@@ -280,7 +281,9 @@ Calendar.propTypes = {
 const mapStateToProps = state => {
   return {
     auth_status: state.auth_status,
-    current_user: state.current_user
+    current_user: state.current_user,
+    all_entries: state.all_entries,
+    calendar_entries: state.calendar_entries,
   }
 }
 
