@@ -118,12 +118,12 @@ class CalendarEntries extends React.Component {
 
   mapList()
   {
+    let entries = store.getState().calendar_entries.calendar_entries
     var row = []
-     Object.keys(this.props.calendar_entries).map((k, index) => {
+     Object.keys(entries).map((k, index) => {
       if (k === this.props.entries_modal_id.entries_modal_id)
         {
-          this.props.calendar_entries[k].forEach(entry => {
-            console.log(entry)
+          entries[k].forEach(entry => {
             if (entry.type !== 'note')
             {
                 var p = this.convertToIcon(entry)
@@ -151,7 +151,7 @@ class CalendarEntries extends React.Component {
   }
 
   render() {
-    if (this.props.calendar_entries)
+    if (store.getState().calendar_entries.calendar_entries)
     {
       var list = this.mapList()
     }

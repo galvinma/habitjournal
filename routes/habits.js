@@ -106,6 +106,7 @@ router.route('/log_habit')
         }
         res.json({
           entry_id: entry.entry_id,
+          title: entry.title
         });
       })
     }
@@ -138,6 +139,7 @@ router.route('/log_habit')
             }
             res.json({
               entry_id: entry.entry_id,
+              title: entry.title
             });
         });
       })

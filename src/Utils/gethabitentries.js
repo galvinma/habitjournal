@@ -21,7 +21,6 @@ export function getHabitEntries()
     this.setState({
       habit_entries: new_entries,
     }, () => {
-      // This call catches if the user toggles between routes quickly and the original dispatch call had not competed
       this.renderLoggedHabits()
     })
 
@@ -29,4 +28,5 @@ export function getHabitEntries()
       habit_entries: new_entries,
     }))
 
+    this.renderLoggedHabits()
 }

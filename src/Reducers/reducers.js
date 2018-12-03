@@ -28,7 +28,7 @@ const initialState = {
   nav_months: {nav_months: []},
   habits: {habits: [] },
   calendar_entries: {calendar_entries: {}},
-  habit_entries: {habit_entries: [] },
+  habit_entries: {habit_entries: []},
   journal_entries: {journal_entries: {}},
 };
 
@@ -155,6 +155,5 @@ function getStoreCalendarEntries(state, calendar_entries) {
     calendar_entries: calendar_entries
   }
 }
-
 
 export default rootReducer;

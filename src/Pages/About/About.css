@@ -1,4 +1,4 @@
-#about_flower
+/* #about_flower
 {
   z-index: 100;
   position: fixed;
@@ -6,4 +6,20 @@
   height: 70%;
   background-repeat: no-repeat;
   background-position: right bottom;
+} */
+
+#ether, #btc, #coffee
+{
+    list-style: none;
+}
+
+ul#donation_list
+{
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+#coffee_span
+{
+  margin-left:5px;
 }

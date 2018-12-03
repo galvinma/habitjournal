@@ -48,6 +48,10 @@ const styles = theme => ({
   img_containter: {
     marginLeft: 'auto'
   },
+  link: {
+    textDecoration: 'underline',
+    color: 'inherit'
+  }
 });
 
 class About extends React.Component {
@@ -68,13 +72,55 @@ class About extends React.Component {
         <InternalNavBar />
         <Paper className={this.props.classes.root}>
           <div className={this.props.classes.about_container}>
-            <div className={this.props.classes.img_containter}>
-              <img id="about_flower" alt="" style ={ { backgroundImage: "url("+flower+")" } }/>
-            </div>
-            <Typography component="div" variant="headline">What is Daisy Journal?</Typography>
-            <Typography component="div" variant="body1">
-            Daisy Journal is open source planning software.
+            <Typography component="div" variant="headline">
+              What is Daisy Journal?
             </Typography>
+            <Typography component="div" variant="body1">
+              Daisy Journal is open source life planning software.
+            </Typography>
+            <br />
+            <Typography component="div" variant="headline">
+              How do you use Daisy Journal?
+            </Typography>
+            <Typography component="div" variant="body1">
+              Daisy Journal allows for easy habit logging and event tracking. The interface currently consists of three tabs:
+                <ul>
+                  <li>Journal</li>
+                  <li>Habits</li>
+                  <li>Calendar</li>
+                </ul>
+              The Journal page allows for the creation of tasks, events, notes, and appointments. The Habits page is for tracking reoccurring life events. The Calendar gives an overview of completed and due tasks at the month level.
+              <br />
+              Take a few minutes each morning to plan your day. What do you want to accomplish? On a weekly basis view your habit frequency. Are you reaching your goals?
+
+            </Typography>
+            <br />
+            <Typography component="div" variant="headline">
+              Is it free?
+            </Typography>
+            <Typography component="div" variant="body1">
+              Yes, and it always will be.
+            </Typography>
+            <br />
+            <Typography component="div" variant="headline">
+              Is it private?
+            </Typography>
+            <Typography component="div" variant="body1">
+              Yes. Daisy Journal was built for people, not profit. Daisy Journal will never sell your data.
+            </Typography>
+            <br />
+            <Typography component="div" variant="headline">
+              How can I contribute?
+            </Typography>
+            <Typography component="div" variant="body1">
+              There are a number of ways to help build the community.
+              <ul>
+                <li>If you are a software developer, consider submitting a pull request on <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">github</a>.</li>
+                <li>Have an idea on how to make Daisy Journal better? Send the development team an <a className={this.props.classes.link} href="mailto:daisyjournal.development@gmail.com">email</a>.</li>
+                <li>Daisy Journal is run on donations. If you have the means, please consider donating to the development team.</li>
+              </ul>
+            </Typography>
+
           </div>
         </Paper>
       </div>

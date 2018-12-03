@@ -22,6 +22,7 @@ import { createHabit } from '../.././Utils/createhabit'
 import { updateHabit } from '../.././Utils/updatehabit'
 import { deleteHabit } from '../.././Utils/deletehabit'
 import { logHabit } from '../.././Utils/loghabit'
+import { removeEntry} from '../.././Utils/removeentry'
 import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
 import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
 import { updateStoreEntryId } from '../.././Utils/updatestoreentryid'
@@ -89,6 +90,7 @@ class Habits extends React.Component {
     this.createHabit = createHabit.bind(this)
     this.deleteHabit = deleteHabit.bind(this)
     this.logHabit = logHabit.bind(this)
+    this.removeEntry = removeEntry.bind(this)
     this.updateHabit = updateHabit.bind(this)
     this.getHabits = getHabits.bind(this)
     this.getHabitEntries = getHabitEntries.bind(this)
@@ -208,7 +210,7 @@ const mapStateToProps = state => {
     auth_status: state.auth_status,
     current_user: state.current_user,
     habits: state.habits,
-    habit_entries: state.habit_entries,
+    habit_entries: state.habit_entries
   }
 }
 

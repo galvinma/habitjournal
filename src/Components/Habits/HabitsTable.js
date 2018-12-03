@@ -187,7 +187,7 @@ class HabitsTable extends React.Component {
                             className={this.props.classes.cell_style}
                             key={row.title+index+date}
                             onClick={(e) => {
-                              let updates = {habit_id: row.habit_id, start_date: dates_shortstamp[index]}
+                              let updates = {habit_id: row.habit_id, start_date: dates_shortstamp[index], title: row.title}
                               this.props.logHabit(updates)
                               }}>
                           <Icon

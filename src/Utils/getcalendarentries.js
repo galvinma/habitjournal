@@ -99,7 +99,7 @@ export function getCalendarEntries()
                 svg.onclick = function() {
                     if (entry.type !== 'habit')
                     {
-                      _this.toggleIcon(entry.entry_id, entry.type, entry.status)                      
+                      _this.toggleIcon(entry.entry_id, entry.type, entry.status)
                     }
                 };
 

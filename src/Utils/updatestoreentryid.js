@@ -1,6 +1,6 @@
 // redux
 import store from '.././Store/store'
-import { getAllEntries } from '.././Actions/actions'
+import { getAllEntries, getHabitsClickLock } from '.././Actions/actions'
 
 export function updateStoreEntryId(...parameters)
 {
@@ -10,6 +10,12 @@ export function updateStoreEntryId(...parameters)
       if (parameters[0].temp_id === entry.entry_id)
       {
         entry.entry_id = parameters[0].entry_id
+      }
+
+      // Update the UI entry ID
+      if (document.getElementById(parameters[0].temp_id))
+      {
+        document.getElementById(parameters[0].temp_id).setAttribute("id", parameters[0].entry_id)
       }
     })
 
