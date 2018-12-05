@@ -45,6 +45,7 @@ import { updateAllEntries } from '../.././Utils/updateallentries'
   import { getHabitEntries } from '../.././Utils/gethabitentries'
   import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
   import { getBullets} from '../.././Utils/getbullets'
+  import { removeEntry} from '../.././Utils/removeentry'
 
 // redux
 import store from '../.././Store/store'
@@ -163,6 +164,7 @@ class Calendar extends React.Component {
     this.getBullets = getBullets.bind(this)
     this.getHabitEntries = getHabitEntries.bind(this)
     this.renderLoggedHabits = renderLoggedHabits.bind(this)
+    this.removeEntry = removeEntry.bind(this)
 
   }
 
@@ -179,7 +181,7 @@ class Calendar extends React.Component {
    {
      return false
    }
-}
+ }
 
   componentDidMount() {
     this.updateAllUIEntries()
@@ -245,7 +247,9 @@ class Calendar extends React.Component {
               handleModalOpen={this.handleModalOpen}
               handleModalClose={this.handleModalClose}
               getCalendarEntries={this.getCalendarEntries}
-              removeOldCalendarEntries={this.removeOldCalendarEntries}/>
+              removeOldCalendarEntries={this.removeOldCalendarEntries}
+              removeEntry={this.removeEntry}
+              updateAllUIEntries={this.updateAllUIEntries} />
           <CalendarEntries
               handleModalOpen={this.handleModalOpen}
               handleModalClose={this.handleModalClose}

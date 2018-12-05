@@ -10,7 +10,6 @@ export function renderLoggedHabits()
 {
   store.getState().habit_entries.habit_entries.forEach(entry =>
   {
-    console.log(entry.entry_id)
     var id = entry.habit_id+"_"+moment.unix(entry.start_date).format('YYYY-MM-DD')
     if (document.getElementById(id))
     {

@@ -28,6 +28,13 @@ import {  mdiClose,
 
 // functions
 import { convertToIconStringNoMult } from '../.././Utils/convertoiconstring_entryedit'
+import { dateChange } from '../.././Utils/datechange'
+import { timeChange } from '../.././Utils/timechange'
+import { handleMultiDay } from '../.././Utils/handlemultiday'
+import { handleAllDay } from '../.././Utils/handleallday'
+import { selectorChangeWithStatus } from '../.././Utils/selectorchangewithstatus'
+import { updateStoreEntry } from '../.././Utils/updatestoreentry'
+import { updateAllUIEntries } from '../.././Utils/updatealluientries'
 
 // redux
 import store from '../.././Store/store'
@@ -160,23 +167,30 @@ class EditEntry extends React.Component {
       entry: null,
       selected: "",
       type: "",
-      start_date: "",
-      end_date: "",
-      start_time: "",
-      end_time: "",
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
       title: "",
       status: "",
       multi_day: null,
+      all_day: null,
       checkedAllDay: false,
       checkedMultiDay: false,
     }
+
     this.convertToIconStringNoMult = convertToIconStringNoMult.bind(this)
-    this.selectorChange = this.selectorChange.bind(this)
+    this.selectorChangeWithStatus = selectorChangeWithStatus.bind(this)
     this.resetState = this.resetState.bind(this)
     this.getMatch = this.getMatch.bind(this)
     this.updateEntry = this.updateEntry.bind(this)
-    this.deleteEntry = this.deleteEntry.bind(this)
     this.blurHandler = this.blurHandler.bind(this)
+    this.dateChange = dateChange.bind(this)
+    this.timeChange = timeChange.bind(this)
+    this.handleAllDay = handleAllDay.bind(this)
+    this.handleMultiDay = handleMultiDay.bind(this)
+    this.updateStoreEntry = updateStoreEntry.bind(this)
+    this.updateAllUIEntries = updateAllUIEntries.bind(this)
   }
 
   getMatch()
@@ -185,69 +199,117 @@ class EditEntry extends React.Component {
     {
       var res = store.getState().current_entry.current_entry
 
-      if ((moment.unix(res.start_time).startOf('day').unix() === moment.unix(res.start_time).unix()) &&
-          (moment.unix(res.end_time).endOf('day').unix() === moment.unix(res.end_time).unix()))
-      {
-        this.setState({
-          checkedAllDay: true,
-        })
-
-        var l = document.getElementsByClassName("time_pick")
-        for (var i = 0; i < l.length; i++)
-        {
-         l[i].style.display = "none"
-        }
-     }
-     else
-     {
-        this.setState({
-          checkedAllDay: false,
+    if (res.all_day === true)
+    {
+      this.setState({
+        checkedAllDay: true,
       })
+    }
+    else
+    {
+      this.setState({
+        checkedAllDay: false,
+      })
+    }
+
+    if (res.multi_day === true)
+    {
+      this.setState({
+        checkedMultiDay: true,
+      })
+    }
+    else
+    {
+      this.setState({
+      checkedMultiDay: false,
+      })
+    }
+
+    // Set UI toggles on modal
+    var l = document.getElementsByClassName("time_pick")
+
+    if (res.multi_day === true && res.all_day === true)
+    {
+      if (document.getElementById("to_spacer"))
+      {
+        document.getElementById("to_spacer").style.display = "inline-block"
+      }
+
+      if (document.getElementById("datetwo"))
+      {
+        document.getElementById("datetwo").style.display = "inline-block"
+      }
 
       var l = document.getElementsByClassName("time_pick")
       for (var i = 0; i < l.length; i++)
-        {
-         l[i].style.display = "inline-block"
-        }
-
-        document.getElementById("to_spacer").style.display = "inline-block"
+      {
+       l[i].style.display = "none"
+      }
+    }
+    else if (res.multi_day === false && res.all_day === true)
+    {
+      if (document.getElementById("to_spacer"))
+      {
+        document.getElementById("to_spacer").style.display = "none"
       }
 
-      if (res.multi_day === true)
+      if (document.getElementById("datetwo"))
       {
-        this.setState({
-          checkedMultiDay: true,
-        })
-
-        document.getElementById("datetwo").style.display = "inline-block"
-      }
-      else
-      {
-        this.setState({
-          checkedMultiDay: false,
-      })
-
         document.getElementById("datetwo").style.display = "none"
       }
 
-      if (res.multi_day === true)
+      for (var i = 0; i < l.length; i++)
+      {
+       l[i].style.display = "none"
+      }
+    }
+    else if (res.multi_day === true && res.all_day === false)
+    {
+      if (document.getElementById("to_spacer"))
       {
         document.getElementById("to_spacer").style.display = "inline-block"
       }
 
+      if (document.getElementById("datetwo"))
+      {
+        document.getElementById("datetwo").style.display = "inline-block"
+      }
 
+      for (var i = 0; i < l.length; i++)
+      {
+       l[i].style.display = "inline-block"
+      }
+    }
+    else if (res.multi_day === false && res.all_day === false)
+    {
+      if (document.getElementById("to_spacer"))
+      {
+        document.getElementById("to_spacer").style.display = "inline-block"
+      }
+
+      if (document.getElementById("datetwo"))
+      {
+        document.getElementById("datetwo").style.display = "none"
+      }
+
+      for (var i = 0; i < l.length; i++)
+      {
+       l[i].style.display = "inline-block"
+      }
+    }
       this.setState({
         reference: res.start_date,
         entry: res,
         selected: this.convertToIconStringNoMult(res),
         type: res.type,
-        start_date: res.start_date,
-        end_date: res.end_date,
-        start_time: res.start_time,
-        end_time: res.end_time,
+        startDate: res.start_date,
+        endDate: res.end_date,
+        startTime: res.start_time,
+        endTime: res.end_time,
         title: res.title,
         status: res.status,
         multi_day: res.multi_day,
+        all_day: res.all_day,
       })
     }
   }
@@ -259,172 +321,94 @@ class EditEntry extends React.Component {
       entry: null,
       selected: "",
       type: "",
-      start_date: "",
-      end_date: "",
-      start_time: "",
-      end_time: '',
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: '',
       title: "",
       status: "",
       multi_day: null,
-      checkedAllDay: true,
+      all_day: null,
+      checkedAllDay: false,
       checkedMultiDay: false,
     })
   }
 
-  deleteEntry()
-  {
-    axios.post('http://127.0.0.1:5002/api/remove_entry', {
-      params: {
-        entry_id: store.getState().entries_modal_id.entries_modal_id
-      }
-    })
-    .then((response) => {
-      this.props.handleModalClose("edit")
-      this.props.getCalendarEntries()
-      this.props.removeOldCalendarEntries()
-    })
-    .catch((error)=>{
-      console.log(error);
-    });
-  }
-
   updateEntry()
   {
-    var end
-    var multi_day
-    if (this.state.checkedMultiDay === false)
+    let endDate
+    let endTime
+    if (this.state.checkedMultiDay === false && this.state.checkedAllDay === true)
     {
-      end = this.state.start_date
-      multi_day = false
+      // Single Day / All Day
+      // Set end date and time
+      endDate = moment.unix(this.state.startDate).startOf('day').unix()
+      endTime = moment.unix(this.state.startDate).endOf('day').unix()
     }
-    else
+    else if (this.state.checkedMultiDay === true && this.state.checkedAllDay === false )
     {
-      end = this.state.end_date
-      multi_day = true
+      // Multi / Timed
+      // Use set values
+      endDate = this.state.endDate
+      endTime = this.state.endTime
+    }
+    else if (this.state.checkedMultiDay === true && this.state.checkedAllDay === true )
+    {
+      // Multi Day / All Day
+      // Set end time
+      endDate = this.state.endDate
+      endTime = moment.unix(this.state.endDate).endOf('day').unix()
+    }
+    else if (this.state.checkedMultiDay === false && this.state.checkedAllDay === false )
+    {
+      // Single Day / Timed
+      // Set end date and time
+      endDate = moment.unix(this.state.startDate).startOf('day').unix()
+      endTime = this.state.endTime
     }
 
+    // Update UI
+    let parameters = {
+      entry_id: store.getState().entries_modal_id.entries_modal_id,
+      type: this.state.type,
+      start_date: this.state.startDate,
+      end_date: endDate,
+      start_time: this.state.startTime,
+      end_time: endTime,
+      title: this.state.title,
+      status: this.state.status,
+      multi_day: this.state.checkedMultiDay,
+      all_day: this.state.checkedAllDay,
+    }
+    this.updateStoreEntry(parameters)
+    .then((response) => {
+      this.props.updateAllUIEntries()
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    // Update DB
     axios.post('http://127.0.0.1:5002/api/update_entry', {
       params: {
         entry_id: store.getState().entries_modal_id.entries_modal_id,
         type: this.state.type,
-        start_date: this.state.start_date,
-        end_date: end,
-        start_time: this.state.start_time,
-        end_time: this.state.end_time,
+        start_date: this.state.startDate,
+        end_date: endDate,
+        start_time: this.state.startTime,
+        end_time: endTime,
         title: this.state.title,
         status: this.state.status,
-        multi_day: multi_day,
+        multi_day: this.state.checkedMultiDay,
+        all_day: this.state.checkedAllDay,
       }
     })
     .then((response) => {
       this.props.handleModalClose("edit")
-      this.props.getCalendarEntries()
-      this.props.removeOldCalendarEntries()
     })
     .catch((error)=>{
       console.log(error);
     });
-  }
-
-  selectorChange(event)
-  {
-    this.setState({
-      selected: event.target.value }
-    );
-
-    if (event.target.value === 'checkboxBlankCircleOutline' || event.target.value === "checkboxMultipleBlankCircleOutline")
-    {
-      this.setState({
-        type: 'event',
-        status: '0',
-      })
-    }
-
-    if (event.target.value === 'checkboxBlankCircle' || event.target.value === "checkboxMultipleBlankCircle")
-    {
-      this.setState({
-        type: 'event',
-        status: '1',
-      })
-    }
-
-    if (event.target.value === 'checkboxBlankOutline' || event.target.value === "checkboxMultipleBlankOutline")
-    {
-      this.setState({
-        type: 'task',
-        status: '0',
-      })
-    }
-
-    if (event.target.value === 'checkboxBlank' || event.target.value === "checkboxMultipleBlank")
-    {
-      this.setState({
-        type: 'task',
-        status: '1',
-      })
-    }
-
-    if (event.target.value === 'checkboxBlankTriangleOutline' || event.target.value === "checkboxMultipleBlankTriangleOutline")
-    {
-      this.setState({
-        type: 'appointment',
-        status: '0',
-      })
-    }
-
-    if (event.target.value === 'checkboxBlankTriangle' || event.target.value === "checkboxMultipleBlankTriangle")
-    {
-      this.setState({
-        type: 'appointment',
-        status: '1',
-      })
-    }
-
-  };
-
-  blurHandler()
-  {
-    this.getBullets()
-  }
-
-  dateChange(event, state)
-  {
-    if (state === 'start')
-    {
-      let delta = this.state.start_time - this.state.start_date
-      this.setState({
-        start_date: moment(event).unix(),
-        start_date: moment(event).unix()+delta
-      })
-    }
-    else if (state === 'end')
-    {
-      let delta = this.state.end_time - this.state.end_date
-      this.setState({
-        end_date: moment(event).unix(),
-        end_time: moment(event).unix()+delta
-      })
-    }
-  }
-
-  timeChange(event, state)
-  {
-    if (state === 'start')
-    {
-      var delta = moment(event).unix() - this.state.reference
-      var utc = moment.unix(this.state.start_date).startOf('day').unix() + delta
-      this.setState({
-        start_time: moment.unix(utc).unix()
-      })
-    }
-    else if (state === 'end')
-    {
-      var delta = moment(event).unix() - this.state.reference
-      var utc = moment.unix(this.state.end_date).startOf('day').unix() + delta
-      this.setState({
-        end_time: moment.unix(utc).unix()
-      })
-    }
   }
 
   blurHandler(event)
@@ -433,70 +417,6 @@ class EditEntry extends React.Component {
       title: event.target.value
     });
   }
-
-
-  handleMultiDay(event)
-  {
-    if (event.target.checked === true)
-    {
-      document.getElementById("datetwo").style.display = "inline-block"
-    }
-    else
-    {
-      document.getElementById("datetwo").style.display = "none"
-    }
-
-    this.setState({
-      checkedMultiDay: event.target.checked,
-      multi_day: event.target.checked,
-    });
-
-    if (this.state.checkedAllDay === false || event.target.checked === true)
-    {
-      document.getElementById("to_spacer").style.display = "inline-block"
-    }
-    else
-    {
-      document.getElementById("to_spacer").style.display = "none"
-    }
-  };
-
-  handleAllDay(event)
-  {
-    if (event.target.checked === true)
-    {
-       var l = document.getElementsByClassName("time_pick")
-       for (var i = 0; i < l.length; i++)
-       {
-        l[i].style.display = "none"
-       }
-
-       this.setState({
-         start_time: moment(this.state.start_date).startOf('day').unix(),
-         end_time: moment(this.state.end_date).endOf('day').unix(),
-       })
-
-    }
-    else
-    {
-      var l = document.getElementsByClassName("time_pick")
-      for (var i = 0; i < l.length; i++)
-      {
-       l[i].style.display = "inline-block"
-      }
-    }
-
-    this.setState({ checkedAllDay: event.target.checked });
-
-    if (event.target.checked === false || this.state.checkedMultiDay === true)
-    {
-      document.getElementById("to_spacer").style.display = "inline-block"
-    }
-    else
-    {
-      document.getElementById("to_spacer").style.display = "none"
-    }
-  };
 
   render() {
     if (this.state.entry)
@@ -527,7 +447,7 @@ class EditEntry extends React.Component {
                   <FormControl>
                     <Select
                       value={this.state.selected}
-                      onChange={(e) => this.selectorChange(e)}
+                      onChange={(e) => this.selectorChangeWithStatus(e)}
                       disableUnderline={true}
                     >
                       <MenuItem value="checkboxBlankOutline">
@@ -591,7 +511,7 @@ class EditEntry extends React.Component {
                             input: this.props.classes.selector_datepicker_style,
                           }
                         }}
-                        value={moment.unix(this.state.start_date).format('YYYY-MM-DD')}
+                        value={moment.unix(this.state.startDate).format('YYYY-MM-DD')}
                         onChange={(e) => this.dateChange(e, "start")}/>
                   </MuiPickersUtilsProvider>
                 </Typography>
@@ -600,7 +520,7 @@ class EditEntry extends React.Component {
                       <TimePicker
                         id="timeone"
                         class="time_pick"
-                        value={moment.unix(this.state.start_time)}
+                        value={moment.unix(this.state.startTime)}
                         onChange={(e) => this.timeChange(e, "start")}
                         InputProps={{
                         classes: {
@@ -626,7 +546,7 @@ class EditEntry extends React.Component {
                             input: this.props.classes.selector_datepicker_style,
                           }
                         }}
-                        value={moment.unix(this.state.end_date).format('YYYY-MM-DD')}
+                        value={moment.unix(this.state.endDate).format('YYYY-MM-DD')}
                         onChange={(e) => this.dateChange(e, "end")}/>
                   </MuiPickersUtilsProvider>
                 </Typography>
@@ -636,7 +556,7 @@ class EditEntry extends React.Component {
                         id="timetwo"
                         class="time_pick"
                         className={this.props.classes.timeInput}
-                        value={moment.unix(this.state.end_time)}
+                        value={moment.unix(this.state.endTime)}
                         onChange={(e) => this.timeChange(e, "end")}
                         InputProps={{
                         classes: {
@@ -649,7 +569,11 @@ class EditEntry extends React.Component {
             </List>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.deleteEntry} color="primary">
+            <Button onClick={(e) => {
+                  this.props.removeEntry(store.getState().entries_modal_id.entries_modal_id)
+                  this.props.handleModalClose("edit")
+                }}
+                color="primary">
               <Typography variant="body1">Delete</Typography>
             </Button>
             <Button onClick={() => this.props.handleModalClose("edit")} color="primary">
