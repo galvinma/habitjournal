@@ -26,8 +26,8 @@ class CalendarBody extends React.Component {
   render() {
     const row = this.props.updateCalendarBody()
     return(
-      <div>
-        <div id="calendar_content" className={this.props.classes.calendar_row_container}>{row}</div>
+      <div id="calendar_content" className={this.props.classes.calendar_row_container}>
+        {row}
       </div>
     );
   }

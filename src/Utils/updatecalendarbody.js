@@ -17,11 +17,9 @@ export function updateCalendarBody()
   while (offset_count <= row_offset) {
     var salt = Math.random()*1000
     row.push(
-      <div key={count+month+daysInMonth+salt}>
-          <Typography component="div" variant="body1" className={this.props.classes.typo_width}>
+      <div key={count+month+daysInMonth+salt} className={this.props.classes.typo_width}>
             <div className={this.props.classes.hidden}>{offset_count}</div>
             <div className={this.props.classes.calendar_list}></div>
-        </Typography>
       </div>
     );
     offset_count++
@@ -32,15 +30,13 @@ export function updateCalendarBody()
     var date = String(moment().date(count).format('D'));
     var date_to_compare = String(moment().month(this.state.selectedMonth).date(count).format(`dddd, MMMM Do, YYYY`));
     row.push(
-        <div key={count+date+month+daysInMonth+salt}>
-            <Typography component="div" variant="body2" className={this.props.classes.typo_width}>
-              <div class="count_style">{count}</div>
+        <div key={count+date+month+daysInMonth+salt} className={this.props.classes.typo_width}>
+              <div class="count_style">
+                {count}
+              </div>
               <div className={this.props.classes.calendar_list} id={date_to_compare}></div>
-              <div
-                className={this.props.classes.list_footer_container}
-                id={"footer"+date_to_compare}
-                value={date_to_compare}></div>
-          </Typography>
+              <div class="list_footer_container" id={"footer"+date_to_compare} value={date_to_compare}>
+              </div>
         </div>
     );
     count++

@@ -79,9 +79,9 @@ class CalendarHeader extends React.Component {
     while (day_name_count < 7) {
         col_headers.push(
           <div key={day_names[day_name_count]} className={this.props.classes.calendar_header_names}>
-            <Typography variant="body1" className={this.props.classes.typo_width}>
+            <div class="week_names">
               {day_names[day_name_count]}
-            </Typography>
+            </div>
           </div>
         );
       day_name_count++

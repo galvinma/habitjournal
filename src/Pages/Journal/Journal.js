@@ -55,7 +55,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     minWidth: '80vw',
-    marginTop: '80px',
+    marginTop: '20px',
     marginBottom: '20px',
     marginLeft: '20px',
     marginRight: '20px',
@@ -64,7 +64,7 @@ const styles = theme => ({
       flexDirection: 'column',
       marginLeft: '8px',
       marginRight: '8px',
-      marginTop: '64px',
+      marginTop: '8px',
     },
   },
   bullet_container: {

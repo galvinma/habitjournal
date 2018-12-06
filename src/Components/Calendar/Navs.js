@@ -8,16 +8,13 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   calendar_title_containter: {
-    marginTop: '2vh',
-    marginBottom: '2vh',
+    marginTop: '8px',
+    marginBottom: '8px',
     display: 'flex',
     alignContent: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
     width: '70vw',
-  },
-  calendar_title: {
-    display: 'inline-block',
-    verticalAlign: 'middle',
   },
   calendar_navs: {
     display: 'inline-block',
@@ -28,12 +25,6 @@ const styles = theme => ({
     verticalAlign: 'middle',
     marginLeft: 'auto',
   },
-  date_title: {
-    [theme.breakpoints.down(768)]: {
-      fontSize: '20px',
-      verticalAlign: 'middle',
-    },
-  }
 });
 
 class Navs extends React.Component {
@@ -48,16 +39,14 @@ class Navs extends React.Component {
     return(
       <div>
         <div className={this.props.classes.calendar_title_containter}>
-          <Icon className={this.props.classes.calendar_navs} path={mdiChevronLeft} size={1.2} onClick={(e) => this.props.prevMonthHandler()}/>
-          <div className={this.props.classes.calendar_title}>
-            <Typography variant="headline" className={this.props.classes.date_title}>
+          <Icon class="calendar_navs" path={mdiChevronLeft} size={1} onClick={(e) => this.props.prevMonthHandler()}/>
+            <div class="date_title">
               {this.props.displayMonthYear}
-            </Typography>
-          </div>
-          <Icon className={this.props.classes.calendar_navs} path={mdiChevronRight} size={1.2} onClick={(e) => this.props.nextMonthHandler()}/>
+            </div>
+          <Icon class="calendar_navs" path={mdiChevronRight} size={1} onClick={(e) => this.props.nextMonthHandler()}/>
         </div>
       </div>
-    );
+    )
   }
 }
 

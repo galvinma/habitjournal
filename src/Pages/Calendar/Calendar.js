@@ -79,25 +79,30 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '80px',
+    marginTop: '20px',
     marginBottom: '20px',
     marginLeft: '20px',
     marginRight: '20px',
+    height: 'calc(100vh - 132px)',
 
     [theme.breakpoints.down(768)]: {
       marginLeft: '8px',
       marginRight: '8px',
-      marginTop: '64px',
+      marginTop: '8px',
+      height: 'calc(100vh - 96px)'
     },
   },
   typo_width: {
     width: '12.8vw',
+    height: '16.5%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flexStart'
   },
   calendar_list: {
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'left',
-    height: '10vh',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     listStyle: 'none',
@@ -109,12 +114,10 @@ const styles = theme => ({
     marginRight: '2px',
   },
   list_footer_container: {
-    height: '1em',
+    marginTop: 'auto',
     position: 'relative',
-    height: '1em',
     clear: 'both',
     width: '100%',
-    paddingBottom: '5px',
   },
   calendar_header_names: {
     flexGrow: 1,

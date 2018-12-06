@@ -34,7 +34,6 @@ const styles = theme => ({
     borderColor: 'transparent',
     border: 'none',
     boxShadow: 'none',
-    height: '40px',
     width: '100%',
     position: 'static',
   },
@@ -46,6 +45,7 @@ const styles = theme => ({
     [theme.breakpoints.down(768)]: {
       marginLeft: '8px',
       marginRight: '8px',
+      marginTop: '8px',
     },
   },
   toolbar_open: {

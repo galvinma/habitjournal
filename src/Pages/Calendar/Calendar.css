@@ -1,9 +1,12 @@
+#calendar_content
+{
+  height: calc(100vh - 200px);
+}
+
 .calendar_icons {
   vertical-align: sub;
   padding-right: 2px;
   padding-left: 0px;
-  max-height: 16px;
-  min-height: 16px;
 }
 
 .calendar_text
@@ -13,24 +16,17 @@
   vertical-align: middle;
   position: relative;
   clear: both;
-  min-height: 25%;
-}
-
-.footer_icon
-{
-  height: 1em,
-}
-
-.list_footer {
-  height: 1em;
 }
 
 .entry_time {
+  font-family: Nunito,Nunito Sans,Montserrat;
   padding-right: 5px;
   font-weight: 500;
 }
 
-.entry_text {
+.entry_text
+{
+  font-family: Nunito,Nunito Sans,Montserrat;
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -38,31 +34,103 @@
   text-overflow: ellipsis;
 }
 
-.count_style {
-  line-height: 1.5em;
+.count_style
+{
+  font-weight: 500;
+  margin-left: 2px;
 }
 
+.date_title
+{
+  font-family: Nunito,Nunito Sans,Montserrat;
+  vertical-align: middle;
+}
 
-@media only screen and (max-width: 768px) {
-.calendar_text, .entry_time, .count_style
+.week_names
+{
+  font-family: Nunito,Nunito Sans,Montserrat;
+}
+
+.footer_icon
+{
+  vertical-align: middle;
+  height: 90%;
+  max-height: 16px;
+  font-size: 90%;
+}
+
+.list_footer_container
+{
+  margin-top: auto;
+  clear: both;
+  width: 100%;
+}
+
+.calendar_text, .entry_time, .entry_text
   {
-    font-size: 12px;
+    font-size: 90%;
   }
 .calendar_icons
   {
-    max-height: 12px;
-    min-height: 12px;
+    height: 90%;
+    max-height: 16px;
+  }
+.week_names, .count_style
+{
+  font-size: 90%;
+}
+
+@media only screen and (min-height: 500px) {
+  .calendar_text
+  {
+    min-height: 100%;
+  }
+  .date_title
+  {
+    font-size: 14px;
   }
 }
 
-@media only screen and (max-width: 500px) {
-.calendar_text, .entry_time, .count_style
+@media only screen and (min-height: 675px) {
+  .calendar_text
   {
-    font-size: 10px;
+    min-height: 50%;
   }
-.calendar_icons
+  .date_title
   {
-    max-height: 10px;
-    min-height: 10px;
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-height: 768px) {
+  .calendar_text
+  {
+    min-height: 33%;
+  }
+  .date_title
+  {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (min-height: 900px) {
+  .calendar_text
+  {
+    min-height: 25%;
+  }
+  .date_title
+  {
+    font-size: 22px;
+  }
+}
+
+@media only screen and (max-height: 500px) {
+  .calendar_text
+  {
+    display: none;
+  }
+  .date_title
+  {
+    font-size: 14px;
   }
 }

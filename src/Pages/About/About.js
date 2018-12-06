@@ -29,7 +29,7 @@ const styles = theme => ({
     minWidth: '80vw',
     minHeight: '80vh',
     maxWidth: '100vw',
-    marginTop: '80px',
+    marginTop: '20px',
     marginBottom: '20px',
     marginLeft: '20px',
     marginRight: '20px',
@@ -37,7 +37,7 @@ const styles = theme => ({
     [theme.breakpoints.down(768)]: {
       marginLeft: '8px',
       marginRight: '8px',
-      marginTop: '64px',
+      marginTop: '8px',
     },
   },
   about_container: {

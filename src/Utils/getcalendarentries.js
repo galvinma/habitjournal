@@ -1,6 +1,5 @@
 import axios from 'axios';
 import moment from 'moment'
-import { mdiDotsHorizontal } from '@mdi/js'
 
 // redux
 import store from '.././Store/store'
@@ -14,6 +13,7 @@ import { toggleIcon } from './toggleicon'
 // Icons
 var weatherNight = require('.././Images/Icons/weather-night.svg')
 var weatherSunset = require('.././Images/Icons/weather-sunset.svg')
+var plus = require('.././Images/Icons/dots-horizontal.svg')
 
 export function getCalendarEntries()
 {
@@ -201,14 +201,9 @@ export function getCalendarEntries()
                 {
                   let timestamp = moment.unix(entry.start_time).format('dddd, MMMM Do, YYYY')
 
-                  var div = document.createElement("div");
-                  div.setAttribute('class', "list_footer")
-                  var dots = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                  var dots = document.createElement("IMG");
                   dots.setAttribute('class', "footer_icon")
-                  dots.setAttributeNS(null, "viewBox", "0 0 24 24")
-                  dots.setAttributeNS(null, "style", "width:1rem")
-                  var np = document.createElementNS('http://www.w3.org/2000/svg',"path");
-                  np.setAttributeNS(null, "d", mdiDotsHorizontal);
+                  dots.setAttribute("src", plus)
 
                   dots.onclick = function() {
                     store.dispatch(getEntriesModalID({
@@ -219,9 +214,7 @@ export function getCalendarEntries()
                     }))
                   };
 
-                  dots.appendChild(np)
-                  div.appendChild(dots)
-                  footer.appendChild(div);
+                  footer.appendChild(dots)
                 }
               }
             }
