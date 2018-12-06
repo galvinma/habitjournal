@@ -3,6 +3,7 @@ import moment from 'moment'
 
 // functions
 import { sortBulletObject } from './sortbullets'
+import { sortMonths } from './sortmonths'
 
 // redux
 import store from '.././Store/store'
@@ -67,18 +68,20 @@ export function getBullets()
           }
         }
     })
-    new_bullets = sortBulletObject(new_bullets)
+    let sorted_bullets = sortBulletObject(new_bullets)
+    let sorted_months = sortMonths(new_months)
+    console.log(sorted_months)
 
     this.setState({
-      bullets: new_bullets,
-      navigatorMonths: new_months,
+      bullets: sorted_bullets,
+      navigatorMonths: sorted_months,
     })
 
     store.dispatch(getStoreJournalEntries({
-      journal_entries: new_bullets,
+      journal_entries: sorted_bullets,
     }))
 
     store.dispatch(getNavMonths({
-      nav_months: new_months,
+      nav_months: sorted_months,
     }))
 }

@@ -9,6 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
 import Icon from '@mdi/react'
 import {  mdiSquareOutline,
           mdiCircleOutline,
@@ -58,7 +64,9 @@ class JournalTabs extends React.Component {
     super(props);
 
     this.state = {
-      value: 0
+      value: 0,
+      page: 0,
+      rowsPerPage: 5,
     }
 
     this.createList = this.createList.bind(this);
@@ -72,22 +80,31 @@ class JournalTabs extends React.Component {
     this.setState({ value: index });
   };
 
+  handleChangePage = (event, page) => {
+  this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ rowsPerPage: event.target.value });
+  };
+
   createList(i)
   {
     return (
-    <ListItem key={i}>
-      <ListItemText onClick={(e) => this.props.changeSelectedMonth(i)}>
+    <TableRow key={i}>
+      <TableCell onClick={(e) => this.props.changeSelectedMonth(i)}>
         <Typography variant="body1">
           {i}
         </Typography>
-      </ListItemText>
-    </ListItem>
+      </TableCell>
+    </TableRow>
   )
   }
 
   render() {
     const { classes, theme } = this.props;
-
+    const { order, orderBy, selected, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.navigatorMonths.length - page * rowsPerPage);
     return (
       <div className={this.props.classes.root}>
         <AppBar position="static" color="default" className={this.props.classes.app_bar}>
@@ -107,9 +124,26 @@ class JournalTabs extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer className={this.props.classes.month} dir={theme.direction}>
-              <List dense className={this.props.classes.nav_list}>
+              <Table>
+                <TableBody>
                   {this.props.navigatorMonths.map(this.createList)}
-              </List>
+                </TableBody>
+              </Table>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={this.props.navigatorMonths.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                backIconButtonProps={{
+                  'aria-label': 'Previous Page',
+                }}
+                nextIconButtonProps={{
+                  'aria-label': 'Next Page',
+                }}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              />
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <List className={this.props.classes.nav_list}>
