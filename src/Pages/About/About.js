@@ -27,7 +27,7 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
     minWidth: '80vw',
-    minHeight: '80vh',
+    minHeight: 'calc(100vh - 132px)',
     maxWidth: '100vw',
     marginTop: '20px',
     marginBottom: '20px',
