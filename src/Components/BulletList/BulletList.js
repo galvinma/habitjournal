@@ -83,8 +83,7 @@ const styles = theme => ({
     alignItems: 'center',
   },
   text_input: {
-    maxWidth: '55vw',
-    minWidth: '40vw',
+    minWidth: 'calc(100vw - 460px);',
     border:'none',
     outline: 'none',
     background: 'transparent',

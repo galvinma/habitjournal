@@ -60,13 +60,6 @@ var weatherNight = require('../.././Images/Icons/weather-night.svg')
 var weatherSunset = require('../.././Images/Icons/weather-sunset.svg')
 
 const styles = theme => ({
-  paper: {
-    position: 'absolute',
-    width: theme.spacing.unit * 50,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-  },
   close: {
     paddingLeft: '10px',
     paddingRight: '10px',

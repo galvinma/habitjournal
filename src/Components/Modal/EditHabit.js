@@ -13,13 +13,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 const styles = theme => ({
-  paper: {
-    position: 'absolute',
-    width: theme.spacing.unit * 50,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-  },
+  
 });
 
 class EditHabit extends React.Component {
@@ -32,7 +26,7 @@ class EditHabit extends React.Component {
     return(
       <div>
         <Dialog open={this.props.editModalState} onClose={this.props.handleModalClose}>
-          <DialogTitle id="simple-dialog-title">Edit Habit</DialogTitle>
+          <DialogTitle>Edit Habit</DialogTitle>
           <DialogContent>
             <DialogContentText>
               <Typography variant="body1">Habit Title</Typography>

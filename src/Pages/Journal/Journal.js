@@ -11,7 +11,8 @@ import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import BulletList from '../.././Components/BulletList/BulletList'
 import BulletSelector from '../.././Components/BulletList/BulletSelector'
 import BulletNavigator from '../.././Components/BulletList/BulletNavigator'
-import Key from '../.././Components/BulletList/Key'
+import Key from '../.././Components/Modal/Key'
+import Archive from '../.././Components/Modal/Archive'
 import JournalTabs from '../.././Components/Tabs/JournalTabs'
 
 // Functions
@@ -54,6 +55,7 @@ const styles = theme => ({
   journal_container: {
     display: 'flex',
     flexDirection: 'row',
+    minHeight: 'calc(100vh - 132px)',
     minWidth: '80vw',
     marginTop: '20px',
     marginBottom: '20px',
@@ -71,23 +73,24 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minWidth: '70vw',
+    minWidth: 'calc(100vw - 360px)',
     paddingLeft: '20px',
     paddingRight: '20px',
 
     [theme.breakpoints.down(768)]: {
-      paddingLeft: '20px',
-      paddingRight: '20px',
+      paddingLeft: '8px',
+      paddingRight: '8px',
     },
   },
   month_container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '80vh',
+    minHeight: 'calc(100vh - 132px)',
     marginLeft: 'auto',
-    width: '22.5vw',
-    overflowY: 'auto',
+    width: '250px',
+    marginLeft: '20px',
+    marginRight: '0px',
 
     [theme.breakpoints.down(768)]: {
       minWidth: '90vw',
@@ -95,6 +98,7 @@ const styles = theme => ({
       paddingLeft: '20px',
       paddingRight: '20px',
       height: 'auto',
+      display: 'none'
     },
   },
   key_container: {
@@ -190,6 +194,10 @@ class Journal extends React.Component {
     return (
       <div>
         <InternalNavBar />
+        <Key />
+        <Archive
+          navigatorMonths={this.state.navigatorMonths}
+          changeSelectedMonth={this.changeSelectedMonth} />
           <div className={this.props.classes.journal_container}>
             <Paper className={this.props.classes.bullet_container}>
               <BulletSelector

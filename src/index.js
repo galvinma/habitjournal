@@ -37,8 +37,13 @@ const theme = createMuiTheme({
         }
       }
     },
-  },
-});
+    MuiTab: {
+      root: {
+        minWidth: '0px',
+      },
+    },
+  }  
+})
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>

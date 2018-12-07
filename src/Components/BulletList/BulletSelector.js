@@ -20,8 +20,18 @@ import MomentUtils from '@date-io/moment'
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import { TimePicker } from 'material-ui-pickers';
 import { DatePicker } from 'material-ui-pickers';
+import ReactSVG from 'react-svg'
 
+// redux
+import store from '../.././Store/store'
+import { connect } from "react-redux";
+import { getKeyModalState, getArchiveModalState } from '../.././Actions/actions'
+
+// CSS
 import './BulletSelector.css'
+
+var key = require('../.././Images/Icons/key.svg')
+var archive = require('../.././Images/Icons/archive.svg')
 
 const styles = theme => ({
   root: {
@@ -36,13 +46,18 @@ const styles = theme => ({
     alignItems: 'flexEnd',
     paddingLeft: '3px',
     paddingRight: '3px',
+    width: '100%',
   },
   formStyle: {
     display: 'flex',
     float: 'left',
     overflow: 'hidden',
     alignItems: 'center',
-    minWidth: '45vw',
+    minWidth: 'calc(100vw - 440px)',
+
+    [theme.breakpoints.down(768)]: {
+      minWidth: 'calc(100vw - 220px)',
+    },
   },
   check: {
     paddingLeft: '3px',
@@ -63,7 +78,7 @@ const styles = theme => ({
     fontFamily:'Nunito',
   },
   text_input: {
-    minWidth: '45vw',
+    minWidth: '100%',
     border:'none',
     background: 'transparent',
     outline: 'none',
@@ -97,6 +112,20 @@ const styles = theme => ({
     fontSize: '0.875em',
     width: '65px',
   },
+  icon_container: {
+    display: 'none',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    width: '60px',
+
+    [theme.breakpoints.down(768)]: {
+      display: 'flex',
+    },
+  },
+  icon_style: {
+    marginLeft: '10px',
+  }
 });
 
 class BulletSelector extends React.Component {
@@ -132,6 +161,10 @@ class BulletSelector extends React.Component {
                  className={this.props.classes.text_input}
                  onKeyDown={(e) => this.props.checkSubmit(e)} />
               </form>
+              <div className={this.props.classes.icon_container}>
+                <ReactSVG className={this.props.classes.icon_style} src={archive} svgStyle={{ width: '20px' }} onClick={() =>       store.dispatch(getArchiveModalState({archive_modal_status: true}))}/>
+                <ReactSVG className={this.props.classes.icon_style} src={key} svgStyle={{ width: '20px' }} onClick={() =>       store.dispatch(getKeyModalState({key_modal_status: true}))}/>
+              </div>
             </div>
           </ListItem>
           <ListItem className={this.props.classes.list_item}>

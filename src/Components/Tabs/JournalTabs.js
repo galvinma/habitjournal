@@ -15,12 +15,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Icon from '@mdi/react'
-import {  mdiSquareOutline,
-          mdiCircleOutline,
-          mdiTriangleOutline,
-          mdiMinus
-        } from '@mdi/js'
+
+// Components
+import KeyList from './KeyList'
 
 function TabContainer({ children, dir }) {
   return (
@@ -39,6 +36,8 @@ const styles = theme => ({
   app_bar:
   {
     backgroundColor: '#ffffff',
+    borderRadius: '4px',
+
   },
   icon: {
     paddingLeft: '5px',
@@ -51,11 +50,23 @@ const styles = theme => ({
     alignItems: 'center',
   },
   tabRoot: {
-    width: '12.5vw',
-    minWidth: '12.5vw',
+    width: '125px',
+    minWidth: '0px',
     fontWeight: '600',
     textTransform: 'none',
   },
+  cell_style: {
+    textAlign: "center",
+    paddingLeft: '0px',
+    paddingRight: '0px',
+    paddingTop: "0px",
+    paddingBottom: "0px",
+    border: 'none',
+  },
+  row_style: {
+    height: '36px',
+    border: 'none',
+  }
 });
 
 class JournalTabs extends React.Component {
@@ -66,7 +77,7 @@ class JournalTabs extends React.Component {
     this.state = {
       value: 0,
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 12,
     }
 
     this.createList = this.createList.bind(this);
@@ -91,14 +102,12 @@ class JournalTabs extends React.Component {
   createList(i)
   {
     return (
-    <TableRow key={i}>
-      <TableCell onClick={(e) => this.props.changeSelectedMonth(i)}>
-        <Typography variant="body1">
+    <TableRow key={i} className={this.props.classes.row_style}>
+      <TableCell className={this.props.classes.cell_style} onClick={(e) => this.props.changeSelectedMonth(i)}>
           {i}
-        </Typography>
       </TableCell>
     </TableRow>
-  )
+    )
   }
 
   render() {
@@ -126,11 +135,13 @@ class JournalTabs extends React.Component {
           <TabContainer className={this.props.classes.month} dir={theme.direction}>
               <Table>
                 <TableBody>
-                  {this.props.navigatorMonths.map(this.createList)}
+                  {this.props.navigatorMonths
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map(this.createList)}
                 </TableBody>
               </Table>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[12]}
                 component="div"
                 count={this.props.navigatorMonths.length}
                 rowsPerPage={rowsPerPage}
@@ -146,40 +157,7 @@ class JournalTabs extends React.Component {
               />
           </TabContainer>
           <TabContainer dir={theme.direction}>
-            <List className={this.props.classes.nav_list}>
-              <ListItem>
-                <ListItemText>
-                  <div className={this.props.classes.icon_container}>
-                    <Icon className={this.props.classes.icon} path={mdiSquareOutline} size={0.75} />
-                    <Typography variant="body1">Task</Typography>
-                  </div>
-                </ListItemText>
-              </ListItem>
-              <ListItem >
-                <ListItemText>
-                  <div className={this.props.classes.icon_container}>
-                    <Icon className={this.props.classes.icon} path={mdiCircleOutline} size={0.75} />
-                    <Typography variant="body1">Event</Typography>
-                  </div>
-                </ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemText>
-                  <div className={this.props.classes.icon_container}>
-                    <Icon className={this.props.classes.icon} path={mdiTriangleOutline} size={0.75} />
-                    <Typography variant="body1">Appointment</Typography>
-                  </div>
-                </ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemText>
-                  <div className={this.props.classes.icon_container}>
-                    <Icon className={this.props.classes.icon} path={mdiMinus} size={0.75} />
-                    <Typography variant="body1">Note</Typography>
-                  </div>
-                </ListItemText>
-              </ListItem>
-            </List>
+            <KeyList />
           </TabContainer>
         </SwipeableViews>
       </div>

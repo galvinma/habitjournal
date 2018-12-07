@@ -12,6 +12,8 @@ import {  CURRENT_USER,
           FIRST_LOAD,
           CALENDAR_ENTRIES,
           JOURNAL_ENTRIES,
+          KEY_MODAL_STATE,
+          ARCHIVE_MODAL_STATE,
         }
 
 from "../Constants/action-types";
@@ -22,6 +24,8 @@ const initialState = {
   auth_status: {auth_status: false},
   entries_modal_status: {entries_modal_status: false},
   edit_entries_modal_status: {edit_entries_modal_status: false},
+  key_modal_status: {key_modal_status: false},
+  archive_modal_status: {archive_modal_status: false},
   entries_modal_id: {entries_modal_id: null},
   current_entry: {current_entry: null},
   all_entries: {all_entries: []}  ,
@@ -30,6 +34,7 @@ const initialState = {
   calendar_entries: {calendar_entries: {}},
   habit_entries: {habit_entries: []},
   journal_entries: {journal_entries: {}},
+
 };
 
 function rootReducer(state = initialState, action) {
@@ -42,6 +47,10 @@ function rootReducer(state = initialState, action) {
       return getEntriesModalState(state, action.entries_modal_status)
     case EDIT_ENTRIES_MODAL_STATE:
       return getEditEntriesModalState(state, action.edit_entries_modal_status)
+    case KEY_MODAL_STATE:
+      return getKeyModalState(state, action.key_modal_status)
+    case ARCHIVE_MODAL_STATE:
+      return getArchiveModalState(state, action.archive_modal_status)
     case ENTRIES_MODAL_ID:
       return getEntriesModalID(state, action.entries_modal_id)
     case CURRENT_ENTRY:
@@ -97,6 +106,20 @@ function getEditEntriesModalState(state, edit_entries_modal_status) {
   return {
     ...state,
     edit_entries_modal_status: edit_entries_modal_status
+  }
+}
+
+function getKeyModalState(state, key_modal_status) {
+  return {
+    ...state,
+    key_modal_status: key_modal_status
+  }
+}
+
+function getArchiveModalState(state, archive_modal_status) {
+  return {
+    ...state,
+    archive_modal_status: archive_modal_status
   }
 }
 

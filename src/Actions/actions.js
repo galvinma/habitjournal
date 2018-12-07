@@ -23,6 +23,16 @@ export const getEditEntriesModalState = edit_entries_modal_status => ({
   edit_entries_modal_status
 })
 
+export const getKeyModalState = key_modal_status => ({
+  type: "KEY_MODAL_STATE",
+  key_modal_status
+})
+
+export const getArchiveModalState = archive_modal_status => ({
+  type: "ARCHIVE_MODAL_STATE",
+  archive_modal_status
+})
+
 export const getEntriesModalID = entries_modal_id => ({
   type: "ENTRIES_MODAL_ID",
   entries_modal_id
