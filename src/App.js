@@ -13,6 +13,7 @@ import Calendar from './Pages/Calendar/Calendar'
 import About from './Pages/About/About'
 import Reset from './Pages/Reset/Reset'
 import NotFound from './Pages/NotFound/NotFound'
+import NewPassword from './Pages/NewPassword/NewPassword'
 
 // css
 import './App.css';
@@ -71,6 +72,11 @@ const _Reset = () => (
   </div>
 )
 
+const _NewPassword = () => (
+  <div>
+    <NewPassword />
+  </div>
+)
 
 const styles = theme => ({
 });
@@ -85,6 +91,7 @@ class App extends Component {
           <Route path="/signin" exact component={_LogIn}/>
           <Route path="/join" exact component={_SignUp}/>
           <Route path="/reset" exact component={_Reset}/>
+          <Route path="/resetpassword" component={_NewPassword}/>
           <Route path="/journal" exact component={_Journal}/>
           <Route path="/habits" exact component={_Habits}/>
           <Route path="/calendar" exact component={_Calendar}/>

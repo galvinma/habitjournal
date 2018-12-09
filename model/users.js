@@ -10,6 +10,8 @@ var Users = new Schema({
     lastname: {type: String, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
+    join_date: {type: Number, required: true},
+    reset_count: {type: Number, required: true},
 });
 
 Users.pre('save', function(next) {

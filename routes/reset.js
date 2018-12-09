@@ -1,5 +1,8 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
+var Users = require('.././model/users');
+var passJWT = require('.././src/Utils/passreset');
 
 var router = express.Router();
 router.use(function(req, res, next) {
@@ -10,6 +13,25 @@ router.route('/reset')
   .post(function(req, res, next) {
 
     // Check if user's email exists!!!!!
+    Users.findOne({ email: req.body.params.email }).lean().exec(function(err, user) {
+      if (err)
+      {
+        res.json({
+            success: false,
+        });
+        return
+      }
+
+      if (user === null || req.body.params.email === null || req.body.params.email === "")
+      {
+        res.json({
+            allow: false,
+        });
+        return
+      }
+
+    // create token
+    var token = passJWT.passJWT(user)
 
     var  hbs = require('nodemailer-express-handlebars'),
     email = process.env.MAILER_EMAIL_ID
@@ -37,10 +59,10 @@ router.route('/reset')
         from: email,
         template: 'resetPassword',
         subject: 'Daisy Journal - Password Reset',
-        // context: {
-        //   url: 'http://localhost:3000/auth/reset_password?token=' + token,
-        //   name: user.fullName.split(' ')[0]
-        // }
+        context: {
+          link: 'http://127.0.0.1:3000/#/resetpassword/'+user.id+'/'+token,
+          firstname: user.firstname
+        }
       };
 
     smtpTransport.sendMail(data, function(err) {
@@ -50,6 +72,7 @@ router.route('/reset')
         return done(err);
       }
 
+    })
   })
 })
 module.exports = router;

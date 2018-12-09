@@ -2,7 +2,7 @@ var express = require('express');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 var Users = require('.././model/users');
-var generateJWT = require('.././jwt');
+var generateJWT = require('.././src/Utils/jwt');
 
 var router = express.Router();
 router.use(function(req, res, next) {

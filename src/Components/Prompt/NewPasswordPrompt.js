@@ -45,13 +45,14 @@ const styles = theme => ({
   },
 });
 
-class ResetPrompt extends React.Component {
+class NewPasswordPrompt extends React.Component {
   constructor(props) {
   super(props);
 
   this.state = {
-    email: "",
-    email_validation_text: "",
+    check: "",
+    new: "",
+    validation_text: "",
     helper_color: "#E53935",
   };
 
@@ -65,40 +66,49 @@ class ResetPrompt extends React.Component {
     });
   };
 
-  resetPass() {
-    // reset validators
+  changePass() {
+
     this.setState({
-      email_validation_text: "Please wait",
+      validation_text: "",
     })
 
-    if (this.state.email === "")
+
+    if (this.state.new !== this.state.check)
     {
-      this.setState({ email_validation_text: "Enter a valid email address"})
+      this.setState({ validation_text: "Passwords do not match"})
       return
     }
 
-    if (validator.validate(this.state.email) === false)
+    if (this.state.new.length < 8)
     {
-      this.setState({ email_validation_text: "Invalid email address"})
+      this.setState({ validation_text: "Password must be at least 8 characters"})
       return
     }
 
-    axios.post('http://127.0.0.1:5002/api/reset', {
+
+    var s = window.location.href.split("/")
+    let hash = s[s.length-1]
+    let id = s[s.length-2]
+
+
+    axios.post('http://127.0.0.1:5002/api/newpass', {
       params: {
-        email: this.state.email,
+        user_id: id,
+        token_hash: hash,
+        new_password: this.state.new,
       }
     })
     .then((response) => {
       if (response.data.success === true)
       {
         this.setState({
-          email_validation_text: "Please check your email",
+          validation_text: "Password reset",
           helper_color: '#43A047'
         })
       }
       else
       {
-        this.setState({ email_validation_text: "Unable to reset password"})
+        this.setState({ validation_text: "Unable to reset password"})
       }
     })
   }
@@ -106,7 +116,7 @@ class ResetPrompt extends React.Component {
   checkReset(event)
   {
     if (event.keyCode === 13) {
-        this.resetPass()
+        this.changePass()
     }
   }
 
@@ -119,18 +129,28 @@ class ResetPrompt extends React.Component {
                <FormControl
                     margin="normal"
                     required fullWidth
-                    value={this.state.email}
                     onChange={this.handleChange}
                     onKeyDown={(e) => this.checkReset(e)}
                     >
-                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="email">Email Address</InputLabel>
-                 <Input id="email" name="email" autoComplete="email" autoFocus />
-                 <FormHelperText style={{color: this.state.helper_color}}>{this.state.email_validation_text}</FormHelperText>
+                <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="new">New Password</InputLabel>
+                <Input id="new" type="password"/>
                </FormControl>
+
+               <FormControl
+                    margin="normal"
+                    required fullWidth
+                    onChange={this.handleChange}
+                    onKeyDown={(e) => this.checkReset(e)}
+                    >
+                <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="new">Confirm Password</InputLabel>
+                <Input id="check" type="password"/>
+                 <FormHelperText style={{color: this.state.helper_color}}>{this.state.validation_text}</FormHelperText>
+               </FormControl>
+
                <Button
                  fullWidth
                  className={this.props.classes.submit}
-                 onClick={() => this.resetPass()} >Reset Password
+                 onClick={() => this.changePass()} >Change Password
                </Button>
             </form>
           </Paper>
@@ -140,7 +160,7 @@ class ResetPrompt extends React.Component {
   }
 }
 
-ResetPrompt.propTypes = {
+NewPasswordPrompt.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
@@ -151,4 +171,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(ResetPrompt));
+export default connect(mapStateToProps)(withStyles(styles)(NewPasswordPrompt));
