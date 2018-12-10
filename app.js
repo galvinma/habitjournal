@@ -14,7 +14,7 @@ cors({credentials: true, origin: true})
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://127.0.0.1/database', { useNewUrlParser: true });
+mongoose.connect('localhost:27017/database', { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
