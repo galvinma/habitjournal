@@ -27,7 +27,7 @@ router.route('/newpass')
     if (user === null || req.body.params.user_id === null || req.body.params.user_id === "")
     {
       res.json({
-          allow: false,
+          success: false,
       });
       return
     }
@@ -35,10 +35,10 @@ router.route('/newpass')
     // Check for blanks and invalid input
     if (req.body.params.user_id === null || req.body.params.user_id === "" ||
         req.body.params.token_hash === null || req.body.params.token_hash === "" ||
-        req.body.params.new_password === null || req.body.params.new_password === "" ||
+        req.body.params.new_password === null || req.body.params.new_password === "")
     {
       res.json({
-          allow: false,
+          success: false,
       });
       return
     }
