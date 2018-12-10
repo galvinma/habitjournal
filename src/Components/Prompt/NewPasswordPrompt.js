@@ -91,7 +91,7 @@ class NewPasswordPrompt extends React.Component {
     let id = s[s.length-2]
 
 
-    axios.post('https://daisyjournal.com/api/newpass', {
+    axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/newpass`, {
       params: {
         user_id: id,
         token_hash: hash,

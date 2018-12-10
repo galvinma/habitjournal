@@ -76,7 +76,7 @@ export function addEntry()
   this.updateAllUIEntries()
 
   // Update DB
-  axios.post('https://daisyjournal.com/api/save_entry', {
+  axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/save_entry`, {
     params: {
       user: sessionStorage.getItem('user'),
       type: this.state.type,

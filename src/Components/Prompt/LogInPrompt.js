@@ -95,7 +95,8 @@ class LoginPrompt extends React.Component {
       return
     }
 
-    axios.post('https://daisyjournal.com/api/login', {
+
+    axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/login`, {
       params: {
         email: this.state.email,
         password: this.state.password,

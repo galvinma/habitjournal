@@ -8,7 +8,7 @@ module.exports = {
      email: user.email,
     };
 
-    var token = jwt.sign(t, process.env.JWT_SECRET, {
+    var token = jwt.sign(t, process.env.REACT_APP_JWT_SECRET, {
       expiresIn: 60 * 60 * 24 * 14 // two weeks
     });
 

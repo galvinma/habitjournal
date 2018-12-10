@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function deleteHabit()
   {
-    axios.post('https://daisyjournal.com/api/remove_habit', {
+    axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/remove_habit`, {
       params: {
         habit_id: this.state.edit_id
       }

@@ -83,7 +83,7 @@ class ResetPrompt extends React.Component {
       return
     }
 
-    axios.post('https://daisyjournal.com/api/reset', {
+    axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/reset`, {
       params: {
         email: this.state.email,
       }

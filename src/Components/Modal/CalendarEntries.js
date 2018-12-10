@@ -93,7 +93,7 @@ class CalendarEntries extends React.Component {
         entries_modal_status: false
       }))
 
-      axios.post('https://daisyjournal.com/api/return_one', {
+      axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/return_one`, {
         params: {
           user: sessionStorage.getItem('user'),
           entry_id: entry_id

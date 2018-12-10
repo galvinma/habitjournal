@@ -18,7 +18,7 @@ export function removeEntry(id)
   this.updateAllUIEntries()
 
   // DB
-  axios.post('https://daisyjournal.com/api/remove_entry', {
+  axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/remove_entry`, {
     params: {
       entry_id: id
     }

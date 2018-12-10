@@ -46,7 +46,7 @@ router.route('/newpass')
     // Verify token matches that for provided user
     let token_hash = req.body.params.token_hash
 
-    jwt.verify(token_hash, process.env.JWT_SECRET, function(err, decoded) {
+    jwt.verify(token_hash, process.env.REACT_APP_JWT_SECRET, function(err, decoded) {
         if (String(decoded.id) !== String(user.id) ||
             decoded.reset_count !== user.reset_count ||
             decoded.join_date !== user.join_date)

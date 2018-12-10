@@ -6,7 +6,7 @@ var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
-
+require('dotenv').config()
 
 var app = express();
 app.use(cors());

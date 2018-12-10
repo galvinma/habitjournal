@@ -17,7 +17,7 @@ export function toggleIcon(entry_id, type, status)
   .then(this.updateAllUIEntries())
 
   // Update DB
-  axios.post('https://daisyjournal.com/api/update_entry', {
+  axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/update_entry`, {
     params: {
       entry_id: entry_id,
       type: type,

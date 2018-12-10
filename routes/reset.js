@@ -34,12 +34,12 @@ router.route('/reset')
     var token = passJWT.passJWT(user)
 
     var  hbs = require('nodemailer-express-handlebars'),
-    email = process.env.MAILER_EMAIL_ID
-    pass = process.env.MAILER_PASSWORD
+    email = process.env.REACT_APP_MAILER_EMAIL_ID
+    pass = process.env.REACT_APP_MAILER_PASSWORD
     nodemailer = require('nodemailer');
 
     var smtpTransport = nodemailer.createTransport({
-      service: process.env.MAILER_SERVICE_PROVIDER,
+      service: process.env.REACT_APP_MAILER_SERVICE_PROVIDER,
       auth: {
         user: email,
         pass: pass

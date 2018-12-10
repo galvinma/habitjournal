@@ -11,7 +11,7 @@ router.route('/checktoken')
     var token = req.body.params.token
     var user = req.body.params.user
 
-    jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+    jwt.verify(token, process.env.REACT_APP_JWT_SECRET, function(err, decoded) {
       if (err)
       {
         return res.json({

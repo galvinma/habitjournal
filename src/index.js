@@ -9,6 +9,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import grey from '@material-ui/core/colors/grey';
 import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+require('dotenv').config()
 
 const theme = createMuiTheme({
   typography: {
@@ -42,7 +43,7 @@ const theme = createMuiTheme({
         minWidth: '0px',
       },
     },
-  }  
+  }
 })
 
 ReactDOM.render(
