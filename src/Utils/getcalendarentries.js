@@ -154,7 +154,7 @@ export function getCalendarEntries()
                       entries_modal_id: entry.entry_id
                     }))
 
-                    axios.post('http://127.0.0.1:5002/api/return_one', {
+                    axios.post('https://daisyjournal.com/api/return_one', {
                       params: {
                         user: sessionStorage.getItem('user'),
                         entry_id: entry.entry_id

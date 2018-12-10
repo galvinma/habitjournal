@@ -9,7 +9,7 @@ import { getAllEntries } from '.././Actions/actions'
 export function returnAllDatabaseEntries()
 {
   return new Promise(function(resolve, reject) {
-    axios.post('http://127.0.0.1:5002/api/return_entries', {
+    axios.post('https://daisyjournal.com/api/return_entries', {
       params: {
         user: sessionStorage.getItem('user'),
       }

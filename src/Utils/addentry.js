@@ -76,7 +76,7 @@ export function addEntry()
   this.updateAllUIEntries()
 
   // Update DB
-  axios.post('http://127.0.0.1:5002/api/save_entry', {
+  axios.post('https://daisyjournal.com/api/save_entry', {
     params: {
       user: sessionStorage.getItem('user'),
       type: this.state.type,

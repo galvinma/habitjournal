@@ -7,7 +7,7 @@ import { getStoreHabits } from '.././Actions/actions'
 
 export function getHabits()
 {
-  axios.post('http://127.0.0.1:5002/api/return_habit_names', {
+  axios.post('https://daisyjournal.com/api/return_habit_names', {
     params: {
       user: sessionStorage.getItem('user'),
     }

@@ -95,7 +95,7 @@ class LoginPrompt extends React.Component {
       return
     }
 
-    axios.post('http://127.0.0.1:5002/api/login', {
+    axios.post('https://daisyjournal.com/api/login', {
       params: {
         email: this.state.email,
         password: this.state.password,

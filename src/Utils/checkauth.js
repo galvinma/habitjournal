@@ -3,7 +3,7 @@ import store from '.././Store/store'
 import {getAuthStatus, getCurrentUser} from '.././Actions/actions'
 
 export function checkAuth() {
-  axios.post('http://127.0.0.1:5002/api/checktoken', {
+  axios.post('https://daisyjournal.com/api/checktoken', {
     params: {
       user: sessionStorage.getItem('user'),
       token: sessionStorage.getItem('token'),

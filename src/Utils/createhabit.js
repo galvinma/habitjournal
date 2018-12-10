@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function  createHabit()
   {
-    axios.post('http://127.0.0.1:5002/api/save_habit', {
+    axios.post('https://daisyjournal.com/api/save_habit', {
       params: {
         user: sessionStorage.getItem('user'),
         title: this.state.newValue

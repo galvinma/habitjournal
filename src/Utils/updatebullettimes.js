@@ -8,7 +8,7 @@ export function updateBulletTimes(entry_id, event, state)
   this.updateStoreEntry(updates)
   .then(this.updateAllUIEntries())
 
-  axios.post('http://127.0.0.1:5002/api/update_entry', {
+  axios.post('https://daisyjournal.com/api/update_entry', {
     params: {
       entry_id: entry_id,
       [state]: moment(event).unix(),

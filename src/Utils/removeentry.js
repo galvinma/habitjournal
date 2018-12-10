@@ -18,7 +18,7 @@ export function removeEntry(id)
   this.updateAllUIEntries()
 
   // DB
-  axios.post('http://127.0.0.1:5002/api/remove_entry', {
+  axios.post('https://daisyjournal.com/api/remove_entry', {
     params: {
       entry_id: id
     }

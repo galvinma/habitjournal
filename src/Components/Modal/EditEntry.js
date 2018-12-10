@@ -382,7 +382,7 @@ class EditEntry extends React.Component {
     });
 
     // Update DB
-    axios.post('http://127.0.0.1:5002/api/update_entry', {
+    axios.post('https://daisyjournal.com/api/update_entry', {
       params: {
         entry_id: store.getState().entries_modal_id.entries_modal_id,
         type: this.state.type,

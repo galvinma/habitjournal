@@ -69,7 +69,7 @@ export function logHabit(...parameters)
     this.updateAllUIEntries()
 
     // Update DB
-    axios.post('http://127.0.0.1:5002/api/log_habit', {
+    axios.post('https://daisyjournal.com/api/log_habit', {
       params: {
         user: sessionStorage.getItem('user'),
         type: this.state.type,

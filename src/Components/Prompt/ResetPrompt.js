@@ -83,7 +83,7 @@ class ResetPrompt extends React.Component {
       return
     }
 
-    axios.post('http://127.0.0.1:5002/api/reset', {
+    axios.post('https://daisyjournal.com/api/reset', {
       params: {
         email: this.state.email,
       }
