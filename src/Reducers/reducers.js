@@ -14,6 +14,7 @@ import {  CURRENT_USER,
           JOURNAL_ENTRIES,
           KEY_MODAL_STATE,
           ARCHIVE_MODAL_STATE,
+          RESET_STORE
         }
 
 from "../Constants/action-types";
@@ -69,6 +70,8 @@ function rootReducer(state = initialState, action) {
       return getStoreCalendarEntries(state, action.calendar_entries)
     case FIRST_LOAD:
       return getFirstLoadStatus(state, action.first_load)
+    case RESET_STORE:
+      return resetStore(state)
     default:
       return state;
   }
@@ -176,6 +179,27 @@ function getStoreCalendarEntries(state, calendar_entries) {
   return {
     ...state,
     calendar_entries: calendar_entries
+  }
+}
+
+function resetStore(state) {
+  return {
+    ...state,
+    first_load: {first_load: true},
+    current_user: {current_user: null},
+    auth_status: {auth_status: false},
+    entries_modal_status: {entries_modal_status: false},
+    edit_entries_modal_status: {edit_entries_modal_status: false},
+    key_modal_status: {key_modal_status: false},
+    archive_modal_status: {archive_modal_status: false},
+    entries_modal_id: {entries_modal_id: null},
+    current_entry: {current_entry: null},
+    all_entries: {all_entries: []}  ,
+    nav_months: {nav_months: []},
+    habits: {habits: [] },
+    calendar_entries: {calendar_entries: {}},
+    habit_entries: {habit_entries: []},
+    journal_entries: {journal_entries: {}},
   }
 }
 

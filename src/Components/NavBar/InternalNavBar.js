@@ -16,7 +16,7 @@ import { mdiLogout, mdiMenu, mdiFlowerOutline } from '@mdi/js'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
-import {getAuthStatus, getCurrentUser} from '../.././Actions/actions'
+import {getAuthStatus, getCurrentUser, resetStore} from '../.././Actions/actions'
 
 // Images
 var logo = require('../.././Images/logo.svg')
@@ -115,12 +115,13 @@ class InternalNavBar extends React.Component {
     sessionStorage.setItem('token', null);
     sessionStorage.setItem('user', null);
 
-    store.dispatch(getAuthStatus({
-      auth_status: false,
-    }))
-    store.dispatch(getCurrentUser({
-      user: null,
-    }))
+    // store.dispatch(getAuthStatus({
+    //   auth_status: false,
+    // }))
+    // store.dispatch(getCurrentUser({
+    //   user: null,
+    // }))
+    store.dispatch(resetStore())
   }
 
   handleClick = event => {

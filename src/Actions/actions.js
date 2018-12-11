@@ -72,3 +72,7 @@ export const getStoreJournalEntries = journal_entries => ({
   type: "JOURNAL_ENTRIES",
   journal_entries
 })
+
+export const resetStore = () => ({
+  type: "RESET_STORE",
+})
