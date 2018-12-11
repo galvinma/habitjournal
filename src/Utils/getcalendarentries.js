@@ -95,15 +95,6 @@ export function getCalendarEntries()
                 var _this = this
                 var _entry_id = entry.entry_id
 
-                // This onclick method manipulates the icon appearance instead of rerendering the whole calendar. At a later date the class should use "shouldComponentUpdate" to selectively rerender edited entries.
-                svg.onclick = function() {
-                    if (entry.type !== 'habit')
-                    {
-                      console.log(entry.entry_id, entry.type, entry.status)
-                      _this.toggleIcon(entry.entry_id, entry.type, entry.status)
-                    }
-                };
-
                 // If not an all day event, get the time nodes
                 if ((moment.unix(entry.start_time).startOf('day').unix() === moment.unix(entry.start_time).unix()) &&
                     (moment.unix(entry.end_time).endOf('day').unix() === moment.unix(entry.end_time).unix()))
@@ -196,6 +187,14 @@ export function getCalendarEntries()
 
                 node.className = "calendar_text"
                 temp.appendChild(node);
+
+                // Toggle icon
+                svg.onclick = function() {
+                    if (entry.type !== 'habit')
+                    {
+                      _this.toggleIcon(entry.entry_id, entry.type, entry.status)
+                    }
+                };
 
                 var footer = document.getElementById("footer"+String(key))
                 if (footer.children.length === 0)
