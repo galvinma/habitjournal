@@ -96,7 +96,7 @@ class App extends Component {
           <Route path="/habits" exact component={_Habits}/>
           <Route path="/calendar" exact component={_Calendar}/>
           <Route path="/about" exact component={_About}/>
-          <Route component={_NotFound}/>
+          <Route path='*' exact={true} component={_NotFound} />
         </Switch>
       </div>
     );
