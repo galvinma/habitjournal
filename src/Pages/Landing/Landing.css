@@ -8,16 +8,7 @@
   background-position: left bottom;
   left: 0px;
   bottom: 0px;
-  width: 80%;
-}
-
-
-@media only screen and (max-width: 1200px) {
-  #landing_background
-  {
-    background-attachment: initial;
-    width: 100%;
-  }
+  width: 90%;
 }
 
 @media only screen and (max-width: 768px) {
@@ -26,6 +17,14 @@
     background-attachment: initial;
     width: 120%;
   }
+
+  #description_card
+  {
+    right: 40px;
+    top: 100px;
+    min-width: 0px;
+    max-width: 360px;
+  }
 }
 
 @media only screen and (max-width: 500px) {
@@ -33,5 +32,16 @@
   {
     background-attachment: initial;
     width: 150%;
+  }
+
+  #description_card
+  {
+    position: relative;
+    right: 0px;
+    top: 0px;
+    min-width: 0px;
+    max-width: 100vw;
+    margin-right: 8px;
+    margin-left: 8px;
   }
 }

@@ -17,6 +17,7 @@ class Landing extends React.Component {
     return (
       <div>
         <LandingNavBar />
+        <LandingCard />
         <div id="block_one"/>
         <div id="block_two"/>
         <svg viewBox="0 0 100 100" id="landing_background" alt="" style ={{ backgroundImage: "url("+landing+")" }}/>
