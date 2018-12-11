@@ -188,6 +188,20 @@ class Calendar extends React.Component {
 
   componentDidMount() {
     this.updateAllUIEntries()
+
+    // Retry. Prevents users from having a black calendar if API call hasn't returned in time
+    if (store.getState().calendar_entries.calendar_entries === {})
+    {
+      let retry_count = 0
+      while (retry_count < 3 && store.getState().calendar_entries.calendar_entries === {})
+      {
+        setTimeout(function()
+        {
+          this.updateAllUIEntries()
+          retry_count++
+        }, 500);
+      }
+    }
   }
 
   handleModalClose(mode)

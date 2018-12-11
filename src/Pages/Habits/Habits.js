@@ -106,6 +106,22 @@ class Habits extends React.Component {
   componentDidMount()
   {
     this.updateAllUIEntries()
+
+    // Retry. Prevents users from having a black calendar if API call hasn't returned in time
+    if (store.getState().habit_entries.habit_entries === [] ||
+        store.getState().habits.habits === [])
+    {
+      let retry_count = 0
+      while (retry_count < 3 && (store.getState().habit_entries.habit_entries === [] ||
+          store.getState().habits.habits === []))
+      {
+        setTimeout(function()
+        {
+          this.updateAllUIEntries()
+          retry_count++
+        }, 500);
+      }
+    }
   }
 
   prevWeekHandler() {
