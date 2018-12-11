@@ -21,14 +21,21 @@ var validator = require("email-validator");
 
 const styles = theme => ({
   layout: {
-    width: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: '400px',
     display: 'block',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+
+    [theme.breakpoints.down(500)]: {
+      width: 'auto',
+      marginTop: '8px',
+      marginLeft: '8px',
+      marginRight: '8px',
     },
   },
   paper: {

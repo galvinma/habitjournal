@@ -28,8 +28,8 @@ const styles = theme => ({
     marginBottom: '10px',
 
     [theme.breakpoints.down(768)]: {
-      marginLeft: '5px',
-      marginRight: '5px',
+      marginLeft: '8px',
+      marginRight: '8px',
     },
 
     [theme.breakpoints.down(500)]: {

@@ -46,6 +46,12 @@ const styles = theme => ({
     marginLeft: '20px',
     marginRight: '20px',
     marginTop: '20px',
+    
+    [theme.breakpoints.down(768)]: {
+      marginLeft: '8px',
+      marginRight: '8px',
+      marginTop: '8px',
+    },
   },
   nav_text: {
     fontSize: '18px',
