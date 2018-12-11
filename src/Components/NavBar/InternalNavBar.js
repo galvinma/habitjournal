@@ -18,6 +18,9 @@ import store from '../.././Store/store'
 import { connect } from "react-redux";
 import {getAuthStatus, getCurrentUser, resetStore} from '../.././Actions/actions'
 
+// CSS
+import './InternalNavBar.css'
+
 // Images
 var logo = require('../.././Images/logo.svg')
 
@@ -76,11 +79,6 @@ const styles = theme => ({
       display: 'flex',
     },
   },
-  link: {
-    paddingLeft: '15px',
-    paddingRight: '15px',
-    textDecoration: 'none',
-  },
   logo: {
     marginRight: 'auto',
     paddingRight: '15px',
@@ -115,12 +113,6 @@ class InternalNavBar extends React.Component {
     sessionStorage.setItem('token', null);
     sessionStorage.setItem('user', null);
 
-    // store.dispatch(getAuthStatus({
-    //   auth_status: false,
-    // }))
-    // store.dispatch(getCurrentUser({
-    //   user: null,
-    // }))
     store.dispatch(resetStore())
   }
 
@@ -142,19 +134,11 @@ class InternalNavBar extends React.Component {
               <NavLink to="/journal" className={this.props.classes.logo}>
                 <ReactSVG src={logo} svgStyle={{height: 50}}/>
               </NavLink>
-              <NavLink to="/journal" className={this.props.classes.link}>
-                <Typography variant="body1" className={this.props.classes.nav_text}>Journal</Typography>
-              </NavLink>
-              <NavLink to="/habits" className={this.props.classes.link}>
-                <Typography variant="body1" className={this.props.classes.nav_text}>Habits</Typography>
-              </NavLink>
-              <NavLink to="/calendar" className={this.props.classes.link}>
-                <Typography variant="body1" className={this.props.classes.nav_text}>Calendar</Typography>
-              </NavLink>
-              <NavLink to="/about" className={this.props.classes.link}>
-                <Typography variant="body1" className={this.props.classes.nav_text}>About</Typography>
-              </NavLink>
-              <NavLink to="/" className={this.props.classes.link} onClick={() => this.logoutUser()}>
+              <NavLink to="/journal" activeStyle={{ textDecoration: 'underline' }} class="link">Journal</NavLink>
+              <NavLink to="/habits" activeStyle={{ textDecoration: 'underline' }} class="link">Habits</NavLink>
+              <NavLink to="/calendar" activeStyle={{ textDecoration: 'underline' }} class="link">Calendar</NavLink>
+              <NavLink to="/about" activeStyle={{ textDecoration: 'underline' }} class="link">About</NavLink>
+              <NavLink to="/" class="link" onClick={() => this.logoutUser()}>
                 <Icon className={this.props.classes.logout} path={mdiLogout} size={0.75} />
               </NavLink>
             </Toolbar>

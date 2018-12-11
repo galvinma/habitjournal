@@ -1,0 +1,16 @@
+.active
+{
+  color: red;
+}
+
+.link
+{
+  padding-left: 15px;
+  padding-right: 15px;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: Nunito;
+  font-weight: 500;
+  color: inherit;
+
+}
