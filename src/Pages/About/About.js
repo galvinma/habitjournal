@@ -73,14 +73,7 @@ class About extends React.Component {
         <Paper className={this.props.classes.root}>
           <div className={this.props.classes.about_container}>
             <Typography component="div" variant="headline">
-              What is Daisy Journal?
-            </Typography>
-            <Typography component="div" variant="body1">
-              Daisy Journal is open source life planning software.
-            </Typography>
-            <br />
-            <Typography component="div" variant="headline">
-              How do you use Daisy Journal?
+              How do I use Daisy Journal?
             </Typography>
             <Typography component="div" variant="body1">
               Daisy Journal allows for easy habit logging and event tracking. The interface currently consists of three tabs:
@@ -99,7 +92,7 @@ class About extends React.Component {
               Is it free?
             </Typography>
             <Typography component="div" variant="body1">
-              Yes, and it always will be.
+              Daisy Journal is free and open source. 
             </Typography>
             <br />
             <Typography component="div" variant="headline">

@@ -49,7 +49,7 @@ class LandingCard extends React.Component {
             Daisy Journal
           </div>
           <div className={this.props.classes.body_text}>
-            Methodical planning for the digital age. <a className={this.props.classes.link} href='#/info'>Find out more</a>.
+            Planning for the digital age. <a className={this.props.classes.link} href='#/info'>Find out more</a>.
           </div>
         </CardContent>
       </Card>

@@ -1,25 +1,6 @@
-/* #about_flower
+.slide, .carousel, .slide.selected
 {
-  z-index: 100;
-  position: fixed;
-  width: 90%;
-  height: 70%;
-  background-repeat: no-repeat;
-  background-position: right bottom;
-} */
-
-#ether, #btc, #coffee
-{
-    list-style: none;
-}
-
-ul#donation_list
-{
-  list-style-position: inside;
-  padding-left: 0;
-}
-
-#coffee_span
-{
-  margin-left:5px;
+  background-color: rgb(255, 255, 255) !important;
+  background: rgb(255, 255, 255) !important;
+  border: rgb(255, 255, 255) !important;
 }
