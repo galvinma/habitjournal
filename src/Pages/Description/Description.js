@@ -169,7 +169,7 @@ class Description extends React.Component {
                 <a className={this.props.classes.link_text} href='#/join'>Try Daisy Journal Today</a></div>
               </div>
               <div className={this.props.classes.image_container}>
-                <Carousel className={this.props.classes.carousel_container} showIndicators={true} showThumbs={false} showStatus={false} transitionTime={1000}>
+                <Carousel className={this.props.classes.carousel_container} autoPlay stopOnHover showIndicators={true} showThumbs={false} showStatus={false} transitionTime={2000}>
                   <div>
                       <img className={this.props.classes.image} src={journal_img} />
                   </div>
