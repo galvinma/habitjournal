@@ -223,8 +223,6 @@ Habits.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    auth_status: state.auth_status,
-    current_user: state.current_user,
     habits: state.habits,
     habit_entries: state.habit_entries
   }

@@ -92,7 +92,7 @@ class About extends React.Component {
               Is it free?
             </Typography>
             <Typography component="div" variant="body1">
-              Daisy Journal is free and open source. 
+              Daisy Journal is free and open source.
             </Typography>
             <br />
             <Typography component="div" variant="headline">
@@ -125,11 +125,4 @@ About.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    auth_status: state.auth_status,
-    current_user: state.current_user
-  }
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(About));
+export default (withStyles(styles)(About));

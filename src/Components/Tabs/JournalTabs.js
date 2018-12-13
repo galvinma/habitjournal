@@ -16,6 +16,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
+// redux
+import store from '../.././Store/store'
+import { connect } from "react-redux";
+
 // Components
 import KeyList from './KeyList'
 
@@ -112,8 +116,8 @@ class JournalTabs extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-    const { order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.navigatorMonths.length - page * rowsPerPage);
+    const { value, order, orderBy, selected, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.nav_months.nav_months.length - page * rowsPerPage);
     return (
       <div className={this.props.classes.root}>
         <AppBar position="static" color="default" className={this.props.classes.app_bar}>
@@ -127,15 +131,10 @@ class JournalTabs extends React.Component {
             <Tab label="Key" classes={{root: this.props.classes.tabRoot}} />
           </Tabs>
         </AppBar>
-        <SwipeableViews
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={this.state.value}
-          onChangeIndex={this.handleChangeIndex}
-        >
-          <TabContainer className={this.props.classes.month} dir={theme.direction}>
+          { value === 0 && <TabContainer className={this.props.classes.month} dir={theme.direction}>
               <Table>
                 <TableBody>
-                  {this.props.navigatorMonths
+                  {this.props.nav_months.nav_months
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map(this.createList)}
                 </TableBody>
@@ -155,11 +154,10 @@ class JournalTabs extends React.Component {
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
               />
-          </TabContainer>
-          <TabContainer dir={theme.direction}>
+          </TabContainer>}
+          {value === 1 && <TabContainer dir={theme.direction}>
             <KeyList />
-          </TabContainer>
-        </SwipeableViews>
+          </TabContainer>}
       </div>
     );
   }
@@ -171,5 +169,11 @@ JournalTabs.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(JournalTabs);
+const mapStateToProps = state => {
+  return {
+    nav_months: state.nav_months,
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(JournalTabs));
 ;

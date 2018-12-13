@@ -195,11 +195,4 @@ Description.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    auth_status: state.auth_status,
-    current_user: state.current_user
-  }
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(Description));
+export default (withStyles(styles)(Description));

@@ -71,11 +71,6 @@ export function getBullets()
     let sorted_bullets = sortBulletObject(new_bullets)
     let sorted_months = sortMonths(new_months)
 
-    this.setState({
-      bullets: sorted_bullets,
-      navigatorMonths: sorted_months,
-    })
-
     store.dispatch(getStoreJournalEntries({
       journal_entries: sorted_bullets,
     }))

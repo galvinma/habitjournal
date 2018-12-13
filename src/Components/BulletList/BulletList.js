@@ -27,6 +27,11 @@ import { TimePicker } from 'material-ui-pickers';
 import { DatePicker } from 'material-ui-pickers';
 import ReactSVG from 'react-svg'
 
+
+// redux
+import store from '../.././Store/store'
+import { connect } from "react-redux";
+
 // functions
 import { convertToIcon } from '../../Utils/convertoicon'
 
@@ -108,10 +113,6 @@ class BulletList extends React.Component {
   constructor(props)
   {
     super(props);
-    this.state = {
-      count: 0,
-      edit_value: '',
-    };
 
     this.createList = this.createList.bind(this);
     this.convertToIcon = convertToIcon.bind(this);
@@ -142,7 +143,6 @@ class BulletList extends React.Component {
          <Typography variant="body1">
            <MuiPickersUtilsProvider utils={MomentUtils}>
                <TimePicker
-                 key={i.entry_id+i.type+i.start_time}
                  className={this.props.classes.timeInput}
                  style={{ width: '50px' }}
                  value={moment.unix(i.start_time)}
@@ -167,7 +167,6 @@ class BulletList extends React.Component {
          <Typography variant="body1">
            <MuiPickersUtilsProvider utils={MomentUtils}>
                <TimePicker
-                 key={i.entry_id+i.type+i.end_time}
                  className={this.props.classes.timeInput}
                  style={{ width: '50px'}}
                  value={moment.unix(i.end_time)}
@@ -190,7 +189,7 @@ class BulletList extends React.Component {
        }
 
      return (
-       <div key={i.entry_id+i.status}>
+       <div>
        <ListItem className={this.props.classes.bulletRow_sel}>
         <div className="bullet-item">
           <div className={this.props.classes.bulletItem}>
@@ -202,7 +201,7 @@ class BulletList extends React.Component {
 
              <form>
                 <input
-                key={i.entry_id+i.type+i.title}
+                key={i.title}
                 onBlur={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
                 className={this.props.classes.text_input}
                 type="text"
@@ -230,13 +229,13 @@ class BulletList extends React.Component {
     return(
       <div className={this.props.classes.root}>
         {
-         Object.keys(this.props.bullets).map((k, index) => (
-            <List key={k} className={this.props.classes.list_container}>
+         Object.keys(this.props.journal_entries.journal_entries).map((k, index) => (
+            <List className={this.props.classes.list_container}>
               <div className={this.props.classes.list_container}>
                   <Typography variant="body1" className={this.props.classes.date_title}>
                     {k}
                   </Typography>
-                  {this.props.bullets[k].map(this.createList)}
+                  {this.props.journal_entries.journal_entries[k].map(this.createList)}
               </div>
             </List>
             ))
@@ -249,4 +248,11 @@ BulletList.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BulletList);
+const mapStateToProps = state => {
+  return {
+    journal_entries: state.journal_entries,
+  }
+}
+
+
+export default connect(mapStateToProps)(withStyles(styles)(BulletList));

@@ -38,7 +38,6 @@ class ArchiveList extends React.Component {
       value: 0,
       page: 0,
       rowsPerPage: 12,
-      navigatorMonths: this.get
     }
 
     this.createList = this.createList.bind(this);

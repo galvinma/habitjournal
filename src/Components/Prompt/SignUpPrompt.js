@@ -210,7 +210,6 @@ SignUpPrompt.propTypes = {
 const mapStateToProps = state => {
   return {
     auth_status: state.auth_status,
-    current_user: state.current_user
   }
 }
 

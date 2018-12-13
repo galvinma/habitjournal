@@ -141,8 +141,6 @@ class Journal extends React.Component {
     IDCount: 0,
   }
 
-  checkAuth()
-
   this.changeSelectedMonth = changeSelectedMonth.bind(this)
   this.titleChange = titleChange.bind(this)
   this.removeEntry = removeEntry.bind(this)
@@ -171,12 +169,35 @@ class Journal extends React.Component {
 
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.bullets !== this.state.bullets ||
+        nextState.navigatorMonths !== this.state.navigatorMonths ||
+        nextState.startDate !== this.state.startDate ||
+        nextState.endDate !== this.state.endDate ||
+        nextState.startTime !== this.state.startTime ||
+        nextState.endTime !== this.state.endTime ||
+        nextState.checkedAllDay !== this.state.checkedAllDay ||
+        nextState.checkedMultiDay !== this.state.checkedMultiDay ||
+        nextState.type !== this.state.type ||
+        nextState.selected !== this.state.selected)
+    {
+     return true
+    }
+    else
+    {
+     return false
+    }
+  }
+
   componentDidMount()
   {
+
+    checkAuth()
+
     if (store.getState().first_load.first_load === true)
     {
       this.updateAllEntries()
-      this.getHabits()
+      // this.getHabits()
 
       store.dispatch(getFirstLoadStatus({
         first_load: false,
@@ -248,9 +269,6 @@ Journal.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    auth_status: state.auth_status,
-    current_user: state.current_user,
-    all_entries: state.all_entries,
     journal_entries: state.journal_entries,
   }
 }

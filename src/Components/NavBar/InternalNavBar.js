@@ -195,11 +195,4 @@ InternalNavBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    auth_status: state.auth_status,
-    current_user: state.current_user
-  }
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(InternalNavBar));
+export default (withStyles(styles)(InternalNavBar));
