@@ -70,7 +70,6 @@ export function getBullets()
     })
     let sorted_bullets = sortBulletObject(new_bullets)
     let sorted_months = sortMonths(new_months)
-    console.log(sorted_months)
 
     this.setState({
       bullets: sorted_bullets,

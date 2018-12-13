@@ -14,6 +14,7 @@ import BulletNavigator from '../.././Components/BulletList/BulletNavigator'
 import Key from '../.././Components/Modal/Key'
 import Archive from '../.././Components/Modal/Archive'
 import JournalTabs from '../.././Components/Tabs/JournalTabs'
+import SnackBar from '../.././Components/SnackBar/SnackBar'
 
 // Functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -234,6 +235,7 @@ class Journal extends React.Component {
               navigatorMonths={this.state.navigatorMonths}
               changeSelectedMonth={this.changeSelectedMonth}/>
           </Paper>
+          <SnackBar/>
         </div>
       </div>
     );

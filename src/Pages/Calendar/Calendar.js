@@ -27,6 +27,7 @@ import CalendarHeader from '../.././Components/Calendar/CalendarHeader'
 import CalendarBody from '../.././Components/Calendar/CalendarBody'
 import CalendarEntries from '../.././Components/Modal/CalendarEntries'
 import EditEntry from '../.././Components/Modal/EditEntry'
+import SnackBar from '../.././Components/SnackBar/SnackBar'
 
 // functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -290,6 +291,7 @@ class Calendar extends React.Component {
               updateCalendarHeader={this.updateCalendarHeader}
               updateCalendarBody={this.updateCalendarBody} />
         </Paper>
+        <SnackBar/>
       </div>
     );
   }

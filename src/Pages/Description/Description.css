@@ -4,8 +4,3 @@
   background: rgb(255, 255, 255) !important;
   border: rgb(255, 255, 255) !important;
 }
-
-.control-arrow, .control-prev, .control-next
-{
-  color: rgb(0, 0, 0) !important;
-}

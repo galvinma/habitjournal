@@ -76,3 +76,13 @@ export const getStoreJournalEntries = journal_entries => ({
 export const resetStore = () => ({
   type: "RESET_STORE",
 })
+
+export const getSnackBarState = snack_bar_state => ({
+  type: "SNACK_BAR_STATE",
+  snack_bar_state
+})
+
+export const getSnackBarMessage = snack_bar_message => ({
+  type: "SNACK_BAR_MESSAGE",
+  snack_bar_message
+})

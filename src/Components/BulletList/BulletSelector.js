@@ -162,8 +162,8 @@ class BulletSelector extends React.Component {
                  onKeyDown={(e) => this.props.checkSubmit(e)} />
               </form>
               <div className={this.props.classes.icon_container}>
-                <ReactSVG className={this.props.classes.icon_style} src={archive} svgStyle={{ width: '20px' }} onClick={() =>       store.dispatch(getArchiveModalState({archive_modal_status: true}))}/>
-                <ReactSVG className={this.props.classes.icon_style} src={key} svgStyle={{ width: '20px' }} onClick={() =>       store.dispatch(getKeyModalState({key_modal_status: true}))}/>
+                <ReactSVG className={this.props.classes.icon_style} src={archive} svgStyle={{ width: '20px' }} onClick={() => store.dispatch(getArchiveModalState({archive_modal_status: true}))}/>
+                <ReactSVG className={this.props.classes.icon_style} src={key} svgStyle={{ width: '20px' }} onClick={() => store.dispatch(getKeyModalState({key_modal_status: true}))}/>
               </div>
             </div>
           </ListItem>

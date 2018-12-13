@@ -166,10 +166,10 @@ class Description extends React.Component {
                   Stay on top of your commitments. Use the built in calendar to ensure all your obligations are fulfilled. Make deadlines. Celebrate achievements. Know where you stand and prioritize as needed.
                 </div>
                 <div className={this.props.classes.link_text}>
-                <a className={this.props.classes.link_text} href='#/join'>Try Daisy Journal Today</a></div>
+                <a className={this.props.classes.link_text} href='#/join'>Try Daisy Journal</a></div>
               </div>
               <div className={this.props.classes.image_container}>
-                <Carousel className={this.props.classes.carousel_container} autoPlay stopOnHover showIndicators={true} showThumbs={false} showStatus={false} transitionTime={2000}>
+                <Carousel className={this.props.classes.carousel_container} autoPlay stopOnHover showIndicators={true} showThumbs={false} showStatus={false} transitionTime={1000} interval={6000}>
                   <div>
                       <img className={this.props.classes.image} src={journal_img} />
                   </div>

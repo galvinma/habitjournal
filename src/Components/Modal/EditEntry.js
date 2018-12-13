@@ -39,6 +39,14 @@ import { updateAllUIEntries } from '../.././Utils/updatealluientries'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
+import { getSnackBarState, getSnackBarMessage } from '../.././Actions/actions'
+
+// Functions
+import { verifyUnixInputs } from '../.././Utils/verifyunixinputs'
+import { startDateBeforeEndDate } from '../.././Utils/startdate_before_enddate'
+import { startTimeBeforeEndTime } from '../.././Utils/starttime_before_endtime'
+import { sameDay } from '../.././Utils/same_day'
+
 
 // Images and Icons
 var minus = require('../.././Images/Icons/minus.svg')
@@ -331,6 +339,8 @@ class EditEntry extends React.Component {
   {
     let endDate
     let endTime
+    let allDay
+
     if (this.state.checkedMultiDay === false && this.state.checkedAllDay === true)
     {
       // Single Day / All Day
@@ -360,6 +370,37 @@ class EditEntry extends React.Component {
       endTime = this.state.endTime
     }
 
+    // verify date and times and valid
+    if (verifyUnixInputs(this.state.startDate, endDate) === false)
+    {
+      startDateBeforeEndDate()
+      return
+    }
+
+    if (verifyUnixInputs(this.state.startTime, endTime) === false)
+    {
+      startTimeBeforeEndTime()
+      return
+    }
+
+    if (this.state.checkedMultiDay === true &&
+        this.state.startDate === endDate)
+    {
+      sameDay()
+      return
+    }
+
+    if (endDate === moment.unix(this.state.startDate).startOf('day').unix() &&
+        endTime === moment.unix(this.state.startDate).endOf('day').unix())
+    {
+      allDay = true
+    }
+    else
+    {
+      allDay = false
+    }
+
+
     // Update UI
     let parameters = {
       entry_id: store.getState().entries_modal_id.entries_modal_id,
@@ -371,7 +412,7 @@ class EditEntry extends React.Component {
       title: this.state.title,
       status: this.state.status,
       multi_day: this.state.checkedMultiDay,
-      all_day: this.state.checkedAllDay,
+      all_day: allDay,
     }
     this.updateStoreEntry(parameters)
     .then((response) => {
@@ -393,7 +434,7 @@ class EditEntry extends React.Component {
         title: this.state.title,
         status: this.state.status,
         multi_day: this.state.checkedMultiDay,
-        all_day: this.state.checkedAllDay,
+        all_day: allDay,
       }
     })
     .then((response) => {

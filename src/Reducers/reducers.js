@@ -14,7 +14,9 @@ import {  CURRENT_USER,
           JOURNAL_ENTRIES,
           KEY_MODAL_STATE,
           ARCHIVE_MODAL_STATE,
-          RESET_STORE
+          RESET_STORE,
+          SNACK_BAR_STATE,
+          SNACK_BAR_MESSAGE,
         }
 
 from "../Constants/action-types";
@@ -35,7 +37,8 @@ const initialState = {
   calendar_entries: {calendar_entries: {}},
   habit_entries: {habit_entries: []},
   journal_entries: {journal_entries: {}},
-
+  snack_bar_state: {snack_bar_state: false},
+  snack_bar_message: {snack_bar_message: ""},
 };
 
 function rootReducer(state = initialState, action) {
@@ -70,6 +73,10 @@ function rootReducer(state = initialState, action) {
       return getStoreCalendarEntries(state, action.calendar_entries)
     case FIRST_LOAD:
       return getFirstLoadStatus(state, action.first_load)
+    case SNACK_BAR_STATE:
+      return getSnackBarState(state, action.snack_bar_state)
+    case SNACK_BAR_MESSAGE:
+      return getSnackBarMessage(state, action.snack_bar_message)
     case RESET_STORE:
       return resetStore(state)
     default:
@@ -175,6 +182,20 @@ function getStoreJournalEntries(state, journal_entries) {
   }
 }
 
+function getSnackBarState(state, snack_bar_state) {
+  return {
+    ...state,
+    snack_bar_state: snack_bar_state
+  }
+}
+
+function getSnackBarMessage(state, snack_bar_message) {
+  return {
+    ...state,
+    snack_bar_message: snack_bar_message
+  }
+}
+
 function getStoreCalendarEntries(state, calendar_entries) {
   return {
     ...state,
@@ -200,6 +221,8 @@ function resetStore(state) {
     calendar_entries: {calendar_entries: {}},
     habit_entries: {habit_entries: []},
     journal_entries: {journal_entries: {}},
+    snack_bar_state: {snack_bar_state: false},
+    snack_bar_message: {snack_bar_message: ""},
   }
 }
 

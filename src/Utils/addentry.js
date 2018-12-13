@@ -4,11 +4,19 @@ import moment from 'moment'
 // redux
 import store from '.././Store/store'
 import { getAllEntries } from '.././Actions/actions'
+import { getSnackBarState, getSnackBarMessage } from '.././Actions/actions'
+
+// Functions
+import { verifyUnixInputs } from './verifyunixinputs'
+import { startDateBeforeEndDate } from './startdate_before_enddate'
+import { startTimeBeforeEndTime } from './starttime_before_endtime'
+import { sameDay } from './same_day'
 
 export function addEntry()
 {
   let endDate
   let endTime
+  let allDay
 
   if (this.state.checkedMultiDay === false && this.state.checkedAllDay === true)
   {
@@ -39,13 +47,42 @@ export function addEntry()
     endTime = this.state.endTime
   }
 
+  // verify date and times and valid
+  if (verifyUnixInputs(this.state.startDate, endDate) === false)
+  {
+    startDateBeforeEndDate()
+    return
+  }
+
+  if (verifyUnixInputs(this.state.startTime, endTime) === false)
+  {
+    startTimeBeforeEndTime()
+    return
+  }
+
+  if (this.state.checkedMultiDay === true &&
+      this.state.startDate === endDate)
+  {
+    sameDay()
+    return
+  }
+
+  if (endDate === moment.unix(this.state.startDate).startOf('day').unix() &&
+      endTime === moment.unix(this.state.startDate).endOf('day').unix())
+  {
+    allDay = true
+  }
+  else
+  {
+    allDay = false
+  }
+
   let val = document.getElementById("bulletSelector").value
   let temp_id = "TEMP_"+String(this.state.IDCount)
 
   this.setState({ IDCount: this.state.IDCount + 1})
 
   // Update UI
-
   this.setState({
     title: ""
   });
@@ -63,7 +100,7 @@ export function addEntry()
     start_time: this.state.startTime,
     end_time: endTime,
     multi_day: this.state.checkedMultiDay,
-    all_day: this.state.checkedAllDay,
+    all_day: allDay,
     habit_id: null,
     description: "",
     status: "0"
@@ -86,7 +123,7 @@ export function addEntry()
       start_time: this.state.startTime,
       end_time: endTime,
       multi_day: this.state.checkedMultiDay,
-      all_day: this.state.checkedAllDay,
+      all_day: allDay,
     }
   })
   .then((response) => {
