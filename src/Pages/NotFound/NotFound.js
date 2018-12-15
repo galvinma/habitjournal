@@ -2,6 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import history from '../.././history';
 
 // redux
 import store from '../.././Store/store'
@@ -38,12 +39,22 @@ class NotFound extends React.Component {
   {
     super(props);
 
-    checkAuth()
   }
 
   render() {
-    if (store.getState().auth_status.auth_status === false) {
-      return <Redirect to='/' />
+    if (store.getState().auth_status.auth_status === false)
+    {
+      checkAuth()
+      .then(function(){
+          if (store.getState().auth_status.auth_status === false)
+          {
+            history.push('/');
+          }
+      })
+      .catch(function(error)
+      {
+        history.push('/');
+      })
     }
     return (
       <div>

@@ -4,12 +4,17 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import history from '../.././history';
 
 const styles = theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  body_text: {
+    fontFamily:'Nunito',
+    fontSize: '14px',
   },
   card_container: {
     width: '360px',
@@ -29,7 +34,8 @@ const styles = theme => ({
   },
   homelink: {
     textDecoration: 'underline',
-    color: 'inherit'
+    color: 'inherit',
+    display: 'inline-block',
   }
 });
 
@@ -43,9 +49,9 @@ class NotFoundCard extends React.Component {
             404
           </Typography>
           <br />
-          <Typography variant="body1">
-            Take me back to <a className={this.props.classes.homelink} href='/'>daisyjournal.com</a>.
-          </Typography>
+          <div className={this.props.classes.body_text}>
+            Take me back to <div className={this.props.classes.homelink} onClick={() => {history.push('/')}} >daisyjournal.com</div>.
+          </div>
         </CardContent>
       </Card>
     </div>
