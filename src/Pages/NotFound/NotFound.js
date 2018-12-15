@@ -42,20 +42,6 @@ class NotFound extends React.Component {
   }
 
   render() {
-    if (store.getState().auth_status.auth_status === false)
-    {
-      checkAuth()
-      .then(function(){
-          if (store.getState().auth_status.auth_status === false)
-          {
-            history.push('/');
-          }
-      })
-      .catch(function(error)
-      {
-        history.push('/');
-      })
-    }
     return (
       <div>
         <InternalNavBar />
