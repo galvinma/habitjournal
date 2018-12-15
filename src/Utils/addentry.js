@@ -92,7 +92,7 @@ export function addEntry()
   var entries = store.getState().all_entries.all_entries
   entries.push({
     entry_id: temp_id,
-    user_id: sessionStorage.getItem('user'),
+    user_id: localStorage.getItem('user'),
     type: this.state.type,
     title: val,
     start_date: this.state.startDate,
@@ -115,7 +115,7 @@ export function addEntry()
   // Update DB
   axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/save_entry`, {
     params: {
-      user: sessionStorage.getItem('user'),
+      user: localStorage.getItem('user'),
       type: this.state.type,
       title: val,
       start_date: this.state.startDate,

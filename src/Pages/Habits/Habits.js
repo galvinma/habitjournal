@@ -1,5 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom';
+import history from '../.././history';
 import axios from 'axios';
 import moment from 'moment'
 import PropTypes from 'prop-types';
@@ -77,8 +78,6 @@ class Habits extends React.Component {
       habit_entries: store.getState().habit_entries.habit_entries,
     };
 
-    checkAuth()
-
     this.handleModalOpen = this.handleModalOpen.bind(this)
     this.handleModalClose = this.handleModalClose.bind(this)
     this.editModalValue = this.editModalValue.bind(this)
@@ -107,7 +106,6 @@ class Habits extends React.Component {
   {
     this.updateAllUIEntries()
 
-    // Retry. Prevents users from having a black calendar if API call hasn't returned in time
     if (store.getState().habit_entries.habit_entries === [] ||
         store.getState().habits.habits === [])
     {
@@ -181,8 +179,19 @@ class Habits extends React.Component {
   }
 
   render() {
-    if (store.getState().auth_status.auth_status === false) {
-      return <Redirect to='/' />
+    if (store.getState().auth_status.auth_status === false)
+    {
+      checkAuth()
+      .then(function(){
+          if (store.getState().auth_status.auth_status === false)
+          {
+            history.push('/');
+          }
+      })
+      .catch(function(error)
+      {
+        history.push('/');
+      })
     }
 
     return(

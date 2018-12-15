@@ -49,7 +49,9 @@ router.route('/login')
             // create token
             var login_user = new Users();
             login_user.id = docs.id
-            login_user.email = docs.email;
+            login_user.email = docs.email
+            login_user.reset_count =  docs.reset_count
+            login_user.join_date = docs.join_date
 
             var token = generateJWT.generateJWT(login_user)
             res.json({

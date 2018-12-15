@@ -4,7 +4,7 @@ export function  createHabit()
   {
     axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/save_habit`, {
       params: {
-        user: sessionStorage.getItem('user'),
+        user: localStorage.getItem('user'),
         title: this.state.newValue
       }
     })

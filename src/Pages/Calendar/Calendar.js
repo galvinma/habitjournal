@@ -1,5 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom';
+import history from '../.././history';
 import axios from 'axios';
 import moment from 'moment'
 import PropTypes from 'prop-types';
@@ -137,8 +138,6 @@ class Calendar extends React.Component {
   {
     super(props);
 
-    checkAuth()
-
     this.state = {
       calendar_entries: store.getState().calendar_entries.calendar_entries,
       selectedMonth: moment().month(),
@@ -253,8 +252,19 @@ class Calendar extends React.Component {
   }
 
   render() {
-    if (store.getState().auth_status.auth_status === false) {
-      return <Redirect to='/' />
+    if (store.getState().auth_status.auth_status === false)
+    {
+      checkAuth()
+      .then(function(){
+          if (store.getState().auth_status.auth_status === false)
+          {
+            history.push('/');
+          }
+      })
+      .catch(function(error)
+      {
+        history.push('/');
+      })
     }
 
     return(

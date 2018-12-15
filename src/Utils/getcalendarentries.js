@@ -148,7 +148,7 @@ export function getCalendarEntries()
 
                     axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/return_one`, {
                       params: {
-                        user: sessionStorage.getItem('user'),
+                        user: localStorage.getItem('user'),
                         entry_id: entry.entry_id
                       }
                     })

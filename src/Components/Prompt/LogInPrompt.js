@@ -114,8 +114,9 @@ class LoginPrompt extends React.Component {
       {
         var token = response.data.token
         var user = response.data.user
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('user', user);
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', user);
 
         store.dispatch(getAuthStatus({
           auth_status: true,

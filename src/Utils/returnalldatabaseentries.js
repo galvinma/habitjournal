@@ -11,7 +11,7 @@ export function returnAllDatabaseEntries()
   return new Promise(function(resolve, reject) {
     axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/return_entries`, {
       params: {
-        user: sessionStorage.getItem('user'),
+        user: localStorage.getItem('user'),
       }
     })
     .then((response) => {

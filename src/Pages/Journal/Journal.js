@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import moment from 'moment'
 import { Redirect } from 'react-router-dom';
+import history from '../.././history';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
@@ -191,13 +192,10 @@ class Journal extends React.Component {
 
   componentDidMount()
   {
-
-    checkAuth()
-
     if (store.getState().first_load.first_load === true)
     {
       this.updateAllEntries()
-      // this.getHabits()
+      this.getHabits()
 
       store.dispatch(getFirstLoadStatus({
         first_load: false,
@@ -210,8 +208,19 @@ class Journal extends React.Component {
   }
 
   render() {
-    if (store.getState().auth_status.auth_status === false) {
-      return <Redirect to='/' />
+    if (store.getState().auth_status.auth_status === false)
+    {
+      checkAuth()
+      .then(function(){
+          if (store.getState().auth_status.auth_status === false)
+          {
+            history.push('/');
+          }
+      })
+      .catch(function(error)
+      {
+        history.push('/');
+      })
     }
     return (
       <div>

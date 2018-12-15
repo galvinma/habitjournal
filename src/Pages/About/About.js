@@ -1,9 +1,11 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import history from '../.././history';
 
 // redux
 import store from '../.././Store/store'
@@ -58,13 +60,22 @@ class About extends React.Component {
   constructor(props)
   {
     super(props);
-
-    checkAuth()
   }
 
   render() {
-    if (store.getState().auth_status.auth_status === false) {
-      return <Redirect to='/' />
+    if (store.getState().auth_status.auth_status === false)
+    {
+      checkAuth()
+      .then(function(){
+          if (store.getState().auth_status.auth_status === false)
+          {
+            history.push('/');
+          }
+      })
+      .catch(function(error)
+      {
+        history.push('/');
+      })
     }
 
     return(
@@ -125,4 +136,4 @@ About.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default (withStyles(styles)(About));
+export default withStyles(styles)(About);

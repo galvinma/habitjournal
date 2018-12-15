@@ -9,7 +9,7 @@ export function getHabits()
 {
   axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/return_habit_names`, {
     params: {
-      user: sessionStorage.getItem('user'),
+      user: localStorage.getItem('user'),
     }
   })
   .then((response) => {

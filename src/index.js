@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { HashRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from './Store/store'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import grey from '@material-ui/core/colors/grey';
 import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import history from './history';
+
 require('dotenv').config()
 
 const theme = createMuiTheme({
@@ -49,11 +51,11 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <HashRouter>
+      <Router history={history}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <App />
         </MuiPickersUtilsProvider>
-      </HashRouter>
+      </Router>
     </Provider>
   </MuiThemeProvider>,
 document.getElementById('root'));

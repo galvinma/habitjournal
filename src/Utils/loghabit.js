@@ -48,7 +48,7 @@ export function logHabit(...parameters)
     var entries = store.getState().all_entries.all_entries
     entries.push({
       entry_id: temp_id,
-      user_id: sessionStorage.getItem('user'),
+      user_id: localStorage.getItem('user'),
       type: 'habit',
       title: parameters[0].title,
       start_date: moment(parameters[0].start_date, "YYYY/MM/DD").unix(),
@@ -71,7 +71,7 @@ export function logHabit(...parameters)
     // Update DB
     axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/log_habit`, {
       params: {
-        user: sessionStorage.getItem('user'),
+        user: localStorage.getItem('user'),
         type: this.state.type,
         title: parameters[0].title,
         start_date: moment(parameters[0].start_date, "YYYY/MM/DD").unix(),

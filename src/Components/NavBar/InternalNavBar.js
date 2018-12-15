@@ -110,8 +110,8 @@ class InternalNavBar extends React.Component {
   }
 
   logoutUser() {
-    sessionStorage.setItem('token', null);
-    sessionStorage.setItem('user', null);
+    localStorage.setItem('token', null);
+    localStorage.setItem('user', null);
 
     store.dispatch(resetStore())
   }

@@ -4,8 +4,10 @@ module.exports = {
   generateJWT: function(user)
   {
     var t = {
-     name: user.id,
+     id: user.id,
      email: user.email,
+     reset_count: user.reset_count,
+     join_date: user.join_date
     };
 
     var token = jwt.sign(t, process.env.REACT_APP_JWT_SECRET, {

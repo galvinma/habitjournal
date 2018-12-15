@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import history from '../.././history';
+
 
 const styles = theme => ({
   card_container: {
@@ -34,6 +36,7 @@ const styles = theme => ({
     marginBottom: '10px',
   },
   link: {
+    display: 'inline-block',
     textDecoration: 'underline',
     color: 'inherit'
   }
@@ -49,7 +52,7 @@ class LandingCard extends React.Component {
             Daisy Journal
           </div>
           <div className={this.props.classes.body_text}>
-            Planning for the digital age. <a className={this.props.classes.link} href='#/info'>Find out more</a>.
+            Planning for the digital age. <div className={this.props.classes.link} onClick={() => {history.push('/info')}}>Find out more</div>.
           </div>
         </CardContent>
       </Card>
