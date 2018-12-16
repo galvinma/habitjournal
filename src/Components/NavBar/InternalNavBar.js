@@ -12,6 +12,7 @@ import Icon from '@mdi/react'
 import Paper from '@material-ui/core/Paper';
 import ReactSVG from 'react-svg'
 import { mdiLogout, mdiMenu, mdiFlowerOutline } from '@mdi/js'
+import history from '../.././history';
 
 // redux
 import store from '../.././Store/store'
@@ -80,6 +81,7 @@ const styles = theme => ({
     },
   },
   logo: {
+    maxHeight: '50px',
     marginRight: 'auto',
     paddingRight: '15px',
     textDecoration: 'none',
@@ -131,9 +133,7 @@ class InternalNavBar extends React.Component {
         <AppBar className={this.props.classes.navbar} position="static">
           <Paper className={this.props.classes.paperbar}>
             <Toolbar className={this.props.classes.toolbar_open}>
-              <NavLink to="/journal" className={this.props.classes.logo}>
-                <ReactSVG src={logo} svgStyle={{height: 50}}/>
-              </NavLink>
+              <img src={logo} alt="" className={this.props.classes.logo} onClick={() => {history.push('/journal')}}/>
               <NavLink to="/journal" activeStyle={{ textDecoration: 'underline' }} class="link">Journal</NavLink>
               <NavLink to="/habits" activeStyle={{ textDecoration: 'underline' }} class="link">Habits</NavLink>
               <NavLink to="/calendar" activeStyle={{ textDecoration: 'underline' }} class="link">Calendar</NavLink>
@@ -144,9 +144,7 @@ class InternalNavBar extends React.Component {
             </Toolbar>
 
             <Toolbar className={this.props.classes.toolbar_collapse}>
-              <NavLink to="/" className={this.props.classes.logo}>
-                <ReactSVG src={logo} svgStyle={{height: 50}}/>
-              </NavLink>
+              <img src={logo} alt="" className={this.props.classes.logo} onClick={() => {history.push('/journal')}}/>
               <Icon
               aria-owns={anchorEl ? 'simple-menu' : undefined}
               aria-haspopup="true"

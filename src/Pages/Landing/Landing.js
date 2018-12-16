@@ -13,6 +13,14 @@ import LandingCard from '../.././Components/Cards/LandingCard'
 var landing = require('../.././Images/landing.svg')
 
 class Landing extends React.Component {
+  componentDidMount()
+  {
+    for (var icon in this.props.icons)
+    {
+      var i = new Image()
+      i.src = this.props.icons[icon]
+    }
+  }
   render() {
     return (
       <div>

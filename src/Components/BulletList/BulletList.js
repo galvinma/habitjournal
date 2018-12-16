@@ -38,7 +38,7 @@ import { convertToIcon } from '../../Utils/convertoicon'
 // CSS
 import './BulletList.css'
 
-// Images and Icons
+// Images/Icons
 var minus = require('../.././Images/Icons/minus.svg')
 var checkboxBlankCircleOutline = require('../.././Images/Icons/checkbox-blank-circle-outline.svg')
 var checkboxBlankCircle = require('../.././Images/Icons/checkbox-blank-circle.svg')
@@ -54,6 +54,9 @@ var checkboxMultipleBlankTriangle = require('../.././Images/Icons/checkbox-multi
 var checkboxMultipleBlank = require('../.././Images/Icons/checkbox-multiple-blank.svg')
 var flowerOutline = require('../.././Images/Icons/flower-outline.svg')
 var flower = require('../.././Images/Icons/flower.svg')
+var key = require('../.././Images/Icons/key.svg')
+var archive = require('../.././Images/Icons/archive.svg')
+var logo = require('../.././Images/logo.svg')
 
 const styles = theme => ({
   root: {
@@ -195,7 +198,7 @@ class BulletList extends React.Component {
           <div className={this.props.classes.bulletItem}>
              <ListItemIcon className={this.props.classes.list_selector}>
                 <Button onClick={(e) => {this.props.toggleIcon(i.entry_id, i.type, i.status)}}>
-                  <ReactSVG src={p} svgStyle={{ height: '20px' }}/>
+                  <img src={p} svgStyle={{ height: '20px' }}/>
                 </Button>
              </ListItemIcon>
 

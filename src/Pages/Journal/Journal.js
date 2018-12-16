@@ -252,6 +252,7 @@ class Journal extends React.Component {
                 checkedAllDay={this.state.checkedAllDay}
                 checkedMultiDay={this.state.checkedMultiDay} />
               <BulletList
+                icons={this.props.icons}
                 bullets={this.state.bullets}
                 removeEntry={this.removeEntry}
                 toggleIcon={this.toggleIcon}

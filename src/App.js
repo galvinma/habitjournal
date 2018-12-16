@@ -19,9 +19,58 @@ import Description from './Pages/Description/Description'
 // css
 import './App.css';
 
+// Images and Icons
+var dots = require('./Images/Icons/dots-horizontal.svg')
+var minus = require('./Images/Icons/minus.svg')
+var plus = require('./Images/Icons/plus.svg')
+var weatherNight = require('./Images/Icons/weather-night.svg')
+var weatherSunset = require('./Images/Icons/weather-sunset.svg')
+var checkboxBlankCircleOutline = require('./Images/Icons/checkbox-blank-circle-outline.svg')
+var checkboxBlankCircle = require('./Images/Icons/checkbox-blank-circle.svg')
+var checkboxBlankOutline = require('./Images/Icons/checkbox-blank-outline.svg')
+var checkboxBlankTriangleOutline = require('./Images/Icons/checkbox-blank-triangle-outline.svg')
+var checkboxBlankTriangle = require('./Images/Icons/checkbox-blank-triangle.svg')
+var checkboxBlank = require('./Images/Icons/checkbox-blank.svg')
+var checkboxMultipleBlankCircleOutline = require('./Images/Icons/checkbox-multiple-blank-circle-outline.svg')
+var checkboxMultipleBlankCircle = require('./Images/Icons/checkbox-multiple-blank-circle.svg')
+var checkboxMultipleBlankOutline = require('./Images/Icons/checkbox-multiple-blank-outline.svg')
+var checkboxMultipleBlankTriangleOutline = require('./Images/Icons/checkbox-multiple-blank-triangle-outline.svg')
+var checkboxMultipleBlankTriangle = require('./Images/Icons/checkbox-multiple-blank-triangle.svg')
+var checkboxMultipleBlank = require('./Images/Icons/checkbox-multiple-blank.svg')
+var flowerOutline = require('./Images/Icons/flower-outline.svg')
+var flower = require('./Images/Icons/flower.svg')
+var key = require('./Images/Icons/key.svg')
+var archive = require('./Images/Icons/archive.svg')
+var logo = require('./Images/logo.svg')
+
+var icons = {
+  "minus": minus,
+  "plus": plus,
+  "dots": dots,
+  "weatherSunset": weatherSunset,
+  "weatherNight": weatherNight,
+  "key": key,
+  "archive": archive,
+  "checkboxBlankCircleOutline": checkboxBlankCircleOutline,
+  "checkboxBlankCircle": checkboxBlankCircle,
+  "checkboxBlankOutline": checkboxBlankOutline,
+  "checkboxBlankTriangleOutline": checkboxBlankTriangleOutline,
+  "checkboxBlankTriangle": checkboxBlankTriangle,
+  "checkboxBlank": checkboxBlank,
+  "checkboxMultipleBlankCircleOutline": checkboxMultipleBlankCircleOutline,
+  "checkboxMultipleBlankCircle": checkboxMultipleBlankCircle,
+  "checkboxMultipleBlankOutline": checkboxMultipleBlankOutline,
+  "checkboxMultipleBlankTriangleOutline": checkboxMultipleBlankTriangleOutline,
+  "checkboxMultipleBlankTriangle": checkboxMultipleBlankTriangle,
+  "checkboxMultipleBlank": checkboxMultipleBlank,
+  "flowerOutline": flowerOutline,
+  "flower": flower,
+  "logo": logo,
+}
+
 const _Landing = () => (
   <div>
-    <Landing />
+    <Landing icons={icons}/>
   </div>
 )
 
@@ -89,7 +138,6 @@ const styles = theme => ({
 });
 
 class App extends Component {
-
   render() {
     return (
       <div>

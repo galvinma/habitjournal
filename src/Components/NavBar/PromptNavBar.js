@@ -7,6 +7,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import ReactSVG from 'react-svg'
 import Paper from '@material-ui/core/Paper';
+import history from '../.././history';
+
 
 const styles = theme => ({
   navbarContainer: {
@@ -31,6 +33,7 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   logo: {
+    maxHeight: '50px',
     marginRight: 'auto',
     paddingLeft: '20px',
     paddingRight: '20px',
@@ -46,7 +49,7 @@ const styles = theme => ({
     marginLeft: '20px',
     marginRight: '20px',
     marginTop: '20px',
-    
+
     [theme.breakpoints.down(768)]: {
       marginLeft: '8px',
       marginRight: '8px',
@@ -73,9 +76,7 @@ class PromptNavBar extends React.Component {
         <AppBar className={this.props.classes.navbar} position="static">
           <Paper className={this.props.classes.paperbar}>
             <Toolbar className={this.props.classes.toolbar}>
-              <NavLink to="/" className={this.props.classes.logo}>
-                <ReactSVG src={logo} svgStyle={{height: 50}}/>
-              </NavLink>
+              <img src={logo} alt="" className={this.props.classes.logo} onClick={() => {history.push('/')}}/>
               <NavLink to="/signin" className={this.props.classes.link}>
                 <Typography variant="body1" className={this.props.classes.nav_text}>Sign In</Typography>
               </NavLink>

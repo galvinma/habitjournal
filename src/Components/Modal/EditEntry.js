@@ -485,22 +485,22 @@ class EditEntry extends React.Component {
                       disableUnderline={true}
                     >
                       <MenuItem value="checkboxBlankOutline">
-                        <ReactSVG src={checkboxBlankOutline} svgStyle={{ height: '20px' }}/>
+                        <img src={checkboxBlankOutline} svgStyle={{ height: '20px' }}/>
                       </MenuItem>
                       <MenuItem value="checkboxBlank">
-                        <ReactSVG src={checkboxBlank} svgStyle={{ height: '20px' }}/>
+                        <img src={checkboxBlank} svgStyle={{ height: '20px' }}/>
                       </MenuItem>
                       <MenuItem value="checkboxBlankCircleOutline">
-                        <ReactSVG src={checkboxBlankCircleOutline} svgStyle={{ height: '20px' }}/>
+                        <img src={checkboxBlankCircleOutline} svgStyle={{ height: '20px' }}/>
                       </MenuItem>
                       <MenuItem value="checkboxBlankCircle">
-                        <ReactSVG src={checkboxBlankCircle} svgStyle={{ height: '20px' }}/>
+                        <img src={checkboxBlankCircle} svgStyle={{ height: '20px' }}/>
                       </MenuItem>
                       <MenuItem value="checkboxBlankTriangleOutline">
-                        <ReactSVG src={checkboxBlankTriangleOutline} svgStyle={{ height: '20px' }}/>
+                        <img src={checkboxBlankTriangleOutline} svgStyle={{ height: '20px' }}/>
                       </MenuItem>
                       <MenuItem value="checkboxBlankTriangle">
-                        <ReactSVG src={checkboxBlankTriangle} svgStyle={{ height: '20px' }}/>
+                        <img src={checkboxBlankTriangle} svgStyle={{ height: '20px' }}/>
                       </MenuItem>
                     </Select>
                   </FormControl>

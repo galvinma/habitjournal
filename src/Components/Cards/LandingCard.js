@@ -6,7 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import history from '../.././history';
 
-
 const styles = theme => ({
   card_container: {
     display: 'flex',

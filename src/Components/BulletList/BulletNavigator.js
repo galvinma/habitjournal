@@ -6,11 +6,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 
-
-// mdiCircle = Event
-// mdiSquareOutline = Task
-// mdiTriangle = Habit
-
 const styles = theme => ({
   root: {
     top: '100px',
