@@ -6,6 +6,8 @@ import history from '../.././history';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
+import { css } from 'react-emotion';
+import { ClipLoader } from 'react-spinners';
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -119,6 +121,13 @@ const styles = theme => ({
       height: 'auto',
     },
   },
+  loading: {
+    display: 'flex',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '32px',
+    marginBottom: '32px',
+  }
 });
 
 class Journal extends React.Component {
@@ -170,25 +179,25 @@ class Journal extends React.Component {
 
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.bullets !== this.state.bullets ||
-        nextState.navigatorMonths !== this.state.navigatorMonths ||
-        nextState.startDate !== this.state.startDate ||
-        nextState.endDate !== this.state.endDate ||
-        nextState.startTime !== this.state.startTime ||
-        nextState.endTime !== this.state.endTime ||
-        nextState.checkedAllDay !== this.state.checkedAllDay ||
-        nextState.checkedMultiDay !== this.state.checkedMultiDay ||
-        nextState.type !== this.state.type ||
-        nextState.selected !== this.state.selected)
-    {
-     return true
-    }
-    else
-    {
-     return false
-    }
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextState.bullets !== this.state.bullets ||
+  //       nextState.navigatorMonths !== this.state.navigatorMonths ||
+  //       nextState.startDate !== this.state.startDate ||
+  //       nextState.endDate !== this.state.endDate ||
+  //       nextState.startTime !== this.state.startTime ||
+  //       nextState.endTime !== this.state.endTime ||
+  //       nextState.checkedAllDay !== this.state.checkedAllDay ||
+  //       nextState.checkedMultiDay !== this.state.checkedMultiDay ||
+  //       nextState.type !== this.state.type ||
+  //       nextState.selected !== this.state.selected)
+  //   {
+  //    return true
+  //   }
+  //   else
+  //   {
+  //    return false
+  //   }
+  // }
 
   componentDidMount()
   {
@@ -251,6 +260,14 @@ class Journal extends React.Component {
                 endTime={this.state.endTime}
                 checkedAllDay={this.state.checkedAllDay}
                 checkedMultiDay={this.state.checkedMultiDay} />
+              <div className={this.props.classes.loading}>
+                <ClipLoader
+                      sizeUnit={"px"}
+                      size={100}
+                      color={'#93AAB5'}
+                      loading={this.props.loading_status.loading_status}
+                    />
+              </div>
               <BulletList
                 icons={this.props.icons}
                 bullets={this.state.bullets}
@@ -280,6 +297,7 @@ Journal.propTypes = {
 const mapStateToProps = state => {
   return {
     journal_entries: state.journal_entries,
+    loading_status: state.loading_status,
   }
 }
 

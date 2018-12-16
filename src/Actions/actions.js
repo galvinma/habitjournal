@@ -86,3 +86,8 @@ export const getSnackBarMessage = snack_bar_message => ({
   type: "SNACK_BAR_MESSAGE",
   snack_bar_message
 })
+
+export const getLoadingStatus = loading_status => ({
+  type: "LOADING_STATUS",
+  loading_status
+})
