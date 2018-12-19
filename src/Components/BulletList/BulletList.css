@@ -1,8 +1,10 @@
 .bullet-delete  {
   opacity: 0;
+  height: 18px;
 }
 .bullet-item:hover .bullet-delete {
   opacity: 1;
+  height: 18px;
 }
 
 .to_style

@@ -5,6 +5,14 @@
   margin-right: 5px;
 }
 
+#dash_holder
+{
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+}
+
 #datetwo
 {
   display: none;

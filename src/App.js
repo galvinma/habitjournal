@@ -42,6 +42,7 @@ var flower = require('./Images/Icons/flower.svg')
 var key = require('./Images/Icons/key.svg')
 var archive = require('./Images/Icons/archive.svg')
 var logo = require('./Images/logo.svg')
+var close = require('./Images/Icons/close.svg')
 
 var icons = {
   "minus": minus,
@@ -66,6 +67,7 @@ var icons = {
   "flowerOutline": flowerOutline,
   "flower": flower,
   "logo": logo,
+  "close": close,
 }
 
 const _Landing = () => (

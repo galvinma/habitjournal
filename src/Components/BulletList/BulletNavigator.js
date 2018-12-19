@@ -53,7 +53,7 @@ class BulletNavigator extends React.Component {
     return(
       <div className={this.props.classes.root}>
         <List className={this.props.classes.nav_list}>
-            {this.props.navigatorMonths.map(this.createList)}
+            {this.props.nav_months.nav_months.map(this.createList)}
         </List>
       </div>
     );
@@ -63,5 +63,11 @@ class BulletNavigator extends React.Component {
 BulletNavigator.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = state => {
+  return {
+    nav_months: state.nav_months,
+  }
+}
 
 export default withStyles(styles)(BulletNavigator);

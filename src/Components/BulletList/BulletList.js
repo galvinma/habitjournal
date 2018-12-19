@@ -2,18 +2,6 @@ import React from 'react'
 import moment from 'moment'
 import MomentUtils from '@date-io/moment'
 import PropTypes from 'prop-types';
-import Icon from '@mdi/react'
-import {  mdiSquare,
-          mdiSquareOutline,
-          mdiCircle,
-          mdiCircleOutline,
-          mdiTriangle,
-          mdiTriangleOutline,
-          mdiMinus,
-          mdiClose,
-          mdiWeatherSunset,
-          mdiWeatherNight,
-        } from '@mdi/js'
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -26,7 +14,6 @@ import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import { TimePicker } from 'material-ui-pickers';
 import { DatePicker } from 'material-ui-pickers';
 import ReactSVG from 'react-svg'
-
 
 // redux
 import store from '../.././Store/store'
@@ -57,6 +44,9 @@ var flower = require('../.././Images/Icons/flower.svg')
 var key = require('../.././Images/Icons/key.svg')
 var archive = require('../.././Images/Icons/archive.svg')
 var logo = require('../.././Images/logo.svg')
+var close = require('../.././Images/Icons/close.svg')
+var weatherNight = require('../.././Images/Icons/weather-night.svg')
+var weatherSunset = require('../.././Images/Icons/weather-sunset.svg')
 
 const styles = theme => ({
   root: {
@@ -77,30 +67,52 @@ const styles = theme => ({
     paddingBottom: '0px',
   },
   timeRow: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    fontFamily:'Nunito',
+    fontWeight: '500',
+    fontSize: '11px',
     paddingTop: '0px',
-    paddingBottom: '12px',
+    paddingBottom: '8px',
   },
   bulletRow_sel: {
     paddingTop: '0px',
     paddingBottom: '0px',
     paddingLeft: '0px',
+    marginBottom: '8px',
+    marginLeft: '16px',
   },
   bulletItem: {
     display: 'flex',
+    alignItems: 'end',
     flexDirection: 'row',
-    alignItems: 'center',
+    fontFamily:'Nunito',
+    fontSize: '11px',
   },
   text_input: {
+    resize: 'none',
     minWidth: 'calc(100vw - 460px);',
     border:'none',
     outline: 'none',
     background: 'transparent',
+    fontFamily:'Nunito Sans',
+    fontSize: '11px',
+    height: '16px',
+    marginLeft: '2px',
   },
   date_title: {
-    paddingBottom: '5px',
+    fontFamily:'Nunito',
+    fontWeight: '500',
+    fontSize: '14px',
+    marginBottom: '8px',
+  },
+  date_container: {
+    marginBottom: '16px',
   },
   timepicker_list_style: {
-    fontSize: '11px',
+    fontFamily:'Nunito',
+    fontWeight: '500',
   },
   list_selector:
   {
@@ -110,6 +122,9 @@ const styles = theme => ({
     paddingTop: '2px',
     paddingBottom: '2px',
   },
+  icon_style: {
+    height: '18px',
+  }
 });
 
 class BulletList extends React.Component {
@@ -117,132 +132,99 @@ class BulletList extends React.Component {
   {
     super(props);
 
-    this.createList = this.createList.bind(this);
     this.convertToIcon = convertToIcon.bind(this);
-  }
-
-  createList(i)
-   {
-     var p = this.convertToIcon(i)
-     var entry_times
-     var start
-     var end
-
-     if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix() &&
-     moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
-     {
-       entry_times = null
-     }
-     else
-     {
-       if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix())
-       {
-         start =
-         <Icon path={mdiWeatherSunset} size={0.75} />
-       }
-       else
-       {
-         start =
-         <Typography variant="body1">
-           <MuiPickersUtilsProvider utils={MomentUtils}>
-               <TimePicker
-                 className={this.props.classes.timeInput}
-                 style={{ width: '50px' }}
-                 value={moment.unix(i.start_time)}
-                 onChange={(e) => this.props.updateBulletTimes(i.entry_id, e, "start_time")}
-                 InputProps={{
-                 classes: {
-                     input: this.props.classes.timepicker_list_style,
-                   }
-                 }}/>
-           </MuiPickersUtilsProvider>
-         </Typography>
-       }
-
-       if (moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
-       {
-         end =
-         <Icon path={mdiWeatherNight} size={0.75} />
-       }
-       else
-       {
-         end =
-         <Typography variant="body1">
-           <MuiPickersUtilsProvider utils={MomentUtils}>
-               <TimePicker
-                 className={this.props.classes.timeInput}
-                 style={{ width: '50px'}}
-                 value={moment.unix(i.end_time)}
-                 onChange={(e) => this.props.updateBulletTimes(i.entry_id, e, "end_time")}
-                 InputProps={{
-                 classes: {
-                     input: this.props.classes.timepicker_list_style,
-                   }
-                 }}/>
-           </MuiPickersUtilsProvider>
-         </Typography>
-       }
-
-         entry_times =
-         <ListItem className={this.props.classes.timeRow}>
-            {start}
-           <div class="to_style">to</div>
-            {end}
-         </ListItem>
-       }
-
-     return (
-       <div>
-       <ListItem className={this.props.classes.bulletRow_sel}>
-        <div className="bullet-item">
-          <div className={this.props.classes.bulletItem}>
-             <ListItemIcon className={this.props.classes.list_selector}>
-                <Button onClick={(e) => {this.props.toggleIcon(i.entry_id, i.type, i.status)}}>
-                  <img src={p} svgStyle={{ height: '20px' }}/>
-                </Button>
-             </ListItemIcon>
-
-             <form>
-                <input
-                key={i.title}
-                onBlur={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
-                className={this.props.classes.text_input}
-                type="text"
-                id={i.entry_id}
-                defaultValue={i.title} />
-             </form>
-
-             <ListItemIcon>
-               <Icon
-                className="bullet-delete"
-                path={mdiClose}
-                size={0.75}
-                onClick={(e) => this.props.removeEntry(i.entry_id)} />
-             </ListItemIcon>
-
-           </div>
-         </div>
-       </ListItem>
-       {entry_times}
-      </div>
-   )
   }
 
   render() {
     return(
       <div className={this.props.classes.root}>
+      <div className={this.props.classes.list_container}>
         {
          Object.keys(this.props.journal_entries.journal_entries).map((k, index) => (
-            <List className={this.props.classes.list_container}>
-              <div className={this.props.classes.list_container}>
-                  <Typography variant="body1" className={this.props.classes.date_title}>
-                    {k}
-                  </Typography>
-                  {this.props.journal_entries.journal_entries[k].map(this.createList)}
+                  <div className={this.props.classes.date_container} key={k+index}>
+                    <div className={this.props.classes.date_title}>{k}</div>
+                  {
+                    this.props.journal_entries.journal_entries[k].map((i, ind) => (
+                    <div key={i+ind} className={this.props.classes.bulletRow_sel}>
+                      <div className="bullet-item">
+                       <div className={this.props.classes.bulletItem}>
+                         <div onClick={(e) => {this.props.toggleIcon(i.entry_id, i.type, i.status)}}>
+                           <img src={this.convertToIcon(i)} className={this.props.classes.icon_style}/>
+                         </div>
+
+                         <input
+                         rows="1"
+                         key={i.title}
+                         onBlur={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
+                         className={this.props.classes.text_input}
+                         type="text"
+                         id={i.entry_id}
+                         defaultValue={i.title} />
+
+                        <img
+                         className="bullet-delete"
+                         src={close}
+                         onClick={(e) => this.props.removeEntry(i.entry_id)} />
+                        </div>
+                      </div>
+
+                        {(()=>{
+                        var start
+                        var end
+                        var entry_times
+
+                        if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix() &&
+                        moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
+                        {
+                          entry_times = null
+                        }
+                        else
+                        {
+                          if (moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix())
+                          {
+                            start =
+                            <img src={weatherSunset} className={this.props.classes.icon_style}/>
+                          }
+                          else
+                          {
+                            start =
+                                 <div className={this.props.classes.timeInput}>
+                                   {moment.unix(i.start_time).format('h:mm a')}
+                                 </div>
+                          }
+
+                          if (moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
+                          {
+                            end =
+                            <img src={weatherNight}  className={this.props.classes.icon_style}/>
+                          }
+                          else
+                          {
+                            end =
+                            <div className={this.props.classes.timeInput}>
+                              {moment.unix(i.end_time).format('h:mm a')}
+                            </div>
+                          }
+
+                          return(
+                            entry_times =
+                            <div className={this.props.classes.timeRow}>
+                               {start}
+                              <div class="to_style">to</div>
+                               {end}
+                            </div>
+                          )
+                          }
+
+                        })()}
+                      </div>
+
+                  ))
+                }
               </div>
-            </List>
             ))
         }
+        </div>
       </div>
     )}
 }
@@ -256,6 +238,5 @@ const mapStateToProps = state => {
     journal_entries: state.journal_entries,
   }
 }
-
 
 export default connect(mapStateToProps)(withStyles(styles)(BulletList));

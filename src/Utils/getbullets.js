@@ -8,7 +8,7 @@ import { sortMonths } from './sortmonths'
 // redux
 import store from '.././Store/store'
 import { connect } from "react-redux";
-import { getStoreJournalEntries, getNavMonths, getLoadingStatus } from '.././Actions/actions'
+import { getStoreJournalEntries, getNavMonths, getLoadingStatus, getFirstLoadStatus } from '.././Actions/actions'
 
 export function getBullets()
 {
@@ -68,15 +68,30 @@ export function getBullets()
           }
         }
     })
-    let sorted_bullets = sortBulletObject(new_bullets)
+    if (store.getState().first_load.first_load === false)
+    {
+      new_bullets = sortBulletObject(new_bullets)
+    }
+    else
+    {
+      store.dispatch(getFirstLoadStatus({
+        first_load: false,
+      }))
+    }
+
     let sorted_months = sortMonths(new_months)
 
     store.dispatch(getLoadingStatus({
       loading_status: false,
     }))
 
+    if (document.getElementById("loader"))
+    {
+      document.getElementById("loader").style.display = "none"
+    }
+
     store.dispatch(getStoreJournalEntries({
-      journal_entries: sorted_bullets,
+      journal_entries: new_bullets,
     }))
 
     store.dispatch(getNavMonths({

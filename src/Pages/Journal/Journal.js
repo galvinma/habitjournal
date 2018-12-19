@@ -6,8 +6,6 @@ import history from '../.././history';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import { css } from 'react-emotion';
-import { ClipLoader } from 'react-spinners';
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -18,6 +16,7 @@ import Key from '../.././Components/Modal/Key'
 import Archive from '../.././Components/Modal/Archive'
 import JournalTabs from '../.././Components/Tabs/JournalTabs'
 import SnackBar from '../.././Components/SnackBar/SnackBar'
+import Loader from '../.././Components/Loaders/Loader'
 
 // Functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -90,7 +89,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: 'calc(100vh - 132px)',
+    height: 'calc(100vh - 132px)',
+    minHeight: '550px',
     marginLeft: 'auto',
     width: '250px',
     marginLeft: '20px',
@@ -135,17 +135,15 @@ class Journal extends React.Component {
   super(props);
 
   this.state = {
-    bullets: store.getState().journal_entries.journal_entries,
     title: '',
     type: 'task',
-    selected: 'mdiSquareOutline',
+    selected: 'checkboxBlankOutline',
     selectedMonth: moment().format('MMMM, YYYY'),
     reference: moment().startOf('day').unix(),
     startDate: moment().startOf('day').unix(),
     endDate: moment().startOf('day').unix(),
     startTime: moment().startOf('day').unix(),
     endTime: moment().endOf('day').unix(),
-    navigatorMonths: store.getState().nav_months.nav_months,
     checkedAllDay: true,
     checkedMultiDay: false,
     IDCount: 0,
@@ -179,25 +177,23 @@ class Journal extends React.Component {
 
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextState.bullets !== this.state.bullets ||
-  //       nextState.navigatorMonths !== this.state.navigatorMonths ||
-  //       nextState.startDate !== this.state.startDate ||
-  //       nextState.endDate !== this.state.endDate ||
-  //       nextState.startTime !== this.state.startTime ||
-  //       nextState.endTime !== this.state.endTime ||
-  //       nextState.checkedAllDay !== this.state.checkedAllDay ||
-  //       nextState.checkedMultiDay !== this.state.checkedMultiDay ||
-  //       nextState.type !== this.state.type ||
-  //       nextState.selected !== this.state.selected)
-  //   {
-  //    return true
-  //   }
-  //   else
-  //   {
-  //    return false
-  //   }
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.startDate !== this.state.startDate ||
+        nextState.endDate !== this.state.endDate ||
+        nextState.startTime !== this.state.startTime ||
+        nextState.endTime !== this.state.endTime ||
+        nextState.checkedAllDay !== this.state.checkedAllDay ||
+        nextState.checkedMultiDay !== this.state.checkedMultiDay ||
+        nextState.type !== this.state.type ||
+        nextState.selected !== this.state.selected)
+    {
+     return true
+    }
+    else
+    {
+     return false
+    }
+  }
 
   componentDidMount()
   {
@@ -205,10 +201,6 @@ class Journal extends React.Component {
     {
       this.updateAllEntries()
       this.getHabits()
-
-      store.dispatch(getFirstLoadStatus({
-        first_load: false,
-      }))
     }
     else
     {
@@ -260,14 +252,7 @@ class Journal extends React.Component {
                 endTime={this.state.endTime}
                 checkedAllDay={this.state.checkedAllDay}
                 checkedMultiDay={this.state.checkedMultiDay} />
-              <div className={this.props.classes.loading}>
-                <ClipLoader
-                      sizeUnit={"px"}
-                      size={100}
-                      color={'#93AAB5'}
-                      loading={this.props.loading_status.loading_status}
-                    />
-              </div>
+              <Loader/>
               <BulletList
                 icons={this.props.icons}
                 bullets={this.state.bullets}
@@ -280,7 +265,6 @@ class Journal extends React.Component {
             </Paper>
           <Paper className={this.props.classes.month_container}>
             <JournalTabs
-              navigatorMonths={this.state.navigatorMonths}
               changeSelectedMonth={this.changeSelectedMonth}/>
           </Paper>
           <SnackBar/>
@@ -294,11 +278,10 @@ Journal.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    journal_entries: state.journal_entries,
-    loading_status: state.loading_status,
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     loading_status: state.loading_status,
+//   }
+// }
 
-export default connect(mapStateToProps)(withStyles(styles)(Journal));
+export default (withStyles(styles)(Journal));

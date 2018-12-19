@@ -42,6 +42,19 @@ export function handleAllDay(event)
   }
 
   // UI handles
+
+  if (window.innerWidth < 450 &&
+      event.target.checked === false &&
+      this.state.checkedMultiDay === false)
+  {
+    document.getElementById("dash_holder").style.display = "flex"
+  }
+  else if (document.getElementById("dash_holder"))
+  {
+    document.getElementById("dash_holder").style.display = "none"
+  }
+
+
   if (event.target.checked === true)
   {
      var l = document.getElementsByClassName("time_pick")

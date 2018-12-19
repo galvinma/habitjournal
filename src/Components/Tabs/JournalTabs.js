@@ -23,18 +23,8 @@ import { connect } from "react-redux";
 // Components
 import KeyList from './KeyList'
 
-function TabContainer({ children, dir }) {
-  return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
-      {children}
-    </Typography>
-  );
-}
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  dir: PropTypes.string.isRequired,
-};
+// CSS
+import './JournalTabs.css'
 
 const styles = theme => ({
   app_bar:
@@ -54,12 +44,25 @@ const styles = theme => ({
     alignItems: 'center',
   },
   tabRoot: {
-    width: '125px',
-    minWidth: '0px',
+    fontFamily:'Nunito',
     fontWeight: '600',
+    fontSize: '14px',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    minHeight: '32px',
+    width: '100%',
+    minWidth: '0px',
     textTransform: 'none',
   },
+  tab_text: {
+    display: 'inline-block'
+  },
   cell_style: {
+    fontFamily:'Nunito',
+    fontWeight: '500',
+    fontSize: '14px',
     textAlign: "center",
     paddingLeft: '0px',
     paddingRight: '0px',
@@ -67,8 +70,16 @@ const styles = theme => ({
     paddingBottom: "0px",
     border: 'none',
   },
+  month: {
+    marginTop: '16px',
+    textAlign: 'center',
+    width: '100%',
+  },
+  pagination: {
+    padding: '0px',
+  },
   row_style: {
-    height: '36px',
+    height: '32px',
     border: 'none',
   }
 });
@@ -83,13 +94,22 @@ class JournalTabs extends React.Component {
       page: 0,
       rowsPerPage: 12,
     }
-
-    this.createList = this.createList.bind(this);
   }
 
   handleChange = (event, value) => {
     this.setState({ value });
-  };
+
+    if (value === 0)
+    {
+      document.getElementById("archive").style.textDecoration = "underline"
+      document.getElementById("key").style.textDecoration = "none"
+    }
+    else
+    {
+      document.getElementById("key").style.textDecoration = "underline"
+      document.getElementById("archive").style.textDecoration = "none"
+    }
+  }
 
   handleChangeIndex = index => {
     this.setState({ value: index });
@@ -103,17 +123,6 @@ class JournalTabs extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  createList(i)
-  {
-    return (
-    <TableRow key={i} className={this.props.classes.row_style}>
-      <TableCell className={this.props.classes.cell_style} onClick={(e) => this.props.changeSelectedMonth(i)}>
-          {i}
-      </TableCell>
-    </TableRow>
-    )
-  }
-
   render() {
     const { classes, theme } = this.props;
     const { value, order, orderBy, selected, rowsPerPage, page } = this.state;
@@ -121,28 +130,30 @@ class JournalTabs extends React.Component {
     return (
       <div className={this.props.classes.root}>
         <AppBar position="static" color="default" className={this.props.classes.app_bar}>
-          <Tabs
-            value={this.state.value}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-          >
-            <Tab label="Archive" classes={{root: this.props.classes.tabRoot}}/>
-            <Tab label="Key" classes={{root: this.props.classes.tabRoot}} />
-          </Tabs>
+          <div className={this.props.classes.tabRoot}>
+            <div id="archive" classes={{root: this.props.classes.tab_text}}
+                  onClick={(e) => this.handleChange(e,0)}>Archive</div>
+            <div id="key" classes={{root: this.props.classes.tab_text}}
+                  onClick={(e) => this.handleChange(e,1)}>Key</div>
+          </div>
         </AppBar>
-          { value === 0 && <TabContainer className={this.props.classes.month} dir={theme.direction}>
-              <Table>
-                <TableBody>
+          { value === 0 && <div dir={theme.direction}>
+              <table className={this.props.classes.month}>
                   {this.props.nav_months.nav_months
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map(this.createList)}
-                </TableBody>
-              </Table>
+                    .map((i, index) => (
+                    <tr key={i+index} className={this.props.classes.row_style}>
+                      <td className={this.props.classes.cell_style} onClick={(e) => this.props.changeSelectedMonth(i)}>
+                          {i}
+                      </td>
+                    </tr>
+                  ))
+                  }
+              </table>
               <TablePagination
                 rowsPerPageOptions={[12]}
                 component="div"
-                count={this.props.navigatorMonths.length}
+                count={this.props.nav_months.nav_months.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 backIconButtonProps={{
@@ -153,11 +164,14 @@ class JournalTabs extends React.Component {
                 }}
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                className={this.props.classes.pagination}
               />
-          </TabContainer>}
-          {value === 1 && <TabContainer dir={theme.direction}>
+          </div>}
+          {value === 1 && <div dir={theme.direction}>
+            <div className={this.props.classes.month}>
             <KeyList />
-          </TabContainer>}
+            </div>
+          </div>}
       </div>
     );
   }

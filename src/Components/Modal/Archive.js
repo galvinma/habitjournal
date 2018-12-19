@@ -90,7 +90,7 @@ class Archive extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.navigatorMonths.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.nav_months.nav_months.length - page * rowsPerPage);
     return(
       <div>
         <Dialog open={this.props.archive_modal_status.archive_modal_status} onClose={this.handleClose}>
@@ -104,7 +104,7 @@ class Archive extends React.Component {
           <DialogTitle className={this.props.classes.title}>Archive</DialogTitle>
           <Table>
             <TableBody>
-              {this.props.navigatorMonths
+              {this.props.nav_months.nav_months
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(this.createList)}
             </TableBody>
@@ -112,7 +112,7 @@ class Archive extends React.Component {
           <TablePagination
             rowsPerPageOptions={[12]}
             component="div"
-            count={this.props.navigatorMonths.length}
+            count={this.props.nav_months.nav_months.length}
             rowsPerPage={rowsPerPage}
             page={page}
             backIconButtonProps={{
@@ -137,6 +137,7 @@ Archive.propTypes = {
 const mapStateToProps = state => {
   return {
     archive_modal_status: state.archive_modal_status,
+    nav_months: state.nav_months
   }
 }
 

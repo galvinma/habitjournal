@@ -11,6 +11,7 @@ import { verifyUnixInputs } from './verifyunixinputs'
 import { startDateBeforeEndDate } from './startdate_before_enddate'
 import { startTimeBeforeEndTime } from './starttime_before_endtime'
 import { sameDay } from './same_day'
+import { missingTitle } from './missing_title'
 
 export function addEntry()
 {
@@ -64,6 +65,12 @@ export function addEntry()
       this.state.startDate === endDate)
   {
     sameDay()
+    return
+  }
+
+  if (document.getElementById("bulletSelector").value === "")
+  {
+    missingTitle()
     return
   }
 

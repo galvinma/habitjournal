@@ -35,6 +35,17 @@ export function handleMultiDay(event)
   }
 
   // UI handles...
+  if (window.innerWidth < 450 &&
+      event.target.checked === false &&
+      this.state.checkedAllDay === false)
+  {
+    document.getElementById("dash_holder").style.display = "flex"
+  }
+  else if (document.getElementById("dash_holder"))
+  {
+    document.getElementById("dash_holder").style.display = "none"
+  }
+
   if (event.target.checked === true)
   {
     document.getElementById("datetwo").style.display = "inline-block"

@@ -22,6 +22,7 @@ const styles = theme => ({
     flexDirection: 'row',
     justifyContent: 'flexStart',
     alignItems: 'center',
+    marginLeft: '24px',
   },
 })
 class KeyList extends React.Component {
