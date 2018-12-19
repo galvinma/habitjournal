@@ -74,6 +74,15 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  dialog_root: {
+    width: '400px',
+    maxWidth: '600px',
+
+    [theme.breakpoints.down(768)]: {
+      marginLeft: '8px',
+      marginRight: '8px',
+    },
+  },
   close: {
     paddingLeft: '10px',
     paddingRight: '10px',
@@ -674,6 +683,9 @@ class JournalEdit extends React.Component {
     return(
       <div key={this.props.entries_modal_id.entries_modal_id}>
       <Dialog
+        classes={{
+          paper: this.props.classes.dialog_root
+        }}
         onEnter={this.getMatch}
         onExited={this.resetState}
         open={this.props.edit_entries_modal_status.edit_entries_modal_status}
