@@ -132,6 +132,7 @@ const styles = theme => ({
   },
   selector_datepicker_style: {
     fontSize: '0.875em',
+    width: '90px',
   },
   selector_timepicker_style: {
     fontSize: '0.875em',
@@ -538,8 +539,7 @@ class EditEntry extends React.Component {
                       <DatePicker
                         className={this.props.classes.dateInput}
                         id="dateone"
-                        type="date"
-                        format="YYYY-MM-DD"
+                        format="MM / DD / YYYY"
                         InputProps={{
                         classes: {
                             input: this.props.classes.selector_datepicker_style,
@@ -573,8 +573,7 @@ class EditEntry extends React.Component {
                       <DatePicker
                         className={this.props.classes.dateInput}
                         id="datetwo"
-                        type="date"
-                        format="YYYY-MM-DD"
+                        format="MM / DD / YYYY"
                         InputProps={{
                         classes: {
                             input: this.props.classes.selector_datepicker_style,

@@ -84,6 +84,12 @@ const styles = theme => ({
     outline: 'none',
     borderBottom: '1px solid black',
     verticalAlign: 'bottom',
+
+    [theme.breakpoints.down(768)]: {
+      marginLeft: '5px',
+      marginRight: '5px',
+    },
+
   },
   typo_style: {
     display: 'flex',
@@ -154,18 +160,23 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 'auto',
-    width: '60px',
+    width: '100px',
 
     [theme.breakpoints.down(768)]: {
       display: 'flex',
     },
   },
   icon_style: {
-    marginLeft: '10px',
+    height: '18px',
+    marginLeft: '5px',
+    marginRight: '5px',
   },
   datetime_two: {
     display: "flex",
     flexDirection: "row",
+  },
+  dropdown: {
+    minWidth: '45px'
   },
 });
 
@@ -186,6 +197,7 @@ class BulletSelector extends React.Component {
                   value={this.props.selected}
                   onChange={(e) => this.props.selectorChange(e)}
                   disableUnderline={true}
+                  className={this.props.classes.dropdown}
                 >
                   <MenuItem value="checkboxBlankOutline">
                     <img src={checkboxBlankOutline}  />
@@ -207,7 +219,10 @@ class BulletSelector extends React.Component {
                  className={this.props.classes.text_input}
                  onKeyDown={(e) => this.props.checkSubmit(e)} />
               </div>
-
+              <div className={this.props.classes.icon_container}>
+                <img className={this.props.classes.icon_style} src={archive} svgStyle={{ width: '20px' }} onClick={() => store.dispatch(getArchiveModalState({archive_modal_status: true}))}/>
+                <img className={this.props.classes.icon_style} src={key} svgStyle={{ width: '20px' }} onClick={() => store.dispatch(getKeyModalState({key_modal_status: true}))}/>
+              </div>
             </div>
           </div>
           <div className={this.props.classes.dates_times_container}>

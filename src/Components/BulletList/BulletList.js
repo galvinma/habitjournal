@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import axios from 'axios';
 import MomentUtils from '@date-io/moment'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -18,9 +19,11 @@ import ReactSVG from 'react-svg'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
+import { getEntriesModalState, getEntriesModalID, getEditEntriesModalState, getCurrentEntry } from '../.././Actions/actions'
 
 // functions
 import { convertToIcon } from '../../Utils/convertoicon'
+import { missingTitle } from '../../Utils/missing_title'
 
 // CSS
 import './BulletList.css'
@@ -47,6 +50,9 @@ var logo = require('../.././Images/logo.svg')
 var close = require('../.././Images/Icons/close.svg')
 var weatherNight = require('../.././Images/Icons/weather-night.svg')
 var weatherSunset = require('../.././Images/Icons/weather-sunset.svg')
+var dots = require('../.././Images/Icons/dots-horizontal.svg')
+var dotsVertical = require('../.././Images/Icons/dots-vertical.svg')
+var pencil = require('../.././Images/Icons/pencil-outline.svg')
 
 const styles = theme => ({
   root: {
@@ -90,9 +96,13 @@ const styles = theme => ({
     fontFamily:'Nunito',
     fontSize: '11px',
   },
+  title_container: {
+    width: '100%',
+    overflow: 'hidden',
+  },
   text_input: {
     resize: 'none',
-    minWidth: 'calc(100vw - 460px);',
+    width: '100%',
     border:'none',
     outline: 'none',
     background: 'transparent',
@@ -135,6 +145,51 @@ class BulletList extends React.Component {
     this.convertToIcon = convertToIcon.bind(this);
   }
 
+  handleBlur(i,e)
+  {
+      if (e === "")
+      {
+        setTimeout(function() {
+          missingTitle()
+        }, 200)
+      }
+      else
+      {
+        this.props.updateBulletTitle(i, e)
+      }
+  }
+
+  dispatchEditModal(entry_id, type, status)
+  {
+    if (type !== 'habit')
+    {
+      store.dispatch(getEntriesModalState({
+        entries_modal_status: false
+      }))
+
+      axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/return_one`, {
+        params: {
+          user: localStorage.getItem('user'),
+          entry_id: entry_id
+        }
+      })
+      .then((response) => {
+
+        store.dispatch(getEntriesModalID({
+          entries_modal_id: entry_id
+        }))
+
+        store.dispatch(getCurrentEntry({
+          current_entry: response.data.entry
+        }))
+
+        store.dispatch(getEditEntriesModalState({
+          edit_entries_modal_status: true
+        }))
+      })
+    }
+  }
+
   render() {
     return(
       <div className={this.props.classes.root}>
@@ -151,15 +206,21 @@ class BulletList extends React.Component {
                          <div onClick={(e) => {this.props.toggleIcon(i.entry_id, i.type, i.status)}}>
                            <img src={this.convertToIcon(i)} className={this.props.classes.icon_style}/>
                          </div>
-
+                         <div className={this.props.classes.title_container}>
                          <input
                          rows="1"
                          key={i.title}
-                         onBlur={(e) => {this.props.updateBulletTitle(i.entry_id, e.target.value)}}
+                         onBlur={(e) => {this.handleBlur(i.entry_id, e.target.value)}}
                          className={this.props.classes.text_input}
                          type="text"
                          id={i.entry_id}
                          defaultValue={i.title} />
+                         </div>
+
+                       <img
+                        className="bullet-edit"
+                        src={pencil}
+                        onClick={() => this.dispatchEditModal(i.entry_id, i.type, i.status)} />
 
                         <img
                          className="bullet-delete"

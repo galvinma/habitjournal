@@ -1,16 +1,15 @@
 .time_pick
 {
-  display: none;
+  display: inline-block;
   margin-left: 10px;
   margin-right: 5px;
 }
 
 #dash_holder
 {
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 #datetwo
@@ -20,7 +19,7 @@
 
 #to_spacer
 {
-  display: none;
+  display: inline-block;
   margin-left: 10px;
   margin-right: 10px;
   font-size: 11px;

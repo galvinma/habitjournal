@@ -21,6 +21,7 @@ import './App.css';
 
 // Images and Icons
 var dots = require('./Images/Icons/dots-horizontal.svg')
+var dotsVertical = require('./Images/Icons/dots-vertical.svg')
 var minus = require('./Images/Icons/minus.svg')
 var plus = require('./Images/Icons/plus.svg')
 var weatherNight = require('./Images/Icons/weather-night.svg')
@@ -43,11 +44,15 @@ var key = require('./Images/Icons/key.svg')
 var archive = require('./Images/Icons/archive.svg')
 var logo = require('./Images/logo.svg')
 var close = require('./Images/Icons/close.svg')
+var pencil = require('./Images/Icons/pencil-outline.svg')
+
 
 var icons = {
   "minus": minus,
   "plus": plus,
   "dots": dots,
+  "dotsVertical": dotsVertical,
+  "pencil": pencil,
   "weatherSunset": weatherSunset,
   "weatherNight": weatherNight,
   "key": key,

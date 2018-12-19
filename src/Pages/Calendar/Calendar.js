@@ -27,7 +27,7 @@ import Navs from '../.././Components/Calendar/Navs'
 import CalendarHeader from '../.././Components/Calendar/CalendarHeader'
 import CalendarBody from '../.././Components/Calendar/CalendarBody'
 import CalendarEntries from '../.././Components/Modal/CalendarEntries'
-import EditEntry from '../.././Components/Modal/EditEntry'
+import JournalEdit from '../.././Components/Modal/JournalEdit'
 import SnackBar from '../.././Components/SnackBar/SnackBar'
 
 // functions
@@ -252,7 +252,7 @@ class Calendar extends React.Component {
       <div>
         <InternalNavBar />
         <Paper className={this.props.classes.root}>
-          <EditEntry
+          <JournalEdit
               handleModalOpen={this.handleModalOpen}
               handleModalClose={this.handleModalClose}
               getCalendarEntries={this.getCalendarEntries}

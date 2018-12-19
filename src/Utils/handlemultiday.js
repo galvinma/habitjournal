@@ -35,8 +35,7 @@ export function handleMultiDay(event)
   }
 
   // UI handles...
-  if (window.innerWidth < 450 &&
-      event.target.checked === false &&
+  if (event.target.checked === false &&
       this.state.checkedAllDay === false)
   {
     document.getElementById("dash_holder").style.display = "flex"

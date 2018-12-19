@@ -5,24 +5,24 @@ export function selectorChange(event)
     selected: event.target.value }
   );
 
-  if (event.target.value === 'mdiCircleOutline')
+  if (event.target.value === 'checkboxBlankCircleOutline')
   {
     this.setState({
       type: 'event' });
   }
-  if (event.target.value === 'mdiSquareOutline')
+  if (event.target.value === 'checkboxBlankOutline')
   {
     this.setState({
       type: 'task' });
   }
 
-  if (event.target.value === 'mdiTriangleOutline')
+  if (event.target.value === 'checkboxBlankTriangleOutline')
   {
     this.setState({
       type: 'appointment' });
   }
 
-  if (event.target.value === 'mdiMinus')
+  if (event.target.value === 'minus')
   {
     this.setState({
       type: 'note' });

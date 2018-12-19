@@ -1,0 +1,18 @@
+.time_pick_journal
+{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#dash_holder_journal
+{
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#to_space_journal
+{
+  margin-left: 5px;
+  margin-right: 5px;
+}

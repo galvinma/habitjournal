@@ -9,7 +9,7 @@ export function handleAllDay(event)
   {
     this.setState({
       startTime: moment.unix(this.state.startDate).startOf('day').unix(),
-      endTime: moment.unix(this.state.EndDate).endOf('day').unix(),
+      endTime: moment.unix(this.state.endDate).endOf('day').unix(),
     })
   }
 
@@ -37,14 +37,13 @@ export function handleAllDay(event)
       startDate: moment.unix(this.state.startDate).startOf('day').unix(),
       endDate: moment.unix(this.state.startDate).startOf('day').unix(),
       startTime: moment.unix(this.state.startDate).startOf('day').unix(),
-      endTime: moment.unix(this.state.EndDate).endOf('day').unix(),
+      endTime: moment.unix(this.state.endDate).endOf('day').unix(),
     })
   }
 
   // UI handles
 
-  if (window.innerWidth < 450 &&
-      event.target.checked === false &&
+  if (event.target.checked === false &&
       this.state.checkedMultiDay === false)
   {
     document.getElementById("dash_holder").style.display = "flex"

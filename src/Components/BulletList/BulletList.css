@@ -1,8 +1,15 @@
-.bullet-delete  {
+.bullet-delete, .bullet-edit  {
   opacity: 0;
   height: 18px;
+  margin-left: 5px;
+  margin-right: 2px;
 }
 .bullet-item:hover .bullet-delete {
+  opacity: 1;
+  height: 18px;
+}
+
+.bullet-item:hover .bullet-edit {
   opacity: 1;
   height: 18px;
 }

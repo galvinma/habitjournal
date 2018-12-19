@@ -17,6 +17,7 @@ import Archive from '../.././Components/Modal/Archive'
 import JournalTabs from '../.././Components/Tabs/JournalTabs'
 import SnackBar from '../.././Components/SnackBar/SnackBar'
 import Loader from '../.././Components/Loaders/Loader'
+import JournalEdit from '../.././Components/Modal/JournalEdit'
 
 // Functions
 import { checkAuth } from '../.././Utils/checkauth'
@@ -24,6 +25,7 @@ import { updateStoreEntry } from '../.././Utils/updatestoreentry'
 import { updateStoreEntryId } from '../.././Utils/updatestoreentryid'
 import { updateAllEntries } from '../.././Utils/updateallentries'
 import { updateAllUIEntries } from '../.././Utils/updatealluientries'
+import { updateJournalEntries } from '../.././Utils/updatejournalentries'
 import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
 import { sortBulletObject } from '../.././Utils/sortbullets'
 import { dateChange } from '../.././Utils/datechange'
@@ -49,7 +51,7 @@ import { toggleIcon } from '../.././Utils/toggleicon'
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
-import { getAllEntries, getNavMonths, getFirstLoadStatus } from '../.././Actions/actions'
+import { getAllEntries, getNavMonths, getFirstLoadStatus, getEditEntriesModalState } from '../.././Actions/actions'
 
 // css
 import './Journal.css'
@@ -142,9 +144,9 @@ class Journal extends React.Component {
     reference: moment().startOf('day').unix(),
     startDate: moment().startOf('day').unix(),
     endDate: moment().startOf('day').unix(),
-    startTime: moment().startOf('day').unix(),
-    endTime: moment().endOf('day').unix(),
-    checkedAllDay: true,
+    startTime: moment().startOf('hour').unix(),
+    endTime: moment().add(1, 'hour').startOf('hour').unix(),
+    checkedAllDay: false,
     checkedMultiDay: false,
     IDCount: 0,
   }
@@ -168,6 +170,7 @@ class Journal extends React.Component {
   this.updateAllUIEntries = updateAllUIEntries.bind(this)
   this.toggleIcon = toggleIcon.bind(this)
   this.updateStoreEntryId = updateStoreEntryId.bind(this)
+  this.updateJournalEntries = updateJournalEntries.bind(this)
 
   // Other
   this.getHabits = getHabits.bind(this)
@@ -199,12 +202,25 @@ class Journal extends React.Component {
   {
     if (store.getState().first_load.first_load === true)
     {
-      this.updateAllEntries()
+      this.updateJournalEntries()
+
+      this.getHabitEntries()
+      this.getCalendarEntries()
       this.getHabits()
     }
     else
     {
       this.updateAllUIEntries()
+    }
+  }
+
+  handleModalClose(mode)
+  {
+    if (mode === "edit")
+    {
+      store.dispatch(getEditEntriesModalState({
+        edit_entries_modal_status: false
+      }))
     }
   }
 
@@ -227,6 +243,14 @@ class Journal extends React.Component {
       <div>
         <InternalNavBar />
         <Key />
+        <JournalEdit
+            handleModalOpen={this.handleModalOpen}
+            handleModalClose={this.handleModalClose}
+            getCalendarEntries={this.getCalendarEntries}
+            removeOldCalendarEntries={this.removeOldCalendarEntries}
+            removeEntry={this.removeEntry}
+            updateAllUIEntries={this.updateAllUIEntries}
+             />
         <Archive
           navigatorMonths={this.state.navigatorMonths}
           changeSelectedMonth={this.changeSelectedMonth} />
@@ -277,11 +301,5 @@ class Journal extends React.Component {
 Journal.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-// const mapStateToProps = state => {
-//   return {
-//     loading_status: state.loading_status,
-//   }
-// }
 
 export default (withStyles(styles)(Journal));

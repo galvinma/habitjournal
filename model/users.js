@@ -12,7 +12,6 @@ var Users = new Schema({
     password: {type: String, required: true},
     join_date: {type: Number, required: true},
     reset_count: {type: Number, required: true},
-    entries:
 });
 
 Users.pre('save', function(next) {

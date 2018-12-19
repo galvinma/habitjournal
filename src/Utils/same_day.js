@@ -9,6 +9,6 @@ export function sameDay()
   }))
 
   store.dispatch(getSnackBarMessage({
-    snack_bar_message: "Multi day item must have start and end on different days"
+    snack_bar_message: "Multi day entry must start and end on different days"
   }))
 }
