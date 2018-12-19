@@ -95,6 +95,7 @@ const styles = theme => ({
     marginBottom: '0px',
     marginLeft: '2px',
     marginRight: '2px',
+    height: '100%',
   },
   list_footer_container: {
     marginTop: 'auto',
