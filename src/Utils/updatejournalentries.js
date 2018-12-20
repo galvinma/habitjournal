@@ -1,10 +1,14 @@
 export function updateJournalEntries()
 {
-  this.returnAllDatabaseEntries()
-  .then((response) => {
-      this.getBullets()
+  return new Promise((resolve, reject) => {
+    this.returnAllDatabaseEntries()
+    .then((response) => {
+        this.getBullets()
+        resolve()
+    })
+    .catch((error)=>{
+      console.log(error);
+      reject()
+    });
   })
-  .catch((error)=>{
-    console.log(error);
-  });
 }

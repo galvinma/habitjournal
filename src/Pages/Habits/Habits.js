@@ -37,6 +37,7 @@ import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import HabitsTable from '../.././Components/Habits/HabitsTable.js'
 import NewHabit from '../.././Components/Modal/NewHabit'
 import EditHabit from '../.././Components/Modal/EditHabit'
+import Loader from '../.././Components/Loaders/Loader'
 
 const methods = {};
 
@@ -107,9 +108,10 @@ class Habits extends React.Component {
     if (store.getState().first_load.first_load === true)
     {
       this.updateHabitEntries()
-
-      this.getBullets()
-      this.getCalendarEntries()
+      .then(() => {
+        this.getBullets()
+        this.getCalendarEntries()
+      })
     }
     else
     {
@@ -232,6 +234,7 @@ class Habits extends React.Component {
               logHabit={this.logHabit}
               prevWeekHandler={this.prevWeekHandler}
               nextWeekHandler={this.nextWeekHandler} />
+          <Loader/>
           </Paper>
       </div>
     );

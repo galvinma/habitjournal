@@ -1,10 +1,14 @@
 export function updateCalendarEntries()
 {
-  this.returnAllDatabaseEntries()
-  .then((response) => {
-      this.getCalendarEntries()
+  return new Promise((resolve, reject) => {
+    this.returnAllDatabaseEntries()
+    .then((response) => {
+        this.getCalendarEntries()
+        resolve()
+    })
+    .catch((error)=>{
+      console.log(error);
+      reject()
+    });
   })
-  .catch((error)=>{
-    console.log(error);
-  });
 }

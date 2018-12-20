@@ -1,11 +1,15 @@
 export function updateHabitEntries()
 {
-  this.returnAllDatabaseEntries()
-  .then((response) => {
-      this.getHabits()
-      this.getHabitEntries()
+  return new Promise((resolve, reject) => {
+    this.returnAllDatabaseEntries()
+    .then((response) => {
+        this.getHabits()
+        this.getHabitEntries()
+        resolve()
+    })
+    .catch((error)=>{
+      console.log(error);
+      reject()
+    });
   })
-  .catch((error)=>{
-    console.log(error);
-  });
 }

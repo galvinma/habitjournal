@@ -166,10 +166,11 @@ class Calendar extends React.Component {
     if (store.getState().first_load.first_load === true)
     {
       this.updateCalendarEntries()
-
-      this.getHabitEntries()
-      this.getBullets()
-      this.getHabits()
+      .then(() => {
+        this.getHabitEntries()
+        this.getBullets()
+        this.getHabits()
+      })
     }
     else
     {

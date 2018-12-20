@@ -205,10 +205,11 @@ class Journal extends React.Component {
     if (store.getState().first_load.first_load === true)
     {
       this.updateJournalEntries()
-
-      this.getHabitEntries()
-      this.getCalendarEntries()
-      this.getHabits()
+      .then(() => {
+        this.getHabitEntries()
+        this.getCalendarEntries()
+        this.getHabits()
+      })
     }
     else
     {
