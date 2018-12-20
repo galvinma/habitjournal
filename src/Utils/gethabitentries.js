@@ -5,28 +5,25 @@ import { mdiCheck, mdiClose } from '@mdi/js'
 // redux
 import store from '.././Store/store'
 import { connect } from "react-redux";
-import { getStoreHabitEntries } from '.././Actions/actions'
+import { getStoreHabitEntries, getLoadingStatus } from '.././Actions/actions'
 
 export function getHabitEntries()
 {
     var res = store.getState().all_entries.all_entries
-    var new_entries = []
+    var new_entries = {}
     res.forEach(entry => {
       if (entry.type === 'habit')
       {
-        new_entries.push(entry)
+        new_entries[entry.habit_id+"_"+entry.start_date] = entry
       }
-    })
-
-    this.setState({
-      habit_entries: new_entries,
-    }, () => {
-      this.renderLoggedHabits()
     })
 
     store.dispatch(getStoreHabitEntries({
       habit_entries: new_entries,
     }))
 
-    this.renderLoggedHabits()
+    store.dispatch(getLoadingStatus({
+      loading_status: false,
+    }))
+
 }

@@ -4,7 +4,7 @@ import moment from 'moment'
 // redux
 import store from '.././Store/store'
 import { connect } from "react-redux";
-import { getStoreCalendarEntries, getEntriesModalState, getEntriesModalID, getEditEntriesModalState, getCurrentEntry } from '.././Actions/actions'
+import { getLoadingStatus, getStoreCalendarEntries, getEntriesModalState, getEntriesModalID, getEditEntriesModalState, getCurrentEntry } from '.././Actions/actions'
 
 // Functions
 import { convertToIcon } from './convertoicon'
@@ -221,4 +221,8 @@ export function getCalendarEntries()
           })
         }
     })
+
+    store.dispatch(getLoadingStatus({
+      loading_status: false,
+    }))
 }

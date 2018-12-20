@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Icon from '@mdi/react'
 import Paper from '@material-ui/core/Paper';
 import { mdiCheck, mdiClose } from '@mdi/js'
+import { emptyObject } from '../.././Utils/empty_object'
 
 // redux
 import store from '../.././Store/store'
@@ -24,8 +25,8 @@ import { updateHabit } from '../.././Utils/updatehabit'
 import { deleteHabit } from '../.././Utils/deletehabit'
 import { logHabit } from '../.././Utils/loghabit'
 import { removeEntry} from '../.././Utils/removeentry'
-import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
 import { returnAllDatabaseEntries } from '../.././Utils/returnalldatabaseentries'
+import { updateHabitEntries } from '../.././Utils/updatehabitentries'
 import { updateStoreEntryId } from '../.././Utils/updatestoreentryid'
   // Additional Page Prep
   import { getBullets } from '../.././Utils/getbullets'
@@ -66,6 +67,7 @@ class Habits extends React.Component {
   {
     super(props);
     this.state = {
+      habit_entries: {},
       IDCount: 0,
       type: 'habit',
       firstDayOfWeekDate: moment().startOf('week').format('YYYY-MM-DD'),
@@ -74,8 +76,6 @@ class Habits extends React.Component {
       editModalState: false,
       editValue: "",
       newValue: "",
-      habits: store.getState().habits.habits,
-      habit_entries: store.getState().habit_entries.habit_entries,
     };
 
     this.handleModalOpen = this.handleModalOpen.bind(this)
@@ -93,9 +93,9 @@ class Habits extends React.Component {
     this.updateHabit = updateHabit.bind(this)
     this.getHabits = getHabits.bind(this)
     this.getHabitEntries = getHabitEntries.bind(this)
-    this.renderLoggedHabits = renderLoggedHabits.bind(this)
     this.updateAllUIEntries = updateAllUIEntries.bind(this)
     this.updateStoreEntryId = updateStoreEntryId.bind(this)
+    this.updateHabitEntries = updateHabitEntries.bind(this)
 
     // Other
     this.getBullets = getBullets.bind(this)
@@ -104,20 +104,34 @@ class Habits extends React.Component {
 
   componentDidMount()
   {
-    this.updateAllUIEntries()
-
-    if (store.getState().habit_entries.habit_entries === [] ||
-        store.getState().habits.habits === [])
+    if (store.getState().first_load.first_load === true)
     {
-      let retry_count = 0
-      while (retry_count < 3 && (store.getState().habit_entries.habit_entries === [] ||
-          store.getState().habits.habits === []))
+      this.updateHabitEntries()
+
+      this.getBullets()
+      this.getCalendarEntries()
+    }
+    else
+    {
+      this.updateAllUIEntries()
+
+      // Retry. Prevents users from having a black calendar if API call hasn't returned in time
+      if (emptyObject(store.getState().habit_entries.habit_entries) === true)
       {
-        setTimeout(function()
+        let retry_count = 0
+        var retry = (retry_count) =>
         {
-          this.updateAllUIEntries()
-          retry_count++
-        }, 500);
+          if (retry_count < 5 && emptyObject(store.getState().habit_entries.habit_entries) === true)
+          {
+            setTimeout(() =>
+            {
+                this.updateAllUIEntries()
+                retry_count++
+                retry(retry_count)
+              }, 1000);
+          }
+        }
+        retry(retry_count)
       }
     }
   }
@@ -211,8 +225,6 @@ class Habits extends React.Component {
               updateHabit={this.updateHabit}
               editModalValue={this.editModalValue} />
           <HabitsTable
-              habits={this.state.habits}
-              habit_entries={this.state.habit_entries}
               firstDayOfWeekDate={this.state.firstDayOfWeekDate}
               getHabits={this.getHabits}
               getHabitEntries={this.getHabitEntries}
@@ -236,5 +248,6 @@ const mapStateToProps = state => {
     habit_entries: state.habit_entries
   }
 }
+
 
 export default connect(mapStateToProps)(withStyles(styles)(Habits));

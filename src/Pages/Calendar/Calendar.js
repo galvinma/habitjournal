@@ -9,17 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@mdi/react'
 import Paper from '@material-ui/core/Paper';
 import MediaQuery from 'react-responsive';
-import {  mdiSquare,
-          mdiSquareOutline,
-          mdiCircle,
-          mdiCircleOutline,
-          mdiTriangle,
-          mdiTriangleOutline,
-          mdiMinus,
-          mdiClose,
-          mdiFlowerOutline,
-          mdiDotsHorizontal,
-        } from '@mdi/js'
 
 // Components
 import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
@@ -42,12 +31,15 @@ import { updateCalendarBody } from '../.././Utils/updatecalendarbody'
 import { updateStoreEntryId } from '../.././Utils/updatestoreentryid'
 import { updateStoreEntry } from '../.././Utils/updatestoreentry'
 import { updateAllEntries } from '../.././Utils/updateallentries'
+import { emptyObject } from '../.././Utils/empty_object'
+import { updateCalendarEntries } from '../.././Utils/updatecalendarentries'
 
   // Additional Page Prep
   import { getHabitEntries } from '../.././Utils/gethabitentries'
   import { renderLoggedHabits } from '../.././Utils/renderloggedhabits'
   import { getBullets} from '../.././Utils/getbullets'
   import { removeEntry} from '../.././Utils/removeentry'
+  import { getHabits } from '../.././Utils/gethabits'
 
 // redux
 import store from '../.././Store/store'
@@ -144,12 +136,14 @@ class Calendar extends React.Component {
     this.updateStoreEntryId = updateStoreEntryId.bind(this)
     this.updateStoreEntry = updateStoreEntry.bind(this)
     this.updateAllEntries = updateAllEntries.bind(this)
+    this.updateCalendarEntries = updateCalendarEntries.bind(this)
 
     // Other
     this.getBullets = getBullets.bind(this)
     this.getHabitEntries = getHabitEntries.bind(this)
     this.renderLoggedHabits = renderLoggedHabits.bind(this)
     this.removeEntry = removeEntry.bind(this)
+    this.getHabits = getHabits.bind(this)
 
   }
 
@@ -169,19 +163,35 @@ class Calendar extends React.Component {
  }
 
   componentDidMount() {
-    this.updateAllUIEntries()
-
-    // Retry. Prevents users from having a black calendar if API call hasn't returned in time
-    if (store.getState().calendar_entries.calendar_entries === {})
+    if (store.getState().first_load.first_load === true)
     {
-      let retry_count = 0
-      while (retry_count < 3 && store.getState().calendar_entries.calendar_entries === {})
+      this.updateCalendarEntries()
+
+      this.getHabitEntries()
+      this.getBullets()
+      this.getHabits()
+    }
+    else
+    {
+      this.updateAllUIEntries()
+
+      // Retry. Prevents users from having a black calendar if API call hasn't returned in time
+      if (emptyObject(store.getState().calendar_entries.calendar_entries) === true)
       {
-        setTimeout(function()
+        let retry_count = 0
+        var retry = (retry_count) =>
         {
-          this.updateAllUIEntries()
-          retry_count++
-        }, 500);
+          if (retry_count < 5 && emptyObject(store.getState().calendar_entries.calendar_entries) === true)
+          {
+            setTimeout(() =>
+            {
+                this.updateAllUIEntries()
+                retry_count++
+                retry(retry_count)
+              }, 1000);
+          }
+        }
+        retry(retry_count)
       }
     }
   }

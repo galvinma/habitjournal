@@ -172,7 +172,7 @@ class HabitsTable extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.habits.map(row => {
+            {this.props.habits.habits.map(row => {
               return (
                 <TableRow key={row.title} id={row.habit_id}>
                   <TableCell className={this.props.classes.cell_style} component="th" scope="row">
@@ -180,8 +180,7 @@ class HabitsTable extends React.Component {
                       {row.title}
                     </Typography>
                   </TableCell>
-                  {dates.map((date, index) => {
-                    return (
+                  {dates.map((date, index) => (
                         <TableCell
                             id={"cell"+row.habit_id+"_"+dates_shortstamp[index]}
                             className={this.props.classes.cell_style}
@@ -190,16 +189,36 @@ class HabitsTable extends React.Component {
                               let updates = {habit_id: row.habit_id, start_date: dates_shortstamp[index], title: row.title}
                               this.props.logHabit(updates)
                               }}>
-                          <Icon
-                            key={row.title+index+"icon"+date}
-                            value="0"
-                            path={mdiClose}
-                            size={0.75}
-                            id={row.habit_id+"_"+dates_shortstamp[index]}
-                            className={this.props.classes.icon_style} />
+
+                              {(() => {
+                                if (this.props.habit_entries.habit_entries[row.habit_id+"_"+moment(dates_shortstamp[index]).unix()])
+                                {
+                                  return(
+                                  <Icon
+                                    key={row.title+index+"icon"+date}
+                                    value="0"
+                                    path={mdiCheck}
+                                    size={0.75}
+                                    id={row.habit_id+"_"+dates_shortstamp[index]}
+                                    className={this.props.classes.icon_style} />
+                                  )
+                                }
+                                else
+                                {
+                                  return(
+                                  <Icon
+                                    key={row.title+index+"icon"+date}
+                                    value="0"
+                                    path={mdiClose}
+                                    size={0.75}
+                                    id={row.habit_id+"_"+dates_shortstamp[index]}
+                                    className={this.props.classes.icon_style} />
+                                  )
+                                }
+                              })()}
+
                         </TableCell>
-                    )
-                  })}
+                  ))}
                   <TableCell className={this.props.classes.cell_style} component="th" scope="row">
                     <Typography component="div" variant="body1" className={this.props.classes.cell_style}>
                     <Icon
@@ -227,6 +246,8 @@ HabitsTable.propTypes = {
 
 const mapStateToProps = state => {
   return {
+    habits: state.habits,
+    habit_entries: state.habit_entries
   }
 }
 

@@ -42,6 +42,8 @@ import { checkSubmit } from '../.././Utils/checksubmit'
 import { titleChange } from '../.././Utils/titlechange'
 import { changeSelectedMonth } from '../.././Utils/changeselectedmonth'
 import { toggleIcon } from '../.././Utils/toggleicon'
+import { emptyObject } from '../.././Utils/empty_object'
+
   // Additional Page Prep
   import { getHabitEntries } from '../.././Utils/gethabitentries'
   import { getHabits } from '../.././Utils/gethabits'
@@ -211,6 +213,25 @@ class Journal extends React.Component {
     else
     {
       this.updateAllUIEntries()
+
+      // Retry. Prevents users from having a black calendar if API call hasn't returned in time
+      if (emptyObject(store.getState().journal_entries.journal_entries) === true)
+      {
+        let retry_count = 0
+        var retry = (retry_count) =>
+        {
+          if (retry_count < 5 && emptyObject(store.getState().journal_entries.journal_entries) === true)
+          {
+            setTimeout(() =>
+            {
+                this.updateAllUIEntries()
+                retry_count++
+                retry(retry_count)
+              }, 1000);
+          }
+        }
+        retry(retry_count)
+      }
     }
   }
 

@@ -81,10 +81,6 @@ export function getBullets()
 
     let sorted_months = sortMonths(new_months)
 
-    store.dispatch(getLoadingStatus({
-      loading_status: false,
-    }))
-
     if (document.getElementById("loader"))
     {
       document.getElementById("loader").style.display = "none"
