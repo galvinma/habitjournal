@@ -189,10 +189,10 @@ export function getCalendarEntries()
                 temp.appendChild(node);
 
                 // Toggle icon
-                svg.onclick = function() {
+                svg.onclick = () => {
                     if (entry.type !== 'habit')
                     {
-                      _this.toggleIcon(entry.entry_id, entry.type, entry.status)
+                      this.toggleIcon(entry.entry_id, entry.type, entry.status)
                     }
                 };
 
