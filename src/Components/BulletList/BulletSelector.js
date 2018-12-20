@@ -175,6 +175,11 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
   },
+  datetime_one: {
+    display: "flex",
+    justifyContent: 'center',
+    alignItems: 'center',    
+  },
   dropdown: {
     minWidth: '45px'
   },
