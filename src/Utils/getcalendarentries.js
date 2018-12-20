@@ -67,6 +67,8 @@ export function getCalendarEntries()
       calendar_entries: new_calendar_entries,
     }))
 
+    var _this = this
+
     this.setState({
       calendar_entries: new_calendar_entries,
     }, () =>
@@ -82,13 +84,12 @@ export function getCalendarEntries()
               if (document.getElementById(key))
               {
                 // Create the SVG
-                var type = this.convertToIcon(entry)
+                var type = _this.convertToIcon(entry)
                 var svg = document.createElement("IMG");
                 svg.setAttribute('class', String(entry.entry_id))
                 svg.className += " calendar_icons"
                 svg.setAttribute("src", type)
 
-                var _this = this
                 var _entry_id = entry.entry_id
 
                 // If not an all day event, get the time nodes
@@ -188,7 +189,7 @@ export function getCalendarEntries()
                 svg.onclick = () => {
                     if (entry.type !== 'habit')
                     {
-                      this.toggleIcon(entry.entry_id, entry.type, entry.status)
+                      _this.toggleIcon(entry.entry_id, entry.type, entry.status)
                     }
                 };
 
