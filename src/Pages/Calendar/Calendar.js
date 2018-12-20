@@ -133,6 +133,7 @@ class Calendar extends React.Component {
     this.removeOldCalendarEntries = removeOldCalendarEntries.bind(this)
     this.getCalendarEntries = getCalendarEntries.bind(this)
     this.toggleIcon = toggleIcon.bind(this)
+    this.convertToIcon = convertToIcon.bind(this)
     this.updateStoreEntryId = updateStoreEntryId.bind(this)
     this.updateStoreEntry = updateStoreEntry.bind(this)
     this.updateAllEntries = updateAllEntries.bind(this)

@@ -6,10 +6,6 @@ import store from '.././Store/store'
 import { connect } from "react-redux";
 import { getLoadingStatus, getStoreCalendarEntries, getEntriesModalState, getEntriesModalID, getEditEntriesModalState, getCurrentEntry } from '.././Actions/actions'
 
-// Functions
-import { convertToIcon } from './convertoicon'
-import { toggleIcon } from './toggleicon'
-
 // Icons
 var weatherNight = require('.././Images/Icons/weather-night.svg')
 var weatherSunset = require('.././Images/Icons/weather-sunset.svg')
@@ -86,7 +82,7 @@ export function getCalendarEntries()
               if (document.getElementById(key))
               {
                 // Create the SVG
-                var type = convertToIcon(entry)
+                var type = this.convertToIcon(entry)
                 var svg = document.createElement("IMG");
                 svg.setAttribute('class', String(entry.entry_id))
                 svg.className += " calendar_icons"
