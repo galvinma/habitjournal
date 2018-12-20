@@ -14,6 +14,7 @@ export function logHabit(...parameters)
   let svg = cell.firstChild
   let status = svg.getAttribute('value')
   let entryID = svg.getAttribute('id')
+  console.log(entryID)
 
   // Prevent double click
   let split = entryID.split("_")
@@ -28,12 +29,11 @@ export function logHabit(...parameters)
   if (status === "1")
   {
     // Remove entry from store and db
-    this.removeEntry(entryID)
+    this.removeEntry(split[0])
 
     // Remove entry from UI
     svg.setAttribute("value", "0")
     svg.setAttribute("id", parameters[0].habit_id+"_"+moment(parameters[0].start_date).format('YYYY-MM-DD'))
-    svg.firstChild.setAttribute("d",mdiClose)
 
   }
   else

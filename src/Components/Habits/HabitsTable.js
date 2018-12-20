@@ -196,10 +196,10 @@ class HabitsTable extends React.Component {
                                   return(
                                   <Icon
                                     key={row.title+index+"icon"+date}
-                                    value="0"
+                                    value="1"
                                     path={mdiCheck}
                                     size={0.75}
-                                    id={row.habit_id+"_"+dates_shortstamp[index]}
+                                    id={this.props.habit_entries.habit_entries[row.habit_id+"_"+moment(dates_shortstamp[index]).unix()].entry_id}
                                     className={this.props.classes.icon_style} />
                                   )
                                 }
