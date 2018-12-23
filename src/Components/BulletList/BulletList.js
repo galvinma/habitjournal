@@ -91,7 +91,6 @@ const styles = theme => ({
   },
   bulletItem: {
     display: 'flex',
-    alignItems: 'end',
     flexDirection: 'row',
     fontFamily:'Nunito',
     fontSize: '11px',
