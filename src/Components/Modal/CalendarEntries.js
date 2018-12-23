@@ -110,9 +110,8 @@ class CalendarEntries extends React.Component {
             if (entry.type !== 'note')
             {
                 var p = this.convertToIcon(entry)
-                var salt = Math.random()*1000
                 row.push(
-                  <ListItem key={entry+salt}>
+                  <ListItem key={entry+entry.entry_id}>
                     <ListItemText>
                         <div className={this.props.classes.list_item_container}>
                           <img

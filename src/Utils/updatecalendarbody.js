@@ -15,9 +15,8 @@ export function updateCalendarBody()
   var count = 1;
   var daysInMonth = this.state.daysInMonth;
   while (offset_count <= row_offset) {
-    var salt = Math.random()*1000
     row.push(
-      <div key={count+month+daysInMonth+salt} className={this.props.classes.typo_width}>
+      <div key={String(offset_count)+String(month)+String(daysInMonth)} className={this.props.classes.typo_width}>
             <div className={this.props.classes.hidden}>{offset_count}</div>
             <div className={this.props.classes.calendar_list}></div>
       </div>
@@ -26,11 +25,10 @@ export function updateCalendarBody()
   }
 
   while (count <= daysInMonth) {
-    var salt = Math.random()*1000
     var date = String(moment().date(count).format('D'));
     var date_to_compare = String(moment().month(this.state.selectedMonth).date(count).format(`dddd, MMMM Do, YYYY`));
     row.push(
-        <div key={count+date+month+daysInMonth+salt} className={this.props.classes.typo_width}>
+        <div key={String(count)+String(date)+String(month)+String(daysInMonth)} className={this.props.classes.typo_width}>
               <div class="count_style">
                 {count}
               </div>
