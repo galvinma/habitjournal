@@ -161,7 +161,7 @@ class Calendar extends React.Component {
    {
      return false
    }
- }
+  }
 
   componentDidMount() {
     if (store.getState().first_load.first_load === true)

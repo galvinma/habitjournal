@@ -7,6 +7,12 @@ import Typography from '@material-ui/core/Typography';
 
 export function updateCalendarBody()
 {
+  var key_count = 0
+  function createKey()
+  {
+    return key_count++
+  }
+
   var month = this.state.selectedMonth
   var daysInMonth = this.state.daysInMonth;
   var row_offset = moment(this.state.firstDayOfMonthDate).day();
@@ -16,7 +22,7 @@ export function updateCalendarBody()
   var daysInMonth = this.state.daysInMonth;
   while (offset_count <= row_offset) {
     row.push(
-      <div key={String(offset_count)+String(month)+String(daysInMonth)} className={this.props.classes.typo_width}>
+      <div key={Math.random()} className={this.props.classes.typo_width}>
             <div className={this.props.classes.hidden}>{offset_count}</div>
             <div className={this.props.classes.calendar_list}></div>
       </div>
@@ -28,7 +34,7 @@ export function updateCalendarBody()
     var date = String(moment().date(count).format('D'));
     var date_to_compare = String(moment().month(this.state.selectedMonth).date(count).format(`dddd, MMMM Do, YYYY`));
     row.push(
-        <div key={String(count)+String(date)+String(month)+String(daysInMonth)} className={this.props.classes.typo_width}>
+        <div key={Math.random()} className={this.props.classes.typo_width}>
               <div class="count_style">
                 {count}
               </div>

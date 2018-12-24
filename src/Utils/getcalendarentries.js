@@ -1,6 +1,10 @@
 import axios from 'axios';
 import moment from 'moment'
 
+// functions
+import { toggleIcon } from './toggleicon'
+import { convertToIcon } from './convertoicon'
+
 // redux
 import store from '.././Store/store'
 import { connect } from "react-redux";
@@ -11,10 +15,14 @@ var weatherNight = require('.././Images/Icons/weather-night.svg')
 var weatherSunset = require('.././Images/Icons/weather-sunset.svg')
 var plus = require('.././Images/Icons/dots-horizontal.svg')
 
+
+
 export function getCalendarEntries()
 {
-    var res = store.getState().all_entries.all_entries
+    this.toggleIcon = toggleIcon.bind(this)
+    this.convertToIcon = convertToIcon.bind(this)
 
+    var res = store.getState().all_entries.all_entries
     var new_calendar_entries = {}
     res.forEach(bullet => {
         if (bullet.type !== "note")
@@ -84,7 +92,7 @@ export function getCalendarEntries()
               if (document.getElementById(key))
               {
                 // Create the SVG
-                var type = _this.convertToIcon(entry)
+                var type = this.convertToIcon(entry)
                 var svg = document.createElement("IMG");
                 svg.setAttribute('class', String(entry.entry_id))
                 svg.className += " calendar_icons"
@@ -137,7 +145,7 @@ export function getCalendarEntries()
                 textcontainer.setAttribute('class', "entry_text")
                 if (entry.type !== 'habit')
                 {
-                  textcontainer.onclick = function()
+                  textcontainer.onclick = () =>
                   {
                     store.dispatch(getEntriesModalID({
                       entries_modal_id: entry.entry_id
@@ -173,6 +181,7 @@ export function getCalendarEntries()
                 // Putting it all together
                 var temp = document.getElementById(key)
                 var node = document.createElement("div");
+                node.setAttribute('key', entry.entry_id+entry.type+entry.status+entry.title)
                 if (starttime_text)
                 {
                   node.append(svg,timetextcontainer,textcontainer)
@@ -189,7 +198,7 @@ export function getCalendarEntries()
                 svg.onclick = () => {
                     if (entry.type !== 'habit')
                     {
-                      _this.toggleIcon(entry.entry_id, entry.type, entry.status)
+                      this.toggleIcon(entry.entry_id, entry.type, entry.status)
                     }
                 };
 
@@ -202,7 +211,7 @@ export function getCalendarEntries()
                   dots.setAttribute('class', "footer_icon")
                   dots.setAttribute("src", plus)
 
-                  dots.onclick = function() {
+                  dots.onclick = () => {
                     store.dispatch(getEntriesModalID({
                       entries_modal_id: timestamp
                     }))
@@ -222,4 +231,7 @@ export function getCalendarEntries()
     store.dispatch(getLoadingStatus({
       loading_status: false,
     }))
+
+    console.log("getcalentries")
+
 }

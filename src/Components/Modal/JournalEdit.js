@@ -623,7 +623,7 @@ class JournalEdit extends React.Component {
     }
     else
     {
-      allDay = false
+      allDay = this.state.checkedAllDay
     }
 
 
@@ -640,6 +640,7 @@ class JournalEdit extends React.Component {
       multi_day: this.state.checkedMultiDay,
       all_day: allDay,
     }
+
     this.updateStoreEntry(parameters)
     .then((response) => {
       this.props.updateAllUIEntries()

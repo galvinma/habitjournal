@@ -37,6 +37,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-fast-compare": "^2.0.4",
     "react-material-ui-form-validator": "^2.0.2",
     "react-moment": "^0.8.1",
     "react-moment-datepicker": "0.0.10",

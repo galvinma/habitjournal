@@ -26,7 +26,6 @@ export function toggleIcon(entry_id, type, status)
   })
   .then((response) => {
     console.log(response)
-
   })
   .catch((error)=>{
     console.log(error);
