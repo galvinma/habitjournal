@@ -51,16 +51,8 @@ const styles = theme => ({
     color: '#E53935',
   },
   form_control: {
-
-    [theme.breakpoints.down(768)]: {
-      marginTop: '8px',
-      marginBottom: '0px',
-    },
-
-    [theme.breakpoints.down(500)]: {
-      marginTop: '0px',
-      marginBottom: '0px',
-    },
+    marginTop: '0px',
+    marginBottom: '0px',
   },
 });
 
@@ -71,8 +63,13 @@ class SignUpPrompt extends React.Component {
   this.state = {
     email: "",
     password: "",
+    password_confirm: "",
     firstname: "",
     lastname: "",
+    firstname_validation_text: "",
+    lastname_validation_text: "",
+    email_validation_text: "",
+    password_validation_text: "",
   };
 
   this.handleChange = this.handleChange.bind(this);
@@ -96,6 +93,7 @@ class SignUpPrompt extends React.Component {
 
     if (this.state.email === "" ||
         this.state.password === "" ||
+        this.state.password_confirm === "" ||
         this.state.firstname === "" ||
         this.state.lastname === "")
     {
@@ -115,16 +113,18 @@ class SignUpPrompt extends React.Component {
       return
     }
 
+    if (this.state.password !== this.state.password_confirm)
+    {
+      this.setState({ password_validation_text: "Password confirmation must match"})
+      return
+    }
+
     axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/signup`, {
       params: {
         email: this.state.email,
         password: this.state.password,
         firstname: this.state.firstname,
         lastname: this.state.lastname,
-        email_validation_text: "",
-        password_validation_text: "",
-        firstname_validation_text: "",
-        lastname_validation_text: "",
       }
     })
     .then((response) => {
@@ -144,9 +144,18 @@ class SignUpPrompt extends React.Component {
       }
       else
       {
-        this.setState({ password_validation_text: "Unable to register user"})
+        if (response.data.message)
+        {
+          this.setState({ password_validation_text: response.data.message})
+        }
+        else
+        {
+          this.setState({ password_validation_text: "Unable to register user"})
+        }
       }
     })
+
+
   }
 
   checkJoin(event)
@@ -188,8 +197,18 @@ class SignUpPrompt extends React.Component {
                    id="password"
                    autoComplete="current-password"
                  />
-                 <FormHelperText className={this.props.classes.helper}>{this.state.password_validation_text}</FormHelperText>
+                 <FormHelperText className={this.props.classes.helper}></FormHelperText>
                </FormControl>
+               <FormControl className={this.props.classes.form_control} margin="normal" required fullWidth value={this.state.password_confirm} onChange={this.handleChange} onKeyDown={(e) => this.checkJoin(e)}>
+                 <InputLabel style={{color: 'rgba(0, 0, 0, 0.87)'}} htmlFor="password_confirm">Confirm Password</InputLabel>
+                 <Input
+                   name="password"
+                   type="password"
+                   id="password_confirm"
+                   autoComplete="current-password"
+                 />
+                 <FormHelperText className={this.props.classes.helper}>{this.state.password_validation_text}</FormHelperText>
+                </FormControl>
                <Button
                  fullWidth
                  className={this.props.classes.submit}
@@ -207,10 +226,4 @@ SignUpPrompt.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    auth_status: state.auth_status,
-  }
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(SignUpPrompt));
+export default (withStyles(styles)(SignUpPrompt));
