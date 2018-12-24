@@ -29,7 +29,7 @@ class CalendarHeader extends React.Component {
   {
     super(props);
     this.state = {
-      width: window.innerWidth,
+      width: document.innerWidth,
       nameHeaders: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
     };
 
@@ -48,16 +48,16 @@ class CalendarHeader extends React.Component {
   updateWidth()
   {
     this.setState({
-      width: window.innerWidth
+      width: document.innerWidth
     })
 
-    if (window.innerWidth > 768)
+    if (document.innerWidth > 768)
     {
       this.setState({
         nameHeaders: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
       })
     }
-    else if (window.innerWidth > 500)
+    else if (document.innerWidth > 500)
     {
       this.setState({
         nameHeaders: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
