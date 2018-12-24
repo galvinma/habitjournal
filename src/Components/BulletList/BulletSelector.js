@@ -178,7 +178,7 @@ const styles = theme => ({
   datetime_one: {
     display: "flex",
     justifyContent: 'center',
-    alignItems: 'center',    
+    alignItems: 'center',
   },
   dropdown: {
     minWidth: '45px'

@@ -5,7 +5,6 @@ import { getAllEntries } from '.././Actions/actions'
 
 export function updateStoreEntry(...parameters)
 {
-  console.log("updating")
   return new Promise(function(resolve, reject) {
     // Find all instances of entry ID in the store
     var entries = store.getState().all_entries.all_entries
@@ -17,9 +16,6 @@ export function updateStoreEntry(...parameters)
         {
           if (entry[key] !== parameters[0][key])
           {
-            console.log(entry.entry_id)
-            console.log("key is "+key)
-            console.log("value is "+parameters[0][key])
             entry[key] = parameters[0][key]
           }
         }

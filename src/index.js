@@ -45,6 +45,11 @@ const theme = createMuiTheme({
         minWidth: '0px',
       },
     },
+    MuiDialog: {
+      paperScrollPaper: {
+        maxHeight: '1200px',
+      }
+    }
   }
 })
 

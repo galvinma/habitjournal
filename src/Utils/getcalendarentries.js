@@ -232,6 +232,4 @@ export function getCalendarEntries()
       loading_status: false,
     }))
 
-    console.log("getcalentries")
-
 }
