@@ -733,6 +733,9 @@ class JournalEdit extends React.Component {
                   <MenuItem value="checkboxBlankTriangle">
                     <img src={checkboxBlankTriangle} svgStyle={{ height: '20px' }}/>
                   </MenuItem>
+                  <MenuItem value="minus">
+                    <img src={minus} svgStyle={{ height: '20px' }}/>
+                  </MenuItem>
                   </Select>
                 </FormControl>
                 <div className={this.props.classes.formStyle}>
