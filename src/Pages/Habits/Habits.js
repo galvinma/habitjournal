@@ -127,7 +127,8 @@ class Habits extends React.Component {
           {
             setTimeout(() =>
             {
-                this.updateAllUIEntries()
+                this.getHabits()
+                this.getHabitEntries()
                 retry_count++
                 retry(retry_count)
               }, 1000);
