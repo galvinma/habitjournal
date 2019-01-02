@@ -29,6 +29,7 @@ var checkboxBlankCircleOutline = require('../.././Images/Icons/checkbox-blank-ci
 var checkboxBlankOutline = require('../.././Images/Icons/checkbox-blank-outline.svg')
 var checkboxBlankTriangleOutline = require('../.././Images/Icons/checkbox-blank-triangle-outline.svg')
 var minus = require('../.././Images/Icons/minus.svg')
+var selector = require('../.././Images/selector.png')
 
 const styles = theme => ({
   root: {
@@ -105,50 +106,61 @@ class About extends React.Component {
             <Typography component="div" variant="headline">
               How do I use Daisy Journal?
             </Typography>
+            <br />
             <Typography component="div" variant="body1">
               Daisy Journal allows for easy habit logging and event tracking. The Journal page allows for the creation of tasks, events, notes, and appointments. The Habits page is for tracking reoccurring life events. The Calendar gives an overview of completed and upcoming tasks at the month level. Take a few minutes each morning to plan your day. What are todays obligations? On a weekly basis view your habit frequency and set new goals.
 
             </Typography>
             <br />
             <Typography component="div" variant="headline">
+              How do I create a new line item?
+            </Typography>
+            <br />
+            <Typography component="div" variant="body1">
+              On the journal page, use the selector to pick an entry type. Create a title for the entry, and then fill in the item start and end criteria. To generate the new entry press enter.
+            </Typography>
+            <br />
+            <img src={selector} />
+
+            <br />
+            <Typography component="div" variant="headline">
               What do the symbols mean?
             </Typography>
+            <br />
             <Typography component="div" variant="body1">
-              There are five
-
-              An outline indicates the line item is not complete. Clicking the icon fills in the item and signifies a completed task.
+              Each symbol represents a different type of entry. For example, use the triangle icon for a doctor's appointment, or the circle for a birthday party.  An outline indicates the entry has not been completed. Clicking the icon fills in the item and signifies a completed task.
             </Typography>
+            <br />
+            <div className={this.props.classes.icon_container}>
+              <img src={checkboxBlankOutline} className={this.props.classes.icon_style}/>
+              <Typography variant="body1">Task</Typography>
+            </div>
 
-                    <div className={this.props.classes.icon_container}>
-                      <img src={checkboxBlankOutline} className={this.props.classes.icon_style}/>
-                      <Typography variant="body1">Task</Typography>
-                    </div>
+            <div className={this.props.classes.icon_container}>
+              <img src={checkboxBlankCircleOutline} className={this.props.classes.icon_style}/>
+              <Typography variant="body1">Event</Typography>
+            </div>
 
-                    <div className={this.props.classes.icon_container}>
-                      <img src={checkboxBlankCircleOutline} className={this.props.classes.icon_style}/>
-                      <Typography variant="body1">Event</Typography>
-                    </div>
+            <div className={this.props.classes.icon_container}>
+              <img src={checkboxBlankTriangleOutline} className={this.props.classes.icon_style}/>
+              <Typography variant="body1">Appointment</Typography>
+            </div>
 
-                    <div className={this.props.classes.icon_container}>
-                      <img src={checkboxBlankTriangleOutline} className={this.props.classes.icon_style}/>
-                      <Typography variant="body1">Appointment</Typography>
-                    </div>
+            <div className={this.props.classes.icon_container}>
+              <img src={minus} className={this.props.classes.icon_style}/>
+              <Typography variant="body1">Note</Typography>
+            </div>
 
-                    <div className={this.props.classes.icon_container}>
-                      <img src={minus} className={this.props.classes.icon_style}/>
-                      <Typography variant="body1">Note</Typography>
-                    </div>
-
-                    <div className={this.props.classes.icon_container}>
-                      <img src={flower} className={this.props.classes.icon_style}/>
-                      <Typography variant="body1">Habit</Typography>
-                    </div>
-
+            <div className={this.props.classes.icon_container}>
+              <img src={flower} className={this.props.classes.icon_style}/>
+              <Typography variant="body1">Habit</Typography>
+            </div>
 
             <br />
             <Typography component="div" variant="headline">
               Is it free?
             </Typography>
+            <br />
             <Typography component="div" variant="body1">
               Daisy Journal is free and <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">open source</a>.
             </Typography>
@@ -156,13 +168,15 @@ class About extends React.Component {
             <Typography component="div" variant="headline">
               Is it private?
             </Typography>
+            <br />
             <Typography component="div" variant="body1">
-              Yes. Daisy Journal was built for people, not profit. Daisy Journal will never sell your data.
+              Yes. Daisy Journal was built for people, not profit. Daisy Journal will never sell your data. That being said if you want absolute control over your data <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">clone the project</a> and run the application locally.
             </Typography>
             <br />
             <Typography component="div" variant="headline">
               How can I contribute?
             </Typography>
+            <br />
             <Typography component="div" variant="body1">
               There are a number of ways to help build the community.
               <ul>

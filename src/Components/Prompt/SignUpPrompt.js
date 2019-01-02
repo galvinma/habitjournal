@@ -226,4 +226,10 @@ SignUpPrompt.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default (withStyles(styles)(SignUpPrompt));
+const mapStateToProps = state => {
+  return {
+    auth_status: state.auth_status,
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(SignUpPrompt));
