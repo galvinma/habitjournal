@@ -104,12 +104,11 @@ class About extends React.Component {
         <Paper className={this.props.classes.root}>
           <div className={this.props.classes.about_container}>
             <Typography component="div" variant="headline">
-              How do I use Daisy Journal?
+              What is Daisy Journal?
             </Typography>
             <br />
             <Typography component="div" variant="body1">
-              Daisy Journal allows for easy habit logging and event tracking. The Journal page allows for the creation of tasks, events, notes, and appointments. The Habits page is for tracking reoccurring life events. The Calendar gives an overview of completed and upcoming tasks at the month level. Take a few minutes each morning to plan your day. What are todays obligations? On a weekly basis view your habit frequency and set new goals.
-
+              Daisy Journal is <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">open source</a> life planning software. The app allows for easy habit logging and event tracking. Use the journal to schedule daily tasks, events, and appointments. Record reoccurring tasks and obligations with the habits page. Monitor your progress using the built in calendar.
             </Typography>
             <br />
             <Typography component="div" variant="headline">
@@ -121,6 +120,7 @@ class About extends React.Component {
             </Typography>
             <br />
             <img src={selector} />
+            <br />
 
             <br />
             <Typography component="div" variant="headline">
@@ -158,19 +158,11 @@ class About extends React.Component {
 
             <br />
             <Typography component="div" variant="headline">
-              Is it free?
+              Will Daisy Journal sell my data?
             </Typography>
             <br />
             <Typography component="div" variant="body1">
-              Daisy Journal is free and <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">open source</a>.
-            </Typography>
-            <br />
-            <Typography component="div" variant="headline">
-              Is it private?
-            </Typography>
-            <br />
-            <Typography component="div" variant="body1">
-              Yes. Daisy Journal was built for people, not profit. Daisy Journal will never sell your data. That being said if you want absolute control over your data <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">clone the project</a> and run the application locally.
+              The entire site is free and <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">open source</a>. Daisy Journal was built for people, not profit. Daisy Journal will never sell your data. If you want absolute control over your data <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">clone the project</a> and run the application locally.
             </Typography>
             <br />
             <Typography component="div" variant="headline">
