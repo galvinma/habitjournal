@@ -6,6 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import history from '../.././history';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 // redux
 import store from '../.././Store/store'
@@ -21,7 +24,11 @@ import InternalNavBar from '../.././Components/NavBar/InternalNavBar'
 import './About.css'
 
 // Images
-var flower = require('../.././Images/about.svg')
+var flower = require('../.././Images/Icons/flower.svg')
+var checkboxBlankCircleOutline = require('../.././Images/Icons/checkbox-blank-circle-outline.svg')
+var checkboxBlankOutline = require('../.././Images/Icons/checkbox-blank-outline.svg')
+var checkboxBlankTriangleOutline = require('../.././Images/Icons/checkbox-blank-triangle-outline.svg')
+var minus = require('../.././Images/Icons/minus.svg')
 
 const styles = theme => ({
   root: {
@@ -53,7 +60,19 @@ const styles = theme => ({
   link: {
     textDecoration: 'underline',
     color: 'inherit'
-  }
+  },
+  icon_style: {
+    paddingLeft: '5px',
+    paddingRight: '12px',
+    height: '18px',
+  },
+  icon_container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flexStart',
+    alignItems: 'center',
+    marginLeft: '24px',
+  },
 });
 
 class About extends React.Component {
@@ -87,23 +106,51 @@ class About extends React.Component {
               How do I use Daisy Journal?
             </Typography>
             <Typography component="div" variant="body1">
-              Daisy Journal allows for easy habit logging and event tracking. The interface currently consists of three tabs:
-                <ul>
-                  <li>Journal</li>
-                  <li>Habits</li>
-                  <li>Calendar</li>
-                </ul>
-              The Journal page allows for the creation of tasks, events, notes, and appointments. The Habits page is for tracking reoccurring life events. The Calendar gives an overview of completed and due tasks at the month level.
-              <br />
-              Take a few minutes each morning to plan your day. What do you want to accomplish? On a weekly basis view your habit frequency. Are you reaching your goals?
+              Daisy Journal allows for easy habit logging and event tracking. The Journal page allows for the creation of tasks, events, notes, and appointments. The Habits page is for tracking reoccurring life events. The Calendar gives an overview of completed and upcoming tasks at the month level. Take a few minutes each morning to plan your day. What are todays obligations? On a weekly basis view your habit frequency and set new goals.
 
             </Typography>
+            <br />
+            <Typography component="div" variant="headline">
+              What do the symbols mean?
+            </Typography>
+            <Typography component="div" variant="body1">
+              There are five
+
+              An outline indicates the line item is not complete. Clicking the icon fills in the item and signifies a completed task.
+            </Typography>
+
+                    <div className={this.props.classes.icon_container}>
+                      <img src={checkboxBlankOutline} className={this.props.classes.icon_style}/>
+                      <Typography variant="body1">Task</Typography>
+                    </div>
+
+                    <div className={this.props.classes.icon_container}>
+                      <img src={checkboxBlankCircleOutline} className={this.props.classes.icon_style}/>
+                      <Typography variant="body1">Event</Typography>
+                    </div>
+
+                    <div className={this.props.classes.icon_container}>
+                      <img src={checkboxBlankTriangleOutline} className={this.props.classes.icon_style}/>
+                      <Typography variant="body1">Appointment</Typography>
+                    </div>
+
+                    <div className={this.props.classes.icon_container}>
+                      <img src={minus} className={this.props.classes.icon_style}/>
+                      <Typography variant="body1">Note</Typography>
+                    </div>
+
+                    <div className={this.props.classes.icon_container}>
+                      <img src={flower} className={this.props.classes.icon_style}/>
+                      <Typography variant="body1">Habit</Typography>
+                    </div>
+
+
             <br />
             <Typography component="div" variant="headline">
               Is it free?
             </Typography>
             <Typography component="div" variant="body1">
-              Daisy Journal is free and open source.
+              Daisy Journal is free and <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">open source</a>.
             </Typography>
             <br />
             <Typography component="div" variant="headline">
@@ -121,7 +168,7 @@ class About extends React.Component {
               <ul>
                 <li>If you are a software developer, consider submitting a pull request on <a className={this.props.classes.link} href="https://github.com/galvinma/daisyjournal">github</a>.</li>
                 <li>Have an idea on how to make Daisy Journal better? Send the development team an <a className={this.props.classes.link} href="mailto:daisyjournal.development@gmail.com">email</a>.</li>
-                <li>Daisy Journal is run on donations. If you have the means, please consider donating to the development team.</li>
+                <li>Daisy Journal is run on donations. If you have the means, please consider <a className={this.props.classes.link} href="https://buymeacoff.ee/Wd0ji9Y6O">donating</a> to the development team.</li>
               </ul>
             </Typography>
 
