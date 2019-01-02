@@ -121,7 +121,7 @@ class SignUpPrompt extends React.Component {
 
     axios.post(`${process.env.REACT_APP_DAISY_JOURNAL_API_URI}/api/signup`, {
       params: {
-        email: this.state.email,
+        email: this.state.email.toUpperCase(),
         password: this.state.password,
         firstname: this.state.firstname,
         lastname: this.state.lastname,

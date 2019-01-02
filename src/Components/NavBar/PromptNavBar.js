@@ -33,6 +33,7 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   logo: {
+    display: 'block',
     maxHeight: '50px',
     marginRight: 'auto',
     paddingLeft: '20px',
