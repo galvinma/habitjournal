@@ -68,6 +68,7 @@ export function getBullets()
           }
         }
     })
+
     if (store.getState().first_load.first_load === false)
     {
       new_bullets = sortBulletObject(new_bullets)
