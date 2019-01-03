@@ -225,15 +225,23 @@ class Journal extends React.Component {
           {
             setTimeout(() =>
             {
-                this.updateAllUIEntries()
                 retry_count++
-                retry(retry_count)
+                if (store.getState().auth_status.auth_status === true)
+                {
+                  this.updateAllUIEntries()
+                  retry(retry_count)
+                }
               }, 1000);
           }
         }
         retry(retry_count)
       }
     }
+  }
+
+  componentWillUnmount()
+  {
+
   }
 
   handleModalClose(mode)

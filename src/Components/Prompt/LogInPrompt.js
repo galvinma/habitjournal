@@ -14,7 +14,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 // redux
 import store from '../.././Store/store'
 import { connect } from "react-redux";
-import {getAuthStatus, getCurrentUser} from '../.././Actions/actions'
+import {getAuthStatus, getCurrentUser, resetStore} from '../.././Actions/actions'
 
 // email val
 var validator = require("email-validator");
@@ -70,6 +70,11 @@ class LoginPrompt extends React.Component {
   this.checkLogin = this.checkLogin.bind(this);
   this.resetRedirect = this.resetRedirect.bind(this);
 }
+
+  componentDidMount()
+  {
+    store.dispatch(resetStore())
+  }
 
   handleChange(event) {
     this.setState({

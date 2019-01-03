@@ -127,10 +127,12 @@ class Habits extends React.Component {
           {
             setTimeout(() =>
             {
-                this.getHabits()
-                this.getHabitEntries()
                 retry_count++
-                retry(retry_count)
+                if (store.getState().auth_status.auth_status === true)
+                {
+                  this.updateAllUIEntries()
+                  retry(retry_count)
+                }
               }, 1000);
           }
         }
