@@ -209,6 +209,17 @@ class Journal extends React.Component {
         this.getHabitEntries()
         this.getCalendarEntries()
         this.getHabits()
+
+        if (emptyObject(store.getState().journal_entries.journal_entries) === true)
+        {
+          setTimeout(() =>
+          {
+              this.updateJournalEntries()
+              .then(() => {
+                this.updateAllUIEntries()
+            }, 1000)
+          })
+        }
       })
     }
     else

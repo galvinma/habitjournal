@@ -15,6 +15,7 @@ export function returnAllDatabaseEntries()
       }
     })
     .then((response) => {
+      console.log(response)
       var res = response.data.entries
 
       store.dispatch(getAllEntries({
