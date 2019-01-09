@@ -13,7 +13,7 @@ router.use(function(req, res, next) {
 router.route('/signup')
   .post(function(req, res, next) {
 
-    Users.findOne({ email: req.body.params.email }).lean().exec(function(err, docs) {
+    Users.findOne({ email: req.body.params.email.toUpperCase() }).lean().exec(function(err, docs) {
       if (err)
       {
         res.json({
@@ -56,7 +56,7 @@ router.route('/signup')
               token: token,
             });
           }
-      });  
+      });
     }
   })
 });
