@@ -13,7 +13,7 @@ router.route('/reset')
   .post(function(req, res, next) {
 
     // Check if user's email exists!!!!!
-    Users.findOne({ email: req.body.params.email }).lean().exec(function(err, user) {
+    Users.findOne({ email: req.body.params.email.toUpperCase() }).lean().exec(function(err, user) {
       if (err)
       {
         res.json({
