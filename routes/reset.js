@@ -60,7 +60,7 @@ router.route('/reset')
         template: 'resetPassword',
         subject: 'Daisy Journal - Password Reset',
         context: {
-          link: 'http://127.0.0.1:3000/#/resetpassword/'+user.id+'/'+token,
+          link: 'daisyjournal.com/resetpassword/'+user.id+'/'+token,
           firstname: user.firstname
         }
       };
