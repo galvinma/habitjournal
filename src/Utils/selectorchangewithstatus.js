@@ -52,4 +52,12 @@ export function selectorChangeWithStatus(event)
     })
   }
 
+  if (event.target.value === 'minus')
+  {
+    this.setState({
+      type: 'note',
+      status: '1',
+    })
+  }
+
 };
