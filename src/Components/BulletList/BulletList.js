@@ -232,9 +232,6 @@ class BulletList extends React.Component {
                         var start
                         var end
                         var entry_times
-                        console.log(i)
-                        console.log(moment.unix(i.start_time).format('h:mm a'))
-                        console.log(moment.unix(i.end_time).format('h:mm a'))
 
                         if (i.all_day === true ||
                           moment.unix(i.start_time).startOf('day').unix() === moment.unix(i.start_time).unix() && moment.unix(i.end_time).endOf('day').unix() === moment.unix(i.end_time).unix())
