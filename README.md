@@ -1,5 +1,5 @@
 # Daisy Journal
 
-Planning for the digital age. See [daisyjournal.com](https://daisyjournal.com).
+Planning for the digital age. 
 
 ![Daisy Journal](/src/Images/landing.png)
